@@ -44,6 +44,19 @@ export const odhActivityPoiListView: ListViewConfig = {
         separator: ', ',
       },
     },
+    { //TESTTESTTEST
+      title: 'Tags 2',
+      component: CellComponent.ArrayTagsCell,
+      class: 'w-48',
+      objectMapping: {
+        items: 'Tags',
+      },
+      params: {
+        propertyName: 'Id',
+        separator: ', ',
+        max: '5'
+      },
+    },
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),
@@ -54,7 +67,7 @@ export const odhActivityPoiListView: ListViewConfig = {
       objectMapping: {
         state: 'Active',
       },
-    },
+    },    
     publishedOnTableCell(),
     pushDataTableCell(),
   ],
