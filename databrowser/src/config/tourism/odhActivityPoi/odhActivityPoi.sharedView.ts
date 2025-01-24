@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { readonly } from 'vue';
 import { CellComponent } from '../../../domain/cellComponents/types';
 import {
   DetailViewConfig,
@@ -26,6 +25,7 @@ import {
 import { additionalPropertiesCategory } from '../../builder/tourism/additionalProperties';
 import { mappingCategory } from '../../builder/tourism/mapping';
 import { relatedcontentCategory } from '../../builder/tourism/relatedcontent';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { videoItemsCategory } from '../../builder/tourism/video';
 import { withOdhBaseUrl } from '../../utils';
 
@@ -426,56 +426,6 @@ export const odhActivityPoiSharedView = ():
       ],
     },
     mappingCategory(),
-    {
-      name: 'Update History',
-      slug: 'updatehistory',
-      subcategories: [
-        {
-          name: 'Updates',
-          properties: [
-            {
-              title: 'LastUpdate',
-              component: CellComponent.EditedDateCell,
-              objectMapping: { date: '_Meta.LastUpdate', readonly: 'true' },              
-            },
-            {
-              title: 'UpdateSource',
-              component: CellComponent.StringCell,
-              objectMapping: { text: '_Meta.UpdateInfo.UpdateSource', readonly: 'true' },
-            },
-            {
-              title: 'UpdatedBy',
-              component: CellComponent.StringCell,
-              objectMapping: { text: '_Meta.UpdateInfo.UpdatedBy', readonly: 'true' },
-            },
-            {
-              title: 'Update History',
-              component: CellComponent.UpdateHistoryCell,
-              objectMapping: {
-                items: '_Meta.UpdateInfo.UpdateHistory',
-                editable: 'false',
-              },
-              params:{
-                editable: 'false',
-              },
-              required: false,
-            },
-            { //TODO CREATE A COMPONENT THAT shows 
-              title: 'Update History 2',
-              component: CellComponent.ArrayTagsCell,
-              class: 'w-48',
-              objectMapping: {
-                items: '_Meta.UpdateInfo.UpdateHistory',
-              },
-              params: {
-                propertyName: 'UpdatedBy',
-                separator: ', ',
-                max: '5'
-              },
-            },
-          ],
-        },
-      ],
-    },
+    updatehistoryCategory(),
   ],
 });

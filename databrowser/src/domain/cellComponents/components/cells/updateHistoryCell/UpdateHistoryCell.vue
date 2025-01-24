@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <EditListCell :items="updatehistoryitems" >
     <template #table="{ items }">
-      <UpdateHistoryTable :items="items" :editable="false" />   <!-- DES EDITABLE GEAT NET -->
+      <UpdateHistoryTable :items="items" />
     </template>
   </EditListCell>
 </template>
