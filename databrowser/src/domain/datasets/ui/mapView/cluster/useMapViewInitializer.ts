@@ -34,8 +34,6 @@ export const useMapViewInitializer = (
     );
 
     map.on('moveend', () => {
-      console.log('moveend', map.getCenter());
-
       const center = map.getCenter();
       mapCenter.value = [center.lng, center.lat];
       mapZoom.value = map.getZoom();

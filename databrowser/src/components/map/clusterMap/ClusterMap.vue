@@ -36,9 +36,6 @@ const { center, zoom } = toRefs(props);
 const map = ref<Map>();
 
 const clusterMapInit = (mapId: string) => {
-  console.log('ClusterMap init', mapId);
-  console.log('ClusterMap props', center.value, zoom.value);
-
   return initMap(mapId, {
     center: center.value,
     zoom: zoom.value,

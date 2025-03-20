@@ -32,7 +32,6 @@ export const useMapViewMarkerPainting = (
 ) => {
   const paintMarkers = (map: MapLibre) => {
     // Remove old markers that were added to the map
-    console.debug(`remove ${oldMarkers.length} markers`);
     for (const marker of oldMarkers) {
       marker.remove();
     }
