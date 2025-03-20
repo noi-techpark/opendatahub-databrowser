@@ -40,12 +40,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   <PopoverContentHeader class="pb-0">
                     {{
                       t('datasets.mapView.recordDetail.clusterToTable.header')
-                    }}'
+                    }}
                   </PopoverContentHeader>
                   <PopoverContent class="flex max-w-sm flex-col gap-3 pt-2">
-                    {{
-                      t('datasets.mapView.recordDetail.clusterToTable.body')
-                    }}'
+                    {{ t('datasets.mapView.recordDetail.clusterToTable.body') }}
                   </PopoverContent>
                 </PopoverCustomPanel>
               </InfoPopover>
