@@ -18,6 +18,7 @@ export * from './municipality';
 export * from './odh';
 export * from './publishedOn';
 export * from './pushconfig';
+export * from './syncdataconfig';
 export * from './pushData';
 export * from './region';
 export * from './relatedcontent';

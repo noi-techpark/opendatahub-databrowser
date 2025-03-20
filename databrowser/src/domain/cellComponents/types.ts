@@ -52,4 +52,5 @@ export enum CellComponent {
   WebcamGalleryCell = 'WebcamGalleryCell',
   RelatedContentCell = 'RelatedContentCell',
   PushConfigCell = 'PushConfigCell',
+  SyncDataConfigCell = 'SyncDataConfigCell',
 }
