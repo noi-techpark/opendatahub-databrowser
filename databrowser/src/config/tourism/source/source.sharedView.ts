@@ -11,6 +11,7 @@ import {
   idReadOnlyCell,
   lastChangesCell,
   licenseInfoCategory,
+  syncdataconfigCategory
 } from '../../builder/tourism';
 import { withOdhBaseUrl } from '../../utils';
 
@@ -83,6 +84,7 @@ export const sourceSharedView = (): DetailViewConfig | EditViewConfig => ({
         },
       ],
     },
+    syncdataconfigCategory(),
     licenseInfoCategory(),
   ],
 });
