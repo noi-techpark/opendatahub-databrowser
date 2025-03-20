@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <PopoverCustom>
+  <PopoverCustom :zIndex="zIndex">
     <template #trigger>
       <PopoverCustomButton class="flex items-center rounded">
         <IconInfo class="text-green-500" />
@@ -21,4 +21,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import IconInfo from '../svg/IconInfo.vue';
 import PopoverCustom from './PopoverCustom.vue';
 import PopoverCustomButton from './PopoverCustomButton.vue';
+
+defineProps<{ zIndex?: number }>();
 </script>
