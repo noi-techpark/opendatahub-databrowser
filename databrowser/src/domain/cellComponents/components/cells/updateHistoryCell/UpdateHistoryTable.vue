@@ -5,10 +5,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EditListTable :items="items" :hideTabLink="true" :hideSettingsColumn="true" :hideSortable="true">
+  <EditListTable :items="items" :hideTabLink="true" :hideSettingsColumn="true" :hideSortable="true" :hideSelectCheckbox="true" :hideTableActionHeader="true">
     <template #colGroup>
       <col class="w-32 md:w-40" />
-      <col class="w-32 md:w-40" />
+      <col class="w-32 md:w-80" />
       <col class="w-32 md:w-40" />
     </template>
 
