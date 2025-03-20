@@ -32,16 +32,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRefs } from 'vue';
+import { useElementSize, useVirtualList } from '@vueuse/core';
+import { computed, ref, toRefs, watch } from 'vue';
 import InputSearch from '../../../../../components/input/InputSearch.vue';
 import InternalLink from '../../../../../components/link/InternalLink.vue';
+import { getApiDomainFromMetaData } from '../../../../metaDataConfig/utils';
 import { computeDatasetViewLocations } from '../../../location/datasetViewLocation';
 import { ClusterFeature } from '../types';
 import { ClusterDetailLink } from './types';
 import { useCurrentDataset } from './useCurrentDataset';
 import { useLinkSearch } from './useLinkSearch';
-import { useElementSize, useVirtualList } from '@vueuse/core';
-import { getApiDomainFromMetaData } from '../../../../metaDataConfig/utils';
+import { DatasetLocationRoute } from '../../../location/types';
+
+const emit = defineEmits<{
+  (e: 'tableLink', link: DatasetLocationRoute): void;
+}>();
 
 const props = defineProps<{ activeCluster: ClusterFeature }>();
 const { activeCluster } = toRefs(props);
@@ -50,14 +55,69 @@ const datasetId = computed(() => activeCluster.value.datasetId);
 
 const { currentDataset } = useCurrentDataset(datasetId);
 
+const baseLinkTarget = computed<
+  | {
+      domain: string;
+      pathSegments: string[];
+      query: Record<string, string>;
+    }
+  | undefined
+>(() => {
+  if (currentDataset.value == null) {
+    return;
+  }
+
+  return {
+    domain: getApiDomainFromMetaData(currentDataset.value),
+    pathSegments: currentDataset.value.pathSegments,
+    query: currentDataset.value.apiFilter,
+  };
+});
+
+watch([activeCluster, baseLinkTarget], () => {
+  if (baseLinkTarget.value == null) {
+    return;
+  }
+  const { domain, pathSegments, query } = baseLinkTarget.value;
+
+  const { tableLocation } = computeDatasetViewLocations(
+    domain,
+    pathSegments,
+    query
+  );
+
+  if (tableLocation == null) {
+    return;
+  }
+
+  const convexHull = activeCluster.value.convexHull;
+  if (convexHull == null) {
+    return;
+  }
+
+  const wktPolygon = convexHull.geometry.coordinates[0]
+    .map((coord) => coord.join(' '))
+    .join(',');
+
+  emit('tableLink', {
+    ...tableLocation,
+    query: {
+      ...tableLocation.query,
+      polygon: `POLYGON((${wktPolygon}))`,
+    },
+  });
+});
+
 const allDetailRoutes = computed<ClusterDetailLink[]>(() => {
-  if (activeCluster.value == null || currentDataset.value == null) {
+  if (
+    activeCluster.value == null ||
+    currentDataset.value == null ||
+    baseLinkTarget.value == null
+  ) {
     return [];
   }
 
-  const domain = getApiDomainFromMetaData(currentDataset.value);
-  const pathSegments = currentDataset.value.pathSegments;
-  const query = currentDataset.value.apiFilter;
+  const { domain, pathSegments, query } = baseLinkTarget.value;
 
   return activeCluster.value.markers
     .map((marker) => {

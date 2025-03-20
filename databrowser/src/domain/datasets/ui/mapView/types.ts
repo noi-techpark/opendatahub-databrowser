@@ -2,7 +2,14 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { FeatureCollection, Geometry, Point } from 'geojson';
+import {
+  Feature,
+  FeatureCollection,
+  GeoJsonProperties,
+  Geometry,
+  Point,
+  Polygon,
+} from 'geojson';
 import { GeoJSONSourceSpecification } from 'maplibre-gl';
 import { TourismMetaData } from '../../../metaDataConfig/tourism/types';
 import { KnownApiType } from '../../../metaDataConfig/types';
@@ -11,7 +18,7 @@ export type DatasetId = string;
 export type RecordId = string;
 
 export interface ClusterNode {
-  type: string;
+  type: 'Feature';
   geometry: Geometry;
   properties: MapRecord;
 }
@@ -27,6 +34,7 @@ export interface MarkerFeature {
 export interface ClusterFeature extends MarkerFeature {
   count: number;
   markers: MapRecord[];
+  convexHull: Feature<Polygon, GeoJsonProperties> | null;
 }
 
 export interface MapRecord {
