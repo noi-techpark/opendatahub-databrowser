@@ -37,8 +37,6 @@ export const useMapViewLayerHandler = (
         removeLayerId
       );
 
-      console.debug('layersAfterCleanup', map.getLayersOrder());
-
       // Add new layers to map
       sources.value
         // Filter out sources that are already in mapClusters
@@ -47,8 +45,6 @@ export const useMapViewLayerHandler = (
         // If the data changes, this must be adapted.
         .filter(({ metaData }) => !hasLayerId(metaData.datasetId))
         .forEach((source) => addNewLayers(map, source, addLayerId));
-
-      console.debug('layersAfterAddition', map.getLayersOrder());
 
       // Emit event when all layer changes are done
       map.once('idle', onLayerChangesDone);

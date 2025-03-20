@@ -263,6 +263,11 @@
       "note": "Only datasets containing geographical coordinates can be shown on the map.",
       "recordDetail": {
         "clusterHeader": "Cluster for { name } with { count } markers",
+        "clusterToTable": {
+          "title": "Open in table view",
+          "header": "Some markers be missing",
+          "body": "Due to technical limitations, some markers in this cluster may not appear in the table view."
+        },
         "datasetSpecificInformation": "Dataset-specific information:",
         "featureNotFound": "Feature not found",
         "recordSpecificInformation": "Record-specific information",

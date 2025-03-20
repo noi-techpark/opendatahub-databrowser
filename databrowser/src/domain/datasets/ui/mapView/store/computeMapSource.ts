@@ -5,6 +5,7 @@
 import { Feature, Point } from 'geojson';
 import { KnownApiType } from '../../../../metaDataConfig/types';
 import { MapRecord, MapSourceSpecification } from '../types';
+import { mapClusterMaxZoom, mapClusterRadius } from '../consts';
 
 interface ContentApiMarkerCollection {
   Id?: string;
@@ -64,8 +65,8 @@ export const computeMapSource = (
   return {
     type: 'geojson',
     cluster: true,
-    clusterMaxZoom: 16, // Max zoom to cluster points on
-    clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+    clusterMaxZoom: mapClusterMaxZoom, // Max zoom to cluster points on
+    clusterRadius: mapClusterRadius, // Radius of each cluster when clustering points (defaults to 50)
     data: {
       type: 'FeatureCollection',
       features,

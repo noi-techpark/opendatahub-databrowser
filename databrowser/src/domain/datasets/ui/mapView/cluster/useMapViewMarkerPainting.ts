@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import * as turf from '@turf/turf';
 import { Feature, Point } from 'geojson';
 import {
   GeoJSONSource,
@@ -31,7 +32,6 @@ export const useMapViewMarkerPainting = (
 ) => {
   const paintMarkers = (map: MapLibre) => {
     // Remove old markers that were added to the map
-    console.debug(`remove ${oldMarkers.length} markers`);
     for (const marker of oldMarkers) {
       marker.remove();
     }
@@ -227,7 +227,14 @@ const handleClusterClick = async (
     pointCount,
     0
   )) as ClusterNode[];
-  console.debug('clusterLeaves', clusterLeaves);
+
+  const markers =
+    clusterLeaves?.map<MapRecord>(({ properties }) => properties) ?? [];
+
+  const convexHull = turf.convex({
+    type: 'FeatureCollection',
+    features: clusterLeaves,
+  });
 
   const clusterFeature: ClusterFeature = {
     recordId: feature.id as string,
@@ -236,10 +243,8 @@ const handleClusterClick = async (
     datasetId: feature.layer.metadata.datasetId,
     color: feature.layer.metadata.datasetColor,
     count: feature.properties.point_count,
-    markers:
-      clusterLeaves?.map<MapRecord>((feature) => {
-        return feature.properties;
-      }) ?? [],
+    markers,
+    convexHull,
   };
 
   clusterClick(clusterFeature);
@@ -260,37 +265,4 @@ const handleSingleMarkerClick = (
   };
 
   markerClick(markerFeature);
-
-  // const markerRect = marker.getElement().getBoundingClientRect();
-  // setTimeout(() => {
-  //   const recordDetail = document.querySelector('#record-detail');
-  //   console.log('element', element);
-  //   console.log('marker', marker);
-  //   console.log('recordDetail', recordDetail);
-  //   if (recordDetail) {
-  //     // const markerRect = marker.getElement().getBoundingClientRect();
-  //     const recordDetailRect = recordDetail.getBoundingClientRect();
-  //     const horizontalOverlap =
-  //       markerRect.right > recordDetailRect.left &&
-  //       markerRect.left < recordDetailRect.right;
-  //     const verticalOverlap =
-  //       markerRect.bottom > recordDetailRect.top &&
-  //       markerRect.top < recordDetailRect.bottom;
-
-  //     console.log('markerRect', markerRect);
-  //     console.log('recordDetailRect', recordDetailRect);
-
-  //     console.log('horizontalOverlap', horizontalOverlap);
-  //     console.log('verticalOverlap', verticalOverlap);
-  //     console.log('overlap', horizontalOverlap && verticalOverlap);
-
-  //     if (horizontalOverlap && verticalOverlap) {
-  //       console.log('scrolling');
-  //       // TODO: on mobile, coordinates must be adjusted to work with flyTo, on desktop, it works fine
-  //       map.flyTo({
-  //         center: marker.getLngLat(),
-  //       });
-  //     }
-  //   }
-  // }, 500);
 };
