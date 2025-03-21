@@ -13,6 +13,7 @@ import {
   imageGalleryCategory,
   licenseInfoCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { withOdhBaseUrl } from '../../utils';
 
 export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -199,5 +200,6 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
     },
     imageGalleryCategory(),
     licenseInfoCategory(),
+    updatehistoryCategory(),
   ],
 });

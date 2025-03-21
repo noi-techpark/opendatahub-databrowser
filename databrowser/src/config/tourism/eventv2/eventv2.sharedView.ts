@@ -23,6 +23,7 @@ import {
   eventDocumentCategory,
 } from '../../builder/tourism';
 import { videoItemsCategory } from '../../builder/tourism/video';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { DEFAULT_DATE_TIME_FORMAT } from '../../utils';
 
 export const eventv2SharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -115,5 +116,6 @@ export const eventv2SharedView = (): DetailViewConfig | EditViewConfig => ({
     eventDocumentCategory(),
     videoItemsCategory(),
     licenseInfoCategory(),
+    updatehistoryCategory(),
   ],
 });

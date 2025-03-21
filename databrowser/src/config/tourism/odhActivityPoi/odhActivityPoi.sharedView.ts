@@ -26,6 +26,7 @@ import {
 import { additionalPropertiesCategory } from '../../builder/tourism/additionalProperties';
 import { mappingCategory } from '../../builder/tourism/mapping';
 import { relatedcontentCategory } from '../../builder/tourism/relatedcontent';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { videoItemsCategory } from '../../builder/tourism/video';
 import { withOdhBaseUrl } from '../../utils';
 
@@ -427,5 +428,6 @@ export const odhActivityPoiSharedView = ():
       ],
     },
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });

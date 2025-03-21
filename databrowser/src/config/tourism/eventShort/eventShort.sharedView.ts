@@ -19,6 +19,7 @@ import {
 } from '../../builder/tourism';
 import { publishedOnCell } from '../../builder/tourism/publishedOn';
 import { videoItemsCategory } from '../../builder/tourism/video';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { withOdhBaseUrl } from '../../utils';
 import { DEFAULT_DATE_TIME_FORMAT } from '../../utils';
 
@@ -243,5 +244,6 @@ export const eventShortSharedView = (): DetailViewConfig | EditViewConfig => ({
         },
       ],
     },
+    updatehistoryCategory(),
   ],
 });

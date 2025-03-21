@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div>
     <EditListActionHeader
-      v-if="editable && hasItems"
+      v-if="editable && hasItems && showTableActionHeader"
       class="mb-5 mt-2 flex justify-between gap-5 md:justify-end"
       :class="anyItemSelected ? 'text-default' : 'text-disabled'"
       delete-label="Delete"
@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <colgroup>
         <template v-if="editable && hasItems">
           <col v-if="showSortableColumn" class="w-0 md:w-10" />
-          <col class="w-10 md:w-20" />
+          <col v-if="showSelectCheckbox" class="w-10 md:w-20" />
         </template>
 
         <!-- Slot for colgroup -->
@@ -41,7 +41,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             &nbsp;
           </TableHeaderCell>
           <!-- Column for checkbox selection -->
-          <TableHeaderCell>
+          <TableHeaderCell
+            v-if="showSelectCheckbox">
             <div class="flex">
               <CheckboxCustom
                 :model-value="allItemsSelected"
@@ -75,7 +76,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <td v-if="showSortableColumn" class="border-none px-4 pt-4">
               <IconDragAndDrop class="handle hidden cursor-pointer md:block" />
             </td>
-            <TableCell class="relative">
+            <TableCell class="relative" v-if="showSelectCheckbox">
               <CheckboxCustom
                 :model-value="itemsSelected[index]"
                 @change="toggleSingleItemSelection(index)"
@@ -137,6 +138,8 @@ const props = defineProps<{
   hideTabLink?: boolean;
   hideSortable?: boolean;
   hideSettingsColumn?: boolean;
+  hideSelectCheckbox?: boolean;
+  hideTableActionHeader?: boolean;
 }>();
 
 // Inject navigation from an ancestor component
@@ -152,6 +155,10 @@ const itemsInternal = computed({
 const hasItems = computed(() => itemsInternal.value.length > 0);
 
 const showSortableColumn = computed(() => !props.hideSortable);
+
+const showSelectCheckbox = computed(() => !props.hideSelectCheckbox);
+
+const showTableActionHeader = computed(() => !props.hideTableActionHeader);
 
 const showSettingsColumn = computed(() => {
   if (!hasItems.value || props.hideSettingsColumn) {

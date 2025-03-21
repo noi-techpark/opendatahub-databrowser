@@ -23,6 +23,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { withOdhBaseUrl } from '../../utils';
 
 export const accommodationSharedView = ():
@@ -200,5 +201,6 @@ export const accommodationSharedView = ():
     odhTagCategory('accommodation'),
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });
