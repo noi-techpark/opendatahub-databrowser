@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <header class="flex flex-wrap items-center py-2 gap-2">
+  <header class="flex flex-wrap items-center gap-2 py-2">
     <!-- Dataset title -->
     <div
       class="flex items-center justify-between"
@@ -89,35 +89,34 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { ref, computed, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import LanguagePicker from '../../../../components/language/LanguagePicker.vue';
-import TagCustom from '../../../../components/tag/TagCustom.vue';
-import { useDatasetBaseInfoStore } from '../../config/store/datasetBaseInfoStore';
-import { DatasetConfigSource } from '../../config/types';
-import { useDatasetQueryStore } from '../../location/store/datasetQueryStore';
-import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
-import AddRecordButton from './AddRecordButton.vue';
-import DatasetHeaderConfigPopup from './DatasetHeaderConfigPopup.vue';
-import DatasetHeaderMoreInfoPopup from './DatasetHeaderMoreInfoPopup.vue';
-import DatasetHeaderOverlay from './DatasetHeaderOverlay.vue';
-import DatasetHeaderSearch from './DatasetHeaderSearch.vue';
+import { LocationQuery, useRoute, useRouter } from 'vue-router';
 import InputSearch from '../../../../components/input/InputSearch.vue';
+import LanguagePicker from '../../../../components/language/LanguagePicker.vue';
 import SelectCustom from '../../../../components/select/SelectCustom.vue';
 import {
   GroupSelectOption,
   SelectSize,
   SelectValue,
 } from '../../../../components/select/types';
+import TagCustom from '../../../../components/tag/TagCustom.vue';
 import { useMetaDataForAllDatasets } from '../../../../pages/datasets/overview/useDatasets';
-import { LocationQuery, useRoute, useRouter } from 'vue-router';
-import { computeTableLocation } from '../../location/datasetViewLocation';
 import { TourismMetaData } from '../../../metaDataConfig/tourism/types';
-import { useDatasetViewStore } from '../../view/store/datasetViewStore';
-import { useSessionStorage } from '@vueuse/core';
+import { getApiDomainFromMetaData } from '../../../metaDataConfig/utils';
+import { useDatasetBaseInfoStore } from '../../config/store/datasetBaseInfoStore';
+import { DatasetConfigSource } from '../../config/types';
+import { computeTableLocation } from '../../location/datasetViewLocation';
 import { computeRouteDomain } from '../../location/routeDomain';
 import { computeRoutePath } from '../../location/routePath';
-import { getApiDomainFromMetaData } from '../../../metaDataConfig/utils';
+import { useDatasetQueryStore } from '../../location/store/datasetQueryStore';
+import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
+import { useDatasetViewStore } from '../../view/store/datasetViewStore';
+import AddRecordButton from './AddRecordButton.vue';
+import DatasetHeaderConfigPopup from './DatasetHeaderConfigPopup.vue';
+import DatasetHeaderMoreInfoPopup from './DatasetHeaderMoreInfoPopup.vue';
+import DatasetHeaderOverlay from './DatasetHeaderOverlay.vue';
+import DatasetHeaderSearch from './DatasetHeaderSearch.vue';
 
 const { view, isTableView } = storeToRefs(useDatasetViewStore());
 
@@ -125,7 +124,6 @@ const { t } = useI18n();
 
 const router = useRouter();
 const route = useRoute();
-const SESSION_DATASET_KEY = 'currentDataset';
 
 const { datasetDomain, hasConfig, source } = storeToRefs(
   useDatasetBaseInfoStore()
@@ -281,10 +279,7 @@ const getCommonPrefixLength = (str1: string, str2: string): number => {
 };
 
 const setCurrentDataset = (dataset: string) => {
-  const currentSessionDataset = useSessionStorage(SESSION_DATASET_KEY, '');
-
   currentDataset.value = dataset;
-  currentSessionDataset.value = dataset;
 };
 
 watch(
@@ -310,24 +305,7 @@ watch(
 
     if (!dataset) return;
 
-    const currentSessionDataset = useSessionStorage(SESSION_DATASET_KEY, '');
-    let sessionDataset = null;
-
-    // NOTE: this is a provisional solution to handle url change and at least refresh the dataset when its base name its changed. See issue #602 for more details
-    if (currentSessionDataset.value) {
-      const [currentDatasetPath] = currentSessionDataset.value.split('?');
-      const [foundDatasetPath] = dataset.split('?');
-
-      if (currentDatasetPath === foundDatasetPath) {
-        sessionDataset = currentSessionDataset.value;
-      }
-    }
-
-    if (sessionDataset) {
-      currentDataset.value = currentSessionDataset.value;
-    } else {
-      setCurrentDataset(dataset);
-    }
+    setCurrentDataset(dataset);
   }
 );
 </script>
