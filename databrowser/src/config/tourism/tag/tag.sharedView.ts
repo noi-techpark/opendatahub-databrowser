@@ -15,6 +15,7 @@ import {
   mappingCategory,
   sourceSubCategoryWithDistinct,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { withOdhBaseUrl } from '../../utils';
 
 export const tagSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -148,5 +149,6 @@ export const tagSharedView = (): DetailViewConfig | EditViewConfig => ({
     },
     mappingCategory(),
     licenseInfoCategory(),
+    updatehistoryCategory(),
   ],
 });

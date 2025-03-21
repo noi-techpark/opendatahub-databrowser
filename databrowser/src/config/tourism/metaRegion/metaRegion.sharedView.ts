@@ -20,6 +20,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const metaRegionSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
@@ -78,5 +79,6 @@ export const metaRegionSharedView = (): DetailViewConfig | EditViewConfig => ({
     odhTagCategory(),
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });

@@ -13,6 +13,7 @@ import {
   licenseInfoCategory,
   pushconfigCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const publishedOnSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
@@ -47,5 +48,6 @@ export const publishedOnSharedView = (): DetailViewConfig | EditViewConfig => ({
     },
     pushconfigCategory(),
     licenseInfoCategory(),
+    updatehistoryCategory(),
   ],
 });

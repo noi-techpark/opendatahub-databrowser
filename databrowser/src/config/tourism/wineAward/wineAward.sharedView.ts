@@ -18,6 +18,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const wineAwardSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
@@ -80,5 +81,6 @@ export const wineAwardSharedView = (): DetailViewConfig | EditViewConfig => ({
     },
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });

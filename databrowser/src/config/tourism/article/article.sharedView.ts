@@ -20,6 +20,7 @@ import {
   mappingCategory,
 } from '../../builder/tourism';
 import { videoItemsCategory } from '../../builder/tourism/video';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { DEFAULT_DATE_FORMAT, withOdhBaseUrl } from '../../utils';
 
 export const articleSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -174,5 +175,6 @@ export const articleSharedView = (): DetailViewConfig | EditViewConfig => ({
     },
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });
