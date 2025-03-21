@@ -13,9 +13,14 @@ import { axiosWithMaybeAuth } from './apiAuth';
 
 export const useApiRead = <TQueryFnData = unknown, TData = TQueryFnData>(
   url: MaybeRef<string | undefined>,
-  options?: UseQueryOptions<TQueryFnData, Error, TData, TQueryFnData> & {
-    withAuth?: boolean;
-  }
+  options?: MaybeRef<
+    Partial<
+      UseQueryOptions<TQueryFnData, Error, TData, TQueryFnData> & {
+        withAuth?: boolean;
+        apiType?: string;
+      }
+    >
+  >
 ) => {
   // Compute query key from url
   const queryKey = readonly(
@@ -25,14 +30,17 @@ export const useApiRead = <TQueryFnData = unknown, TData = TQueryFnData>(
   const queryFn: QueryFunction<TQueryFnData, readonly unknown[]> = async ({
     queryKey: [url],
   }) => {
-    const axiosInstance = await axiosWithMaybeAuth(options?.withAuth ?? false);
+    const axiosInstance = await axiosWithMaybeAuth(
+      toValue(options)?.withAuth ?? false,
+      toValue(options)?.apiType
+    );
     return axiosInstance
       .get<TQueryFnData>(url as string)
       .then((response) => response.data);
   };
 
   // Run query
-  return useQuery({ retry: 1, ...options, queryKey, queryFn });
+  return useQuery({ retry: 1, ...toValue(options), queryKey, queryFn });
 };
 
 export const useApiMutate = (

@@ -54,6 +54,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <InputSearch
         v-if="isTableView"
         id="search-dataset"
+        class="md:w-80"
+        :show-confirm-button="true"
         :class="[inputSearchOpen ? 'flex' : 'hidden md:flex']"
         :model-value="searchfilter"
         @search="search"
@@ -107,10 +109,7 @@ import {
   SelectSize,
   SelectValue,
 } from '../../../../components/select/types';
-import {
-  useMetaDataDatasets,
-  useOtherDatasets,
-} from '../../../../pages/datasets/overview/useDatasets';
+import { useMetaDataForAllDatasets } from '../../../../pages/datasets/overview/useDatasets';
 import { LocationQuery, useRoute, useRouter } from 'vue-router';
 import { computeTableLocation } from '../../location/datasetViewLocation';
 import { TourismMetaData } from '../../../metaDataConfig/tourism/types';
@@ -118,7 +117,7 @@ import { useDatasetViewStore } from '../../view/store/datasetViewStore';
 import { useSessionStorage } from '@vueuse/core';
 import { computeRouteDomain } from '../../location/routeDomain';
 import { computeRoutePath } from '../../location/routePath';
-import { getApiDomain } from '../../../../domain/datasets/utils';
+import { getApiDomainFromMetaData } from '../../../metaDataConfig/utils';
 
 const { view, isTableView } = storeToRefs(useDatasetViewStore());
 
@@ -128,18 +127,11 @@ const router = useRouter();
 const route = useRoute();
 const SESSION_DATASET_KEY = 'currentDataset';
 
-// Data fetch
-const { metaDataDatasets } = useMetaDataDatasets();
-
-const { tourismDatasets } = useOtherDatasets(metaDataDatasets);
-
 const { datasetDomain, hasConfig, source } = storeToRefs(
   useDatasetBaseInfoStore()
 );
 
-const allDatasets = computed(() => {
-  return [...metaDataDatasets.value, ...tourismDatasets.value];
-});
+const { metaData } = useMetaDataForAllDatasets();
 
 const relatedDatasetsValues = computed(() => {
   const _view = view.value;
@@ -162,7 +154,7 @@ const relatedDatasetsValues = computed(() => {
 const allDatasetsOptions = computed<GroupSelectOption>(() => {
   return {
     name: 'All datasets',
-    options: allDatasets.value.map((item) => ({
+    options: metaData.value.map((item) => ({
       label: item.shortname,
       value: getDatasetSelectValue(item),
     })),
@@ -204,7 +196,7 @@ const handleSelectOpen = (state: boolean) => {
 };
 
 const handleDatasetChange = (value: string) => {
-  const dataset = allDatasets.value.find(
+  const dataset = metaData.value.find(
     (item) => getDatasetSelectValue(item) === value
   );
 
@@ -212,16 +204,10 @@ const handleDatasetChange = (value: string) => {
 
   const { pathSegments, apiFilter } = dataset;
 
-  const domain = getDomainOfDataset(dataset);
+  const domain = getApiDomainFromMetaData(dataset);
 
   router.push(computeTableLocation(domain, pathSegments, apiFilter));
   setCurrentDataset(getDatasetSelectValue(dataset));
-};
-
-const getDomainOfDataset = (dataset: TourismMetaData) => {
-  // TODO: fix this as referenced in OverviewLinkTable
-  //return dataset.baseUrl.includes('tourism') ? 'tourism' : 'mobility';
-  return getApiDomain(dataset) ?? 'mobility';
 };
 
 const currentDataset = ref<SelectValue>('');
@@ -246,7 +232,7 @@ const changeSource = (value: DatasetConfigSource) => {
 const showLanguagePicker = computed(() => datasetDomain.value === 'tourism');
 
 const getDatasetSelectValue = (dataset: TourismMetaData) => {
-  const domain = getDomainOfDataset(dataset);
+  const domain = getApiDomainFromMetaData(dataset);
   const { pathSegments, apiFilter } = dataset;
 
   return getSelectValue(domain, pathSegments, apiFilter);

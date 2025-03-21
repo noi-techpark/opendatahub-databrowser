@@ -17,10 +17,12 @@
     "@headlessui/vue": "^1.7.23",
     "@tailwindcss/forms": "^0.5.3",
     "@tanstack/vue-query": "^5.62.8",
+    "@turf/turf": "^7.2.0",
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "^12.0.0",
     "@vueuse/integrations": "^12.0.0",
-    "axios": "^1.7.9",
+    "@vueuse/router": "^12.4.0",
+    "axios": "^1.8.4",
     "date-fns": "^4.1.0",
     "fuse.js": "^7.0.0",
     "jwt-decode": "^4.0.0",
@@ -28,13 +30,13 @@
     "maplibre-gl": "^5.0.0",
     "pinia": "^2.3.0",
     "ramda": "^0.30.1",
-    "swagger-client": "^3.32.2",
+    "swagger-client": "^3.34.3",
     "uuid": "^11.0.3",
     "vue": "^3.5.13",
     "vue-cookieconsent": "^0.0.11",
     "vue-diff": "^1.2.4",
     "vue-draggable-next": "^2.1.1",
-    "vue-i18n": "^11.0.1",
+    "vue-i18n": "^11.1.2",
     "vue-json-pretty": "^2.4.0",
     "vue-router": "^4.5.0"
   },
@@ -59,7 +61,7 @@
     "prettier-plugin-tailwindcss": "^0.6.10",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
-    "vite": "^6.0.6",
+    "vite": "^6.2.1",
     "vue-tsc": "^2.1.10"
   }
 }

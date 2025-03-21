@@ -27,31 +27,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <template #tableCols="{ item }">
       <TableCell>
-        <UseFullscreen
-          v-slot="{ toggle, isFullscreen }"
-          class="flex items-center justify-center md:items-stretch"
-        >
-          <div
-            class="group relative flex cursor-pointer justify-center"
-            :class="{ 'items-center': !isFullscreen }"
-            @click="toggle()"
-          >
-            <img
-              :src="
-                getImageSrc(item.src, {
-                  resize: shouldResize(isFullscreen, resizeImages),
-                  preferredWidth: 200,
-                })
-              "
-              :alt="item.alt"
-              class="object-fit"
-            />
-            <IconExpanded
-              v-if="!isFullscreen"
-              class="absolute text-white transition-all group-hover:scale-125"
-            />
-          </div>
-        </UseFullscreen>
+        <UseClickableFullscreen v-slot="{ isFullscreen }">
+          <img
+            :src="
+              getImageSrc(item.src, {
+                resize: shouldResize(isFullscreen, resizeImages),
+                preferredWidth: 200,
+              })
+            "
+            :alt="item.alt"
+            class="object-fit"
+          />
+        </UseClickableFullscreen>
       </TableCell>
       <TableCell>{{ item.listPosition }}</TableCell>
       <TableCell>{{ item.title }}</TableCell>
@@ -68,15 +55,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import TableHeaderCell from '../../../../../components/table/TableHeaderCell.vue';
+import UseClickableFullscreen from '../../../../../components/fullscreen/UseClickableFullscreen.vue';
 import TableCell from '../../../../../components/table/TableCell.vue';
-import UseFullscreen from '../../../../../components/fullscreen/UseFullscreen.vue';
-import IconExpanded from '../../../../../components/svg/IconExpanded.vue';
-import { getImageSrc } from '../../../../image';
-import EditListTable from '../../utils/editList/table/EditListTable.vue';
-import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
-import { getResolutionAsText } from '../../../../image';
+import TableHeaderCell from '../../../../../components/table/TableHeaderCell.vue';
+import { getImageSrc, getResolutionAsText } from '../../../../image';
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';
+import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
+import EditListTable from '../../utils/editList/table/EditListTable.vue';
 import { ImageGalleryEntry } from './types';
 import { shouldResize } from './utils';
 

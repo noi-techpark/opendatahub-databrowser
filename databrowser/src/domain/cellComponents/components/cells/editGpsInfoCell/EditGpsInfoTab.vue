@@ -17,16 +17,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       />
     </template>
 
-    <template #body="{ item, index }: { item: GpsInfoEntry, index: number }">
+    <template #body="{ item, index }: { item: GpsInfoEntry; index: number }">
       <div class="flex flex-wrap gap-8 lg:flex-nowrap">
-        <div class="basis-full lg:basis-3/4">
+        <div class="basis-full" :class="{ 'lg:basis-3/4': editable }">
           <EditGpsPointMap
             :key="`map_${activeTab}_${items.length}`"
             :data="item"
             @new-position="onNewPosition(index, $event)"
           />
         </div>
-        <div class="basis-full lg:basis-1/4">
+        <div v-if="editable" class="basis-full lg:basis-1/4">
           <div class="rounded border">
             <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
               <span class="font-semibold">Info &amp; action</span>

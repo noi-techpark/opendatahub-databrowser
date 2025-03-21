@@ -11,7 +11,7 @@ export const tagListView: ListViewConfig = {
     {
       title: 'Id',
       component: CellComponent.StringCell,
-      class: 'w-62',
+      class: 'w-80',
       objectMapping: { text: 'Id' },
     },
     {

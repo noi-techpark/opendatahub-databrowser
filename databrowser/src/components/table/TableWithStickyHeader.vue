@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <TableCustom :id="id" class="overflow-y-auto">
+  <TableCustom :id="id" class="overflow-y-auto pb-12 md:pb-0">
     <colgroup v-if="isColgroupColsSlotDefined">
       <slot name="colgroup-cols"></slot>
     </colgroup>

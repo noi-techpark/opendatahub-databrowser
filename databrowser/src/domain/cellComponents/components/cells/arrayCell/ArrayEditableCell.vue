@@ -6,15 +6,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <EditListCell :items="items">
-    <!-- eslint-disable-next-line vue/no-template-shadow -->
     <template #table="{ items }">
-      <ArrayEditableTable :items="items" />
+      <ArrayEditableTable :items="items" :options="options" />
     </template>
   </EditListCell>
 </template>
 
 <script setup lang="ts">
+import { useAttrs } from 'vue';
 import EditListCell from '../../utils/editList/EditListCell.vue';
+import { useAttributeMapper } from '../tagCell/useAttributeMapper';
 import ArrayEditableTable from './ArrayEditableTable.vue';
 
 withDefaults(
@@ -23,6 +24,11 @@ withDefaults(
   }>(),
   {
     items: () => [],
+    options: () => [],
   }
 );
+
+const attrs = useAttrs();
+
+const { options } = useAttributeMapper(attrs, true);
 </script>

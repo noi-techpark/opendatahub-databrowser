@@ -2,6 +2,8 @@
     "$schema": "https://json.schemastore.org/prettierrc",
     "singleQuote": true,
     "trailingComma": "es5",
+    "tabWidth": 2,
+    "useTabs": false,
     "plugins": [
         "prettier-plugin-tailwindcss"
     ]

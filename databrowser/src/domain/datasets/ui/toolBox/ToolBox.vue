@@ -8,16 +8,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <!-- Mobile toolBox open button -->
   <ButtonCustom
     v-if="!toolBoxStore.visible"
-    class="absolute bottom-16 right-[20px] z-20 flex items-center justify-center shadow-[0_10px_15px_-3px_rgba(0,0,0,0.4)] md:hidden"
+    class="absolute bottom-10 right-0 z-20 flex rotate-0 items-center justify-center rounded-r-none shadow-[0_10px_15px_-3px_rgba(0,0,0,0.4)] sm:block md:hidden"
     data-test="mobile-open-toolBox"
     @click="toolBoxStore.toggleToolboxVisibility(!toolBoxStore.visible)"
   >
-    <IconAdd class="mr-2 size-5" /><span>Toolbox</span>
+    <IconAdd class="mr-2 size-5" />
+    <span>Toolbox</span>
   </ButtonCustom>
 
   <!-- ToolBox content -->
   <div
-    class="absolute top-0 z-[10] flex h-full flex-col overflow-x-auto bg-gray-50 transition-all md:relative"
+    class="absolute top-0 z-10 flex h-full flex-col overflow-x-auto bg-gray-50 transition-all md:relative"
     :class="{
       'w-full md:w-1/3': toolBoxStore.visible,
       'w-0 md:w-[4.5rem]': !toolBoxStore.visible,
@@ -29,7 +30,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :class="{ block: toolBoxStore.visible, hidden: !toolBoxStore.visible }"
     >
       <Transition
-        @after-enter="(el: Element) => (el.classList.value = 'block h-full w-full')"
+        @after-enter="
+          (el: Element) => (el.classList.value = 'block h-full w-full')
+        "
         @before-leave="(el: Element) => (el.classList.value = 'hidden')"
       >
         <div v-if="toolBoxStore.visible" :class="{ hidden: !mdAndLarger }">

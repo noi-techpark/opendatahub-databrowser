@@ -13,14 +13,3 @@ export interface MapGLOptions {
   minZoom?: number;
   maxZoom?: number;
 }
-
-export interface Marker<T = unknown> {
-  x: number;
-  y: number;
-  data: T;
-}
-
-export interface MarkerCollection {
-  id: string;
-  markers?: Marker[];
-}

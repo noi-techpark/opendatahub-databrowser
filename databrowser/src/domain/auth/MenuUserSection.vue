@@ -58,10 +58,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <PopoverCustom class="hidden h-8 md:flex">
       <template #trigger>
         <PopoverCustomButton class="rounded focus-visible:outline-offset-2">
-          <ProfileButton
-            icon-name="IconUser"
-            custom-bg-color="bg-hint-info/10"
-          />
+          <ProfileButton />
         </PopoverCustomButton>
       </template>
       <template #container>
@@ -86,17 +83,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { keycloak } from './keycloak';
-import HeaderButton from '../../components/header/HeaderButton.vue';
-import { useAuth } from './store/auth';
-import ProfileButton from './ProfileButton.vue';
 import { useI18n } from 'vue-i18n';
+import HeaderButton from '../../components/header/HeaderButton.vue';
+import HeaderExternalLink from '../../components/header/HeaderExternalLink.vue';
+import ExternalLink from '../../components/link/ExternalLink.vue';
+import PopoverContentDivider from '../../components/popover/PopoverContentDivider.vue';
 import PopoverCustom from '../../components/popover/PopoverCustom.vue';
 import PopoverCustomButton from '../../components/popover/PopoverCustomButton.vue';
-import ExternalLink from '../../components/link/ExternalLink.vue';
 import PopoverCustomPanel from '../../components/popover/PopoverCustomPanel.vue';
-import PopoverContentDivider from '../../components/popover/PopoverContentDivider.vue';
-import HeaderExternalLink from '../../components/header/HeaderExternalLink.vue';
+import { keycloak } from './keycloak';
+import ProfileButton from './ProfileButton.vue';
+import { useAuth } from './store/auth';
 
 const { t } = useI18n();
 

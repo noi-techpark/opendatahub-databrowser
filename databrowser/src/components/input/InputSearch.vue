@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     :label-button="t('components.inputSearch.labelButton')"
     :show-icon-in-button="false"
     :show-button-text-mobile="true"
+    :show-confirm-button="showConfirmButton"
     show-icon
     @update:model-value="emit('update:modelValue', $event)"
     @confirmed-value="emit('search', $event)"
@@ -39,12 +40,14 @@ withDefaults(
     disabled?: boolean;
     focus?: boolean;
     id?: string;
+    showConfirmButton?: boolean;
   }>(),
   {
     modelValue: undefined,
     disabled: undefined,
     focus: undefined,
     id: undefined,
+    showConfirmButton: false,
   }
 );
 </script>

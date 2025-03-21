@@ -5,7 +5,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <button :class="className" :disabled="disabled" button-custom>
+  <button :class="[className, { 'relative': indicator }]" :disabled="disabled" button-custom>
+    <div
+      v-if="indicator"
+      class="absolute right-2 top-2 h-1.5 w-1.5 rounded bg-green-500"
+    ></div>
     <slot></slot>
   </button>
 </template>
@@ -21,12 +25,14 @@ const props = withDefaults(
     size?: string;
     tone?: string;
     disabled?: boolean;
+    indicator?: boolean;
   }>(),
   {
     variant: Variant.solid,
     size: Size.md,
     tone: Tone.primary,
     disabled: false,
+    indicator: false,
   }
 );
 

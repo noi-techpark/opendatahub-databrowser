@@ -27,11 +27,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableCell>
         <GpsPointMap
           v-if="item.latitude && item.longitude"
+          class="h-24"
           ref="gpsPointMap"
+          :prevent-interaction="true"
+          :fullscreen-on-click="true"
           :latitude="item.latitude"
           :longitude="item.longitude"
-          map-view="table"
-          height="100px"
         />
 
         <div v-else>Missing coordinates</div>
@@ -56,7 +57,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { ref } from 'vue';
 import TableHeaderCell from '../../../../../components/table/TableHeaderCell.vue';
 import TableCell from '../../../../../components/table/TableCell.vue';
-import GpsPointMap from '../../../../../components/map/GpsPointMap.vue';
+import GpsPointMap from './GpsPointMap.vue';
 import EditListTable from '../../utils/editList/table/EditListTable.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';

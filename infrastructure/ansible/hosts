@@ -3,3 +3,6 @@ docker01.testingmachine.eu ansible_user='noi-techpark-bot' ansible_ssh_common_ar
 
 [prod]
 docker01.opendatahub.com ansible_user='noi-techpark-bot' ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[impact]
+docker04.opendatahub.com ansible_user='noi-techpark-bot' ansible_ssh_common_args='-o StrictHostKeyChecking=no'

@@ -17,7 +17,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #tableCols="{ item, index }">
       <TableCell>
         <StringCell
+          v-if="!hasOptions"
           :text="item"
+          :editable="editable"
+          @update="updateItem(index, $event.value)"
+        />
+        <SelectWithOptionsCell
+          v-else
+          :options="options"
+          :value="item"
           :editable="editable"
           @update="updateItem(index, $event.value)"
         />
@@ -38,10 +46,20 @@ import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';
 import StringCell from '../stringCell/StringCell.vue';
+import { SelectOption } from '../../../../../components/select/types';
+import { computed } from 'vue';
+import SelectWithOptionsCell from '../selectWithOptionsCell/SelectWithOptionsCell.vue';
 
-defineProps<{ items: string[] }>();
+const props = defineProps<{
+  items: string[];
+  options?: SelectOption[];
+}>();
 
 const { editable } = useInjectEditMode();
+
+const hasOptions = computed(
+  () => props.options != null && props.options.length > 0
+);
 
 const { addItems, updateItem } = useInjectActionTriggers<string>();
 </script>

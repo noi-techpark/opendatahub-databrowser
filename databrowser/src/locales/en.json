@@ -221,6 +221,16 @@
             "resetAllFilters": "Reset all filters"
           },
           "panelName": "Filter"
+        },
+        "deprecatedInfoTooltip": {
+          "deprecatedInfo": {
+            "infoPopup": {
+              "header": "Attribute is deprecated",
+              "body": "A deprecated attribute is one that is phasing out and will not be available anymore in the future. It is not recommended to use it.",
+              "linkHref": "https://github.com/noi-techpark/odh-docs/wiki/What-does-%22deprecated%22-mean%3F",
+              "linkText": "More info"
+            }
+          }
         }
       },
       "viewLinks": {
@@ -240,6 +250,29 @@
           "short": "Delete",
           "title": "Delete view"
         }
+      }
+    },
+    "mapView": {
+      "datasetFilter": {
+        "noSearchResult": "Unfortunately we could not find any results for you. Please try to refine your search or set better filters!"
+      },
+      "dataset": "Datasets",
+      "filter": "Filter",
+      "headerBig": "{recordCount} Records from {selectedDatasetCount} datasets selected.",
+      "headerSmall": "Total no. of dataset: {datasetCount}",
+      "note": "Only datasets containing geographical coordinates can be shown on the map.",
+      "recordDetail": {
+        "clusterHeader": "Cluster for { name } with { count } markers",
+        "clusterToTable": {
+          "title": "Open in table view",
+          "header": "Some markers be missing",
+          "body": "Due to technical limitations, some markers in this cluster may not appear in the table view."
+        },
+        "datasetSpecificInformation": "Dataset-specific information:",
+        "featureNotFound": "Feature not found",
+        "recordSpecificInformation": "Record-specific information",
+        "toDatasetDetail": "Detailpage of dataset",
+        "toTableView": "Table view"
       }
     },
     "navigation": {
@@ -452,11 +485,7 @@
       "heroTitle": "This is the Data Browser of the Open Data Hub.",
       "heroSubtitle": "Explore and navigate through Open Data you need to build your next service.",
       "heroMoreInfo": "More info",
-
       "accessOfData": "Access of data",
-      "accessTypeAll": "All access types",
-      "accessTypeLimited": "Limited access",
-      "accessTypeOpen": "Full access",
       "listOfAllDatasets": "List of all datasets",
       "loadOtherDatasets": "Loading all other datasets...",
       "otherDatasets": "All other datasets",
@@ -464,6 +493,7 @@
       "datasetFound": "Dataset found",
       "datasetsFound": "Datasets found",
       "filter": "Filter",
+      "filtered": "(filtered)",
       "resetFilters": "Reset Filters",
       "noMetadataAvailable": "No metadata available",
       "deprecated": "Deprecated",
@@ -484,7 +514,8 @@
       "single": "Single",
       "noDatasetFoundWithSelectedFilters": "No dataset were found with the selected filters.",
       "aggregatedDatasetDesc": "All records with the same data structure combined in one dataset. Consider: in many cases this also leads to a contentwise uniformity within the dataset.",
-      "singleDatasetDesc": "Datasets that have been extracted from aggregated ones, e.g. because they are individual from a content-perspective."
+      "singleDatasetDesc": "Datasets that have been extracted from aggregated ones, e.g. because they are individual from a content-perspective.",
+      "showOnMap": "Show on map"
     }
   }
 }

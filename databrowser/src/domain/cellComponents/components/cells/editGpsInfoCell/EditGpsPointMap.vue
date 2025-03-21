@@ -59,13 +59,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <EditGpsPointOverview
         :title="t('datasets.editView.map.mapPreviewDataInserted')"
         content-has-no-padding
-        :cta-icon="editable ? ['IconPencil', 'IconExpand'] : ['IconExpand']"
-        :icons-active="iconsActive"
-        @cta-click="onCtaClick"
+        :editable="editable"
+        :is-editing="enableSetMarker"
+        @edit="gpsPointMap?.toggleEditMode()"
+        @expand="gpsPointMap?.toggleFullscreen()"
       >
         <template #content>
           <GpsPointMap
             ref="gpsPointMap"
+            class="h-60"
             :latitude="position.latitude"
             :longitude="position.longitude"
             :fallback-center="fallbackMapCenter"
@@ -82,15 +84,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, ref, toRefs, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import GpsPointMap from '../../../../../components/map/GpsPointMap.vue';
+import { mapDefaultCoordinates } from '../../../../../components/map/consts';
 import { LatLngPosition } from '../../../../../components/map/types';
-import { getDefaultCoordinates } from '../../../../../components/map/utils';
 import SubCategoryItem from '../../../../datasets/ui/category/SubCategoryItem.vue';
 import { useEditStore } from '../../../../datasets/ui/editView/store/editStore';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';
 import SelectWithOptionsCell from '../selectWithOptionsCell/SelectWithOptionsCell.vue';
 import StringCell from '../stringCell/StringCell.vue';
 import EditGpsPointOverview from './EditGpsPointOverview.vue';
+import GpsPointMap from './GpsPointMap.vue';
 import { useEditGpsInfoCellStore } from './editGpsInfoCellStore';
 import { GpsInfoEntry } from './types';
 
@@ -104,7 +106,7 @@ const editGpsInfoCellStore = useEditGpsInfoCellStore();
 const editStore = useEditStore();
 
 const enableSetMarker = ref(false);
-const gpsPointMap = ref();
+const gpsPointMap = ref<InstanceType<typeof GpsPointMap> | null>(null);
 
 type GpsInfoEntryKey = keyof GpsInfoEntry;
 
@@ -114,15 +116,11 @@ const props = defineProps<{
 
 const { data: position } = toRefs(props);
 
-const iconsActive = computed(() => {
-  return enableSetMarker.value ? ['IconPencil'] : [];
-});
-
 const gpsTypeOptions = computed(() => {
   return editGpsInfoCellStore.sortedPositionOptions;
 });
 
-const fallbackMapCenter = computed(() => getDefaultCoordinates());
+const fallbackMapCenter = computed(() => mapDefaultCoordinates);
 
 const initialState = computed(() => {
   return editStore.initialAsJson;
@@ -133,7 +131,7 @@ watch(
   () => {
     if (!editStore.isEqual || !enableSetMarker.value || !editable.value) return;
 
-    gpsPointMap.value.toggleEditMode();
+    gpsPointMap.value?.toggleEditMode();
   }
 );
 
@@ -177,17 +175,6 @@ const onUpdateInputPositionValue = (key: GpsInfoEntryKey, value: string) => {
 
 const onEnableSetMarker = (value: boolean) => {
   enableSetMarker.value = value;
-};
-
-const onCtaClick = async (iconValue: unknown) => {
-  switch (iconValue) {
-    case 'IconPencil':
-      gpsPointMap.value.toggleEditMode();
-      break;
-    default:
-      gpsPointMap.value.toggleFullscreen();
-      break;
-  }
 };
 
 const onUpdatePosition = (value: GpsInfoEntry) => {

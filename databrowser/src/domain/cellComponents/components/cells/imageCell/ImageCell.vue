@@ -5,8 +5,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
+  <UseClickableFullscreen v-if="allowFullscreen && hasUsableSource">
+    <img
+      v-bind="$attrs"
+      :src="imgSrc"
+      :alt="alt"
+      :style="style"
+      @error="hasLoadingError = true"
+    />
+  </UseClickableFullscreen>
   <img
-    v-if="src != null && !hasLoadingError"
+    v-else-if="!allowFullscreen && hasUsableSource"
+    v-bind="$attrs"
     :src="imgSrc"
     :alt="alt"
     :style="style"
@@ -16,20 +26,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import UseClickableFullscreen from '../../../../../components/fullscreen/UseClickableFullscreen.vue';
 import PlaceholderImage from '../../../../../components/image/PlaceholderImage.vue';
 import { getImageSrc } from '../../../../image';
+import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 
 const props = withDefaults(
   defineProps<{
     width?: string;
     alt?: string;
     src?: string;
+    allowFullscreen?: boolean | string;
   }>(),
   {
     width: '100%',
     alt: undefined,
     src: undefined,
+    allowFullscreen: false,
   }
 );
 
@@ -37,6 +51,14 @@ const hasLoadingError = ref(false);
 
 const imgSrc = ref<string>();
 const style = ref<Record<string, string>>();
+
+const allowFullscreen = computed(() =>
+  booleanOrStringToBoolean(props.allowFullscreen)
+);
+
+const hasUsableSource = computed(
+  () => props.src != null && !hasLoadingError.value
+);
 
 watch(
   props,

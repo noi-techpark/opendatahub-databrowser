@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     :class="bgColorClass"
     :title="username"
   >
-    <IconParser v-if="iconName" :name="iconName" class="size-full" />
+    <IconUser v-if="username == null" class="size-full" />
     <span v-else>
       {{ letter }}
     </span>
@@ -19,13 +19,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
-import IconParser from '../../components/utils/IconParser.vue';
+import IconUser from '../../components/svg/IconUser.vue';
 
-const props = defineProps<{
-  username?: string;
-  iconName?: string;
-  customBgColor?: string;
-}>();
+const props = defineProps<{ username?: string }>();
 
 const { username } = toRefs(props);
 
@@ -44,8 +40,12 @@ const bgColorClasses = [
   'bg-red-500',
   'bg-yellow-500',
 ];
+
 const bgColorClass = computed(() => {
-  if (props.customBgColor) return props.customBgColor;
+  if (username.value == null) {
+    // Return a default color if the username is not set
+    return 'bg-hint-info/10';
+  }
 
   const ascii = letter.value?.charCodeAt(0) ?? 0;
   const colorIndex = ascii % bgColorClasses.length;

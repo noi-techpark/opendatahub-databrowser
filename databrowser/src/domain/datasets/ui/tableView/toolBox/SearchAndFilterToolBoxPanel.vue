@@ -54,7 +54,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           @filter="updateFilter(index, filter.operator, $event, true)"
         />
       </ToolBoxCardBody>
-      <ToolBoxCardBody>
+      <ToolBoxCardBody class="flex justify-between">
+        <ButtonCustom
+          class="flex items-center gap-2 p-2 py-1"
+          :size="Size.xs"
+          :variant="Variant.solid"
+          @click="updateGlobalFilter(tableFilters, true)"
+        >
+          <IconFilter />
+          {{ t('components.inputFilter.labelButton') }}
+        </ButtonCustom>
         <ButtonCustom
           class="flex items-center gap-2 p-2 py-1"
           :size="Size.xs"
@@ -94,8 +103,9 @@ import {
 } from '../filter/filterSelectOptions';
 import { useTableFilterStore } from '../filter/tableFilterStore';
 import InfoFilter from './InfoFilter.vue';
-import { FilterOperator, FilterValue } from '../filter/types';
+import { Filter, FilterOperator, FilterValue } from '../filter/types';
 import IconAdd from '../../../../../components/svg/IconAdd.vue';
+import IconFilter from '../../../../../components/svg/IconFilter.vue';
 
 const { t } = useI18n();
 
@@ -118,6 +128,7 @@ const {
   removeAllFilters,
   removeFilterByIndex,
   updateFilterValueByIndex,
+  updateFilterValueByAllSelectedTable,
 } = useTableFilterStore();
 
 const updateFilter = (
@@ -133,5 +144,18 @@ const updateFilter = (
     operator === 'isnull' ||
     operator === 'isnotnull';
   updateFilterValueByIndex(index, operator, value, applyFilters);
+};
+
+const updateGlobalFilter = (
+  tableFilters: Filter[],
+  unconditionallyApplyFilters: boolean
+) => {
+  // Check if any filter operator is 'isnull' or 'isnotnull'
+  const applyFilters =
+    tableFilters.some((filter) =>
+      ['isnull', 'isnotnull'].includes(filter.operator)
+    ) || unconditionallyApplyFilters;
+
+  updateFilterValueByAllSelectedTable(tableFilters, applyFilters);
 };
 </script>

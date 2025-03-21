@@ -9,11 +9,11 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
+import { computed, MaybeRef, Ref, toValue, watch } from 'vue';
 import { useAuth } from '../auth/store/auth';
 import { useDatasetBaseInfoStore } from '../datasets/config/store/datasetBaseInfoStore';
 
-export const buildAuthInterceptor = () => {
+export const buildAuthInterceptor = (apiType: Ref<string | undefined>) => {
   const addAuthToCtx = (
     ctx: AxiosRequestConfig,
     authenticated: boolean,
@@ -27,16 +27,29 @@ export const buildAuthInterceptor = () => {
     }
   };
 
-  const { datasetDomain } = storeToRefs(useDatasetBaseInfoStore());
+  const datasetDomain = computed(
+    () => apiType.value ?? useDatasetBaseInfoStore().datasetDomain
+  );
   const { ready, isAuthenticated, accessToken } = storeToRefs(useAuth());
 
   return async (
     config: InternalAxiosRequestConfig
   ): Promise<InternalAxiosRequestConfig> => {
-    // At the moment, only tourism domain auth is supported.
-    // For all other domains, we don't add auth information.
-    if (datasetDomain.value === 'tourism') {
+    // Auth is supported at the moment only for tourism (aka content)
+    // domain. For all other domains, we don't add auth information.
+    const withAuth =
+      // The apiType can be provided by method param. It is
+      // useful when we want to specify the api type manually
+      apiType.value === 'content' ||
+      // As fallback we try to get the dataset domain from the store.
+      // This is useful when we are in the table, detail, edit or raw
+      // view, because then the dataset domain is already set, no need
+      // to pass it as param.
+      datasetDomain.value === 'tourism';
+
+    if (withAuth) {
       return new Promise((resolve) => {
+        // Wait for the auth store to be ready
         watch(
           ready,
           (ready) => {
@@ -54,8 +67,13 @@ export const buildAuthInterceptor = () => {
   };
 };
 
-export const wrapAxiosFetchWithAuth = async (axiosInstance: AxiosInstance) => {
-  const authInfo = await buildAuthInterceptor();
+export const wrapAxiosFetchWithAuth = async (
+  axiosInstance: AxiosInstance,
+  options?: MaybeRef<{ apiType?: string }>
+) => {
+  const apiType = computed(() => toValue(options)?.apiType);
+
+  const authInfo = await buildAuthInterceptor(apiType);
   // Create new axios instance because we add an interceptor
   // that should be used only for this request
   // Note that due to a bug in axios, we need to cast the instance
@@ -64,6 +82,9 @@ export const wrapAxiosFetchWithAuth = async (axiosInstance: AxiosInstance) => {
   return axios;
 };
 
-export const axiosWithMaybeAuth = async (withAuth?: boolean) => {
-  return withAuth ? await wrapAxiosFetchWithAuth(axios) : axios;
+export const axiosWithMaybeAuth = async (
+  withAuth?: boolean,
+  apiType?: string
+) => {
+  return withAuth ? await wrapAxiosFetchWithAuth(axios, { apiType }) : axios;
 };

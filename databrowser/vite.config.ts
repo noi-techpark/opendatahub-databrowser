@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: CC0-1.0
 
-import { defineConfig } from 'vite';
-import dns from 'dns';
 import vue from '@vitejs/plugin-vue';
+import dns from 'dns';
+import { defineConfig } from 'vite';
 
 dns.setDefaultResultOrder('verbatim');
 

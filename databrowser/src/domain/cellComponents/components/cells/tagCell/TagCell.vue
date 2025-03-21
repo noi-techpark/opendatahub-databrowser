@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRefs, useAttrs } from 'vue';
+import { computed, toRefs, useAttrs } from 'vue';
 import EditListCell from '../../utils/editList/EditListCell.vue';
 import TagTable from './TagTable.vue';
 import { useAttributeMapper } from './useAttributeMapper';
@@ -40,7 +40,7 @@ const { tags, sortByLabel, unique } = toRefs(props);
 
 const attrs = useAttrs();
 
-const { options } = useAttributeMapper(ref(attrs), sortByLabel);
+const { options } = useAttributeMapper(attrs, sortByLabel);
 
 const enableUniqueValue = computed(() => {
   // if unique is a boolean, return it

@@ -56,6 +56,9 @@ export const imageTableCell = (): PropertyConfig => ({
   objectMapping: {
     src: 'ImageGallery.0.ImageUrl',
   },
+  params: {
+    allowFullscreen: 'true',
+  },
 });
 
 export const mainImageCell = (): PropertyConfig => ({

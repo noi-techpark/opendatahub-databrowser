@@ -8,28 +8,27 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <AppLayout>
     <OverviewListPageHero />
 
-    <PageGridContent class="grow gap-3 lg:gap-3">
-      <div class="flex md:gap-8">
-        <div class="shrink-0 md:w-64" />
-        <div class="flex w-full flex-col gap-6 md:flex-row md:gap-0">
-          <h1 class="grow text-2xl font-semibold text-gray-900">
-            {{ isOtherDatasetsLoading ? '...' : visibleDatasets?.length }}
-            {{
-              !isOtherDatasetsLoading && visibleDatasets?.length === 1
-                ? t('overview.listPage.datasetFound')
-                : t('overview.listPage.datasetsFound')
-            }}
-          </h1>
-          <InputCustom
-            v-model="filters.searchVal"
-            :placeholder="t('overview.listPage.searchDataset')"
-            type="search"
-            input-classes="w-full md:w-64"
-          />
-        </div>
-      </div>
+    <PageGridContent v-if="!mapVisible" class="grow gap-3 lg:gap-3">
+      <div class="flex w-full flex-col items-start gap-2 md:flex-row md:gap-10">
+        <!-- Mobile search -->
+        <OverviewListSearch
+          v-model:search-term="filters.searchVal"
+          :updated-filters="updatedFilters"
+          class="md:hidden"
+          :is-other-datasets-loading="isMetaDataLoading"
+          :visible-datasets="visibleDatasets"
+        />
 
-      <div class="flex w-full flex-col items-start gap-8 md:flex-row">
+        <!-- Mobile map button -->
+        <ButtonCustom
+          :size="Size.xm2col"
+          class="flex items-center justify-center gap-2 uppercase md:hidden"
+          @click="showMap()"
+        >
+          <IconLocationOn />
+          {{ t('overview.listPage.showOnMap') }}
+        </ButtonCustom>
+
         <!-- Mobile filters button -->
         <button
           class="flex w-full shrink-0 items-center gap-2 rounded border border-gray-300 px-3 py-2 font-semibold text-green-400 md:hidden"
@@ -47,128 +46,223 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <IconFilter class="mr-2 size-3" />
         </button>
 
-        <!-- Filters -->
-        <div
-          class="fixed inset-0 w-full shrink-0 rounded border border-gray-300 bg-white pb-3 md:relative md:block md:w-64"
-          :class="{
-            hidden: !isFiltersModalVisible,
-          }"
-        >
-          <!-- Title -->
+        <div class="flex flex-col gap-3">
+          <!-- Desktop map button -->
           <div
-            class="fixed top-0 z-10 flex w-full items-center gap-1 bg-white md:relative"
+            class="hidden shrink-0 items-center justify-center bg-auto md:flex md:w-64 md:bg-[url('/map-black-white.jpg')]"
           >
-            <h3
-              class="flex grow items-center gap-2 px-3 py-2 text-2xl font-semibold text-gray-900"
+            <ButtonCustom
+              class="flex items-center justify-center gap-2 uppercase md:my-16"
+              :size="Size.xm2col"
+              @click="showMap()"
             >
-              {{ t('overview.listPage.filter') }}
-              <div
-                v-if="appliedFiltersNum"
-                class="rounded bg-gray-200 px-2 text-sm text-gray-900"
-              >
-                {{ appliedFiltersNum }}
-              </div>
-            </h3>
-
-            <ResetAllFilters
-              class="mr-3 text-xs"
-              @reset-all-filters="resetFilters"
-            />
-            <button
-              class="mr-3 flex size-6 items-center justify-center rounded border border-gray-300 text-green-400 md:hidden"
-              @click="hideFilters"
-            >
-              <IconClose class="size-4" />
-            </button>
+              <IconLocationOn />
+              {{ t('overview.listPage.showOnMap') }}
+            </ButtonCustom>
           </div>
 
-          <!-- Filters list -->
-          <div class="h-full overflow-y-auto py-14 md:h-auto md:p-0">
-            <button
-              class="w-full truncate border-t border-gray-300 px-3 py-2 text-left text-dialog"
-              @click="toggleFilter('hasNoMetadata')"
+          <!-- Filters -->
+          <div
+            class="fixed inset-0 w-full shrink-0 rounded border border-gray-300 bg-white pb-3 md:relative md:block md:w-64"
+            :class="{
+              hidden: !isFiltersModalVisible,
+            }"
+          >
+            <!-- Title -->
+            <div
+              class="fixed top-0 z-10 flex w-full items-center gap-1 bg-white md:relative"
             >
-              <ToggleCustom
-                ref="metadataToggle"
-                v-model="_inputModels.hasNoMetadata"
-                class="mr-2"
+              <h3
+                class="flex grow items-center gap-2 px-3 py-2 text-2xl font-semibold text-gray-900"
+              >
+                {{ t('overview.listPage.filter') }}
+                <div
+                  v-if="appliedFiltersNum"
+                  class="rounded bg-gray-200 px-2 text-sm text-gray-900"
+                >
+                  {{ appliedFiltersNum }}
+                </div>
+              </h3>
+
+              <ResetAllFilters
+                class="mr-3 text-xs"
+                @reset-all-filters="resetFilters"
               />
-              {{ t('overview.listPage.noMetadataAvailable') }}
-            </button>
-            <button
-              class="w-full truncate border-t border-gray-300 px-3 py-2 text-left text-dialog"
-              @click="toggleFilter('deprecated')"
-            >
-              <ToggleCustom v-model="_inputModels.deprecated" class="mr-2" />
-              {{ t('overview.listPage.deprecated') }}
-            </button>
-            <Accordion
-              v-for="filter in dynamicFilters"
-              :key="filter.id"
-              :text="filter.name"
-              button-class="font-semibold text-gray-900 pb-2 px-4"
-              :badge-value="getActiveFiltersCountOfGroup(filter.id as TourismMetaDataIndexes)"
-              class="border-t border-gray-300 pt-2 text-dialog"
-            >
-              <div
-                v-for="option in filter.data"
-                :key="option.key"
-                class="flex items-center border-t border-gray-300 px-4 py-2"
+              <button
+                class="mr-3 flex size-6 items-center justify-center rounded border border-gray-300 text-green-400 md:hidden"
+                @click="hideFilters"
               >
-                <CheckboxCustom
-                  v-model="_inputModels[getInputModelId(filter.id as TourismMetaDataIndexes, option.value)]"
-                  class="mr-2"
-                  :label="option.value"
-                  @input="toggleFilter(filter.id, option.key)"
-                />
-                <InfoPopover v-if="filter.id === 'singleDataset'" class="ml-2">
-                  <PopoverCustomPanel>
-                    <PopoverContent>
-                      {{ getSingleDatasetPopoverDescription(option.key) }}
-                    </PopoverContent>
-                  </PopoverCustomPanel>
-                </InfoPopover>
-              </div>
-            </Accordion>
-          </div>
+                <IconClose class="size-4" />
+              </button>
+            </div>
 
-          <!-- Action buttons -->
-          <div
-            class="fixed bottom-0 flex w-full gap-3 border-t border-gray-300 bg-white px-3 py-4 md:relative md:w-auto md:py-3 md:pb-0"
-          >
-            <ResetAllFilters
-              class="flex flex-1 items-center justify-center text-sm"
-              @reset-all-filters="resetFilters"
-            />
-            <button
-              class="flex flex-1 cursor-pointer select-none items-center justify-center gap-1 rounded border border-gray-300 bg-green-400 py-1 text-sm text-white md:hidden"
-              @click="hideFilters"
+            <!-- Filters list -->
+            <div class="h-full overflow-y-auto py-14 md:h-auto md:p-0">
+              <button
+                class="w-full truncate border-t border-gray-300 px-3 py-2 text-left text-dialog"
+                @click="toggleFilter('hasNoMetadata')"
+              >
+                <ToggleCustomHomePage
+                  ref="metadataToggle"
+                  v-model="_inputModels.hasNoMetadata"
+                  :filter-key="'hasNoMetadata'"
+                  :filter-selected="filterSelectedForComponent"
+                  class="mr-2"
+                />
+                {{ t('overview.listPage.noMetadataAvailable') }}
+              </button>
+              <button
+                class="w-full truncate border-t border-gray-300 px-3 py-2 text-left text-dialog"
+                @click="toggleFilter('deprecated')"
+              >
+                <div class="flex items-center gap-2">
+                  <div>
+                    <ToggleCustomHomePage
+                      v-model="_inputModels.deprecated"
+                      :filter-key="'deprecated'"
+                      :filter-selected="filterSelectedForComponent"
+                      class="mr-2"
+                    />
+                    {{ t('overview.listPage.deprecated') }}
+                  </div>
+                  <div>
+                    <InfoPopover>
+                      <PopoverCustomPanel>
+                        <PopoverContentHeader class="pb-0">
+                          {{
+                            t(
+                              'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.header'
+                            )
+                          }}
+                        </PopoverContentHeader>
+                        <PopoverContent
+                          class="flex max-w-sm flex-col gap-3 pt-2"
+                        >
+                          {{
+                            t(
+                              'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.body'
+                            )
+                          }}
+                          <ButtonExternalLink
+                            class="flex items-center justify-center p-2"
+                            target="_blank"
+                            :href="
+                              t(
+                                'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.linkHref'
+                              )
+                            "
+                            :size="Size.xs"
+                            :variant="Variant.ghost"
+                          >
+                            {{
+                              t(
+                                'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.linkText'
+                              )
+                            }}
+                          </ButtonExternalLink>
+                        </PopoverContent>
+                      </PopoverCustomPanel>
+                    </InfoPopover>
+                  </div>
+                </div>
+              </button>
+              <Accordion
+                v-for="filter in dynamicFilters"
+                :key="filter.id"
+                :text="filter.name"
+                :accordion-id="filter.id"
+                :filter-selected="filterSelectedForComponent"
+                button-class="font-semibold text-gray-900 pb-2 px-4"
+                :badge-value="
+                  getActiveFiltersCountOfGroup(
+                    filter.id as TourismMetaDataIndexes
+                  )
+                "
+                class="border-t border-gray-300 pt-2 text-dialog"
+              >
+                <div
+                  v-for="option in filter.data"
+                  :key="option.key"
+                  class="flex items-center border-t border-gray-300 px-4 py-2"
+                >
+                  <CheckboxCustomHomePage
+                    v-model="
+                      _inputModels[
+                        getInputModelId(
+                          filter.id as TourismMetaDataIndexes,
+                          option.value
+                        )
+                      ]
+                    "
+                    class="mr-2"
+                    :filter-key="filter.id?.toLowerCase()"
+                    :filter-label="option.key?.toLowerCase()"
+                    :label="option.value"
+                    :key="option.key"
+                    :filter-selected="filterSelectedForComponent"
+                    @input="toggleFilter(filter.id, option.key)"
+                  />
+                  <InfoPopover
+                    v-if="filter.id === 'singleDataset'"
+                    class="ml-2"
+                  >
+                    <PopoverCustomPanel>
+                      <PopoverContent>
+                        {{ getSingleDatasetPopoverDescription(option.key) }}
+                      </PopoverContent>
+                    </PopoverCustomPanel>
+                  </InfoPopover>
+                </div>
+              </Accordion>
+            </div>
+
+            <!-- Action buttons -->
+            <div
+              class="fixed bottom-0 flex w-full gap-3 border-t border-gray-300 bg-white px-3 py-4 md:relative md:w-auto md:py-3 md:pb-0"
             >
-              {{ t('overview.listPage.applyFilters') }}
-            </button>
+              <ResetAllFilters
+                class="flex flex-1 items-center justify-center text-sm"
+                @reset-all-filters="resetFilters"
+              />
+              <button
+                class="flex flex-1 cursor-pointer select-none items-center justify-center gap-1 rounded border border-gray-300 bg-green-400 py-1 text-sm text-white md:hidden"
+                @click="hideFilters"
+              >
+                {{ t('overview.listPage.applyFilters') }}
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Results -->
-        <div class="flex min-h-screen w-full flex-col gap-4">
-          <div v-if="isOtherDatasetsLoading" class="animate-pulse">
-            {{ t('overview.listPage.loadOtherDatasets') }}
-          </div>
-          <template v-else>
-            <OverviewCardItem
-              v-for="(dataset, index) in visibleDatasets"
-              :key="index"
-              :dataset="dataset"
-              :data-test="`dataset-card-${dataset.id}`"
-              class="break-words"
-            />
-            <div
-              v-if="!visibleDatasets.length"
-              class="flex items-center justify-center rounded border border-gray-300 p-3"
-            >
-              {{ t('overview.listPage.noDatasetFoundWithSelectedFilters') }}
+        <div class="w-full">
+          <OverviewListSearch
+            v-model:search-term="filters.searchVal"
+            :updated-filters="updatedFilters"
+            class="mb-3 hidden md:flex"
+            :is-other-datasets-loading="isMetaDataLoading"
+            :visible-datasets="visibleDatasets"
+          />
+          <!-- Results -->
+          <div class="flex min-h-screen flex-col gap-4">
+            <div v-if="isMetaDataLoading" class="animate-pulse">
+              {{ t('overview.listPage.loadOtherDatasets') }}
             </div>
-          </template>
+            <template v-else>
+              <OverviewCardItem
+                v-for="(dataset, index) in visibleDatasets"
+                :key="index"
+                :dataset="dataset"
+                :data-test="`dataset-card-${dataset.id}`"
+                class="break-words"
+              />
+              <div
+                v-if="!visibleDatasets.length"
+                class="flex items-center justify-center rounded border border-gray-300 p-3"
+              >
+                {{ t('overview.listPage.noDatasetFoundWithSelectedFilters') }}
+              </div>
+            </template>
+          </div>
         </div>
       </div>
 
@@ -176,34 +270,61 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
       <PartnersAndContributors />
     </PageGridContent>
+
+    <MapViewAsDialog v-if="mapVisible" @close="hideMap" />
   </AppLayout>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-const { t } = useI18n();
-
+import { computed, onBeforeMount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import Accordion from '../../../components/accordion/Accordion.vue';
+import ButtonCustom from '../../../components/button/ButtonCustom.vue';
+import { Size, Variant } from '../../../components/button/types';
 import CardDivider from '../../../components/card/CardDivider.vue';
-import CheckboxCustom from '../../../components/checkbox/CheckboxCustom.vue';
 import PageGridContent from '../../../components/content/PageGridContent.vue';
-import InputCustom from '../../../components/input/InputCustom.vue';
 import PartnersAndContributors from '../../../components/partners/PartnersAndContributors.vue';
 import InfoPopover from '../../../components/popover/InfoPopover.vue';
 import PopoverContent from '../../../components/popover/PopoverContent.vue';
 import PopoverCustomPanel from '../../../components/popover/PopoverCustomPanel.vue';
 import IconClose from '../../../components/svg/IconClose.vue';
 import IconFilter from '../../../components/svg/IconFilter.vue';
-import ToggleCustom from '../../../components/toggle/ToggleCustom.vue';
+import IconLocationOn from '../../../components/svg/IconLocationOn.vue';
 import { embeddedDatasetConfigs } from '../../../config/config';
 import { DatasetConfig } from '../../../domain/datasets/config/types';
+import MapViewAsDialog from '../../../domain/datasets/ui/mapView/MapViewAsDialog.vue';
 import ResetAllFilters from '../../../domain/datasets/ui/tableView/filter/ResetAllFilters.vue';
 import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
 import AppLayout from '../../../layouts/AppLayout.vue';
 import OverviewCardItem from './OverviewCardItem.vue';
-import { useMetaDataDatasets, useOtherDatasets } from './useDatasets';
 import OverviewListPageHero from './OverviewListPageHero.vue';
+import ButtonExternalLink from '../../../components/button/ButtonExternalLink.vue';
+import PopoverContentHeader from '../../../components/popover/PopoverContentHeader.vue';
+import OverviewListSearch from './OverviewListSearch.vue';
+import { useMetaDataForAllDatasets } from './useDatasets';
+import {
+  getStartedQuery,
+  useUpdateURL,
+} from '../../../domain/homepage/utils.ts';
+import CheckboxCustomHomePage from '../../../components/checkbox/CheckboxCustomHomePage.vue';
+import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePage.vue';
+
+const { t } = useI18n();
+
+const router = useRouter();
+
+const showMap = () =>
+  router.push({ query: { ...router.currentRoute.value.query, map: 'true' } });
+
+const hideMap = () =>
+  router.push({
+    query: { ...router.currentRoute.value.query, map: undefined },
+  });
+
+const mapVisible = computed(
+  () => router.currentRoute.value.query.map === 'true'
+);
 
 type TourismMetaDataIndexes =
   | 'dataSpace'
@@ -309,8 +430,47 @@ const hideFilters = () => {
   isFiltersModalVisible.value = false;
 };
 
+const filterSelectedForComponent = ref<{ key: string; value: string }[]>([]);
+
+const initializeFiltersAndSearch = () => {
+  const { filterQuery, searchQuery } = getStartedQuery();
+  if (
+    !searchQuery &&
+    searchQuery !== '' &&
+    !filterQuery &&
+    filterQuery.length === 0
+  ) {
+    return;
+  }
+  if (searchQuery) {
+    filters.value.searchVal = searchQuery;
+    if (!filterQuery && filterQuery.length === 0)
+      useUpdateURL(router, [], searchQuery);
+  }
+  if (filterQuery && filterQuery.length > 0) {
+    filterSelectedForComponent.value = decodeURIComponent(filterQuery)
+      .split('&')
+      .map((filter) => {
+        const [key, ...valueParts] = filter.split('-');
+        const value =
+          key === 'hasNoMetadata' || key === 'deprecated'
+            ? ''
+            : valueParts.join('-');
+        toggleFilter(key, value);
+        return { key, value };
+      });
+  }
+};
+
+onBeforeMount(() => {
+  return initializeFiltersAndSearch();
+});
+
 const resetFilters = () => {
+  useUpdateURL(router, [], '');
+
   filters.value = structuredClone(defaultFilters);
+  filterSelectedForComponent.value = [];
 
   for (const [key] of Object.entries(_inputModels.value)) {
     _inputModels.value[key] = false;
@@ -323,12 +483,40 @@ const isFilterEnabled = (key: string, value?: string) => {
   return filters.value.applied[filterFullKey] !== undefined;
 };
 
+const updatedFilters = ref<string[]>([]);
+
+const createStringFilter = (key: string, value?: string) => {
+  return key === 'hasNoMetadata' || key === 'deprecated'
+    ? `${key}-true`
+    : `${key}-${value}`;
+};
+
+const getParams = (): string[] => {
+  const query = router.currentRoute.value.query;
+  const filterQuery = query['filterQuery'] ? query['filterQuery'] : [];
+
+  return typeof filterQuery === 'string' ? filterQuery.split('&') : [];
+};
+
 const toggleFilter = (key: string, value?: string) => {
+  const filterString = createStringFilter(key, value);
+  const currentFilters: string[] = getParams();
   if (isFilterEnabled(key, value)) {
+    if (currentFilters.includes(filterString)) {
+      updatedFilters.value = currentFilters.filter(
+        (filter) => filter !== filterString
+      );
+    }
     unsetFilter(key, value);
   } else {
+    updatedFilters.value = [...currentFilters, filterString].filter(
+      (filter, index, self) => self.findIndex((f) => f === filter) === index
+    );
+
     setFilter(key, value);
   }
+
+  useUpdateURL(router, updatedFilters.value, filters.value.searchVal);
 };
 
 const setFilter = (key: string, value?: string) => {
@@ -472,12 +660,10 @@ const dynamicFilters = computed(
     ] as DynamicFilter[]
 );
 
-const allDatasets = computed(() => {
-  return [...metaDataDatasets.value, ...tourismDatasets.value];
-});
+const { metaData, isMetaDataLoading } = useMetaDataForAllDatasets();
 
 const visibleDatasets = computed(() => {
-  let datasets = allDatasets.value;
+  let datasets = [...metaData.value];
 
   if (filters.value.searchVal) {
     datasets = datasets.filter((dataset) =>
@@ -498,13 +684,20 @@ const visibleDatasets = computed(() => {
   }
 
   for (const [key, acceptedValues] of Object.entries(filterGroups)) {
+    const parsedAcceptedValues = acceptedValues.map((value) => {
+      if (value === 'true' || value === 'false') {
+        return JSON.parse(value);
+      }
+      return value;
+    });
+
     switch (key) {
       case 'hasNoMetadata':
       case 'deprecated':
       case 'dataSpace':
       case 'access':
         datasets = datasets.filter((dataset) =>
-          acceptedValues.includes(
+          parsedAcceptedValues.includes(
             dataset[key as TourismMetaDataIndexes] as string | boolean
           )
         );
@@ -520,7 +713,7 @@ const visibleDatasets = computed(() => {
           ]! as string[];
           if (filtrableValues?.length) {
             return filtrableValues.find((value) =>
-              acceptedValues.includes(value)
+              parsedAcceptedValues.includes(value)
             );
           }
         });
@@ -528,12 +721,12 @@ const visibleDatasets = computed(() => {
 
       case 'singleDataset':
         if (
-          !acceptedValues.includes('aggregated') ||
-          !acceptedValues.includes('single')
+          !parsedAcceptedValues.includes('aggregated') ||
+          !parsedAcceptedValues.includes('single')
         ) {
           datasets = datasets.filter((dataset) => {
             let matchPref = true;
-            if (acceptedValues.includes('aggregated')) {
+            if (parsedAcceptedValues.includes('aggregated')) {
               matchPref = false;
             }
             return (
@@ -545,8 +738,8 @@ const visibleDatasets = computed(() => {
 
       case 'datasetConfigurations':
         if (
-          !acceptedValues.includes('with') ||
-          !acceptedValues.includes('without')
+          !parsedAcceptedValues.includes('with') ||
+          !parsedAcceptedValues.includes('without')
         ) {
           datasets = datasets.filter((dataset) => {
             const datasetPath = dataset.pathSegments.join('/');
@@ -559,7 +752,9 @@ const visibleDatasets = computed(() => {
                 (dataset) =>
                   dataset.route.pathSegments.join('/') === datasetPath
               ) !== undefined;
-            return acceptedValues.includes('with') ? hasConfig : !hasConfig;
+            return parsedAcceptedValues.includes('with')
+              ? hasConfig
+              : !hasConfig;
           });
         }
         break;
@@ -570,27 +765,27 @@ const visibleDatasets = computed(() => {
 });
 
 const availableDataSpaces = computed(() => {
-  return mapDatasetsKeyStringToFilterItems(allDatasets.value, 'dataSpace');
+  return mapDatasetsKeyStringToFilterItems(metaData.value, 'dataSpace');
 });
 
 const availableCategories = computed(() => {
-  return mapDatasetsKeyArrayToFilterItems(allDatasets.value, 'categories');
+  return mapDatasetsKeyArrayToFilterItems(metaData.value, 'categories');
 });
 
 const availableDataProviders = computed(() => {
-  return mapDatasetsKeyArrayToFilterItems(allDatasets.value, 'dataProviders');
+  return mapDatasetsKeyArrayToFilterItems(metaData.value, 'dataProviders');
 });
 
 const availableSources = computed(() => {
-  return mapDatasetsKeyArrayToFilterItems(allDatasets.value, 'sources');
+  return mapDatasetsKeyArrayToFilterItems(metaData.value, 'sources');
 });
 
 const availableTags = computed(() => {
-  return mapDatasetsKeyArrayToFilterItems(allDatasets.value, 'tags');
+  return mapDatasetsKeyArrayToFilterItems(metaData.value, 'tags');
 });
 
 const availableAccessTypes = computed(() => {
-  return mapDatasetsKeyStringToFilterItems(allDatasets.value, 'access');
+  return mapDatasetsKeyStringToFilterItems(metaData.value, 'access');
 });
 
 const availableDatasetFilters = computed(() => {
@@ -628,10 +823,4 @@ const availableDatasetConfigurations = computed(() => {
 const appliedFiltersNum = computed(() => {
   return Object.keys(filters.value.applied).length;
 });
-
-// Data fetch
-const { metaDataDatasets } = useMetaDataDatasets();
-
-const { isOtherDatasetsLoading, tourismDatasets } =
-  useOtherDatasets(metaDataDatasets);
 </script>

@@ -17,12 +17,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </AlertError>
     <div
       ref="dropZoneRef"
-      class="flex h-24 w-full items-center justify-center rounded border-2 border-dashed"
+      class="hidden h-24 w-full items-center justify-center rounded border-2 border-dashed md:flex"
       :class="{ 'border-green-400': isOverDropZone, hidden: uploading }"
     >
       {{ uploadText }} or &nbsp;
       <button type="button" class="text-green-500" @click="open()">
         browse
+      </button>
+    </div>
+    <div class="flex w-full justify-center md:hidden">
+      <button
+        type="button"
+        class="inline-flex h-9 items-center gap-2 rounded border border-transparent bg-green-500 px-3 py-1 text-base leading-tight text-white no-underline hover:bg-green-700 focus-visible:bg-green-700 focus-visible:outline-none md:flex"
+        @click="open()"
+      >
+        Add files
       </button>
     </div>
     <div

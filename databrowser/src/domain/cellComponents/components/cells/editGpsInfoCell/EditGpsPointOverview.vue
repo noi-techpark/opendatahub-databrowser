@@ -5,35 +5,39 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EditGpsPoint
+  <EditGpsPointBase
     :title="title"
-    :cta-icon="ctaIcon"
-    :icons-active="iconsActive"
-    @cta-click="$emit('ctaClick', $event)"
+    :editable="editable"
+    :is-editing="isEditing"
+    @edit="emit('edit')"
+    @expand="emit('expand')"
   >
     <div :class="{ 'p-4': !contentHasNoPadding }">
       <slot name="content"></slot>
     </div>
-  </EditGpsPoint>
+  </EditGpsPointBase>
 </template>
 
 <script setup lang="ts">
-import EditGpsPoint from './EditGpsPointBase.vue';
+import EditGpsPointBase from './EditGpsPointBase.vue';
 
 withDefaults(
   defineProps<{
     title?: string;
     contentHasNoPadding?: boolean;
-    ctaIcon?: string | Array<string>;
-    iconsActive?: Array<string>;
+    editable?: boolean;
+    isEditing?: boolean;
   }>(),
   {
     title: '',
     contentHasNoPadding: false,
-    ctaIcon: '',
-    iconsActive: () => [],
+    editable: false,
+    isEditing: false,
   }
 );
 
-defineEmits(['ctaClick']);
+const emit = defineEmits<{
+  (e: 'edit'): void;
+  (e: 'expand'): void;
+}>();
 </script>

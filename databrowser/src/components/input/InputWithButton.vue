@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   >
     <slot v-if="showIcon" name="icon"></slot>
     <ButtonCustom
-      v-if="showConfirmButton && showButtonOnLeft"
+      v-if="hasConfirmButton && showButtonOnLeft"
       class="flex h-3 items-center gap-2 rounded p-2"
       aria-label="Search"
       :size="Size.xs"
@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="id"
       ref="inputRef"
       v-model="text"
-      class="w-full grow border-none bg-transparent focus:ring-0"
+      class="w-full border-none bg-transparent focus:ring-0"
       :placeholder="labelPlaceholder"
       :disabled="disabled"
       :data-test="`${id}-input`"
@@ -38,8 +38,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
     <div class="flex items-center gap-2">
       <button
-        class="p-[3px] text-green-500 opacity-0"
-        :class="{ 'opacity-100': hasText }"
+        class="p-[3px] text-green-500"
+        :class="{ hidden: !hasText }"
         :data-test="`${id}-reset-search`"
         :disabled="!hasText || disabled"
         @click="deleteText"
@@ -47,7 +47,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <IconClose class="size-4" />
       </button>
       <ButtonCustom
-        v-if="showConfirmButton && !showButtonOnLeft"
+        v-if="hasConfirmButton && !showButtonOnLeft"
         class="-m-1 flex items-center gap-2 rounded p-2 md:px-3 md:py-1"
         aria-label="Search"
         :size="Size.xs"
@@ -87,6 +87,7 @@ const props = withDefaults(
     showIconInButton?: boolean;
     showIcon?: boolean;
     showButtonTextMobile?: boolean;
+    showConfirmButton?: boolean;
   }>(),
   {
     modelValue: undefined,
@@ -97,6 +98,7 @@ const props = withDefaults(
     labelPlaceholder: undefined,
     showButtonOnLeft: false,
     showIconInButton: true,
+    showConfirmButton: true,
   }
 );
 
@@ -137,7 +139,9 @@ const deleteText = () => {
 const emitConfirmedValue = () => emit('confirmedValue', text.value);
 
 const slots = useSlots();
-const showConfirmButton = computed(
-  () => props.labelButton != null || slots['icon'] != null
+const hasConfirmButton = computed(
+  () =>
+    props.showConfirmButton &&
+    (props.labelButton != null || slots['icon'] != null)
 );
 </script>

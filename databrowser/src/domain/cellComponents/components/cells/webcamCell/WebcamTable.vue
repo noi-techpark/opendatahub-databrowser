@@ -28,22 +28,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <template #tableCols="{ item }: { item: WebcamEntry }">
       <TableCell>
-        <UseFullscreen
-          v-slot="{ toggle, isFullscreen }"
-          class="flex items-center justify-center md:items-stretch"
-        >
-          <div
-            class="group relative flex cursor-pointer justify-center"
-            :class="{ 'items-center': !isFullscreen }"
-            @click="toggle()"
-          >
-            <img :src="item.imageUrl" :alt="item.name" class="object-fit" />
-            <IconExpanded
-              v-if="!isFullscreen"
-              class="absolute text-white transition-all group-hover:scale-125"
-            />
-          </div>
-        </UseFullscreen>
+        <UseClickableFullscreen>
+          <img :src="item.imageUrl" :alt="item.name" class="object-fit" />
+        </UseClickableFullscreen>
       </TableCell>
       <TableCell>{{ item.name }}</TableCell>
       <TableCell>
@@ -62,16 +49,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import TableHeaderCell from '../../../../../components/table/TableHeaderCell.vue';
+import UseClickableFullscreen from '../../../../../components/fullscreen/UseClickableFullscreen.vue';
 import TableCell from '../../../../../components/table/TableCell.vue';
-import EditListTable from '../../utils/editList/table/EditListTable.vue';
+import TableHeaderCell from '../../../../../components/table/TableHeaderCell.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
-import UseFullscreen from '../../../../../components/fullscreen/UseFullscreen.vue';
-import IconExpanded from '../../../../../components/svg/IconExpanded.vue';
-import { WebcamEntry } from './types';
-import UrlCell from '../UrlCell/UrlCell.vue';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';
+import EditListTable from '../../utils/editList/table/EditListTable.vue';
+import UrlCell from '../UrlCell/UrlCell.vue';
+import { WebcamEntry } from './types';
 
 defineProps<{ items: WebcamEntry[] }>();
 

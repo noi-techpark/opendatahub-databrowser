@@ -11,6 +11,7 @@ export enum FilterLanguage {
   PL = 'pl',
   FR = 'fr',
   RU = 'ru',
+  LD = 'ld',
 }
 
 export const defaultLanguage = FilterLanguage.EN;

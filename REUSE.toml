@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+version = 1
+SPDX-PackageName = "it.bz.opendatahub.databrowser"
+SPDX-PackageSupplier = "NOI Techpark <digital@noi.bz.it>"
+SPDX-PackageDownloadLocation = "https://github.com/noi-techpark/it.bz.opendatahub.databrowser"
+
+[[annotations]]
+path = [".githooks/**", ".github/**", ".husky/**", "infrastructure/**", ".gitignore", ".gitattributes", "databrowser/.env.example", "databrowser/.gitignore", "databrowser/.editorconfig", "databrowser/.prettierrc", "databrowser/.vscode", "databrowser/**.json", "databrowser/public/fonts/**", "databrowser/public/**.png", "databrowser/public/**.svg", "databrowser/public/map-black-white.jpg", "databrowser/public/home/data.jpg", "databrowser/public/favicon.ico", "databrowser/public/site.webmanifest", "databrowser/src/assets/**", "databrowser/src/locales/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "(c) NOI Techpark <digital@noi.bz.it>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "databrowser/src/cookieconsent/cookieconsent.css"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "(c) 2020-2023 Orest Bida"
+SPDX-License-Identifier = "MIT"

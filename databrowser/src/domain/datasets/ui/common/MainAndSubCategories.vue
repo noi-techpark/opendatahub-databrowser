@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div
       v-if="slug !== ''"
       ref="container"
-      class="flex-1 overflow-y-auto pb-12 md:h-full md:px-20 md:py-3"
+      class="flex-1 overflow-y-auto pb-20 md:h-full md:px-20 md:py-3"
     >
       <EditHint v-if="showEditHint" class="mb-8" />
       <SubCategories

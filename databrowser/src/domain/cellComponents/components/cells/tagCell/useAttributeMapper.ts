@@ -2,9 +2,13 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { ref, Ref, watch } from 'vue';
+import { MaybeRef, ref, Ref, toValue, watch } from 'vue';
 import { SelectOption } from '../../../../../components/select/types';
-import { buildOptions, mapToOptionsWithKeys, mapToOptionsWithKeysAndValues } from '../../utils/selectOptions/selectOptionsMapperUtils';
+import {
+  buildOptions,
+  mapToOptionsWithKeys,
+  mapToOptionsWithKeysAndValues,
+} from '../../utils/selectOptions/selectOptionsMapperUtils';
 
 // The select options are provided as attributes of form
 // "value_XXX" and "label_XXX"; they must be transformed in
@@ -14,21 +18,24 @@ import { buildOptions, mapToOptionsWithKeys, mapToOptionsWithKeysAndValues } fro
 // value "Eurac" are merged into the following SelectOption:
 // {value: "EC", label: "Eurac"}
 export const useAttributeMapper = (
-  attrs: Ref<Record<string, unknown>>,
-  sortByLabel: Ref<boolean>
-) => {
+  attrs: MaybeRef<Record<string, unknown>>,
+  sortByLabel: MaybeRef<boolean>
+): { options: Ref<SelectOption[]> } => {
   const options = ref<SelectOption[]>([]);
 
   watch(
-    () => [attrs.value],
+    () => [toValue(attrs)],
     () => {
-      const optionsWithKeys = mapToOptionsWithKeys(attrs.value);
+      const attrsValue = toValue(attrs);
+      const sortByLabelValue = toValue(sortByLabel);
+
+      const optionsWithKeys = mapToOptionsWithKeys(attrsValue);
       const optionsWithKeysAndValues = mapToOptionsWithKeysAndValues(
-        attrs.value,
+        attrsValue,
         optionsWithKeys
       );
 
-      options.value = buildOptions(optionsWithKeysAndValues, sortByLabel.value);
+      options.value = buildOptions(optionsWithKeysAndValues, sortByLabelValue);
     },
     { immediate: true }
   );

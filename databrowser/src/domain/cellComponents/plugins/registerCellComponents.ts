@@ -22,7 +22,7 @@ import EditRoomBookedCell from '../components/cells/editRoomBookedCell/EditRoomB
 import EditRoomVenueCell from '../components/cells/editRoomVenueCell/EditRoomVenueCell.vue';
 import EditVideoItemsCell from '../components/cells/editVideoItemsCell/EditVideoItemsCell.vue';
 import EventDocumentCell from '../components/cells/eventDocumentCell/EventDocumentCell.vue';
-import GpsPointMap from '../../../components/map/GpsPointMap.vue';
+import GpsPointMap from '../components/cells/editGpsInfoCell/GpsPointMap.vue';
 import GpsPointsCell from '../components/cells/gpsPointsCell/GpsPointsCell.vue';
 import HtmlCell from '../components/cells/htmlCell/HtmlCell.vue';
 import InputReferenceCell from '../components/cells/inputReferenceCell/InputReferenceCell.vue';
@@ -52,6 +52,7 @@ import TypeBasedCell from '../components/cells/typeBasedCell/TypeBasedCell.vue';
 import WebcamCell from '../components/cells/webcamCell/WebcamCell.vue';
 import RelatedContentCell from '../components/cells/relatedContentCell/RelatedContentCell.vue';
 import PushConfigCell from '../components/cells/pushConfigCell/PushConfigCell.vue';
+import SyncDataConfigCell from '../components/cells/syncDataConfigCell/SyncDataConfigCell.vue';
 import UpdateHistoryCell from '../components/cells/updateHistoryCell/UpdateHistoryCell.vue';
 
 import { CellComponent } from '../types';
@@ -112,6 +113,7 @@ export default {
     app.component(CellComponent.WebcamCell, WebcamCell);
     app.component(CellComponent.RelatedContentCell, RelatedContentCell);
     app.component(CellComponent.PushConfigCell, PushConfigCell);
+    app.component(CellComponent.SyncDataConfigCell, SyncDataConfigCell);
     app.component(CellComponent.UpdateHistoryCell, UpdateHistoryCell);
   },
 };

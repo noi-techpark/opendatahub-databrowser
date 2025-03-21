@@ -16,7 +16,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
       - name: REUSE Compliance Check
-        uses: fsfe/reuse-action@v1
+        uses: fsfe/reuse-action@v5
       - name: Test code
         uses: noi-techpark/github-actions/npm-test@v2
         with:
@@ -122,6 +122,54 @@ jobs:
   #         docker-username: "noi-techpark-bot"
   #         docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
   #         project-name: ${{ env.PROJECT_NAME }}
+
+  deploy-impact:
+    runs-on: ubuntu-22.04
+    if: github.ref == 'refs/heads/impact'
+    needs: test
+    concurrency: deploy-impact
+    env:
+      SERVER_PORT: 1010
+      DOCKER_TAG: ${{ github.sha }}
+      VITE_APP_KEYCLOAK_URL: "https://auth.opendatahub.com/auth"
+      VITE_APP_KEYCLOAK_REALM: "noi"
+      VITE_APP_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.databrowser"
+      VITE_APP_KEYCLOAK_REDIRECT_URI: "https://databrowser.opendatahub.com/silent-check-sso.html"
+      VITE_APP_IMAGE_UPLOAD_URL: "https://tourism.opendatahub.com/v1/FileUpload/Image"
+      VITE_APP_FILE_UPLOAD_URL: "https://tourism.opendatahub.com/v1/FileUpload"
+      VITE_APP_ODH_LOOKUP_BASE_URL: "https://tourism.opendatahub.com"
+      VITE_APP_META_ROBOTS: ""
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Build code
+        uses: noi-techpark/github-actions/npm-build@v2
+        with:
+          working-directory: databrowser
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        with:
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+        env:
+          X_SERVER_PORT: ${{ env.SERVER_PORT }}
+          X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
+      - name: Build and push images
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          working-directory: infrastructure
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy application
+        uses: noi-techpark/github-actions/docker-deploy@v2
+        with:
+          working-directory: infrastructure/ansible
+          hosts: "impact"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-username: "noi-techpark-bot"
+          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          project-name: ${{ env.PROJECT_NAME }}
 
   deploy-prod:
     runs-on: ubuntu-22.04

@@ -221,13 +221,21 @@ export const echargingdataCategory = (
           params: { type: 'number' },
         },
         {
-          title: 'Manoeuvrng space signage present',
+          title: 'Barrier-free access space to charging point (monitor/pistol)',
+          component: CellComponent.ToggleTriStateCell,
+          objectMapping: {
+            enabled:
+              'AdditionalProperties.EchargingDataProperties.CarParkingSpaceNextToEachOther.BarrierFreeAccessSpacetoChargingPoint',
+          },
+        },
+        {
+          title: 'Barrier-free access space signage present',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
             enabled:
               'AdditionalProperties.EchargingDataProperties.CarParkingSpaceNextToEachOther.ManeuvringSpaceSignagePresent',
           },
-        },
+        },        
       ],
     },
     {
@@ -261,7 +269,7 @@ export const echargingdataCategory = (
           title: 'Pavement',
           component: CellComponent.SelectWithOptionsCell,
           objectMapping: {
-            text: 'AdditionalProperties.EchargingDataProperties.CarParkingSpaceBehindEachOther.Pavement',
+            value: 'AdditionalProperties.EchargingDataProperties.CarParkingSpaceBehindEachOther.Pavement',
           },
           params: {
             value_001: 'apshalt-cement',
@@ -293,13 +301,21 @@ export const echargingdataCategory = (
           params: { type: 'number' },
         },
         {
-          title: 'Manoeuvrng space signage present',
+          title: 'Barrier-free access space to charging point (monitor/pistol)',
+          component: CellComponent.ToggleTriStateCell,
+          objectMapping: {
+            enabled:
+              'AdditionalProperties.EchargingDataProperties.CarParkingSpaceBehindEachOther.BarrierFreeAccessSpacetoChargingPoint',
+          },
+        },
+        {
+          title: 'Barrier-free access space signage present',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
             enabled:
               'AdditionalProperties.EchargingDataProperties.CarParkingSpaceBehindEachOther.ManeuvringSpaceSignagePresent',
           },
-        },
+        },        
       ],
     },
     {
@@ -333,7 +349,7 @@ export const echargingdataCategory = (
           title: 'Shielding post in front of charging station',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            text: 'AdditionalProperties.EchargingDataProperties.ShieldingPostInFrontOfStation',
+            enabled: 'AdditionalProperties.EchargingDataProperties.ShieldingPostInFrontOfStation',
           },
         },
         {

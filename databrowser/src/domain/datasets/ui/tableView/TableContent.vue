@@ -38,6 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <tr
         v-for="({ recordId, values }, rowIndex) in rows"
         :key="recordId ?? rowIndex"
+        class="hover:bg-green-400/10"
         :class="{ 'bg-green-400/10': rowIndex === selectedRowIndex }"
         @click="rowClicked(rowIndex)"
         @dblclick="rowDblClicked(recordId)"
@@ -45,9 +46,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <TableCell
           v-for="(col, colIndex) in cols"
           :key="col.title"
-          :class="{
-            'mix-blend-multiply': rowIndex === selectedRowIndex,
-          }"
+          class="mix-blend-multiply"
         >
           <ComponentRenderer
             :tag-name="col.component"

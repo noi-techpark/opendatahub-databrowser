@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { ApiType } from '../types';
+
 export interface TourismMetaData {
   id: string;
   baseUrl: string;
@@ -21,7 +23,7 @@ export interface TourismMetaData {
   tags: string[];
   hasNoMetadata?: boolean;
   dataSpace?: string;
-  apiType?: string;
+  apiType: ApiType;
   categories: string[];
   dataProviders: string[];
   singleDataset?: boolean;

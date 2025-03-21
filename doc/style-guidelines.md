@@ -30,20 +30,21 @@ withDefaults(
 );
 ```
 
-2. The Tailwind classes shall be included in the Elements template and non separated in the style section of the component.
-3. Date manipulation should be performed using the date-fns library [https://date-fns.org/](https://date-fns.org/).
-4. SVGs should be inserted without fixed dimensions, without safety spaces, and without specifying the fill/stroke color. Instead, the currentColor property should be used.
-5. Plugins/libraries that are not useful throughout the project should only be included asynchronously in the individual component and not in main.ts, using the following method:
+2. Use two spaces for indentation.
+3. The Tailwind classes shall be included in the Elements template and non separated in the style section of the component.
+4. Date manipulation should be performed using the date-fns library [https://date-fns.org/](https://date-fns.org/).
+5. SVGs should be inserted without fixed dimensions, without safety spaces, and without specifying the fill/stroke color. Instead, the currentColor property should be used.
+6. Plugins/libraries that are not useful throughout the project should only be included asynchronously in the individual component and not in main.ts, using the following method:
 
 ```typescript
 const MyLibrary = defineAsyncComponent(() => import("my-library"));
 ```
 
-6. All types must be clearly defined. Using "any" as a type is not recommended. If you think you really need the "any" type, please ask on GitHub before.
-7. Before developing any new component, it should be verified that it is not already present in /src/components/.
-8. All texts must be inserted as translatable strings, with the corresponding English translation in /src/locales/en.json.
-9. Before any PR, all commented-out code should be removed, or if it is necessary to release it because it is highly likeable that it will be reused in the near future, leaving a NOTE that specifies the reason.
-10. Please make sure that the code compiles (running "npm run build") and passes the linting tasks. In addition, please make sure that your branch is up-to-date with the current development branch.
+7. All types must be clearly defined. Using "any" as a type is not recommended. If you think you really need the "any" type, please ask on GitHub before.
+8. Before developing any new component, it should be verified that it is not already present in /src/components/.
+9. All texts must be inserted as translatable strings, with the corresponding English translation in /src/locales/en.json.
+10. Before any PR, all commented-out code should be removed, or if it is necessary to release it because it is highly likeable that it will be reused in the near future, leaving a NOTE that specifies the reason.
+11. Please make sure that the code compiles (running "npm run build") and passes the linting tasks. In addition, please make sure that your branch is up-to-date with the current development branch.
 
 ### Platform assumptions
 

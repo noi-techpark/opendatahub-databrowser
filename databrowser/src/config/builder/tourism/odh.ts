@@ -34,8 +34,8 @@ export const odhTagCell = (mainentity?: string): PropertyConfig => {
 
 export const odhTagCategory = (mainentity?: string): DetailElements => {
   return {
-    name: 'Tags',
-    slug: 'Tags',
+    name: 'ODH Tags',
+    slug: 'ODH Tags',
     subcategories: [
       {
         name: '',

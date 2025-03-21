@@ -10,18 +10,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       class="flex items-center justify-between bg-gray-50 px-4 py-2 font-semibold text-dialog"
     >
       {{ title }}
-      <div v-if="icons.length" class="flex items-center gap-4">
-        <IconParser
-          v-for="(icon, index) in icons"
-          :key="index"
-          :name="icon"
+      <div class="flex items-center gap-4">
+        <IconPencil
+          v-if="editable"
           class="size-4 cursor-pointer text-green-400"
           :class="[
-            iconsActive.includes(icon)
+            isEditing
               ? 'size-5 rounded-[3px] border-[1.5px] border-green-400 bg-hint-calm-secondary p-[2px]'
               : '',
           ]"
-          @click="$emit('ctaClick', icon)"
+          @click="emit('edit')"
+        />
+        <IconExpand
+          class="size-4 cursor-pointer text-green-400"
+          @click="emit('expand')"
         />
       </div>
     </div>
@@ -30,29 +32,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import IconParser from '../../../../../components/utils/IconParser.vue';
+import IconExpand from '../../../../../components/svg/IconExpand.vue';
+import IconPencil from '../../../../../components/svg/IconPencil.vue';
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     title?: string;
-    ctaIcon?: string | Array<string>;
-    iconsActive?: Array<string>;
+    editable?: boolean;
+    isEditing?: boolean;
   }>(),
   {
     title: '',
-    ctaIcon: '',
-    iconsActive: () => [],
+    editable: false,
+    isEditing: false,
   }
 );
 
-defineEmits(['ctaClick']);
-
-const icons = computed(() => {
-  if (Array.isArray(props.ctaIcon)) {
-    return props.ctaIcon;
-  }
-
-  return props.ctaIcon ? [props.ctaIcon] : [];
-});
+const emit = defineEmits<{
+  (e: 'edit'): void;
+  (e: 'expand'): void;
+}>();
 </script>
