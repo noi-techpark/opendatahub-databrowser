@@ -33,7 +33,11 @@ export const useDatasetBaseInfoStore = defineStore(
     // Watch datasetQuery changes and update route if:
     // - search or filters changed => jump to first page
     // - default values are part of query params => remove them from URL
-    useQueryParamsCleanUp(baseInfo.datasetDomain, baseInfo.datasetQuery);
+    useQueryParamsCleanUp(
+      baseInfo.viewKey,
+      baseInfo.datasetDomain,
+      baseInfo.datasetQuery
+    );
 
     return { ...baseInfo, source };
   }
