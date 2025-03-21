@@ -35,10 +35,21 @@ export const computeSingleRecordLocations = (
 
   const params = { domain, pathSegments, id: recordId };
 
-  const singleRecordQuery: Record<string, string | (string | null)[] | null> =
-    domain === 'tourism' && query.language !== defaultLanguage
-      ? { language: query.language }
-      : {};
+  const singleRecordQuery = { ...query };
+
+  if (domain === 'tourism') {
+    delete singleRecordQuery['rawsort'];
+    delete singleRecordQuery['rawfilter'];
+    delete singleRecordQuery['pagenumber'];
+    delete singleRecordQuery['pagesize'];
+    if (query.language === defaultLanguage) {
+      delete singleRecordQuery['language'];
+    }
+  } else if (domain === 'mobility') {
+    delete singleRecordQuery['where'];
+    delete singleRecordQuery['offset'];
+    delete singleRecordQuery['limit'];
+  }
 
   const singleRecordLocation = {
     params,

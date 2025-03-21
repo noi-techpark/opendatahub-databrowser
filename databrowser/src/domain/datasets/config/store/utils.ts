@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { LocationQuery, useRouter } from 'vue-router';
-import { DatasetDomain, DatasetQuery } from '../types';
 import { Ref, watch } from 'vue';
+import { LocationQuery, useRouter } from 'vue-router';
+import { DatasetDomain, DatasetQuery, ViewKey } from '../types';
 
 export const useQueryParamsCleanUp = (
+  viewKey: Ref<ViewKey | undefined>,
   domain: Ref<DatasetDomain | undefined>,
   datasetQuery: Ref<DatasetQuery | undefined>
 ) => {
@@ -17,16 +18,26 @@ export const useQueryParamsCleanUp = (
   // - search or filters changed => jump to first page
   // - default values are part of query params => remove them from URL
   watch(
-    datasetQuery,
-    (datasetQueryValue, datasetQueryOldValue) => {
-      // Remove current page param from query if search or filters changed
+    [viewKey, datasetQuery],
+    (
+      [viewKeyValue, datasetQueryValue],
+      [viewKeyOldValue, datasetQueryOldValue]
+    ) => {
+      // Remove current pagination param from query if search or filters changed,
+      // but only if the view did not change. For example, if the user is in the
+      // table view on the second page of the results and changes the search, we
+      // want to show the first page of the results, but if the user changes from
+      // the detail view to the table view, we don't want to remove the pagination
+      // information.
       const searchAndFilterParamsCleanup =
-        removeCurrentPageParamIfSearchOrFiltersChanged(
-          domain.value,
-          datasetQueryValue,
-          datasetQueryOldValue,
-          currentRoute.value.query
-        );
+        viewKeyValue === viewKeyOldValue
+          ? removePaginationParamIfSearchOrFiltersChanged(
+              domain.value,
+              datasetQueryValue,
+              datasetQueryOldValue,
+              currentRoute.value.query
+            )
+          : { updateRoute: false, routeQuery: currentRoute.value.query };
 
       // Remove default query params
       const defaultParamsCleanup = removeDefaultParams(
@@ -50,10 +61,10 @@ export const useQueryParamsCleanUp = (
   );
 };
 
-// Remove current page info from query param if search or
-// filters changed. The idea is to paginate back to the
-// first page if any of them changed.
-export const removeCurrentPageParamIfSearchOrFiltersChanged = (
+// Remove current pagination info from query param if search or
+// filters changed. The idea is to show the user the first page
+// of the results when the search or filters change.
+export const removePaginationParamIfSearchOrFiltersChanged = (
   domain: DatasetDomain | undefined,
   datasetQuery: DatasetQuery | undefined,
   datasetQueryOld: DatasetQuery | undefined,
