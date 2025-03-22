@@ -19,7 +19,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :show-search-when-at-least-count-options="1"
           :size="SelectSize.sm"
           @change="handleDatasetChange"
-          @open="handleSelectOpen"
         />
       </div>
       <span v-else class="text-base">
@@ -89,26 +88,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { LocationQuery, useRoute, useRouter } from 'vue-router';
+import { LocationQuery, useRouter } from 'vue-router';
 import InputSearch from '../../../../components/input/InputSearch.vue';
 import LanguagePicker from '../../../../components/language/LanguagePicker.vue';
 import SelectCustom from '../../../../components/select/SelectCustom.vue';
 import {
   GroupSelectOption,
   SelectSize,
-  SelectValue,
 } from '../../../../components/select/types';
 import TagCustom from '../../../../components/tag/TagCustom.vue';
 import { useMetaDataForAllDatasets } from '../../../../pages/datasets/overview/useDatasets';
+import { useMetaDataStore } from '../../../metaDataConfig/tourism/metaDataStore';
 import { TourismMetaData } from '../../../metaDataConfig/tourism/types';
 import { getApiDomainFromMetaData } from '../../../metaDataConfig/utils';
 import { useDatasetBaseInfoStore } from '../../config/store/datasetBaseInfoStore';
 import { DatasetConfigSource } from '../../config/types';
 import { computeTableLocation } from '../../location/datasetViewLocation';
-import { computeRouteDomain } from '../../location/routeDomain';
-import { computeRoutePath } from '../../location/routePath';
 import { useDatasetQueryStore } from '../../location/store/datasetQueryStore';
 import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
 import { useDatasetViewStore } from '../../view/store/datasetViewStore';
@@ -118,12 +115,11 @@ import DatasetHeaderMoreInfoPopup from './DatasetHeaderMoreInfoPopup.vue';
 import DatasetHeaderOverlay from './DatasetHeaderOverlay.vue';
 import DatasetHeaderSearch from './DatasetHeaderSearch.vue';
 
-const { view, isTableView } = storeToRefs(useDatasetViewStore());
+const { isTableView } = storeToRefs(useDatasetViewStore());
 
 const { t } = useI18n();
 
 const router = useRouter();
-const route = useRoute();
 
 const { datasetDomain, hasConfig, source } = storeToRefs(
   useDatasetBaseInfoStore()
@@ -131,22 +127,55 @@ const { datasetDomain, hasConfig, source } = storeToRefs(
 
 const { metaData } = useMetaDataForAllDatasets();
 
+const { currentMetaData } = storeToRefs(useMetaDataStore());
+
+const datasetsByParentId = computed(() => {
+  const parentDatasets = metaData.value.filter((d) => d.parent == null);
+  const childDatasets = metaData.value.filter((d) => d.parent != null);
+
+  const datasetsByParent = parentDatasets.reduce<
+    Record<string, TourismMetaData & { children: TourismMetaData[] }>
+  >((prev, curr) => {
+    prev[curr.id] = {
+      ...curr,
+      children: childDatasets
+        .filter((childDataset) => childDataset.parent?.id === curr.id)
+        .sort((a, b) => a.shortname.localeCompare(b.shortname)),
+    };
+    return prev;
+  }, {});
+
+  return Object.values(datasetsByParent).sort((a, b) =>
+    a.shortname.localeCompare(b.shortname)
+  );
+});
+
+// Compute related datasets:
+// - if there is a parent for the current dataset, return the parent and all
+//   its children (current dataset and siblings)
+// - if there is no parent, return all children of the current dataset (possibly empty)
 const relatedDatasetsValues = computed(() => {
-  const _view = view.value;
-
-  if (!_view || !('elements' in _view)) return [];
-
-  const _relatedDatasetsValues = [];
-
-  for (const item of _view.elements) {
-    if (!('params' in item) || !item.params?.referenceBasePath) {
-      continue;
-    }
-
-    _relatedDatasetsValues.push(item.params.referenceBasePath);
+  if (currentMetaData.value == null) {
+    return [];
   }
 
-  return _relatedDatasetsValues;
+  // Parent ID is the parent of the current dataset, or the current dataset itself
+  const parentId = currentMetaData.value.parent?.id ?? currentMetaData.value.id;
+
+  // Find the parent dataset
+  const parent = datasetsByParentId.value.find((d) => d.id === parentId);
+
+  // The parent dataset should never be null, but we handle the case just in case
+  if (parent == null) {
+    return [];
+  }
+
+  const parentSelectValues = getDatasetSelectValue(parent);
+  const childrenSelectValues = parent.children.map((child) =>
+    getDatasetSelectValue(child)
+  );
+
+  return [parentSelectValues, ...childrenSelectValues];
 });
 
 const allDatasetsOptions = computed<GroupSelectOption>(() => {
@@ -160,7 +189,9 @@ const allDatasetsOptions = computed<GroupSelectOption>(() => {
 });
 
 const relatedDatasetsOptions = computed<GroupSelectOption | undefined>(() => {
-  if (!relatedDatasetsValues.value?.length) return undefined;
+  if (relatedDatasetsValues.value.length === 0) {
+    return undefined;
+  }
 
   const _options = allDatasetsOptions.value.options.filter(
     (item) =>
@@ -189,10 +220,6 @@ const handleInputSearchOpen = (state: boolean) => {
   inputSearchOpen.value = state;
 };
 
-const handleSelectOpen = (state: boolean) => {
-  selectOpen.value = state;
-};
-
 const handleDatasetChange = (value: string) => {
   const dataset = metaData.value.find(
     (item) => getDatasetSelectValue(item) === value
@@ -205,11 +232,16 @@ const handleDatasetChange = (value: string) => {
   const domain = getApiDomainFromMetaData(dataset);
 
   router.push(computeTableLocation(domain, pathSegments, apiFilter));
-  setCurrentDataset(getDatasetSelectValue(dataset));
 };
 
-const currentDataset = ref<SelectValue>('');
-const selectOpen = ref<boolean>();
+const currentDataset = computed<string | undefined>(() => {
+  if (currentMetaData.value == null) {
+    return undefined;
+  }
+
+  return getDatasetSelectValue(currentMetaData.value);
+});
+
 const inputSearchOpen = ref<boolean>();
 
 const searchfilter = useDatasetQueryStore().handle('searchfilter');
@@ -251,61 +283,4 @@ const getSelectValue = (
     apiFilterSegmentValues.length ? '?' + apiFilterSegmentValues.join('&') : ''
   }`;
 };
-
-const getClosestMatch = (
-  value: string,
-  options: string[]
-): string | undefined => {
-  let closestMatch: string | undefined = undefined;
-  let maxMatchLength = 0;
-
-  options.forEach((option) => {
-    const matchLength = getCommonPrefixLength(value, option);
-    if (matchLength > maxMatchLength) {
-      maxMatchLength = matchLength;
-      closestMatch = option;
-    }
-  });
-
-  return closestMatch;
-};
-
-const getCommonPrefixLength = (str1: string, str2: string): number => {
-  let i = 0;
-  while (i < str1.length && i < str2.length && str1[i] === str2[i]) {
-    i++;
-  }
-  return i;
-};
-
-const setCurrentDataset = (dataset: string) => {
-  currentDataset.value = dataset;
-};
-
-watch(
-  () => selectOptions.value,
-  (_options) => {
-    const allDatasets = _options.at(-1);
-
-    const routeDomain = computeRouteDomain(route);
-    const routePath = computeRoutePath(route);
-
-    if (!allDatasets || !routeDomain) return;
-
-    const currentRouteAsSelectValue = getSelectValue(
-      routeDomain,
-      routePath,
-      route.query
-    );
-
-    const dataset = getClosestMatch(
-      currentRouteAsSelectValue,
-      allDatasets.options.map((item) => item.value?.toString() || '')
-    );
-
-    if (!dataset) return;
-
-    setCurrentDataset(dataset);
-  }
-);
 </script>
