@@ -90,7 +90,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { LocationQuery, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import InputSearch from '../../../../components/input/InputSearch.vue';
 import LanguagePicker from '../../../../components/language/LanguagePicker.vue';
 import SelectCustom from '../../../../components/select/SelectCustom.vue';
@@ -221,15 +221,26 @@ const handleInputSearchOpen = (state: boolean) => {
 };
 
 const handleDatasetChange = (value: string) => {
-  const dataset = metaData.value.find(
-    (item) => getDatasetSelectValue(item) === value
+  const [path, query] = value.split('?');
+
+  if (path == null) {
+    return;
+  }
+
+  const pathParts = path.split('/');
+
+  if (pathParts.length < 3) {
+    return;
+  }
+
+  const domain = pathParts[1];
+  const pathSegments = pathParts.slice(2);
+  const apiFilter = Object.fromEntries(
+    query?.split('&').map((part) => {
+      const [key, value] = part.split('=');
+      return [key, value];
+    })
   );
-
-  if (!dataset) return;
-
-  const { pathSegments, apiFilter } = dataset;
-
-  const domain = getApiDomainFromMetaData(dataset);
 
   router.push(computeTableLocation(domain, pathSegments, apiFilter));
 };
@@ -265,22 +276,13 @@ const getDatasetSelectValue = (dataset: TourismMetaData) => {
   const domain = getApiDomainFromMetaData(dataset);
   const { pathSegments, apiFilter } = dataset;
 
-  return getSelectValue(domain, pathSegments, apiFilter);
-};
-
-const getSelectValue = (
-  domain: string,
-  pathSegments: string[],
-  apiFilter: Record<string, string> | LocationQuery
-) => {
-  const apiFilterSegmentValues = [];
-  for (const key in apiFilter) {
-    const value = apiFilter[key];
-    apiFilterSegmentValues.push(`${key}=${value}`);
-  }
+  // transform apiFilter (record) to array of key/value pairs to object
+  const query = Object.entries(apiFilter).map(
+    ([key, value]) => `${key}=${value}`
+  );
 
   return `/${domain}/${pathSegments.join('/')}${
-    apiFilterSegmentValues.length ? '?' + apiFilterSegmentValues.join('&') : ''
+    query.length ? '?' + query.join('&') : ''
   }`;
 };
 </script>
