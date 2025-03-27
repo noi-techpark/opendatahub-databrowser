@@ -36,13 +36,16 @@ import { useElementSize, useVirtualList } from '@vueuse/core';
 import { computed, ref, toRefs, watch } from 'vue';
 import InputSearch from '../../../../../components/input/InputSearch.vue';
 import InternalLink from '../../../../../components/link/InternalLink.vue';
-import { getApiDomainFromMetaData } from '../../../../metaDataConfig/utils';
+import {
+  apiDomainToApiType,
+  getApiDomainFromMetaData,
+} from '../../../../metaDataConfig/utils';
 import { computeDatasetViewLocations } from '../../../location/datasetViewLocation';
+import { DatasetLocationRoute } from '../../../location/types';
 import { ClusterFeature } from '../types';
 import { ClusterDetailLink } from './types';
 import { useCurrentDataset } from './useCurrentDataset';
 import { useLinkSearch } from './useLinkSearch';
-import { DatasetLocationRoute } from '../../../location/types';
 
 const emit = defineEmits<{
   (e: 'tableLink', link: DatasetLocationRoute): void;
@@ -90,22 +93,38 @@ watch([activeCluster, baseLinkTarget], () => {
     return;
   }
 
-  const convexHull = activeCluster.value.convexHull;
-  if (convexHull == null) {
-    return;
+  const apiDomain = apiDomainToApiType(domain);
+  if (apiDomain === 'content') {
+    const convexHull = activeCluster.value.convexHull;
+    if (convexHull == null) {
+      return;
+    }
+
+    const wktPolygon = convexHull.geometry.coordinates[0]
+      .map((coord) => coord.join(' '))
+      .join(',');
+
+    emit('tableLink', {
+      ...tableLocation,
+      query: {
+        ...tableLocation.query,
+        polygon: `POLYGON((${wktPolygon}))`,
+      },
+    });
+  } else if (apiDomain === 'timeseries') {
+    const bbox = activeCluster.value.bbox;
+    if (bbox == null) {
+      return;
+    }
+
+    emit('tableLink', {
+      ...tableLocation,
+      query: {
+        ...tableLocation.query,
+        where: `scoordinate.bbi.(${bbox.join(',')})`,
+      },
+    });
   }
-
-  const wktPolygon = convexHull.geometry.coordinates[0]
-    .map((coord) => coord.join(' '))
-    .join(',');
-
-  emit('tableLink', {
-    ...tableLocation,
-    query: {
-      ...tableLocation.query,
-      polygon: `POLYGON((${wktPolygon}))`,
-    },
-  });
 });
 
 const allDetailRoutes = computed<ClusterDetailLink[]>(() => {
