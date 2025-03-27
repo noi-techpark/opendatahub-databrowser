@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import {
+  BBox,
   Feature,
   FeatureCollection,
   GeoJsonProperties,
@@ -35,6 +36,7 @@ export interface ClusterFeature extends MarkerFeature {
   count: number;
   markers: MapRecord[];
   convexHull: Feature<Polygon, GeoJsonProperties> | null;
+  bbox: BBox;
 }
 
 export interface MapRecord {

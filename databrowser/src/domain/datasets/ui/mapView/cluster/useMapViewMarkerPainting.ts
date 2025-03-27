@@ -236,6 +236,11 @@ const handleClusterClick = async (
     features: clusterLeaves,
   });
 
+  const bbox = turf.bbox({
+    type: 'FeatureCollection',
+    features: clusterLeaves,
+  });
+
   const clusterFeature: ClusterFeature = {
     recordId: feature.id as string,
     name: feature.layer.metadata.datasetName,
@@ -245,6 +250,7 @@ const handleClusterClick = async (
     count: feature.properties.point_count,
     markers,
     convexHull,
+    bbox,
   };
 
   clusterClick(clusterFeature);
