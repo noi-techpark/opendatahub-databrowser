@@ -21,6 +21,7 @@ import {
   mappingCategory,
 } from '../../builder/tourism';
 import { videoItemsCategory } from '../../builder/tourism/video';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const webcamInfoSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
@@ -86,5 +87,6 @@ export const webcamInfoSharedView = (): DetailViewConfig | EditViewConfig => ({
     contactCategory(),
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });

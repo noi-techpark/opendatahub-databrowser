@@ -23,6 +23,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const municipalitySharedView = ():
   | DetailViewConfig
@@ -98,5 +99,6 @@ export const municipalitySharedView = ():
     odhTagCategory(),
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });

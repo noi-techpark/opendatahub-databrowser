@@ -25,6 +25,7 @@ import {
   seasonCategory,
 } from '../../builder/tourism';
 import { videoItemsCategory } from '../../builder/tourism/video';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const venuev2SharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
@@ -97,5 +98,6 @@ export const venuev2SharedView = (): DetailViewConfig | EditViewConfig => ({
     relatedcontentCategory(),
     mappingCategory(),
     licenseInfoCategory(),
+    updatehistoryCategory(),
   ],
 });

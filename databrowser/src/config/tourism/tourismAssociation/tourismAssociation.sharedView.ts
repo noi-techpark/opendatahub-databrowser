@@ -21,6 +21,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const tourismAssociationSharedView = ():
   | DetailViewConfig
@@ -59,5 +60,6 @@ export const tourismAssociationSharedView = ():
     odhTagCategory(),
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });

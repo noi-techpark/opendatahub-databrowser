@@ -53,6 +53,7 @@ import WebcamCell from '../components/cells/webcamCell/WebcamCell.vue';
 import RelatedContentCell from '../components/cells/relatedContentCell/RelatedContentCell.vue';
 import PushConfigCell from '../components/cells/pushConfigCell/PushConfigCell.vue';
 import SyncDataConfigCell from '../components/cells/syncDataConfigCell/SyncDataConfigCell.vue';
+import UpdateHistoryCell from '../components/cells/updateHistoryCell/UpdateHistoryCell.vue';
 
 import { CellComponent } from '../types';
 
@@ -113,5 +114,6 @@ export default {
     app.component(CellComponent.RelatedContentCell, RelatedContentCell);
     app.component(CellComponent.PushConfigCell, PushConfigCell);
     app.component(CellComponent.SyncDataConfigCell, SyncDataConfigCell);
+    app.component(CellComponent.UpdateHistoryCell, UpdateHistoryCell);
   },
 };
