@@ -14,7 +14,11 @@ export const updatehistoryCategory = (): DetailElements => ({
   subcategories: [
     {
       name: 'Last Update',
-      properties: [updatehistoryLastUpdateCell(),updatehistoryUpdateSourceCell(),updatehistoryUpdatedByCell()],
+      properties: [
+        updatehistoryLastUpdateCell(),
+        updatehistoryUpdateSourceCell(),
+        updatehistoryUpdatedByCell(),
+      ],
     },
     {
       name: 'Last Updates grouped by UpdateId',
@@ -26,7 +30,7 @@ export const updatehistoryCategory = (): DetailElements => ({
 export const updatehistoryLastUpdateCell = (): PropertyConfig => ({
   title: 'date',
   component: CellComponent.EditedDateCell,
-  objectMapping: { date: '_Meta.LastUpdate', readonly: 'true' }, 
+  objectMapping: { date: '_Meta.LastUpdate', readonly: 'true' },
 });
 export const updatehistoryUpdateSourceCell = (): PropertyConfig => ({
   title: 'Source',

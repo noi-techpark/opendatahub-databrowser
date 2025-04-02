@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EditListCell :items="updatehistoryitems" >
+  <EditListCell :items="updatehistoryitems">
     <template #table="{ items }">
       <UpdateHistoryTable :items="items" />
     </template>

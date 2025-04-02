@@ -56,8 +56,8 @@ const inputType = computed(() =>
   props.type === 'datetime'
     ? 'datetime-local'
     : props.type === 'date'
-    ? 'date'
-    : 'time'
+      ? 'date'
+      : 'time'
 );
 
 const parsedDate = computed(() => {

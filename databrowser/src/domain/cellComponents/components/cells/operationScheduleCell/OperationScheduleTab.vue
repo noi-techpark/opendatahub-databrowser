@@ -24,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <template
-      #body="{ item, index }: { item: OperationScheduleEntry, index: number }"
+      #body="{ item, index }: { item: OperationScheduleEntry; index: number }"
     >
       <div class="flex flex-wrap gap-8 md:flex-nowrap">
         <div class="basis-full md:order-1 md:basis-1/3">

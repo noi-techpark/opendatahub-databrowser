@@ -5,7 +5,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EditListTable :items="items" :hideTabLink="true" :hideSettingsColumn="true" :hideSortable="true" :hideSelectCheckbox="true" :hideTableActionHeader="true">
+  <EditListTable
+    :items="items"
+    :hideTabLink="true"
+    :hideSettingsColumn="true"
+    :hideSortable="true"
+    :hideSelectCheckbox="true"
+    :hideTableActionHeader="true"
+  >
     <template #colGroup>
       <col class="w-32 md:w-40" />
       <col class="w-32 md:w-40" />
@@ -14,18 +21,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <template #tableHeader>
       <TableHeaderCell>Updated On</TableHeaderCell>
-      <TableHeaderCell>Updated By</TableHeaderCell> 
-      <TableHeaderCell>Update Source</TableHeaderCell>     
+      <TableHeaderCell>Updated By</TableHeaderCell>
+      <TableHeaderCell>Update Source</TableHeaderCell>
     </template>
 
-    <template #tableCols="{ item }: { item: UpdateHistoryEntry }">           
+    <template #tableCols="{ item }: { item: UpdateHistoryEntry }">
       <TableCell>
         <EditedDateCell :date="item.LastUpdate" :format="'dd/MM/yyyy HH:mm'" />
       </TableCell>
-      <TableCell>{{ item.UpdatedBy }}</TableCell>  
-      <TableCell>{{ item.UpdateSource }}</TableCell>    
+      <TableCell>{{ item.UpdatedBy }}</TableCell>
+      <TableCell>{{ item.UpdateSource }}</TableCell>
     </template>
-    <template #noItems>No items have been defined yet</template>    
+    <template #noItems>No items have been defined yet</template>
   </EditListTable>
 </template>
 
@@ -37,5 +44,4 @@ import { UpdateHistoryEntry } from './types';
 import EditedDateCell from '../editedDateCell/EditedDateCell.vue';
 
 defineProps<{ items: UpdateHistoryEntry[] }>();
-
 </script>

@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableHeaderCell>Document Name</TableHeaderCell>
     </template>
 
-    <template #tableCols="{ item, index }: { item: FileEntry, index: number }">
+    <template #tableCols="{ item, index }: { item: FileEntry; index: number }">
       <TableCell>
         <UrlCell :text="item.src" :editable="false" />
       </TableCell>

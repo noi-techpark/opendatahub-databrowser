@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <template
-      #tableCols="{ item, index }: { item: SyncDataConfigEntry, index: number }"
+      #tableCols="{ item, index }: { item: SyncDataConfigEntry; index: number }"
     >
       <TableCell>
         <StringCell
@@ -63,7 +63,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
     <template #noItems>No syncdataconfig have been defined yet</template>
     <template #addItems>
-      <EditListAddButton :text="'Add new SyncDataconfig'" @click="addItem({})" />
+      <EditListAddButton
+        :text="'Add new SyncDataconfig'"
+        @click="addItem({})"
+      />
     </template>
   </EditListTable>
 </template>

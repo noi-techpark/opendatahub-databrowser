@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <template
-      #tableCols="{ item, index }: { item: RelatedContentEntry, index: number }"
+      #tableCols="{ item, index }: { item: RelatedContentEntry; index: number }"
     >
       <TableCell>
         <StringCell
