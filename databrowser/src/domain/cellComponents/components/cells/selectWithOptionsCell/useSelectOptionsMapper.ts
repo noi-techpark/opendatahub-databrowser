@@ -4,7 +4,11 @@
 
 import { ref, Ref, watch } from 'vue';
 import { SelectOption } from '../../../../../components/select/types';
-import { buildOptions, mapToOptionsWithKeys, mapToOptionsWithKeysAndValues } from '../../utils/selectOptions/selectOptionsMapperUtils';
+import {
+  buildOptions,
+  mapToOptionsWithKeys,
+  mapToOptionsWithKeysAndValues,
+} from '../../utils/selectOptions/selectOptionsMapperUtils';
 
 export const useSelectOptionsMapper = (
   options: Ref<SelectOption[] | undefined>,

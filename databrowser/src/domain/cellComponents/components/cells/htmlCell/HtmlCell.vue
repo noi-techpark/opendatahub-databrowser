@@ -76,7 +76,7 @@ const toolbar = [
   @apply rounded-t;
 }
 .ql-container {
-  @apply font-normal text-base text-black rounded-b;
+  @apply rounded-b text-base font-normal text-black;
 }
 .ql-editor {
   @apply p-2;
@@ -84,7 +84,7 @@ const toolbar = [
 
 .ql-editor ol,
 .ql-editor ul {
-  @apply list-disc m-2 pl-2;
+  @apply m-2 list-disc pl-2;
 }
 
 .ql-editor a {
@@ -92,12 +92,12 @@ const toolbar = [
 }
 
 .ql-editor blockquote {
-  @apply p-2 border-l-8 border-gray-500;
+  @apply border-l-8 border-gray-500 p-2;
 }
 
 .html-content ol,
 .html-content ul {
-  @apply list-disc m-2 pl-2;
+  @apply m-2 list-disc pl-2;
 }
 
 .html-content a {
@@ -105,6 +105,6 @@ const toolbar = [
 }
 
 .html-content blockquote {
-  @apply p-2 border-l-4 border-gray-500;
+  @apply border-l-4 border-gray-500 p-2;
 }
 </style>

@@ -14,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <EditListAddButton :text="'Add new PushConfig'" @click="addItem({})" />
     </template>
 
-    <template #body="{ item, index }: { item: PushConfigEntry, index: number }">
+    <template #body="{ item, index }: { item: PushConfigEntry; index: number }">
       <div class="flex flex-wrap gap-8 md:flex-nowrap">
         <div class="basis-full md:order-1 md:basis-2/3">
           <SubCategoryItem title="BaseUrl">

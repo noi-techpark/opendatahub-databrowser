@@ -235,7 +235,7 @@ export const echargingdataCategory = (
             enabled:
               'AdditionalProperties.EchargingDataProperties.CarParkingSpaceNextToEachOther.ManeuvringSpaceSignagePresent',
           },
-        },        
+        },
       ],
     },
     {
@@ -269,7 +269,8 @@ export const echargingdataCategory = (
           title: 'Pavement',
           component: CellComponent.SelectWithOptionsCell,
           objectMapping: {
-            value: 'AdditionalProperties.EchargingDataProperties.CarParkingSpaceBehindEachOther.Pavement',
+            value:
+              'AdditionalProperties.EchargingDataProperties.CarParkingSpaceBehindEachOther.Pavement',
           },
           params: {
             value_001: 'apshalt-cement',
@@ -315,7 +316,7 @@ export const echargingdataCategory = (
             enabled:
               'AdditionalProperties.EchargingDataProperties.CarParkingSpaceBehindEachOther.ManeuvringSpaceSignagePresent',
           },
-        },        
+        },
       ],
     },
     {
@@ -349,7 +350,8 @@ export const echargingdataCategory = (
           title: 'Shielding post in front of charging station',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.EchargingDataProperties.ShieldingPostInFrontOfStation',
+            enabled:
+              'AdditionalProperties.EchargingDataProperties.ShieldingPostInFrontOfStation',
           },
         },
         {

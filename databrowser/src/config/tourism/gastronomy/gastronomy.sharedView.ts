@@ -21,6 +21,7 @@ import {
   sourceSubCategoryWithDistinct,
   textInfoCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const gastronomySharedView = (): EditViewConfig | DetailViewConfig => ({
   elements: [
@@ -101,5 +102,6 @@ export const gastronomySharedView = (): EditViewConfig | DetailViewConfig => ({
     seasonCategory(),
     gpsDataCategory(),
     odhTagCategory('gastronomy'),
+    updatehistoryCategory(),
   ],
 });

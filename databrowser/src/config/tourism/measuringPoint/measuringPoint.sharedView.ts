@@ -16,6 +16,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { DEFAULT_DATE_FORMAT } from '../../utils';
 
 export const measuringPointSharedView = ():
@@ -100,5 +101,6 @@ export const measuringPointSharedView = ():
     },
     licenseInfoCategory(),
     mappingCategory(),
+    updatehistoryCategory(),
   ],
 });

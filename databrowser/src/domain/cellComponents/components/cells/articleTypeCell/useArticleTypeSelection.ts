@@ -73,13 +73,13 @@ export const useArticleTypeSelection = (
           ? // If sub type is null / undefined or it is defined for current type, use sub type value
             subType.value
           : // Use previously set sub type if not undefined
-            lastSelectedSubTypeForType[type.value!] ??
+            (lastSelectedSubTypeForType[type.value!] ??
             // If initial values are the same as current values, then just
             // use the provided sub type. This covers an edge case where
             // the initial sub type value is unknown
             (type.value === initialType && subType.value === initialSubType
               ? subType.value
-              : undefined);
+              : undefined));
 
       // If type or sub type changed, then trigger hook
       if (

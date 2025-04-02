@@ -53,4 +53,5 @@ export enum CellComponent {
   RelatedContentCell = 'RelatedContentCell',
   PushConfigCell = 'PushConfigCell',
   SyncDataConfigCell = 'SyncDataConfigCell',
+  UpdateHistoryCell = 'UpdateHistoryCell',
 }

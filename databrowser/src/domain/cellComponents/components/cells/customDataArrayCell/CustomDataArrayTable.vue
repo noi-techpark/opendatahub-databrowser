@@ -14,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableHeaderCell>Name</TableHeaderCell>
     </template>
 
-    <template #tableCols="{ item, index }: { item: string, index: number }">
+    <template #tableCols="{ item, index }: { item: string; index: number }">
       <TableCell>
         <SelectWithOptionsCell
           v-if="editable"

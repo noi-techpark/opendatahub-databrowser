@@ -16,7 +16,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableHeaderCell>Content</TableHeaderCell>
     </template>
 
-    <template #tableCols="{ item, index }: { item: InfoEntry, index: number }">
+    <template #tableCols="{ item, index }: { item: InfoEntry; index: number }">
       <TableCell>
         <StringCell
           :text="item.header"

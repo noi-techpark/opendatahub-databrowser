@@ -21,6 +21,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { DEFAULT_DATE_TIME_FORMAT } from '../../utils';
 
 export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -260,5 +261,6 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
         },
       ],
     },
+    updatehistoryCategory(),
   ],
 });

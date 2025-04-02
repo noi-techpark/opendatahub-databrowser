@@ -19,6 +19,7 @@ import {
   sourceSubCategoryWithDistinct,
   textInfoCategory,
 } from '../../builder/tourism';
+import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 import { withOdhBaseUrl } from '../../utils';
 
 export const experienceAreaSharedView = ():
@@ -92,5 +93,6 @@ export const experienceAreaSharedView = ():
     contactCategory(),
     gpsDataCategory(),
     odhTagCategory(),
+    updatehistoryCategory(),
   ],
 });

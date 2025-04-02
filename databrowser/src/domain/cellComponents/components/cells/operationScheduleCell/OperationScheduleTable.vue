@@ -33,8 +33,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         item,
         index,
       }: {
-        item: OperationScheduleEntry,
-        index: number,
+        item: OperationScheduleEntry;
+        index: number;
       }"
     >
       <TableCell>
