@@ -159,6 +159,60 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
         },
       ],
     },
+    {
+      name: 'Event Properties',
+      slug: 'Evnt-properties',
+      subcategories: [       
+        {
+          name: 'Characteristics',
+          properties: [
+            {
+              title: 'Ticket Required',                            
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'EventProperty.TicketRequired' },
+            },
+            {
+              title: 'Registration Required',                            
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'EventProperty.RegistrationRequired' },
+            },
+            {
+              title: 'Included in SuedtirolGuestPass',                            
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'EventProperty.IncludedInSuedtirolGuestPass' },
+            },
+            {
+              title: 'Is Bookable',                            
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'EventProperty.IsBookable' },
+            },
+            {
+              title: 'Event Organizer ID',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'EventProperty.EventOrganizerId' },
+            },
+            {
+              title: 'Classification',
+              component: CellComponent.SelectWithOptionsCell,
+              objectMapping: {
+                value: 'EventProperty.EventClassificationId',
+              },
+              params: {
+                value_001: 'CE212B488FA14954BE91BBCFA47C0F06',
+                label_001: 'Event',
+                value_002: '4650BDEF28D545CE8AB37138E3C45B80',
+                label_002: 'Service',
+                value_003: 'E9F80CE8CB3F481ABC7E548CF34A8C1C',
+                label_003: 'Reservation',
+                value_004: 'D8F5FF743D5741D1BF1F5D61671F552B',
+                label_004: 'Permit',
+              },
+            },
+          ],
+        },               
+      ],
+    },
+    //TO ADD EventAdditionalInfos, EventPublisher, EventDate, EventVariant, EventUrls, EventBooking
     contactCategory(),
     {
       name: 'Organizer details',
