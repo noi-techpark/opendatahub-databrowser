@@ -67,37 +67,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
               objectMapping: { text: 'Entrance' },
             },
           ],
-        },
-        {
-          name: 'Characteristics',
-          properties: [
-            {
-              title: 'Single Days',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'EventDate.SingleDays' },
-            },
-            {
-              title: 'Ticket',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'Ticket' },
-            },
-          ],
-        },
-        {
-          name: 'Price',
-          properties: [
-            {
-              title: 'Event Price',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'EventPrice.0' },
-            },
-            {
-              title: 'Type',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'Type' },
-            },
-          ],
-        },
+        },                
         {
           name: 'Additional Information',
           properties: [
@@ -115,46 +85,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
               title: 'Ranc',
               component: CellComponent.StringCell,
               objectMapping: { text: 'EventDate.Ranc' },
-            },
-            {
-              title: 'SignOn',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'SignOn' },
-            },
-            {
-              title: 'PayMet',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'PayMet' },
-            },
-            {
-              title: 'Classification',
-              component: CellComponent.SelectWithOptionsCell,
-              objectMapping: {
-                value: 'ClassificationRID',
-              },
-              params: {
-                value_001: 'CE212B488FA14954BE91BBCFA47C0F06',
-                label_001: 'Event',
-                value_002: '4650BDEF28D545CE8AB37138E3C45B80',
-                label_002: 'Service',
-                value_003: 'E9F80CE8CB3F481ABC7E548CF34A8C1C',
-                label_003: 'Reservation',
-                value_004: 'D8F5FF743D5741D1BF1F5D61671F552B',
-                label_004: 'Permit',
-              },
-            },
-            {
-              title: 'Topics',
-              component: CellComponent.ArrayTagsCell,
-              objectMapping: {
-                items: 'Topics',
-              },
-              params: {
-                propertyName: 'TopicInfo',
-                separator: ', ',
-                max: '3',
-              },
-            },
+            },                       
           ],
         },
       ],
@@ -212,7 +143,94 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
         },               
       ],
     },
-    //TO ADD EventAdditionalInfos, EventPublisher, EventDate, EventVariant, EventUrls, EventBooking
+    {
+      name: 'Additional Information',
+      slug: 'event-additional',
+      subcategories: [
+        {
+          name: 'General',
+          properties: [
+            {
+              title: 'Registration',
+              component: CellComponent.TextAreaCell,
+              objectMapping: {
+                text: 'EventAdditionalInfos.{language}.Registration',
+              },
+            },
+            {
+              title: 'Meeting Point',
+              component: CellComponent.TextAreaCell,
+              objectMapping: {
+                text: 'EventAdditionalInfos.{language}.MeetingPoint',
+              },
+            },
+            {
+              title: 'Location',
+              component: CellComponent.TextAreaCell,
+              objectMapping: {
+                enabled: 'EventAdditionalInfos.{language}.Location',
+              },
+            },
+            {
+              title: 'What To Bring',
+              component: CellComponent.TextAreaCell,
+              objectMapping: {
+                text: 'EventAdditionalInfos.{language}.WhatToBring',
+              },
+            },
+            {
+              title: 'ServiceDescription',
+              component: CellComponent.TextAreaCell,
+              objectMapping: {
+                text: 'EventAdditionalInfos.{language}.ServiceDescription',
+              },
+            },
+            {
+              title: 'CancellationModality',
+              component: CellComponent.TextAreaCell,
+              objectMapping: {
+                text: 'EventAdditionalInfos.{language}.CancellationModality',
+              },
+            },
+          ],
+        },
+        {
+          name: 'Additional Text',
+          properties: [
+            {
+              title: 'Author Tip',
+              component: CellComponent.StringCell,
+              objectMapping: {
+                text: 'Detail.{language}.AuthorTip',
+              },
+            },
+            {
+              title: 'Parking Info',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Detail.{language}.ParkingInfo' },
+            },
+            {
+              title: 'Public Transportation Info',
+              component: CellComponent.StringCell,
+              objectMapping: {
+                text: 'Detail.{language}.PublicTransportationInfo',
+              },
+            },
+            {
+              title: 'Safety Info',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Detail.{language}.SafetyInfo' },
+            },
+            {
+              title: 'Equipment Info',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Detail.{language}.EquipmentInfo' },
+            },
+          ],
+        },
+      ],
+    },
+    //TO ADD EventPublisher, EventDate, EventVariant, EventUrls, EventBooking
     contactCategory(),
     {
       name: 'Organizer details',
@@ -314,6 +332,23 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
               objectMapping: { enabled: 'SmgActive' },
             },
           ],
+        },
+        {
+          name: 'Event Topics',
+          properties:[
+            {
+              title: 'Topics',
+              component: CellComponent.ArrayTagsCell,
+              objectMapping: {
+                items: 'Topics',
+              },
+              params: {
+                propertyName: 'TopicInfo',
+                separator: ', ',
+                max: '3',
+              },
+            },
+          ]
         },
       ],
     },
