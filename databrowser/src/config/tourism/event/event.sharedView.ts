@@ -225,7 +225,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
         },
       ],
     },
-    //TO ADD EventPublisher, EventDate, EventVariant, EventUrls, EventBooking
+    //TO ADD EventDate, EventVariant, EventBooking
     contactCategory(),
     {
       name: 'Organizer details',
@@ -299,11 +299,11 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
       ],
     },
     {
-      name: 'Event Publisher',
-      slug: 'event-publisher',
+      name: 'Event Info',
+      slug: 'event-info',
       subcategories: [
         {
-          name: '',
+          name: 'Event Publisher',
           properties: [
             {
               title: 'Event Publisher',
@@ -316,6 +316,24 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
                   PublicationStatus: 'PublicationStatus',
                 },
                 targetPropertyName: 'eventPublisher',
+              },
+            },
+          ]
+        },
+        {
+          name: 'Event Urls',
+          properties: [
+            {
+              title: 'Event Urls',
+              component: CellComponent.EditEventUrlCell,
+              arrayMapping: {
+                pathToParent: 'EventUrls',
+                objectMapping: {
+                  Type: 'Type',
+                  Url: 'Url.{language}',
+                  Active: 'Active',
+                },
+                targetPropertyName: 'eventUrls',
               },
             },
           ]
