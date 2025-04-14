@@ -80,12 +80,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
               title: 'MaxPersons',
               component: CellComponent.StringCell,
               objectMapping: { text: 'EventDate.MaxPersons' },
-            },
-            {
-              title: 'Ranc',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'EventDate.Ranc' },
-            },                       
+            },                                
           ],
         },
       ],
@@ -301,6 +296,30 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
             },
           ],
         },
+      ],
+    },
+    {
+      name: 'Event Publisher',
+      slug: 'event-publisher',
+      subcategories: [
+        {
+          name: '',
+          properties: [
+            {
+              title: 'Event Publisher',
+              component: CellComponent.EditEventPublisherCell,
+              arrayMapping: {
+                pathToParent: 'EventPublisher',
+                objectMapping: {
+                  PublisherRID: 'PublisherRID',
+                  Ranc: 'Ranc',
+                  PublicationStatus: 'PublicationStatus',
+                },
+                targetPropertyName: 'eventPublisher',
+              },
+            },
+          ]
+        }
       ],
     },
     locationCategory(),

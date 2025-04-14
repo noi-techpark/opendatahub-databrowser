@@ -20,6 +20,7 @@ export enum CellComponent {
   EditRoomBookedCell = 'EditRoomBookedCell',
   EditRoomVenueCell = 'EditRoomVenueCell',
   EditVideoItemsCell = 'EditVideoItemsCell',
+  EditEventPublisherCell = 'EditEventPublisherCell',
   EventDocumentCell = 'EventDocumentCell',
   GpsPointMap = 'GpsPointMap',
   GpsPointsCell = 'GpsPointsCell',
