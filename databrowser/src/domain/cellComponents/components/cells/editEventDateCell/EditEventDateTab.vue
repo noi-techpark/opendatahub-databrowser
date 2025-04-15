@@ -7,40 +7,65 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <EditListTab :items="items">
     <template #tabLabel="{ index }">
-      <div class="w-full">Event Publisher {{ index + 1 }}</div>
+      <div class="w-full">Event Dates {{ index + 1 }}</div>
     </template>
 
     <template #addItems>
-      <EditListAddButton
-        :text="'Add new eventpublisher'"
-        @click="addItem({})"
-      />
+      <EditListAddButton :text="'Add new booking'" @click="addItem({})" />
     </template>
 
     <template #body="{ item, index }">
       <div class="flex flex-wrap gap-8 md:flex-nowrap">
         <div class="basis-full md:order-1 md:basis-1/3">
-          <SubCategoryItem title="Publisher RID" :required="true">
-            <StringCell
-              :text="item.PublisherRID"
+          <SubCategoryItem title="From" :required="true">
+            <DateCell
+              type="datetime"
+              :date="item.From"
               :editable="editable"
-              @input="updateItem(index, { PublisherRID: $event.target.value })"
+              @input="updateItem(index, { From: $event.target.value })"
             />
           </SubCategoryItem>
-          <SubCategoryItem title="Ranc">
+          <SubCategoryItem title="Begin Time">
             <StringCell
-              :text="item.Ranc"
+              :text="item.Begin"
               :editable="editable"
-              @input="updateItem(index, { Ranc: $event.target.value })"
+              @input="updateItem(index, { Begin: $event.target.value })"
             />
           </SubCategoryItem>
-          <SubCategoryItem title="PublicationStatus">
-            <StringCell
-              :text="item.PublicationStatus"
+          <SubCategoryItem title="To" :required="true">
+            <DateCell
+              type="datetime"
+              :date="item.To"
               :editable="editable"
-              @input="
-                updateItem(index, { PublicationStatus: $event.target.value })
-              "
+              @input="updateItem(index, { To: $event.target.value })"
+            />
+          </SubCategoryItem>
+          <SubCategoryItem title="End Time">
+            <StringCell
+              :text="item.End"
+              :editable="editable"
+              @input="updateItem(index, { End: $event.target.value })"
+            />
+          </SubCategoryItem>
+          <SubCategoryItem title="Entrance Time">
+            <StringCell
+              :text="item.Entrance"
+              :editable="editable"
+              @input="updateItem(index, { Entrance: $event.target.value })"
+            />
+          </SubCategoryItem>
+          <SubCategoryItem title="Active">
+            <ToggleTriStateCell
+              :enabled="booleanOrStringToBoolean(item.Active)"
+              :editable="editable"
+              @input="updateItem(index, { Active: $event.value })"
+            />
+          </SubCategoryItem>
+          <SubCategoryItem title="PriceFrom">
+            <StringCell
+              :text="item.PriceFrom"
+              :editable="editable"
+              @input="updateItem(index, { PriceFrom: $event.target.value })"
             />
           </SubCategoryItem>
         </div>
@@ -82,16 +107,18 @@ import IconCopy from '../../../../../components/svg/IconCopy.vue';
 import IconDelete from '../../../../../components/svg/IconDelete.vue';
 import SubCategoryItem from '../../../../datasets/ui/category/SubCategoryItem.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
+import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';
 import EditListTab from '../../utils/editList/tab/EditListTab.vue';
 import StringCell from '../stringCell/StringCell.vue';
-import { EventPublisherEntry } from './types';
+import DateCell from '../dateCell/DateCell.vue';
+import { EventDateEntry } from './types';
 
-defineProps<{ items: EventPublisherEntry[] }>();
+defineProps<{ items: EventDateEntry[] }>();
 
 const { addItem, deleteItems, duplicateItem, updateItem } =
-  useInjectActionTriggers<EventPublisherEntry>();
+  useInjectActionTriggers<EventDateEntry>();
 
 const { editable } = useInjectEditMode();
 </script>

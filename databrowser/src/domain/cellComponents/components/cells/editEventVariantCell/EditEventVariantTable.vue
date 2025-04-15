@@ -13,28 +13,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <template #tableHeader>
-      <TableHeaderCell>Type</TableHeaderCell>
-      <TableHeaderCell>Url</TableHeaderCell>
-      <TableHeaderCell>Active</TableHeaderCell>
+      <TableHeaderCell>Name</TableHeaderCell>
+      <TableHeaderCell>Price</TableHeaderCell>
+      <TableHeaderCell>isStandard</TableHeaderCell>
     </template>
 
     <template #tableCols="{ item }">
       <TableCell>
-        <StringCell :text="item.Type" />
+        <StringCell :text="item.Name" />
       </TableCell>
       <TableCell>
-        <StringCell :text="item.Url" />
+        <StringCell :text="item.Price" />
       </TableCell>
       <TableCell>
         <ToggleTriStateCell
-          :enabled="booleanOrStringToBoolean(item.Active)"
+          :enabled="booleanOrStringToBoolean(item.IsStandard)"
           :editable="false"
         />
       </TableCell>
     </template>
-    <template #noItems>No url has been defined yet</template>
+    <template #noItems>No variant has been defined yet</template>
     <template #addItems>
-      <EditListAddButton :text="'Add new url data'" @click="addItem({})" />
+      <EditListAddButton :text="'Add new variant data'" @click="addItem({})" />
     </template>
   </EditListTable>
 </template>
@@ -46,9 +46,9 @@ import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import EditListTable from '../../utils/editList/table/EditListTable.vue';
-import { EventUrlEntry } from './types';
+import { EventVariantEntry } from './types';
 
-defineProps<{ items: EventUrlEntry[] }>();
+defineProps<{ items: EventVariantEntry[] }>();
 
-const { addItem } = useInjectActionTriggers<EventUrlEntry>();
+const { addItem } = useInjectActionTriggers<EventVariantEntry>();
 </script>

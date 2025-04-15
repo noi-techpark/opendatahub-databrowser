@@ -5,5 +5,5 @@
 export interface EventUrlEntry {
   Type?: string;
   Active?: boolean;
-  Url?: string;  
+  Url?: string;
 }

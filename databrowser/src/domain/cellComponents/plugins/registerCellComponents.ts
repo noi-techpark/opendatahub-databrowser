@@ -23,6 +23,8 @@ import EditRoomVenueCell from '../components/cells/editRoomVenueCell/EditRoomVen
 import EditVideoItemsCell from '../components/cells/editVideoItemsCell/EditVideoItemsCell.vue';
 import EditEventPublisherCell from '../components/cells/editEventPublisherCell/EditEventPublisherCell.vue';
 import EditEventUrlCell from '../components/cells/editEventUrlCell/EditEventUrlCell.vue';
+import EditEventDateCell from '../components/cells/editEventDateCell/EditEventDateCell.vue';
+import EditEventVariantCell from '../components/cells/editEventVariantCell/EditEventVariantCell.vue';
 import EventDocumentCell from '../components/cells/eventDocumentCell/EventDocumentCell.vue';
 import GpsPointMap from '../components/cells/editGpsInfoCell/GpsPointMap.vue';
 import GpsPointsCell from '../components/cells/gpsPointsCell/GpsPointsCell.vue';
@@ -86,6 +88,8 @@ export default {
     app.component(CellComponent.EditVideoItemsCell, EditVideoItemsCell);
     app.component(CellComponent.EditEventPublisherCell, EditEventPublisherCell);
     app.component(CellComponent.EditEventUrlCell, EditEventUrlCell);
+    app.component(CellComponent.EditEventDateCell, EditEventDateCell);
+    app.component(CellComponent.EditEventVariantCell, EditEventVariantCell);
     app.component(CellComponent.EventDocumentCell, EventDocumentCell);
     app.component(CellComponent.GpsPointMap, GpsPointMap);
     app.component(CellComponent.GpsPointsCell, GpsPointsCell);

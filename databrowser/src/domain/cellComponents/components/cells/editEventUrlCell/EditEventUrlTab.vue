@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               :editable="editable"
               @input="updateItem(index, { Type: $event.target.value })"
             />
-          </SubCategoryItem>         
+          </SubCategoryItem>
           <SubCategoryItem title="Url">
             <StringCell
               :text="item.Url"

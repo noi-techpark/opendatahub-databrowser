@@ -7,40 +7,58 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <EditListTab :items="items">
     <template #tabLabel="{ index }">
-      <div class="w-full">Event Publisher {{ index + 1 }}</div>
+      <div class="w-full">Event Variant {{ index + 1 }}</div>
     </template>
 
     <template #addItems>
-      <EditListAddButton
-        :text="'Add new eventpublisher'"
-        @click="addItem({})"
-      />
+      <EditListAddButton :text="'Add new variant'" @click="addItem({})" />
     </template>
 
     <template #body="{ item, index }">
       <div class="flex flex-wrap gap-8 md:flex-nowrap">
         <div class="basis-full md:order-1 md:basis-1/3">
-          <SubCategoryItem title="Publisher RID" :required="true">
+          <SubCategoryItem title="Name">
             <StringCell
-              :text="item.PublisherRID"
+              :text="item.Name"
               :editable="editable"
-              @input="updateItem(index, { PublisherRID: $event.target.value })"
+              @input="updateItem(index, { Name: $event.target.value })"
             />
           </SubCategoryItem>
-          <SubCategoryItem title="Ranc">
+          <SubCategoryItem title="Price">
             <StringCell
-              :text="item.Ranc"
+              :text="item.Price"
               :editable="editable"
-              @input="updateItem(index, { Ranc: $event.target.value })"
+              @input="updateItem(index, { Price: $event.target.value })"
             />
           </SubCategoryItem>
-          <SubCategoryItem title="PublicationStatus">
+          <SubCategoryItem title="VariantId">
             <StringCell
-              :text="item.PublicationStatus"
+              :text="item.VariantId"
+              :editable="editable"
+              @input="updateItem(index, { VariantId: $event.target.value })"
+            />
+          </SubCategoryItem>
+          <SubCategoryItem title="VariantCategoryId">
+            <StringCell
+              :text="item.VariantCategoryId"
               :editable="editable"
               @input="
-                updateItem(index, { PublicationStatus: $event.target.value })
+                updateItem(index, { VariantCategoryId: $event.target.value })
               "
+            />
+          </SubCategoryItem>
+          <SubCategoryItem title="IsStandard">
+            <ToggleTriStateCell
+              :enabled="booleanOrStringToBoolean(item.IsStandard)"
+              :editable="editable"
+              @input="updateItem(index, { IsStandard: $event.value })"
+            />
+          </SubCategoryItem>
+          <SubCategoryItem title="Order">
+            <StringCell
+              :text="item.Order"
+              :editable="editable"
+              @input="updateItem(index, { Order: $event.target.value })"
             />
           </SubCategoryItem>
         </div>
@@ -82,16 +100,17 @@ import IconCopy from '../../../../../components/svg/IconCopy.vue';
 import IconDelete from '../../../../../components/svg/IconDelete.vue';
 import SubCategoryItem from '../../../../datasets/ui/category/SubCategoryItem.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
+import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';
 import EditListTab from '../../utils/editList/tab/EditListTab.vue';
 import StringCell from '../stringCell/StringCell.vue';
-import { EventPublisherEntry } from './types';
+import { EventVariantEntry } from './types';
 
-defineProps<{ items: EventPublisherEntry[] }>();
+defineProps<{ items: EventVariantEntry[] }>();
 
 const { addItem, deleteItems, duplicateItem, updateItem } =
-  useInjectActionTriggers<EventPublisherEntry>();
+  useInjectActionTriggers<EventVariantEntry>();
 
 const { editable } = useInjectEditMode();
 </script>

@@ -5,5 +5,5 @@
 export interface EventPublisherEntry {
   PublisherRID?: string;
   Ranc?: number;
-  PublicationStatus?: string;  
+  PublicationStatus?: string;
 }

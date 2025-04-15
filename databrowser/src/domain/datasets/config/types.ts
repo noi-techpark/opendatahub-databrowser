@@ -144,7 +144,7 @@ export interface EditViewConfig extends BaseViewConfig {
 export interface NewViewConfig extends BaseViewConfig {
   elements: EditElements[];
 }
-export type RawViewConfig = BaseViewConfig
+export type RawViewConfig = BaseViewConfig;
 
 export type ViewConfig =
   | ListViewConfig
