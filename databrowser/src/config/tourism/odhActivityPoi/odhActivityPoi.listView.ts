@@ -34,7 +34,7 @@ export const odhActivityPoiListView: ListViewConfig = {
     ...locationTableCellsMinimal(),
     gpsDataShortTableCell(),
     {
-      title: 'Tags',
+      title: 'ODH Tags',
       component: CellComponent.ArrayCell,
       class: 'w-48',
       objectMapping: {
@@ -45,15 +45,14 @@ export const odhActivityPoiListView: ListViewConfig = {
       },
     },
     {
-      //TESTTESTTEST
-      title: 'Tags 2',
+      title: 'Tags',
       component: CellComponent.ArrayTagsCell,
       class: 'w-48',
       objectMapping: {
         items: 'Tags',
       },
       params: {
-        propertyName: 'Id',
+        propertyName: 'Name',
         separator: ', ',
         max: '5',
       },

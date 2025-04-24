@@ -36,14 +36,27 @@ export const eventListView: ListViewConfig = {
     },
     ...locationTableCellsMinimal(),
     {
-      title: 'Tags',
+      title: 'ODH Tags',
       component: CellComponent.ArrayCell,
-      class: 'w-48',
+      class: 'w-80',
       objectMapping: {
         items: 'SmgTags',
       },
       params: {
         separator: ', ',
+      },
+    },
+    {
+      title: 'Tags',
+      component: CellComponent.ArrayTagsCell,
+      class: 'w-48',
+      objectMapping: {
+        items: 'Tags',
+      },
+      params: {
+        propertyName: 'Name',
+        separator: ', ',
+        max: '5',
       },
     },
     languageTableCell(),
