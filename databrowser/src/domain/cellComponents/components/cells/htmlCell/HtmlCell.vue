@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div v-if="isWriteable" class="html-content relative z-10 flex flex-col">
+  <div v-if="isWriteable" class="html-content">
     <TipTapEditor v-model="content" />
   </div>
   <div v-else v-html="html" class="html-content"></div>
