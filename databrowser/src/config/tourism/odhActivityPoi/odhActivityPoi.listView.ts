@@ -52,7 +52,7 @@ export const odhActivityPoiListView: ListViewConfig = {
         items: 'Tags',
       },
       params: {
-        propertyName: 'Id',
+        propertyName: 'Name',
         separator: ', ',
         max: '5',
       },
