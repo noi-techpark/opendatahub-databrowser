@@ -38,7 +38,7 @@ export const eventListView: ListViewConfig = {
     {
       title: 'ODH Tags',
       component: CellComponent.ArrayCell,
-      class: 'w-48',
+      class: 'w-80',
       objectMapping: {
         items: 'SmgTags',
       },
