@@ -4,42 +4,22 @@ SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<!-- eslint-disable vue/no-v-html -->
 <template>
-  <div v-if="isWriteable" class="relative z-10 flex flex-col">
-    <QuillEditor
-      v-if="isWriteable"
-      ref="quill"
-      :content="html ?? ''"
-      content-type="html"
-      theme="snow"
-      :toolbar="toolbar"
-      @update:content="contentChange"
-    />
+  <div v-if="isWriteable" class="html-content relative z-10 flex flex-col">
+    <TipTapEditor v-model="content" />
   </div>
-
-  <div
-    v-else
-    class="html-content rounded border border-gray-400 p-2"
-    v-html="html"
-  ></div>
+  <div v-else v-html="html" class="html-content"></div>
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, ref, toRefs } from 'vue';
+import { computed, defineAsyncComponent, toRefs } from 'vue';
 import { useWriteable } from '../../utils/writeable/useWriteable';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-const QuillEditor = defineAsyncComponent(() =>
-  import('@vueup/vue-quill').then((exports) => exports.QuillEditor)
+const TipTapEditor = defineAsyncComponent(() =>
+  import('../../../../../components/html/TipTapEditor.vue').then(
+    (exports) => exports.default
+  )
 );
-
-const quill = ref();
-
-const contentChange = () => {
-  const value = quill.value.getContents();
-  emit('update', { prop: 'html', value });
-};
 
 const emit = defineEmits(['update']);
 
@@ -59,52 +39,62 @@ const props = withDefaults(
 const { editable, readonly } = toRefs(props);
 const isWriteable = useWriteable({ editable, readonly });
 
-const toolbar = [
-  ['bold', 'italic', 'underline', 'strike'],
-  ['blockquote'],
-  [{ header: 1 }, { header: 2 }],
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  [{ script: 'sub' }, { script: 'super' }],
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  [{ color: [] }, { background: [] }],
-  ['clean'],
-];
+const content = computed<string>({
+  get: () => props.html ?? '',
+  set: (value) => emit('update', { prop: 'html', value }),
+});
 </script>
 
 <style>
-.ql-toolbar {
-  @apply rounded-t;
-}
-.ql-container {
-  @apply rounded-b text-base font-normal text-black;
-}
-.ql-editor {
-  @apply p-2;
-}
-
-.ql-editor ol,
-.ql-editor ul {
-  @apply m-2 list-disc pl-2;
-}
-
-.ql-editor a {
-  @apply text-green-500;
-}
-
-.ql-editor blockquote {
-  @apply border-l-8 border-gray-500 p-2;
-}
-
-.html-content ol,
-.html-content ul {
-  @apply m-2 list-disc pl-2;
-}
-
 .html-content a {
   @apply text-green-500;
 }
 
+.html-content h1,
+.html-content h2,
+.html-content h3,
+.html-content h4,
+.html-content h5,
+.html-content h6 {
+  @apply mb-2 mt-4;
+}
+
+.html-content h1 {
+  @apply text-2xl;
+}
+
+.html-content h2 {
+  @apply text-xl;
+}
+
+.html-content h3 {
+  @apply text-lg;
+}
+
+.html-content h4 {
+  @apply text-base;
+}
+
+.html-content h5 {
+  @apply text-sm;
+}
+.html-content h6 {
+  @apply text-xs;
+}
+
+.html-content ol,
+.html-content ul {
+  @apply m-2 pl-2;
+}
+
+.html-content ol {
+  @apply list-decimal;
+}
+.html-content ul {
+  @apply list-disc;
+}
+
 .html-content blockquote {
-  @apply border-l-4 border-gray-500 p-2;
+  @apply my-2 border-l-4 border-l-gray-400 p-2 pl-4;
 }
 </style>
