@@ -17,6 +17,7 @@
     "@headlessui/vue": "^1.7.23",
     "@tailwindcss/forms": "^0.5.3",
     "@tanstack/vue-query": "^5.62.8",
+    "@tiptap/extension-link": "^2.11.9",
     "@tiptap/extension-subscript": "^2.11.7",
     "@tiptap/extension-superscript": "^2.11.7",
     "@tiptap/extension-underline": "^2.11.7",
