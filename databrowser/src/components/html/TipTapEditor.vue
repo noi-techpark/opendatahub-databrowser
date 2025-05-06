@@ -204,6 +204,7 @@ import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import IconCodeLine from './icons/IconCodeLine.vue';
 import IconEditorBold from './icons/IconEditorBold.vue';
@@ -242,7 +243,22 @@ const isHtmlMode = ref(false);
 
 const editor = useEditor({
   content: props.modelValue ?? '',
-  extensions: [StarterKit, Underline, Subscript, Superscript],
+  extensions: [
+    StarterKit,
+    Underline,
+    Subscript,
+    Superscript,
+    Link.configure({
+      linkOnPaste: true, // auto‑link pasted URLs
+      autolink:    true, // auto‑link written URLs
+      openOnClick: true, // open links on click
+      defaultProtocol: 'https',
+      HTMLAttributes: {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
+    }),
+  ],
   onUpdate: ({ editor }) => {
     const value = editor.isEmpty ? props.defaultHtmlOnEmpty : editor.getHTML();
     emit('update:modelValue', value);
