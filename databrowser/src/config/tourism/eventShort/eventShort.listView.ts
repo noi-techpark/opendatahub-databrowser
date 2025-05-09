@@ -19,7 +19,7 @@ export const eventShortListView: ListViewConfig = {
       title: 'Title',
       component: CellComponent.StringCell,
       class: 'w-48',
-      objectMapping: { text: 'EventTitle.{language}' },
+      objectMapping: { text: 'Detail.{language}.Title' },
     },
     {
       title: 'Date start',
