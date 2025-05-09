@@ -151,6 +151,41 @@ export const accommodationSharedView = ():
           ],
         },
         dataStatesSubCategory(),
+        {
+          name: '',
+          properties: [
+            {
+              title: 'Tourismorganization member',
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'TVMember' },
+            },
+            {
+              title: 'Has Rooms',
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'HasRoom' },
+            },
+            {
+              title: 'Is Camping',
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'IsCamping' },
+            },
+            {
+              title: 'Is Bookable',
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'IsBookable' },
+            },
+            //AccoProperties.
+            // "HasDorm": null,
+            // "HasRoom": true,
+            // "TVMember": true,
+            // "IsCamping": false,
+            // "HasPitches": null,
+            // "IsBookable": true,
+            // "HasApartment": false,
+            // "IsGastronomy": false,
+            // "IsAccommodation": true
+          ],
+        },        
         sourceSubCategoryWithDistinct('accommodation'),
       ],
     },
@@ -199,6 +234,38 @@ export const accommodationSharedView = ():
     locationCategory(),
     gpsDataCategory(),
     odhTagCategory('accommodation'),
+    {
+      name: 'Additional Information',
+      slug: 'additional-information',
+      subcategories: [
+        {
+          name: 'LTS specific Information',
+          properties: [
+            {
+              title: 'Name',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Shortname' },
+            },
+          ],
+        },
+        {
+          name: 'HGV specific Information',
+          properties: [
+            {
+              title: 'Name',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Shortname' },
+            },
+          ],
+        },
+        //AccoOverview
+        //Acco Booking Info
+        //AccoRoomInfo
+        //DistanceInfo
+        //Trust You Infos (Review)
+        //TourismVereinId
+      ],
+    },
     licenseInfoCategory(),
     mappingCategory(),
     updatehistoryCategory(),
