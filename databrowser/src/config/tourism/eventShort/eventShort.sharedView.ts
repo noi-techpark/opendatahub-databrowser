@@ -11,6 +11,7 @@ import {
   eventDocumentCategory,
   idReadOnlyCell,
   imageGalleryCategory,
+  textInfoCategory,
   lastChangesCell,
   sourceSubCategoryWithDistinct,
   licenseInfoCategory,
@@ -37,17 +38,17 @@ export const eventShortSharedView = (): DetailViewConfig | EditViewConfig => ({
               component: CellComponent.StringCell,
               objectMapping: { text: 'Shortname' },
             },
-            {
-              title: 'Title',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'EventTitle.{language}' },
-            },
-            {
-              title: 'Description',
-              component: CellComponent.TextAreaCell,
-              objectMapping: { text: 'EventText.{language}' },
-              params: { rows: '4' },
-            },
+            // {
+            //   title: 'Title',
+            //   component: CellComponent.StringCell,
+            //   objectMapping: { text: 'EventTitle.{language}' },
+            // },
+            // {
+            //   title: 'Description',
+            //   component: CellComponent.TextAreaCell,
+            //   objectMapping: { text: 'EventText.{language}' },
+            //   params: { rows: '4' },
+            // },
             {
               title: 'Organizer',
               component: CellComponent.StringCell,
@@ -84,6 +85,7 @@ export const eventShortSharedView = (): DetailViewConfig | EditViewConfig => ({
         sourceSubCategoryWithDistinct('eventshort'),
       ],
     },
+    textInfoCategory(),
     {
       name: 'Event details',
       slug: 'event-details',
