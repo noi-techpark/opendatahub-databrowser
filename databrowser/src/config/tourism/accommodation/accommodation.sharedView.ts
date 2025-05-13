@@ -105,6 +105,7 @@ export const accommodationSharedView = ():
               objectMapping: { enabled: 'IsBookable' },
             },
             {
+              //TODO Display features better
               title: 'Features',
               component: CellComponent.ArrayTagsCell,
               objectMapping: {
@@ -436,9 +437,18 @@ export const accommodationSharedView = ():
           name: 'Booking Information',
           properties: [
             {
-              title: 'Name',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'Shortname' },
+              title: 'Booking Information',
+              component: CellComponent.EditAccommodationBookingCell,
+              arrayMapping: {
+                pathToParent: 'AccoBookingChannel',
+                objectMapping: {
+                  Id: 'Id',
+                  Portalname: 'Portalname',
+                  BookingId: 'BookingId',
+                  Pos1ID: 'Pos1ID',
+                },
+                targetPropertyName: 'accommodationBooking',
+              },
             },
           ],
         },
@@ -478,18 +488,23 @@ export const accommodationSharedView = ():
           ],
         },
         {
-          name: 'Accommodation Room Information',
+          name: 'Room Information',
           properties: [
             {
-              title: 'Name',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'Shortname' },
+              title: 'Room Information',
+              component: CellComponent.EditAccommodationRoomCell,
+              
+              arrayMapping: {
+                pathToParent: 'AccoRoomInfo',
+                objectMapping: {
+                  Id: 'Id',
+                  Source: 'Source',
+                },
+                targetPropertyName: 'accommodationRoom',
+              },
             },
           ],
         },
-        
-        //Acco Booking Info
-        //AccoRoomInfo
         //DistanceInfo
         //Trust You Infos (Review)
         //TourismVereinId
