@@ -17,6 +17,7 @@ import {
   imageGalleryCategory,
   locationCategory,
   odhTagCategory,
+  tagCategory,
   shortnameCell,
   sourceSubCategoryWithDistinct,
   mainImageCell,
@@ -161,8 +162,8 @@ export const accommodationSharedView = ():
       ],
     },
     {
-      name: 'Accommodation Properties',
-      slug: 'accommodation-properties',
+      name: 'Properties',
+      slug: 'properties',
       subcategories: [
         {
           name: '',
@@ -215,12 +216,38 @@ export const accommodationSharedView = ():
           ],
         },
         {
+          //To check if a new component has to be made here because of Dictionary
           name: 'Trust You ',
           properties: [
             {
-              title: 'Tourismorganization member',
+              title: 'Score',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Review.trustyou.Score' },
+            },
+            {
+              title: 'Results',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Review.trustyou.Results' },
+            },
+            {
+              title: 'State',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Review.trustyou.State' },
+            },
+            {
+              title: 'ReviewId',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Review.trustyou.ReviewId' },
+            },
+            {
+              title: 'Active',
               component: CellComponent.ToggleTriStateCell,
-              objectMapping: { enabled: 'AccoProperties.TVMember' },
+              objectMapping: { enabled: 'Review.trustyou.Active' },
+            },
+            {
+              title: 'Provider',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Review.trustyou.Provider' },
             },
           ],
         },
@@ -471,6 +498,7 @@ export const accommodationSharedView = ():
     locationCategory(),
     gpsDataCategory(),
     odhTagCategory('accommodation'),
+    tagCategory('accommodation'),
     licenseInfoCategory(),
     mappingCategory(),
     updatehistoryCategory(),
