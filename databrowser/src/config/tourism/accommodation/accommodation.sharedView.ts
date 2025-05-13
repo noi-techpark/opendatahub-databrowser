@@ -224,7 +224,141 @@ export const accommodationSharedView = ():
             },
           ],
         },
-        //AccoOverview
+        {
+          name: 'Accommodation Overview',
+          properties: [
+            {
+              title: 'TotalRooms',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.TotalRooms' },
+            },
+            {
+              title: 'SingleRooms',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.SingleRooms' },
+            },
+            {
+              title: 'DoubleRooms',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.DoubleRooms' },
+            },
+            {
+              title: 'TripleRooms',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.TripleRooms' },
+            },
+            {
+              title: 'QuadrupleRooms',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.QuadrupleRooms' },
+            },
+            {
+              title: 'Apartments',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.Apartments' },
+            },
+            {
+              title: 'ApartmentBeds',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.ApartmentBeds' },
+            },
+            {
+              title: 'MaxPersons',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.MaxPersons' },
+            },
+            {
+              title: 'OutdoorParkings',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.OutdoorParkings' },
+            },
+            {
+              title: 'GarageParkings',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.GarageParkings' },
+            },
+            {
+              title: 'CampingUnits',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CampingUnits' },
+            },
+            {
+              title: 'CampingWashrooms',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CampingWashrooms' },
+            },
+            {
+              title: 'CampingDouches',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CampingDouches' },
+            },
+            {
+              title: 'CampingToilettes',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CampingToilettes' },
+            },
+            {
+              title: 'CampingWashingstands',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CampingWashingstands' },
+            },
+            {
+              title: 'ApartmentRoomSize',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.ApartmentRoomSize' },
+            },
+            {
+              title: 'CheckInFrom',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CheckInFrom' },
+            },
+            {
+              title: 'CheckInTo',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CheckInTo' },
+            },
+            {
+              title: 'CheckOutFrom',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CheckOutFrom' },
+            },
+            {
+              title: 'CheckOutTo',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.CheckOutTo' },
+            },
+            {
+              title: 'ReceptionOpenFrom',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.ReceptionOpenFrom' },
+            },
+            {
+              title: 'ReceptionOpenTo',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.ReceptionOpenTo' },
+            },
+            {
+              title: 'RoomServiceFrom',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.RoomServiceFrom' },
+            },
+            {
+              title: 'RoomServiceTo',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.RoomServiceTo' },
+            },
+            {
+              title: 'BaggageServiceFrom',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.BaggageServiceFrom' },
+            },
+            {
+              title: 'BaggageServiceTo',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'AccoOverview.BaggageServiceTo' },
+            },
+          ],
+        },
       ],
     },
     {
@@ -285,9 +419,14 @@ export const accommodationSharedView = ():
           name: 'LTS specific Information',
           properties: [
             {
-              title: 'Name',
+              title: 'Price From',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'Shortname' },
+              objectMapping: { text: 'PriceFrom' },
+            },
+            {
+              title: 'Price From per Unit',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'PriceFromPerUnit' },
             },
           ],
         },
@@ -295,9 +434,19 @@ export const accommodationSharedView = ():
           name: 'HGV specific Information',
           properties: [
             {
-              title: 'Name',
+              title: 'PriceFrom',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'Shortname' },
+              objectMapping: { text: 'PriceFrom' },
+            },
+            {
+              title: 'AvailableFrom',
+              component: CellComponent.DateCell,
+              objectMapping: { date: 'AvailableFrom' },
+            },
+            {
+              title: 'Bookable',
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { enabled: 'Bookable' },
             },
           ],
         },
