@@ -434,6 +434,23 @@ export const accommodationSharedView = ():
       slug: 'additional-information',
       subcategories: [
         {
+          name: '',
+          properties: [
+            {
+              title: 'Tourism Organization Owner',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'TourismVereinId' },
+            },
+            {
+              title: 'District',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'DistrictId' },
+            },
+            //Representation
+            //IndependentData
+          ],
+        },
+        {
           name: 'Booking Information',
           properties: [
             {
@@ -458,12 +475,12 @@ export const accommodationSharedView = ():
             {
               title: 'Price From',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'PriceFrom' },
+              objectMapping: { text: 'AccoLTSInfo.PriceFrom' },
             },
             {
               title: 'Price From per Unit',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'PriceFromPerUnit' },
+              objectMapping: { text: 'AccoLTSInfo.PriceFromPerUnit' },
             },
           ],
         },
@@ -473,17 +490,17 @@ export const accommodationSharedView = ():
             {
               title: 'PriceFrom',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'PriceFrom' },
+              objectMapping: { text: 'AccoHGVInfo.PriceFrom' },
             },
             {
               title: 'AvailableFrom',
               component: CellComponent.DateCell,
-              objectMapping: { date: 'AvailableFrom' },
+              objectMapping: { date: 'AccoHGVInfo.AvailableFrom' },
             },
             {
               title: 'Bookable',
               component: CellComponent.ToggleTriStateCell,
-              objectMapping: { enabled: 'Bookable' },
+              objectMapping: { enabled: 'AccoHGVInfo.Bookable' },
             },
           ],
         },
@@ -505,9 +522,6 @@ export const accommodationSharedView = ():
             },
           ],
         },
-        //DistanceInfo
-        //Trust You Infos (Review)
-        //TourismVereinId
       ],
     },
     locationCategory(),
