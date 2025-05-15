@@ -13,9 +13,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <SelectCustom
         extra-button-classes="h-9"
         :grouped-options="selectOptions"
-        :value="currentDataset"
+        :value="currentDatasetName"
         :show-search-when-at-least-count-options="1"
         :size="SelectSize.sm"
+        :show-value-as-label-fallback="true"
         @change="handleDatasetChange"
       />
     </div>
@@ -161,12 +162,21 @@ const handleDatasetChange = (value: string) => {
   router.push(computeTableLocation(domain, pathSegments, apiFilter));
 };
 
-const currentDataset = computed<string | undefined>(() => {
-  if (currentMetaData.value == null) {
-    return undefined;
+const currentDatasetName = computed<string | undefined>(() => {
+  // If the current dataset is known return its select value
+  // such that the select shows the correct value
+  if (currentMetaData.value != null) {
+    return getDatasetSelectValue(currentMetaData.value);
   }
 
-  return getDatasetSelectValue(currentMetaData.value);
+  // If the current dataset is not known, we try to generate
+  // the select value from the current route
+  const route = router.currentRoute.value;
+  if (Array.isArray(route.params.pathSegments)) {
+    return `/${route.params.pathSegments.join('/')}`;
+  }
+
+  return route.params.pathSegments;
 });
 
 const getDatasetSelectValue = (dataset: TourismMetaData) => {

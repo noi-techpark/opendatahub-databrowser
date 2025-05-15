@@ -3,23 +3,23 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { computed, Ref } from 'vue';
+import { useMetaDataForAllDatasets } from '../../../pages/datasets/overview/useDatasets';
 import {
   DatasetPath,
   DatasetQuery,
   PathSegments,
 } from '../../datasets/config/types';
-import { useMetaDataQuery } from './useMetaDataQuery';
 
 // Return the metadata for the route specified by the path params and query
 export const useMetaDataForRoute = (
   datasetPath: Ref<DatasetPath | undefined>,
   datasetQuery: Ref<DatasetQuery | undefined>
 ) => {
-  const metaData = useMetaDataQuery();
+  const { metaData } = useMetaDataForAllDatasets();
 
   const currentMetaData = computed(() => {
     // TODO: use candidate computation from findCandidateConfigs?
-    const candidates = (metaData.data.value ?? [])
+    const candidates = Object.values(metaData.value ?? [])
       .filter((md) => {
         if (
           datasetPath.value == null ||
