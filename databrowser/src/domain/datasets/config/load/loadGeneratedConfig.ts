@@ -157,8 +157,7 @@ const parse = (
         );
 
         if (operation === 'readAll') {
-          datasetConfig.views.table =
-            listViewConfigFromProperties(schema);
+          datasetConfig.views.table = listViewConfigFromProperties(schema);
 
           // Set default query parameters
           datasetConfig.views.table.defaultQueryParams =
@@ -166,8 +165,7 @@ const parse = (
               ? defaultTourismTableQueryParameters
               : defaultMobilityTableQueryParameters;
         } else if (operation === 'read') {
-          datasetConfig.views.detail =
-            detailViewConfigFromProperties(schema);
+          datasetConfig.views.detail = detailViewConfigFromProperties(schema);
         }
         // End resolve view
       });
@@ -271,6 +269,8 @@ const schemaFromEndpointMethod = (
       return mobilityDefaultSchema;
     }
 
+    // At this point, we know that the domain is tourism
+
     const responseOk = endpointMethod.responses?.[200] as
       | OpenApi.ResponseObject
       | undefined;
@@ -278,18 +278,35 @@ const schemaFromEndpointMethod = (
       | OpenApi.SchemaObject
       | undefined;
 
-    // List schemes for tourism API are nested inside the tourism pagination data structure
-    // (with its typical pagination properties like Items, TotalResults, TotalPages, etc.)
-    // We first check if the schema has tourism pagination shape and if so, we return the
-    // actual properties of the list schema.
+    // In tourism API, there are two different shapes of the response schema:
+    // 1. A paginated response, which has a specific shape (with properties like
+    //    CurrentPage, TotalResults, TotalPages, PreviousPage, NextPage, Items)
+    // 2. A plain array of objects, which is a simple array of objects
+    //    (with no pagination properties)
+
+    // Case 1 - paginated result: the schema is nested inside the tourism pagination
+    // data structure
     if (hasTourismPaginationShape(schema?.properties)) {
-      // Note that in this case, the schema we're interested in is inside the Items.items property
-      type ListSchema = { properties?: { Items?: { items?: { properties: OpenApi.SchemaObject | undefined } } } };
+      // The schema we're interested in is inside the Items.items property
+      type ListSchema = {
+        properties?: {
+          Items?: { items?: { properties: OpenApi.SchemaObject | undefined } };
+        };
+      };
       return (schema as ListSchema)?.properties?.Items?.items?.properties;
+    }
+
+    // Case 2 - plain array of objects: the schema is inside schema.items.properties
+    if (
+      schema?.type === 'array' &&
+      (schema.items as OpenApi.SchemaObject)?.properties != null
+    ) {
+      return (schema.items as OpenApi.SchemaObject)?.properties;
     }
 
     return schema;
   }
+
   if (operation === 'create' || operation === 'update') {
     const requestBody = endpointMethod.requestBody as
       | OpenApi.RequestBodyObject
@@ -374,7 +391,9 @@ const loadAllDatasetConfigs: LoadAllDatasetConfigsFn = async () => {
   const result: Record<AnyDomain, DatasetConfig[]> = {};
 
   for (const domain of Object.keys(domainWithOpenApiDocument)) {
-    const document = await useOpenApi().loadDocument(domain as DomainWithOpenApiDocument);
+    const document = await useOpenApi().loadDocument(
+      domain as DomainWithOpenApiDocument
+    );
 
     // If no OpenAPI document could be found, then there are no view configs to return
     if (document == null) {
