@@ -21,28 +21,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <StringCell
               :text="item.Id"
               :editable="editable"
-              @input="updateItem(index, { Type: $event.target.value })"
+              @input="updateItem(index, { Id: $event.target.value })"
             />
           </SubCategoryItem>
           <SubCategoryItem title="Name">
             <StringCell
               :text="item.Name"
               :editable="editable"
-              @input="updateItem(index, { Url: $event.target.value })"
+              @input="updateItem(index, { Name: $event.target.value })"
             />
           </SubCategoryItem>
           <SubCategoryItem title="HgvId">
             <StringCell
               :text="item.HgvId"
               :editable="editable"
-              @input="updateItem(index, { Url: $event.target.value })"
+              @input="updateItem(index, { HgvId: $event.target.value })"
             />
           </SubCategoryItem>
           <SubCategoryItem title="OtaCodes">
             <StringCell
               :text="item.OtaCodes"
               :editable="editable"
-              @input="updateItem(index, { Url: $event.target.value })"
+              @input="updateItem(index, { OtaCodes: $event.target.value })"
             />
           </SubCategoryItem>
         </div>
