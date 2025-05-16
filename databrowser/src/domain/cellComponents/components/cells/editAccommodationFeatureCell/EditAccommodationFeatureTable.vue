@@ -7,8 +7,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <EditListTable :items="items">
     <template #colGroup>
-      <col class="w-16 md:w-24" />
-      <col class="w-32 md:w-40" />
       <col class="w-32 md:w-40" />
       <col class="w-16 md:w-24" />
     </template>
@@ -16,8 +14,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #tableHeader>
       <TableHeaderCell>Id</TableHeaderCell>
       <TableHeaderCell>Name</TableHeaderCell>
-      <TableHeaderCell>Hgv Id</TableHeaderCell>
-      <TableHeaderCell>Ota Codes</TableHeaderCell>
     </template>
 
     <template #tableCols="{ item }">
