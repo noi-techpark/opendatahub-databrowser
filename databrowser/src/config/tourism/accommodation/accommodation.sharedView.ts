@@ -105,19 +105,6 @@ export const accommodationSharedView = ():
               objectMapping: { enabled: 'IsBookable' },
             },
             {
-              //TODO Display features better
-              title: 'Features',
-              component: CellComponent.ArrayTagsCell,
-              objectMapping: {
-                items: 'Features',
-              },
-              params: {
-                propertyName: 'Name',
-                separator: ', ',
-                max: '3',
-              },
-            },
-            {
               title: 'Special Features',
               component: CellComponent.TagReferenceCell,
               arrayMapping: {
@@ -156,6 +143,21 @@ export const accommodationSharedView = ():
                 keySelector: 'Key',
                 labelSelector: 'TypeDesc.{language}',
                 url: withOdhBaseUrl('/v1/AccommodationTypes?type=Theme'),
+              },
+            },
+            {
+              title: 'Features',
+              component: CellComponent.EditAccommodationFeatureCell,
+              arrayMapping: {
+                pathToParent: 'Features',
+                objectMapping: {
+                  Id: 'Id',
+                  Name: 'Name',
+                  HgvId: 'HgvId',
+                  OtaCodes: 'OtaCodes',
+                  RoomAmenityCodes: 'RoomAmenityCodes',
+                },
+                targetPropertyName: 'accommodationFeature',
               },
             },
           ],
@@ -409,6 +411,31 @@ export const accommodationSharedView = ():
             },
           ],
         },
+        {
+          name: 'Independent Data',
+          properties: [
+            {
+              title: 'Enabled',
+              component: CellComponent.ToggleTriStateCell,
+              objectMapping: { checked: 'Enabled' },
+            },
+            {
+              title: 'IndependentRating',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'IndependentRating' },
+            },
+            {
+              title: 'BacklinkUrl',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'IndependentDescription.{language}.BacklinkUrl' },
+            },
+            {
+              title: 'Description',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'IndependentDescription.{language}.Description' },
+            },
+          ],
+        },
       ],
     },
     accoContactCategory(),
@@ -442,12 +469,15 @@ export const accommodationSharedView = ():
               objectMapping: { text: 'TourismVereinId' },
             },
             {
-              title: 'District',
+              title: 'District Id',
               component: CellComponent.StringCell,
               objectMapping: { text: 'DistrictId' },
             },
-            //Representation
-            //IndependentData
+            {
+              title: 'Representation',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Representation' },
+            },
           ],
         },
         {

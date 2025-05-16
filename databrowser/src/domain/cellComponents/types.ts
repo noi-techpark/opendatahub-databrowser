@@ -15,6 +15,7 @@ export enum CellComponent {
   DateCell = 'DateCell',
   DictionaryCell = 'DictionaryCell',
   EditAccommodationBookingCell = 'EditAccommodationBookingCell',
+  EditAccommodationFeatureCell = 'EditAccommodationFeatureCell',
   EditAccommodationRoomCell = 'EditAccommodationRoomCell',
   EditedDateCell = 'EditedDateCell',
   EditImageGalleryCell = 'EditImageGalleryCell',

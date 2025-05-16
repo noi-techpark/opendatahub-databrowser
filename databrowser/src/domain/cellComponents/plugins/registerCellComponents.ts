@@ -16,6 +16,7 @@ import CustomDataArrayCell from '../components/cells/customDataArrayCell/CustomD
 import DateCell from '../components/cells/dateCell/DateCell.vue';
 import DictionaryCell from '../components/cells/dictionaryCell/DictionaryCell.vue';
 import EditAccommodationBookingCell from '../components/cells/editAccommodationBookingCell/EditAccommodationBookingCell.vue';
+import EditAccommodationFeatureCell from '../components/cells/editAccommodationFeatureCell/EditAccommodationFeatureCell.vue';
 import EditAccommodationRoomCell from '../components/cells/editAccommodationRoomCell/EditAccommodationRoomCell.vue';
 import EditedDateCell from '../components/cells/editedDateCell/EditedDateCell.vue';
 import EditImageGalleryCell from '../components/cells/editImageGalleryCell/EditImageGalleryCell.vue';
@@ -80,6 +81,7 @@ export default {
     app.component(CellComponent.ArticleLinkInfoCell, ArticleLinkInfoCell);
     app.component(CellComponent.ArticleTypeCell, ArticleTypeCell);
     app.component(CellComponent.EditAccommodationBookingCell, EditAccommodationBookingCell);
+    app.component(CellComponent.EditAccommodationFeatureCell, EditAccommodationFeatureCell);
     app.component(CellComponent.EditAccommodationRoomCell, EditAccommodationRoomCell);
     app.component(CellComponent.DateCell, DateCell);
     app.component(CellComponent.CustomDataArrayCell, CustomDataArrayCell);
