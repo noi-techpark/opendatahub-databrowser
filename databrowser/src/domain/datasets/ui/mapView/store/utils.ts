@@ -37,6 +37,6 @@ export const getRecordUrl = (
     case 'content':
       return `${url.toString()}/${recordId}`;
     case 'timeseries':
-      return `${url.toString()}?scode=${recordId}`;
+      return `${url.toString()}?where=scode.eq."${recordId}"`;
   }
 };
