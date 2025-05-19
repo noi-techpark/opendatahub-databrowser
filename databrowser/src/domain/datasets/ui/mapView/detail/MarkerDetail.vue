@@ -45,6 +45,7 @@ import { getApiDomainFromMetaData } from '../../../../metaDataConfig/utils';
 import { toError } from '../../../../utils/convertError';
 import { buildTargetFromMapping } from '../../../config/mapping/utils';
 import { computeDatasetViewLocations } from '../../../location/datasetViewLocation';
+import { isWithMobilityPagination } from '../../../pagination/types';
 import { useMapViewStore } from '../store/useMapViewStore';
 import { MarkerFeature } from '../types';
 import RecordDetailLinks from './RecordDetailLinks.vue';
@@ -77,7 +78,22 @@ watch(
         recordId.value
       );
 
-      recordData.value = data;
+      if (apiType === 'content') {
+        recordData.value = data;
+      } else if (apiType === 'timeseries') {
+        if (
+          isWithMobilityPagination(data) &&
+          Array.isArray(data.data) &&
+          data.data.length > 0
+        ) {
+          recordData.value = data.data[0];
+        } else {
+          recordData.value = data;
+        }
+      } else {
+        throw new Error('Unknown API type');
+      }
+
       recordUrl.value = url;
       recordApiType.value = apiType;
     } catch (err) {
