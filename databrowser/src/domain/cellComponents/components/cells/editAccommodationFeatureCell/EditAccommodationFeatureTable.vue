@@ -7,21 +7,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <EditListTable :items="items">
     <template #colGroup>
-      <col class="w-32 md:w-40" />
       <col class="w-16 md:w-24" />
+      <col class="w-32 md:w-40" />
     </template>
 
     <template #tableHeader>
-      <TableHeaderCell>Id</TableHeaderCell>
       <TableHeaderCell>Name</TableHeaderCell>
+      <TableHeaderCell>Id</TableHeaderCell>
     </template>
 
     <template #tableCols="{ item }">
       <TableCell>
-        <StringCell :text="item.Id" />
+        <StringCell :text="item.Name" />
       </TableCell>
       <TableCell>
-        <StringCell :text="item.Name" />
+        <StringCell :text="item.Id" />
       </TableCell>
     </template>
     <template #noItems>No feature info has been defined yet</template>
