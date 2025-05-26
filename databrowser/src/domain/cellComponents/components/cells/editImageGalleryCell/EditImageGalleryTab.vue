@@ -102,6 +102,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @input="updateItem(index, { validTo: $event.value })"
             />
           </SubCategoryItem>
+          <SubCategoryItem title="Tags">
+            <ArrayEditableCell :items="item.imageTags" :editable="false" />
+          </SubCategoryItem>
         </div>
         <div class="basis-full md:order-3 md:basis-1/3">
           <div class="rounded border">
@@ -208,6 +211,7 @@ import { useFileDialogForType } from '../../utils/upload/useFileDialogForType';
 import SelectWithOptionsCell from '../selectWithOptionsCell/SelectWithOptionsCell.vue';
 import StringCell from '../stringCell/StringCell.vue';
 import DateCell from '../dateCell/DateCell.vue';
+import ArrayEditableCell from '../arrayCell/ArrayEditableCell.vue';
 import ToggleTriStateCell from '../toggleCell/ToggleTriStateCell.vue';
 import { ImageGalleryEntry } from './types';
 import { shouldResize } from './utils';

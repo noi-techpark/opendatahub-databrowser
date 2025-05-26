@@ -8,11 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <EditListTable :items="items">
     <template #colGroup>
       <col class="w-32 md:w-40" />
+      <col class="w-16 md:w-20" />
       <col class="w-32 md:w-40" />
       <col class="w-32 md:w-40" />
       <col class="w-32 md:w-40" />
       <col class="w-32 md:w-40" />
-      <col class="w-32 md:w-40" />
+      <col class="w-20 md:w-28" />
       <col class="w-20 md:w-28" />
     </template>
     <template #tableHeader>
@@ -22,6 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableHeaderCell>Description</TableHeaderCell>
       <TableHeaderCell>Copyright</TableHeaderCell>
       <TableHeaderCell>License</TableHeaderCell>
+      <TableHeaderCell>Tags</TableHeaderCell>
       <TableHeaderCell>Resolution</TableHeaderCell>
     </template>
 
@@ -45,6 +47,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableCell>{{ item.description }}</TableCell>
       <TableCell>{{ item.copyright }}</TableCell>
       <TableCell>{{ item.license }}</TableCell>
+      <TableCell>
+        <div v-for="imagetag in item.imageTags" :key="imagetag">
+          {{ imagetag }}
+        </div>
+      </TableCell>
       <TableCell>{{ getResolutionAsText(item) }}</TableCell>
     </template>
     <template #noItems>No images have been uploaded yet</template>
