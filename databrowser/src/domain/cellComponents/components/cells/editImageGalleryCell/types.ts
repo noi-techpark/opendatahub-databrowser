@@ -18,4 +18,5 @@ export interface ImageGalleryEntry {
   isInGallery?: string;
   validFrom?: string;
   validTo?: string;
+  imageTags?: string[];
 }

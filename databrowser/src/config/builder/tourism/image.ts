@@ -31,6 +31,7 @@ export const imageGalleryCell = (
       isInGallery: 'IsInGallery',
       validFrom: 'ValidFrom',
       validTo: 'ValidTo',
+      imageTags: 'ImageTags',
     },
   },
   params: { resizeImages: resizeImages + '' },
