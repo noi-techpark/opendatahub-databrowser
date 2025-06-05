@@ -11,6 +11,7 @@ import {
   contactCategory,
   dataStatesSubCategory,
   gpsDataCategory,
+  gpsTrackCategory,
   idReadOnlyCell,
   imageGalleryCategory,
   licenseInfoCategory,
@@ -83,6 +84,7 @@ export const odhActivityPoiSharedView = ():
     seasonCategory(),
     locationCategory(),
     gpsDataCategory(),
+    gpsTrackCategory(),
     odhTagCategory('odhactivitypoi'),
     tagCategory('odhactivitypoi'),
     {
