@@ -7,6 +7,7 @@ export * from './contact';
 export * from './dataStates';
 export * from './event';
 export * from './gpsData';
+export * from './gpsTrack';
 export * from './id';
 export * from './image';
 export * from './language';
