@@ -21,30 +21,6 @@ export const odhActivityPoiListView: ListViewConfig = {
     titleTableCell(),
     imageTableCell(),
     {
-      title: 'Categories',
-      component: CellComponent.ArrayCell,
-      class: 'w-52',
-      objectMapping: {
-        items: 'AdditionalPoiInfos.{language}.Categories',
-      },
-      params: {
-        separator: ', ',
-      },
-    },
-    ...locationTableCellsMinimal(),
-    gpsDataShortTableCell(),
-    {
-      title: 'ODH Tags',
-      component: CellComponent.ArrayCell,
-      class: 'w-48',
-      objectMapping: {
-        items: 'SmgTags',
-      },
-      params: {
-        separator: ', ',
-      },
-    },
-    {
       title: 'Tags',
       component: CellComponent.ArrayTagsCell,
       class: 'w-48',
@@ -57,6 +33,30 @@ export const odhActivityPoiListView: ListViewConfig = {
         max: '5',
       },
     },
+    // {
+    //   title: 'Categories',
+    //   component: CellComponent.ArrayCell,
+    //   class: 'w-52',
+    //   objectMapping: {
+    //     items: 'AdditionalPoiInfos.{language}.Categories',
+    //   },
+    //   params: {
+    //     separator: ', ',
+    //   },
+    // },
+    ...locationTableCellsMinimal(),
+    gpsDataShortTableCell(),
+    {
+      title: 'ODH Tags',
+      component: CellComponent.ArrayCell,
+      class: 'w-48',
+      objectMapping: {
+        items: 'SmgTags',
+      },
+      params: {
+        separator: ', ',
+      },
+    },    
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),
