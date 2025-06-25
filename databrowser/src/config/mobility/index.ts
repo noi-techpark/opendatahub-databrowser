@@ -7,11 +7,13 @@ import { defaultMobilityTableQueryParameters } from '../../domain/datasets/ui/ta
 import { eventOriginsConfig } from './eventOrigins/eventOrigins.config';
 import { representationConfig } from './representation/representation.config';
 import { stationTypesConfig } from './stationTypes/stationTypes.config';
+import { stationTypesLatestConfig } from './stationTypesLatest/stationTypesLatest.config';
 
 export const mobilityEmbeddedDatasetConfigs = [
   eventOriginsConfig,
   representationConfig,
   stationTypesConfig,
+  stationTypesLatestConfig,
 ].map<DatasetConfig>((config) => ({
   ...config,
   views: {
