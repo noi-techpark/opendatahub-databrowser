@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-version: "3"
+version: '3'
 services:
   node:
     build:

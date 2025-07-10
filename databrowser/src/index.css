@@ -23,13 +23,13 @@ a {
 }
 
 a:focus-visible:not([button-link]) {
-  @apply outline outline-green-500 outline-1 outline-offset-2;
+  @apply outline outline-1 outline-offset-2 outline-green-500;
 }
 
 button:focus-visible,
 input:focus-visible,
 ul:focus-visible {
-  @apply outline outline-green-500 outline-1;
+  @apply outline outline-1 outline-green-500;
 }
 
 input:focus-visible {
