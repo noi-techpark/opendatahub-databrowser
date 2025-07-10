@@ -34,7 +34,7 @@
     "jwt-decode": "^4.0.0",
     "keycloak-js": "^26.0.7",
     "maplibre-gl": "^5.0.0",
-    "pinia": "^2.3.0",
+    "pinia": "^3.0.3",
     "ramda": "^0.30.1",
     "swagger-client": "^3.34.3",
     "uuid": "^11.1.0",
