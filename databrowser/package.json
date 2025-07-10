@@ -28,7 +28,7 @@
     "@vueuse/core": "^13.5.0",
     "@vueuse/integrations": "^13.5.0",
     "@vueuse/router": "^13.5.0",
-    "axios": "^1.8.4",
+    "axios": "^1.10.0",
     "date-fns": "^4.1.0",
     "fuse.js": "^7.0.0",
     "jwt-decode": "^4.0.0",
