@@ -18,30 +18,40 @@ export const extractView = (
 
   switch (viewKeyValue) {
     case 'table':
-      return baseViewsValue.table && {
-        ...baseViewsValue.table,
-        type: viewKeyValue,
-      };
+      return (
+        baseViewsValue.table && {
+          ...baseViewsValue.table,
+          type: viewKeyValue,
+        }
+      );
     case 'detail':
-      return baseViewsValue.detail && {
-        ...baseViewsValue.detail,
-        type: viewKeyValue,
-      };
+      return (
+        baseViewsValue.detail && {
+          ...baseViewsValue.detail,
+          type: viewKeyValue,
+        }
+      );
     case 'edit':
-      return baseViewsValue.edit && {
-        ...baseViewsValue.edit,
-        type: viewKeyValue,
-      };
+      return (
+        baseViewsValue.edit && {
+          ...baseViewsValue.edit,
+          type: viewKeyValue,
+        }
+      );
     case 'new':
-      return baseViewsValue.new && {
-        ...baseViewsValue.new,
-        type: viewKeyValue,
-      };
+      return (
+        baseViewsValue.new && {
+          ...baseViewsValue.new,
+          type: viewKeyValue,
+        }
+      );
     case 'raw':
-      return baseViewsValue.raw && {
-        ...baseViewsValue.raw,
-        type: viewKeyValue,
-      };
+      return (
+        baseViewsValue.raw && {
+          ...baseViewsValue.raw,
+          type: viewKeyValue,
+        }
+      );
   }
 };
 

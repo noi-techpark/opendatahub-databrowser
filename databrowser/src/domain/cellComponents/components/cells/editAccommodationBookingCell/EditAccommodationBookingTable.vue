@@ -36,7 +36,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
     <template #noItems>No booking info has been defined yet</template>
     <template #addItems>
-      <EditListAddButton :text="'Add new booking info data'" @click="addItem({})" />
+      <EditListAddButton
+        :text="'Add new booking info data'"
+        @click="addItem({})"
+      />
     </template>
   </EditListTable>
 </template>

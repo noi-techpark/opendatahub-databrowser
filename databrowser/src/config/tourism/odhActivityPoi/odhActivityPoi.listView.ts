@@ -56,7 +56,7 @@ export const odhActivityPoiListView: ListViewConfig = {
       params: {
         separator: ', ',
       },
-    },    
+    },
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

@@ -70,9 +70,9 @@ const arrowClasses = computed(() =>
   placement.value.startsWith(`bottom`)
     ? `border-t border-l`
     : placement.value.startsWith(`top`)
-    ? `border-b border-r`
-    : placement.value.startsWith(`left`)
-    ? `border-t border-r`
-    : `border-b border-l`
+      ? `border-b border-r`
+      : placement.value.startsWith(`left`)
+        ? `border-t border-r`
+        : `border-b border-l`
 );
 </script>

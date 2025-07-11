@@ -31,7 +31,7 @@ export const mapToOptionsWithKeys = (attrs: Record<string, unknown>) =>
 // to the given optionsWithKeys
 export const mapToOptionsWithKeysAndValues = (
   attrs: Record<string, unknown>,
-  optionsWithKeys: Record<string, SelectOption>,
+  optionsWithKeys: Record<string, SelectOption>
 ) =>
   Object.entries(attrs)
     .filter(([key]) => key.startsWith('label_'))
@@ -54,7 +54,7 @@ export const mapToOptionsWithKeysAndValues = (
 // Build usable SelectOptions
 export const buildOptions = (
   optionsWithKeysAndValues: Record<string, SelectOption>,
-  sortByLabel: boolean,
+  sortByLabel: boolean
 ) => {
   const keys = Object.keys(optionsWithKeysAndValues);
   if (sortByLabel) {
