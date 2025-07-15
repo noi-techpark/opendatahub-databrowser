@@ -2,23 +2,61 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { axiosWithMaybeAuth } from './apiAuth';
+import axios, { AxiosProgressEvent } from 'axios';
+import { readonly, ref } from 'vue';
+import { toError } from '../utils/convertError';
+import { wrapAxiosFetchWithAuth } from './apiAuth';
 
-export const useDownload = () => {
-  return {
-    download: async (url: string) => {
-      const axios = await axiosWithMaybeAuth(true);
-      const response = await axios.get(url);
+export const useDownload = (url: string) => {
+  const downloading = ref(false);
+  const downloadAbortController = ref(new AbortController());
+  const downloadProgress = ref(0);
+  const downloadError = ref<string | undefined>();
+  const isDownloadError = ref(false);
+  const isDownloadSuccess = ref(false);
+  const downloadResponse = ref<string | null>();
 
-      const blob = new Blob([JSON.stringify(response.data, null, 2)], {
-        type: 'application/json',
+  const onDownloadProgress = (progressEvent: AxiosProgressEvent) => {
+    console.debug('Download progress:', progressEvent);
+    if (progressEvent.total != null) {
+      downloadProgress.value = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+    }
+  };
+
+  const startDownload = async () => {
+    try {
+      console.log('Starting download from URL:', url);
+      downloading.value = true;
+
+      const axiosInstance = await wrapAxiosFetchWithAuth(axios);
+      const response = await axiosInstance.get<string>(url, {
+        signal: downloadAbortController.value.signal,
+        onDownloadProgress,
       });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'dataset.json';
-      link.click();
-      URL.revokeObjectURL(link.href);
-      link.remove();
-    },
+
+      console.debug('Download success', response.status);
+
+      isDownloadSuccess.value = true;
+      downloadResponse.value = response.data;
+    } catch (error) {
+      isDownloadError.value = true;
+      const errorMessage = toError(error).message;
+      downloadError.value = errorMessage;
+    } finally {
+      downloading.value = false;
+    }
+  };
+
+  return {
+    isDownloadError: readonly(isDownloadError),
+    isDownloadSuccess: readonly(isDownloadSuccess),
+    downloading: readonly(downloading),
+    downloadAbortController: readonly(downloadAbortController),
+    downloadError: readonly(downloadError),
+    downloadProgress: readonly(downloadProgress),
+    downloadResponse: readonly(downloadResponse),
+    startDownload,
   };
 };
