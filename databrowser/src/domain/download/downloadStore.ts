@@ -14,48 +14,7 @@ interface State {
 }
 
 const initialState: State = {
-  downloads: [
-    {
-      id: 'download-1752697938976-n0fyxxbk3',
-      url: 'https://example.com/download/accommodation.csv',
-      name: 'Accommodation',
-      status: 'failed',
-      progress: 23,
-      data: null,
-      error: '404 file not found',
-      abortController: null,
-    },
-    {
-      id: 'download-1752698039264-de427n6ot',
-      url: 'https://example.com/download/accommodation.csv',
-      name: 'Accommodation',
-      status: 'completed',
-      progress: 100,
-      data: 'Id,Self,Tags,HgvId',
-      error: null,
-      abortController: null,
-    },
-    {
-      id: 'download-1752698040465-9gr31c92p',
-      url: 'https://example.com/download/accommodation.csv',
-      name: 'Accommodation',
-      status: 'in-progress',
-      progress: 23,
-      data: 'Id,Self,Tags,HgvId,_Meta,Active,Review,Source,TagIds',
-      error: null,
-      abortController: null,
-    },
-    {
-      id: 'download-1752698041066-uvcz9hgne',
-      url: 'https://example.com/download/public-transportation.csv',
-      name: 'Public Transportation Route Planner',
-      status: 'completed',
-      progress: 100,
-      data: 'Id',
-      error: null,
-      abortController: null,
-    },
-  ],
+  downloads: [],
 };
 
 export const useDownloadStore = defineStore('downloadStore', {
@@ -76,18 +35,22 @@ export const useDownloadStore = defineStore('downloadStore', {
     },
   },
   actions: {
-    async startDownload(url: string) {
+    async startDownload(url: string, format: Download['format']) {
       // Generate unique ID for this download
       const downloadId = `download-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
       // Extract filename from URL or use default
       const filename = extractFilenameFromUrl(url) || 'download';
 
+      // Append file extension based on format
+      const name = `${filename}.${format}`;
+
       // Add download to store
       this.downloads.push({
         id: downloadId,
         url,
-        name: filename,
+        name,
+        format,
         status: 'in-progress',
         progress: 0,
         error: null,

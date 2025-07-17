@@ -6,6 +6,7 @@ export interface Download {
   id: string;
   url: string;
   name: string;
+  format: 'csv' | 'json';
   status: 'in-progress' | 'completed' | 'failed';
   progress: number;
   error: string | null;

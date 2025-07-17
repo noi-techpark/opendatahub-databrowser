@@ -125,7 +125,6 @@ import { PopoverPanel } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDownloadStore } from '../../domain/download/downloadStore';
-import { Download } from '../../domain/download/types';
 import ButtonRounded from '../button/ButtonRounded.vue';
 import PopoverCustom from '../popover/PopoverCustom.vue';
 import PopoverCustomButton from '../popover/PopoverCustomButton.vue';
@@ -138,6 +137,7 @@ import IconDownload from '../svg/IconDownload.vue';
 import IconErrorWarning from '../svg/IconExclamationMark.vue';
 import IconReload from '../svg/IconReload.vue';
 import DiscardDownloadsDialog from './DiscardDownloadsDialog.vue';
+import { saveDownload } from './utils';
 
 const { t } = useI18n();
 
@@ -155,29 +155,6 @@ const downloadStore = useDownloadStore();
 const countActive = computed(() => downloadStore.activeDownloads.length);
 const countCompleted = computed(() => downloadStore.completedDownloads.length);
 const countFailed = computed(() => downloadStore.failedDownloads.length);
-
-const saveDownload = (download: Download) => {
-  if (download.data == null) {
-    console.error(`Download data for ${download.name} is not available.`);
-    return;
-  }
-  // safe with a anchor tag to download the file
-  // TODO: need to know if json or csv or other format
-  const blob = new Blob([JSON.stringify(download.data)], {
-    type: 'text/plain',
-  });
-
-  const link = document.createElement('a');
-
-  link.href = URL.createObjectURL(blob);
-  link.download = download.name;
-  document.body.appendChild(link);
-  link.click();
-
-  // Clean up
-  document.body.removeChild(link);
-  URL.revokeObjectURL(link.href);
-};
 
 const isDiscardDialogOpen = ref(false);
 
