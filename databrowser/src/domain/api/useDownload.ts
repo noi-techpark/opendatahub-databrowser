@@ -11,10 +11,10 @@ export const useDownload = (url: string) => {
   const downloading = ref(false);
   const downloadAbortController = ref(new AbortController());
   const downloadProgress = ref(0);
-  const downloadError = ref<string | undefined>();
+  const downloadError = ref<string | null>(null);
   const isDownloadError = ref(false);
   const isDownloadSuccess = ref(false);
-  const downloadResponse = ref<string | null>();
+  const downloadResponse = ref<string | null>(null);
 
   const onDownloadProgress = (progressEvent: AxiosProgressEvent) => {
     console.debug('Download progress:', progressEvent);
@@ -44,6 +44,7 @@ export const useDownload = (url: string) => {
       isDownloadError.value = true;
       const errorMessage = toError(error).message;
       downloadError.value = errorMessage;
+      throw error;
     } finally {
       downloading.value = false;
     }

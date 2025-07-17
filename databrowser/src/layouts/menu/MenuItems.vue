@@ -27,8 +27,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div
       class="flex grow flex-col gap-x-2 gap-y-4 pt-1 md:grow-0 md:flex-row md:items-center"
     >
+      <DownloadMenu
+        v-if="useDownloadStore().downloads.length > 0"
+        class="hidden md:flex"
+        :width-classes="['md:w-[300px]']"
+      />
+
       <MenuUserSection />
-      <div class="flex grow" />
+
       <ExternalLink
         href="https://opendatahub.com"
         variant="no-underline"
@@ -45,11 +51,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script lang="ts" setup>
-import MenuUserSection from '../../domain/auth/MenuUserSection.vue';
 import { useI18n } from 'vue-i18n';
-import HeaderLink from '../../components/header/HeaderLink.vue';
+import DownloadMenu from '../../components/download/DownloadMenu.vue';
 import HeaderExternalLink from '../../components/header/HeaderExternalLink.vue';
+import HeaderLink from '../../components/header/HeaderLink.vue';
 import ExternalLink from '../../components/link/ExternalLink.vue';
+import MenuUserSection from '../../domain/auth/MenuUserSection.vue';
+import { useDownloadStore } from '../../domain/download/downloadStore';
 
 const { t } = useI18n();
 </script>

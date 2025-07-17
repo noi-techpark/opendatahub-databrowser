@@ -345,6 +345,10 @@
       "labelButton": "Search",
       "labelPlaceholder": "Insert search value ..."
     },
+    "downloadMenu": {
+      "title": "{countActive} export in progress",
+      "subtitle": "{countCompleted} completed, {countFailed} failed"
+    },
     "mappingTable": {
       "addKeyValue": "Add key and value",
       "headerCol1": "Key",

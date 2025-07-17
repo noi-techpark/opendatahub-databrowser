@@ -2,20 +2,64 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { AxiosError } from 'axios';
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { watch } from 'vue';
 import { useDownload } from '../api/useDownload';
+import { toError } from '../utils/convertError';
+import { Download } from './types';
+
+interface State {
+  downloads: Download[];
+}
+
+const initialState: State = {
+  downloads: [
+    {
+      id: 'download-1752697938976-n0fyxxbk3',
+      url: 'https://example.com/download/accommodation.csv',
+      name: 'Accommodation',
+      status: 'failed',
+      progress: 23,
+      data: null,
+      error: '404 file not found',
+      abortController: null,
+    },
+    {
+      id: 'download-1752698039264-de427n6ot',
+      url: 'https://example.com/download/accommodation.csv',
+      name: 'Accommodation',
+      status: 'completed',
+      progress: 100,
+      data: 'Id,Self,Tags,HgvId',
+      error: null,
+      abortController: null,
+    },
+    {
+      id: 'download-1752698040465-9gr31c92p',
+      url: 'https://example.com/download/accommodation.csv',
+      name: 'Accommodation',
+      status: 'in-progress',
+      progress: 23,
+      data: 'Id,Self,Tags,HgvId,_Meta,Active,Review,Source,TagIds',
+      error: null,
+      abortController: null,
+    },
+    {
+      id: 'download-1752698041066-uvcz9hgne',
+      url: 'https://example.com/download/public-transportation.csv',
+      name: 'Public Transportation Route Planner',
+      status: 'completed',
+      progress: 100,
+      data: 'Id',
+      error: null,
+      abortController: null,
+    },
+  ],
+};
 
 export const useDownloadStore = defineStore('downloadStore', {
-  state: () => ({
-    downloads: [] as Array<{
-      id: string;
-      name: string;
-      status: 'in-progress' | 'completed' | 'failed';
-      progress: number;
-      error?: string;
-    }>,
-  }),
+  state: () => initialState,
   getters: {
     activeDownloads(state) {
       return state.downloads.filter(
@@ -34,7 +78,7 @@ export const useDownloadStore = defineStore('downloadStore', {
   actions: {
     async startDownload(url: string) {
       // Generate unique ID for this download
-      const downloadId = `download-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const downloadId = `download-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
       // Extract filename from URL or use default
       const filename = extractFilenameFromUrl(url) || 'download';
@@ -42,49 +86,109 @@ export const useDownloadStore = defineStore('downloadStore', {
       // Add download to store
       this.downloads.push({
         id: downloadId,
+        url,
         name: filename,
         status: 'in-progress',
         progress: 0,
+        error: null,
+        data: null,
+        abortController: null,
       });
 
-      try {
-        const { downloadProgress, startDownload } = useDownload(url);
-
-        // Watch for download progress updates
-        watch(downloadProgress, (progress) => {
-          console.log(`Download progress for ${filename}: ${progress}%`);
-          this.updateDownload(downloadId, 'in-progress', progress);
-        });
-
-        console.log(`Starting download: ${filename} (${downloadId})`);
-        // Start the download
-        await startDownload();
-
-        this.updateDownload(downloadId, 'completed', 100);
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : 'Unknown error';
-        this.updateDownload(downloadId, 'failed', 0, errorMessage);
-        throw error;
-      }
+      await this._executeDownload(downloadId);
     },
-    updateDownload(
-      id: string,
-      status: 'in-progress' | 'completed' | 'failed',
-      progress: number,
-      error?: string
-    ) {
+    async retryDownload(id: string) {
+      await this._executeDownload(id);
+    },
+    abortDownload(id: string) {
       const download = this.downloads.find((d) => d.id === id);
-      if (download) {
-        download.status = status;
-        download.progress = progress;
-        if (error) {
-          download.error = error;
+      if (download && download.status === 'in-progress') {
+        if (download.abortController) {
+          download.abortController?.abort('Download aborted');
+        } else {
+          this.updateDownload(id, 'failed', 0, 'Download aborted', null);
         }
       }
     },
     removeDownload(id: string) {
       this.downloads = this.downloads.filter((d) => d.id !== id);
+    },
+    removeAllDownloads() {
+      this.downloads = [];
+    },
+    updateDownload(
+      id: string,
+      status: 'in-progress' | 'completed' | 'failed',
+      progress: number,
+      error: string | null,
+      data: string | null
+    ) {
+      const download = this.downloads.find((d) => d.id === id);
+      if (download != null) {
+        download.status = status;
+        download.progress = progress;
+        download.error = error;
+        download.data = data;
+        if (status !== 'in-progress') {
+          download.abortController = null;
+        }
+      }
+    },
+    async _executeDownload(id: string) {
+      const download = this.downloads.find((d) => d.id === id);
+      if (download == null) {
+        throw new Error(`Download not found: ${id}`);
+      }
+
+      this.updateDownload(id, 'in-progress', 0, null, null);
+
+      try {
+        // Create a new download instance
+        const {
+          downloadProgress,
+          downloadResponse,
+          downloadAbortController,
+          startDownload,
+        } = useDownload(download.url);
+
+        // Assign the abort controller for this download to be able to abort it later
+        download.abortController = downloadAbortController.value;
+
+        // Watch for download progress updates
+        // Note: if the server does not provide a Content-Length header,
+        // the progress will not be accurate, meaning that it starts at 0
+        // and goes to 100% without intermediate values.
+        watch(downloadProgress, (progress) => {
+          console.log(`Download progress for ${download.name}: ${progress}%`);
+          this.updateDownload(download.id, 'in-progress', progress, null, null);
+        });
+
+        // Start the download
+        await startDownload();
+
+        // Update the download status to completed
+        this.updateDownload(
+          download.id,
+          'completed',
+          100,
+          null,
+          downloadResponse.value
+        );
+      } catch (error) {
+        // Check if the error is an Axios error and if it means that the user aborted the download
+        const isAbortError =
+          error instanceof AxiosError &&
+          (error.name === 'CanceledError' || error.code === 'ERR_CANCELED');
+
+        // Extract error message
+        const errorMessage = isAbortError
+          ? // If the download was aborted, use the abort reason or a default message
+            download.abortController?.signal.reason || 'Download aborted'
+          : // Otherwise, convert the error to a standard Error object
+            toError(error).message;
+
+        this.updateDownload(download.id, 'failed', 0, errorMessage, null);
+      }
     },
   },
 });

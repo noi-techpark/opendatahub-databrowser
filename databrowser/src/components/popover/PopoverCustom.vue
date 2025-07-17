@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <PopoverGroup>
     <Popover v-slot="{ open }">
-      <span ref="trigger">
+      <span ref="trigger" :class="triggerContainerClasses">
         <slot name="trigger"></slot>
       </span>
 
@@ -38,22 +38,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { Popover, PopoverGroup } from '@headlessui/vue';
-import { useFloatingUi } from '../utils/useFloatingUi';
 import { computed, ref } from 'vue';
+import { useFloatingUi } from '../utils/useFloatingUi';
 import PopoverTransition from './PopoverTransition.vue';
 
 const props = withDefaults(
   defineProps<{
-    fullScreenWidth?: boolean;
     zIndex?: number;
     hasArrow?: boolean;
+    offset?: number;
     leftOffset?: number;
+    triggerContainerClasses?: string;
   }>(),
   {
-    fullScreenWidth: true,
     zIndex: undefined,
     hasArrow: false,
+    offset: 8,
     leftOffset: undefined,
+    triggerContainerClasses: undefined,
   }
 );
 
@@ -61,7 +63,7 @@ const arrow = ref();
 
 const [trigger, container, placement] = useFloatingUi({
   placement: 'bottom-start',
-  offset: 8,
+  offset: props.offset,
   arrow,
   leftOffset: props.leftOffset,
 });

@@ -1,0 +1,14 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+export interface Download {
+  id: string;
+  url: string;
+  name: string;
+  status: 'in-progress' | 'completed' | 'failed';
+  progress: number;
+  error: string | null;
+  data: string | null;
+  abortController: AbortController | null;
+}
