@@ -16,7 +16,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       class="flex-1"
       trigger-container-classes="flex"
     >
-      <!-- class="w-[calc(100%-50px)]" -->
       <template #trigger>
         <PopoverCustomButton
           class="flex flex-1 items-center focus-visible:outline-none md:justify-between"
@@ -47,10 +46,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               <IconArrowDown class="size-7" :class="[{ 'rotate-180': open }]" />
             </ButtonRounded>
 
-            <ButtonRounded
-              :solid="false"
-              @click="downloadStore.removeAllDownloads()"
-            >
+            <ButtonRounded :solid="false" @click="openDiscardDialog($event)">
               <IconClose class="size-7" />
             </ButtonRounded>
           </div>
@@ -115,12 +111,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </PopoverTransition>
       </template>
     </PopoverCustom>
+
+    <DiscardDownloadsDialog
+      :is-open="isDiscardDialogOpen"
+      @close="closeDiscardDialog"
+      @discard="discardDownloads"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { PopoverPanel } from '@headlessui/vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDownloadStore } from '../../domain/download/downloadStore';
 import { Download } from '../../domain/download/types';
@@ -135,6 +137,7 @@ import IconClose from '../svg/IconClose.vue';
 import IconDownload from '../svg/IconDownload.vue';
 import IconErrorWarning from '../svg/IconExclamationMark.vue';
 import IconReload from '../svg/IconReload.vue';
+import DiscardDownloadsDialog from './DiscardDownloadsDialog.vue';
 
 const { t } = useI18n();
 
@@ -174,5 +177,20 @@ const saveDownload = (download: Download) => {
   // Clean up
   document.body.removeChild(link);
   URL.revokeObjectURL(link.href);
+};
+
+const isDiscardDialogOpen = ref(false);
+
+const openDiscardDialog = (event: Event) => {
+  isDiscardDialogOpen.value = true;
+  event.stopPropagation();
+};
+
+const closeDiscardDialog = () => {
+  isDiscardDialogOpen.value = false;
+};
+
+const discardDownloads = () => {
+  downloadStore.removeAllDownloads();
 };
 </script>

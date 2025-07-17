@@ -287,7 +287,15 @@
       "copyTitle": "API DATASET",
       "copyAction": "Copy to clipboard",
       "downloadJSON": "Download dataset as JSON",
-      "downloadCSV": "Download dataset as CSV"
+      "downloadCSV": "Download dataset as CSV",
+      "dialog": {
+        "discardChanges": {
+          "title": "Discard unsaved data?",
+          "description": "Are you sure you want to discard unsaved data?",
+          "buttonYes": "Yes (y)",
+          "buttonNo": "No (n)"
+        }
+      }
     },
     "toolBox": {
       "settings": {

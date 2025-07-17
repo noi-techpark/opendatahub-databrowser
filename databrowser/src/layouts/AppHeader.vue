@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="sticky top-0 z-[999] w-full">
+  <div class="sticky top-0 w-full">
     <div class="bg-white">
       <ContentAlignmentX
         class="m-auto flex flex-col gap-x-12 gap-y-2 px-4 pb-2 md:flex-row md:pb-0"
