@@ -73,6 +73,13 @@ export const useDownloadStore = defineStore('downloadStore', {
         }
       }
     },
+    abortAllDownloads() {
+      this.downloads.forEach((download) => {
+        if (download.status === 'in-progress' && download.abortController) {
+          download.abortController.abort('All downloads aborted');
+        }
+      });
+    },
     removeDownload(id: string) {
       this.downloads = this.downloads.filter((d) => d.id !== id);
     },

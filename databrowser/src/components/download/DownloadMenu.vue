@@ -168,6 +168,7 @@ const closeDiscardDialog = () => {
 };
 
 const discardDownloads = () => {
+  downloadStore.abortAllDownloads();
   downloadStore.removeAllDownloads();
 };
 </script>
