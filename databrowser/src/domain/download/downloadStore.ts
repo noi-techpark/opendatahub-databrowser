@@ -91,7 +91,7 @@ export const useDownloadStore = defineStore('downloadStore', {
       status: 'in-progress' | 'completed' | 'failed',
       progress: number,
       error: string | null,
-      data: string | null
+      data: Blob | null
     ) {
       const download = this.downloads.find((d) => d.id === id);
       if (download != null) {

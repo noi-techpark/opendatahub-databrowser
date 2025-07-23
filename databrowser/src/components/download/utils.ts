@@ -10,10 +10,9 @@ export const saveDownload = (download: Download) => {
     return;
   }
 
-  const blob = downloadToBlob(download.data, download.format);
-
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
+  link.href = URL.createObjectURL(download.data);
+  link.type = download.format === 'json' ? 'application/json' : 'text/csv';
   link.download = download.name;
   document.body.appendChild(link);
 
@@ -23,11 +22,4 @@ export const saveDownload = (download: Download) => {
   // Clean up
   document.body.removeChild(link);
   URL.revokeObjectURL(link.href);
-};
-
-const downloadToBlob = (data: string, format: Download['format']): Blob => {
-  if (format === 'json') {
-    return new Blob([JSON.stringify(data)], { type: 'application/json' });
-  }
-  return new Blob([data], { type: `text/csv` });
 };

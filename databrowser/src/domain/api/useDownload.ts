@@ -14,7 +14,7 @@ export const useDownload = (url: string) => {
   const downloadError = ref<string | null>(null);
   const isDownloadError = ref(false);
   const isDownloadSuccess = ref(false);
-  const downloadResponse = ref<string | null>(null);
+  const downloadResponse = ref<Blob | null>(null);
 
   const onDownloadProgress = (progressEvent: AxiosProgressEvent) => {
     console.debug('Download progress:', progressEvent);
@@ -31,7 +31,8 @@ export const useDownload = (url: string) => {
       downloading.value = true;
 
       const axiosInstance = await wrapAxiosFetchWithAuth(axios);
-      const response = await axiosInstance.get<string>(url, {
+      const response = await axiosInstance.get<Blob>(url, {
+        responseType: 'blob',
         signal: downloadAbortController.value.signal,
         onDownloadProgress,
       });

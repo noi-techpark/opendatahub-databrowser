@@ -10,6 +10,6 @@ export interface Download {
   status: 'in-progress' | 'completed' | 'failed';
   progress: number;
   error: string | null;
-  data: string | null;
+  data: Blob | null;
   abortController: AbortController | null;
 }
