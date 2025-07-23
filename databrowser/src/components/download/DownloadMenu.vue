@@ -56,7 +56,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <PopoverTransition>
           <PopoverPanel class="z-20">
             <ul
-              class="flex max-h-[calc(100vh-100px)] w-[90vw] flex-col divide-y divide-gray-500 overflow-y-auto border bg-white"
+              class="flex max-h-[calc(100vh-100px)] w-[90vw] flex-col divide-y divide-gray-500 overflow-y-auto border bg-white md:w-[60vw]"
               :class="widthClasses"
             >
               <li
