@@ -48,7 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <MenuItems
           :class="props.isMenuOpen ? '' : 'hidden'"
-          class="grow border-t border-gray-250 pb-4 pt-2 md:flex md:border-0"
+          class="grow border-t border-gray-250 pb-4 pt-2 md:flex md:border-0 md:pb-2"
         />
       </ContentAlignmentX>
     </div>

@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="flex items-center justify-between gap-2 rounded border bg-gray-50 py-1 pl-4 pr-3"
+    class="flex items-center justify-between gap-2 rounded border bg-gray-50 py-px pl-4 pr-3"
     :class="widthClasses"
   >
     <PopoverCustom
