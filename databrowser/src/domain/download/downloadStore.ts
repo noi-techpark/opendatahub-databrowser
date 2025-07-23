@@ -35,21 +35,19 @@ export const useDownloadStore = defineStore('downloadStore', {
     },
   },
   actions: {
-    async startDownload(url: string, format: Download['format']) {
+    async startDownload(
+      url: string,
+      filename: string,
+      format: Download['format']
+    ) {
       // Generate unique ID for this download
       const downloadId = `download-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
-
-      // Extract filename from URL or use default
-      const filename = extractFilenameFromUrl(url) || 'download';
-
-      // Append file extension based on format
-      const name = `${filename}.${format}`;
 
       // Add download to store
       this.downloads.push({
         id: downloadId,
         url,
-        name,
+        name: `${filename}.${format}`,
         format,
         status: 'in-progress',
         progress: 0,
@@ -162,22 +160,6 @@ export const useDownloadStore = defineStore('downloadStore', {
     },
   },
 });
-
-/**
- * Extracts filename from URL
- * @param url - The URL to extract filename from
- * @returns The extracted filename or null
- */
-const extractFilenameFromUrl = (url: string): string | null => {
-  try {
-    const urlObj = new URL(url);
-    const pathname = urlObj.pathname;
-    const filename = pathname.split('/').pop();
-    return filename && filename.length > 0 ? filename : null;
-  } catch {
-    return null;
-  }
-};
 
 // Add support for hot-module-reload
 if (import.meta.hot) {

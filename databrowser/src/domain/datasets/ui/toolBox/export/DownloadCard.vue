@@ -64,6 +64,7 @@ import { Size } from '../../../../../components/button/types';
 import IconDownload from '../../../../../components/svg/IconDownload.vue';
 import ToggleCustom from '../../../../../components/toggle/ToggleCustom.vue';
 import { useDownloadStore } from '../../../../download/downloadStore';
+import { useMetaDataForRoute } from '../../../../metaDataConfig/tourism/useMetaData';
 import { useDatasetBaseInfoStore } from '../../../config/store/datasetBaseInfoStore';
 import ToolBoxCard from '../ToolBoxCard.vue';
 import ToolBoxCardBody from '../ToolBoxCardBody.vue';
@@ -81,7 +82,10 @@ const { url } = toRefs(props);
 const isDownloadJson = ref(false);
 const isDownloadCSV = ref(true);
 
-const { datasetDomain } = storeToRefs(useDatasetBaseInfoStore());
+const { datasetDomain, datasetPath, datasetQuery } = storeToRefs(
+  useDatasetBaseInfoStore()
+);
+const { currentMetaData } = useMetaDataForRoute(datasetPath, datasetQuery);
 
 const { startDownload } = useDownloadStore();
 
@@ -107,16 +111,18 @@ const download = () => {
       return;
   }
 
+  const filename = currentMetaData.value?.shortname || 'download';
+
   // Start download based on selected formats
   // It is possible to download both formats at the same time
   if (isDownloadJson.value) {
-    startDownload(`${downloadUrl}`, 'json');
+    startDownload(`${downloadUrl}`, filename, 'json');
   }
   if (isDownloadCSV.value) {
     if (datasetDomain.value === 'tourism') {
       downloadUrl.searchParams.set('format', 'csv');
     }
-    startDownload(`${downloadUrl}`, 'csv');
+    startDownload(`${downloadUrl}`, filename, 'csv');
   }
 };
 </script>
