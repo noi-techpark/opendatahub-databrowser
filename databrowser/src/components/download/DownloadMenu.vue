@@ -161,6 +161,7 @@ const isDiscardDialogOpen = ref(false);
 const openDiscardDialog = (event: Event) => {
   isDiscardDialogOpen.value = true;
   event.stopPropagation();
+  return false;
 };
 
 const closeDiscardDialog = () => {
