@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <DownloadMenu
         v-if="useDownloadStore().downloads.length > 0"
         class="hidden md:flex"
-        :width-classes="['md:w-[300px]']"
+        :width-classes="['lg:w-[300px]']"
       />
 
       <MenuUserSection />
