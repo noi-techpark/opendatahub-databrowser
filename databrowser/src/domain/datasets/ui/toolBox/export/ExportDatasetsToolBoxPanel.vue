@@ -25,20 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       }}</ToolBoxCardBody>
     </ToolBoxCard>
 
-    <ToolBoxCard v-if="hasUrl">
-      <ToolBoxCardHeader>
-        {{ t('datasets.toolBox.exportDatasets.json.header') }}
-        <ToolBoxCardHeaderButton
-          :aria-label="t('datasets.toolBox.exportDatasets.json.iconAlt')"
-          @icon-click="downloadData"
-        >
-          <IconDownload />
-        </ToolBoxCardHeaderButton>
-      </ToolBoxCardHeader>
-      <ToolBoxCardBody :with-bg-color="withBgColor">{{
-        t('datasets.toolBox.exportDatasets.json.body')
-      }}</ToolBoxCardBody>
-    </ToolBoxCard>
+    <DownloadCard v-if="hasUrl" :url="url"></DownloadCard>
 
     <ToolBoxSectionLabel v-if="!!referencesUrls">{{
       t('datasets.toolBox.exportDatasets.sectionReferencesData')
@@ -120,19 +107,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { useClipboard } from '@vueuse/core';
 import { computed, ref, toRefs, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import IconCheck from '../../../../components/svg/IconCheck.vue';
-import IconCopy from '../../../../components/svg/IconCopy.vue';
-import IconDownload from '../../../../components/svg/IconDownload.vue';
-import IconLink from '../../../../components/svg/IconLink.vue';
-import { useDownload } from '../../../api/useDownload';
-import ToolBoxCard from './ToolBoxCard.vue';
-import ToolBoxCardBody from './ToolBoxCardBody.vue';
-import ToolBoxCardHeader from './ToolBoxCardHeader.vue';
-import ToolBoxCardHeaderButton from './ToolBoxCardHeaderButton.vue';
-import ToolBoxPanel from './ToolBoxPanel.vue';
-import ToolBoxSectionLabel from './ToolBoxSectionLabel.vue';
-import ArrowLine from '../../../../components/svg/ArrowLine.vue';
-import { ReferenceInfoToolBoxFetchUrlInfo } from './types';
+import ArrowLine from '../../../../../components/svg/ArrowLine.vue';
+import IconCheck from '../../../../../components/svg/IconCheck.vue';
+import IconCopy from '../../../../../components/svg/IconCopy.vue';
+import IconLink from '../../../../../components/svg/IconLink.vue';
+import ToolBoxCard from '../ToolBoxCard.vue';
+import ToolBoxCardBody from '../ToolBoxCardBody.vue';
+import ToolBoxCardHeader from '../ToolBoxCardHeader.vue';
+import ToolBoxCardHeaderButton from '../ToolBoxCardHeaderButton.vue';
+import ToolBoxPanel from '../ToolBoxPanel.vue';
+import ToolBoxSectionLabel from '../ToolBoxSectionLabel.vue';
+import { ReferenceInfoToolBoxFetchUrlInfo } from '../types';
+import DownloadCard from './DownloadCard.vue';
 
 const { t } = useI18n();
 
@@ -155,13 +141,6 @@ const hasUrl = computed(() => url.value != null);
 const { copy: copyUrl, copied: copiedUrl } = useClipboard({
   source: url.value,
 });
-
-const fileDownloader = useDownload();
-const downloadData = async () => {
-  if (hasUrl.value) {
-    await fileDownloader.download(url.value!);
-  }
-};
 
 const onCopyReference = (url: string) => {
   referenceUrlToCopy.value = url;
