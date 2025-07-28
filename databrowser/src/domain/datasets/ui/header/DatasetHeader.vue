@@ -70,6 +70,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
+import { useLocalStorage } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -116,6 +117,7 @@ const currentLanguage = useDatasetQueryStore().handle('language');
 const showLanguagePicker = computed(() => datasetDomain.value === 'tourism');
 
 const changeSource = (value: DatasetConfigSource) => {
-  source.value = value;
+  useLocalStorage<DatasetConfigSource>('preferredDatasetSource', value).value =
+    value;
 };
 </script>
