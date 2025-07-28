@@ -187,6 +187,11 @@ const getDatasetSelectValue = (dataset: TourismMetaData) => {
     ([key, value]) => `${key}=${value}`
   );
 
+  const language = router.currentRoute.value.query.language;
+  if (language != null) {
+    query.push(`language=${language}`);
+  }
+
   return `/${domain}/${pathSegments.join('/')}${
     query.length ? '?' + query.join('&') : ''
   }`;
