@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { useLocalStorage } from '@vueuse/core';
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
@@ -17,16 +18,26 @@ export const useDatasetBaseInfoStore = defineStore(
     const { currentRoute } = router;
     const routeLocation = useComputeRouteLocation(currentRoute);
 
-    // Source state
+    // Current source
     const source = ref<DatasetConfigSource>('embedded');
 
+    // User preferred source, which is stored in local storage
+    // This allows the user to select a preferred source for datasets
+    // and have it persist across sessions.
+    const preferredSource = useLocalStorage<DatasetConfigSource>(
+      'preferredDatasetSource',
+      source.value
+    );
+
     // Compute reactive dataset base info
-    const baseInfo = useDatasetBaseInfo(routeLocation, source);
+    const baseInfo = useDatasetBaseInfo(routeLocation, preferredSource);
 
     // Update source state
     watch(
       baseInfo.source,
-      (newSource) => (source.value = newSource ?? 'embedded'),
+      (newSource) => {
+        source.value = newSource ?? 'embedded';
+      },
       { immediate: true }
     );
 
