@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <section v-if="!hide" class="bg-gray-50">
+  <section v-if="showHero" class="bg-gray-50">
     <ContentAlignmentX
       class="relative m-auto flex flex-col items-start py-8 xl:w-default"
     >
@@ -32,12 +32,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import ButtonLink from '../../../components/button/ButtonLink.vue';
 import ContentAlignmentX from '../../../components/content/ContentAlignmentX.vue';
-import { useLocalStorage } from '@vueuse/core';
+import { useUserSettings } from '../../../domain/user/userSettings';
 import DisclaimerCloseHeroPopup from './DisclaimerCloseHeroPopup.vue';
 
-const hide = useLocalStorage('opendatahub-hide-hero', false);
+const userSettings = useUserSettings();
+
+const showHero = userSettings.getUserSettingRef<boolean>('showHero');
 
 const onHide = () => {
-  hide.value = true;
+  userSettings.updateUserSetting('showHero', false);
 };
 </script>

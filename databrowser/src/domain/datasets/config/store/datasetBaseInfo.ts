@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { useLocalStorage } from '@vueuse/core';
 import { MaybeRef, ToRefs, computed, ref, toValue } from 'vue';
+import { useUserSettings } from '../../../user/userSettings';
 import { useComputeDatasetLocation } from '../../location/datasetLocation';
 import { useComputeViewKey } from '../../view/viewKey';
 import { useDatasetConfigSourceComputations } from '../datasetConfigSource';
@@ -33,9 +33,9 @@ export const useDatasetBaseInfo = (
   // User preferred dataset language, which is stored in local storage
   // This allows the user to select a preferred language for datasets
   // and have it persist across sessions.
-  const preferredLanguage = useLocalStorage<string>(
-    'preferredDatasetLanguage',
-    'en'
+
+  const preferredLanguage = useUserSettings().getUserSettingRef<string>(
+    'preferredDatasetLanguage'
   );
 
   // Compute dataset location info

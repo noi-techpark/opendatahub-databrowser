@@ -22,11 +22,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { useLocalStorage } from '@vueuse/core';
 import HintCustom from '../../../../components/hint/HintCustom.vue';
 import ExternalLink from '../../../../components/link/ExternalLink.vue';
+import { useUserSettings } from '../../../user/userSettings';
 
-const showEditHint = useLocalStorage('showEditHint', true);
+const userSettings = useUserSettings();
 
-const hideHint = () => (showEditHint.value = false);
+const showEditHint = userSettings.getUserSettingRef<boolean>('showEditHint');
+
+const hideHint = () => userSettings.updateUserSetting('showEditHint', false);
 </script>
