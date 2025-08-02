@@ -39,19 +39,30 @@ export const useQueryParamsCleanUp = (
             )
           : { updateRoute: false, routeQuery: currentRoute.value.query };
 
-      // Remove default query params
-      const defaultParamsCleanup = removeDefaultParams(
+      // Add preferred query params if they are not already present
+      // This is useful e.g. to ensure that the user preferred language is
+      // always present in the URL, even if the user did not explicitly set it.
+      const preferredParams = addPreferredParams(
         datasetQueryValue,
         currentRoute.value.query
+      );
+
+      // Remove default query param values if they are present in the URL.
+      // This is a pure esthetical function, to avoid showing default values
+      // in the URL.
+      const defaultParamsCleanup = removeDefaultParams(
+        datasetQueryValue,
+        preferredParams.routeQuery
       );
 
       // Update route if needed
       if (
         searchAndFilterParamsCleanup.updateRoute ||
+        preferredParams.updateRoute ||
         defaultParamsCleanup.updateRoute
       ) {
         const query = intersectQueryParams(
-          searchAndFilterParamsCleanup.routeQuery,
+          preferredParams.routeQuery,
           defaultParamsCleanup.routeQuery
         );
         setTimeout(() => router.replace({ query }));
@@ -93,6 +104,31 @@ export const removePaginationParamIfSearchOrFiltersChanged = (
   }
 
   return { updateRoute: false, routeQuery: currentLocation };
+};
+
+// Add preferred query params if they are not already present
+// This is useful to ensure that the user preferred language is always
+// present in the URL, even if the user did not explicitly set it.
+export const addPreferredParams = (
+  datasetQuery: DatasetQuery | undefined,
+  currentLocation: LocationQuery
+) => {
+  if (datasetQuery?.preferred == null) {
+    return { updateRoute: false, routeQuery: currentLocation };
+  }
+
+  const routeQuery = { ...currentLocation };
+
+  let routeQueryChanged = false;
+  // Add preferred query params
+  Object.entries(datasetQuery?.preferred).forEach(([key, value]) => {
+    if (routeQuery[key] == null) {
+      routeQuery[key] = value;
+      routeQueryChanged = true;
+    }
+  });
+
+  return { updateRoute: routeQueryChanged, routeQuery };
 };
 
 // Remove default query params. This is a pure esthetical
