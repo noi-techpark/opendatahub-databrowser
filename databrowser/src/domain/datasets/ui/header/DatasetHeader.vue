@@ -64,6 +64,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <LanguagePicker
         v-if="showLanguagePicker"
         :current-language="currentLanguage"
+        @language-changed="changeLanguage"
       />
     </div>
   </header>
@@ -119,5 +120,9 @@ const showLanguagePicker = computed(() => datasetDomain.value === 'tourism');
 const changeSource = (value: DatasetConfigSource) => {
   useLocalStorage<DatasetConfigSource>('preferredDatasetSource', value).value =
     value;
+};
+
+const changeLanguage = (value: string) => {
+  useLocalStorage<string>('preferredDatasetLanguage', value).value = value;
 };
 </script>
