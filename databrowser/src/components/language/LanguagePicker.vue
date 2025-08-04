@@ -17,6 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         link.value === selected ? 'border-green-500 bg-green-500/10' : '',
       ]"
       :data-test="`desktop-language-picker-${link.value}`"
+      @click="selected = link.value"
     >
       {{ link.label }}
     </ButtonLink>
@@ -58,6 +59,10 @@ const props = withDefaults(
   }
 );
 
+const emit = defineEmits<{
+  (event: 'languageChanged', value: string): void;
+}>();
+
 const supportedLanguages = Object.values(FilterLanguage);
 
 const router = useRouter();
@@ -86,6 +91,7 @@ const selected = computed({
     const to = links.value.find((link) => link.value === value)?.to;
     if (to != null) {
       router.push(to);
+      emit('languageChanged', value);
     }
   },
 });

@@ -2,28 +2,25 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import {
-  breakpointsTailwind,
-  useBreakpoints,
-  useLocalStorage,
-} from '@vueuse/core';
+import { useUserSettings } from '../../../user/userSettings';
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const mdAndLarger = breakpoints.greater('md');
 
-// Using useLocalStorage to persist toolbox visibility state
-const toolboxVisibilityStorage = useLocalStorage('isToolboxVisible', true);
+// Using userSettings to persist toolbox visibility state
+const userSettings = useUserSettings();
 
 const preferredToolboxVisibility = !mdAndLarger.value
   ? 'false'
-  : toolboxVisibilityStorage.value;
+  : userSettings.getUserSetting('showToolbox');
 
 const initialState = {
   visible:
     preferredToolboxVisibility === 'false'
       ? false
-      : toolboxVisibilityStorage.value,
+      : userSettings.getUserSetting('showToolbox'),
   settings: {
     showAll: false,
     showDeprecated: false,
@@ -37,7 +34,7 @@ export const useToolBoxStore = defineStore('toolBoxStore', {
   actions: {
     toggleToolboxVisibility(isVisible: boolean) {
       this.visible = isVisible;
-      toolboxVisibilityStorage.value = isVisible;
+      userSettings.updateUserSetting('showToolbox', isVisible);
     },
   },
 });
