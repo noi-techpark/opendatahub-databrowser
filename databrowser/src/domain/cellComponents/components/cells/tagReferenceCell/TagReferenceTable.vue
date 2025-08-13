@@ -8,10 +8,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <EditListTable :items="tags" :hide-tab-link="true">
     <template #colGroup>
       <col class="w-32 md:w-80" />
+      <col class="w-24 md:w-32" />
+      <col class="w-24 md:w-32" />
     </template>
 
     <template #tableHeader>
       <TableHeaderCell>Tag name</TableHeaderCell>
+      <TableHeaderCell>Type</TableHeaderCell>
+      <TableHeaderCell>Source</TableHeaderCell>
     </template>
 
     <template #tableCols="{ item, index }: { item: string; index: number }">
@@ -26,6 +30,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         />
         <!-- Show translated label if not in edit mode -->
         <span v-else>{{ getLabelForTag(item) }}</span>
+      </TableCell>
+      <TableCell>
+        <span>{{ getTagType(item) || '-' }}</span>
+      </TableCell>
+      <TableCell>
+        <span>{{ getTagSource(item) || '-' }}</span>
       </TableCell>
     </template>
     <template #noItems>No tags have been defined yet</template>
@@ -46,13 +56,21 @@ import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';
 import { SelectOption } from '../../../../../components/select/types';
 import SelectWithOptionsCell from '../selectWithOptionsCell/SelectWithOptionsCell.vue';
 
+type TagId = string;
+interface TagData {
+  Id: TagId;
+  Type?: string | null;
+  Source?: string | null;
+}
+
 const props = defineProps<{
   tags: string[];
   options: SelectOption[];
   unique: boolean;
+  tagsData?: TagData[];
 }>();
 
-const { tags, unique } = toRefs(props);
+const { tags, unique, tagsData } = toRefs(props);
 
 const { addItems, updateItem } = useInjectActionTriggers<string>();
 
@@ -81,4 +99,13 @@ const getOptionsForTag = (tag: string, tagSet: Set<string | number>) => {
 
 const getLabelForTag = (tag: string) =>
   props.options.find((option) => option.value === tag)?.label ?? tag;
+
+const getTagData = (tagId: string) =>
+  tagsData?.value?.find((t) => t.Id === tagId);
+
+const getTagType = (tagId: string) =>
+  getTagData(tagId)?.Type ?? '-';
+
+const getTagSource = (tagId: string) =>
+  getTagData(tagId)?.Source ?? '-';
 </script>

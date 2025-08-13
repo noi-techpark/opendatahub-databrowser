@@ -39,6 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :tags="items"
         :options="options"
         :unique="uniqueValue"
+        :tags-data="computedTagsData"
       />
     </template>
   </EditListCell>
@@ -50,6 +51,7 @@ import AlertError from '../../../../../components/alert/AlertError.vue';
 import ContactSupportLink from '../../../../../components/contact/ContactSupportLink.vue';
 import LoadingState from '../../../../../components/loading/LoadingState.vue';
 import { booleanOrStringToBoolean } from '../../../../utils/convertType';
+import { useEditStore } from '../../../../datasets/ui/editView/store/editStore';
 import EditListCell from '../../utils/editList/EditListCell.vue';
 import {
   useRemoteSelectOptionsWithMapper,
@@ -60,6 +62,7 @@ import TagReferenceTable from './TagReferenceTable.vue';
 const props = withDefaults(
   defineProps<{
     tags?: string[] | null;
+    tagsData?: string[];
     url?: string;
     keySelector?: string;
     labelSelector?: string;
@@ -69,6 +72,7 @@ const props = withDefaults(
   }>(),
   {
     tags: () => [],
+    tagsData: () => [],
     url: undefined,
     keySelector: undefined,
     labelSelector: undefined,
@@ -80,6 +84,17 @@ const props = withDefaults(
 
 const { tags, url, keySelector, labelSelector, unique, sortByLabel, editable } =
   toRefs(props);
+
+const editStore = useEditStore();
+
+const computedTagsData = computed(() => {
+  const currentData = editStore.current;
+  if (currentData?.Tags && Array.isArray(currentData.Tags)) {
+    return currentData.Tags;
+  }
+  return [];
+
+});
 
 const uniqueValue = computed(() =>
   booleanOrStringToBoolean(unique.value, true)
