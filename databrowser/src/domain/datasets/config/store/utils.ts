@@ -65,7 +65,10 @@ export const useQueryParamsCleanUp = (
           preferredParams.routeQuery,
           defaultParamsCleanup.routeQuery
         );
-        setTimeout(() => router.replace({ query }));
+
+        setTimeout(() =>
+          router.replace({ query, hash: currentRoute.value.hash })
+        );
       }
     },
     { immediate: true }
