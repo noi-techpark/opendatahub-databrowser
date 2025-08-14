@@ -28,7 +28,7 @@ import { useUserSettings } from '../../../user/userSettings';
 
 const userSettings = useUserSettings();
 
-const showEditHint = userSettings.getUserSettingRef<boolean>('showEditHint');
+const showEditHint = userSettings.getUserSettingRef('showEditHint');
 
 const hideHint = () => userSettings.updateUserSetting('showEditHint', false);
 </script>

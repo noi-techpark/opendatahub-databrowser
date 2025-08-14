@@ -4,27 +4,23 @@
 
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
+import { UserSettings } from './types';
 
-type SettingKey =
-  | 'preferredDatasetSource'
-  | 'preferredDatasetLanguage'
-  | 'showEditHint'
-  | 'showHero'
-  | 'showToolbox'
-  | 'showMapViewNote';
-
-type SettingValue = string | number | boolean | null | undefined;
-
-const initialSettings: Record<SettingKey, SettingValue> = {
+const initialSettings: UserSettings = {
   preferredDatasetSource: 'embedded',
   preferredDatasetLanguage: 'en',
   showEditHint: true,
   showHero: true,
   showToolbox: true,
   showMapViewNote: true,
+  views: {
+    tableView: {
+      cols: {},
+    },
+  },
 };
 
-const userSettings = useLocalStorage<Record<SettingKey, SettingValue>>(
+const userSettings = useLocalStorage<UserSettings>(
   'userSettings',
   initialSettings
 );
@@ -35,25 +31,30 @@ userSettings.value = {
   ...userSettings.value,
 };
 
+type UserSettingsKeys = keyof UserSettings;
+
 export const useUserSettings = () => {
   // This hook can be used to manage user settings stored in local storage.
-  const getUserSettings = () => {
+  const getUserSettings = (): UserSettings => {
     return userSettings.value;
   };
 
-  const getUserSetting = <T = SettingValue>(key: SettingKey) => {
-    return userSettings.value[key] as T;
+  const getUserSetting = <K extends UserSettingsKeys>(key: K) => {
+    return userSettings.value[key];
   };
 
-  const getUserSettingRef = <T = SettingValue>(key: SettingKey) => {
-    return computed(() => userSettings.value[key] as T);
+  const getUserSettingRef = <K extends UserSettingsKeys>(key: K) => {
+    return computed(() => userSettings.value[key]);
   };
 
-  const setUserSettings = (settings: Record<SettingKey, SettingValue>) => {
-    userSettings.value = settings || {};
+  const setUserSettings = (settings: UserSettings) => {
+    userSettings.value = settings;
   };
 
-  const updateUserSetting = (key: SettingKey, value: SettingValue) => {
+  const updateUserSetting = <K extends UserSettingsKeys>(
+    key: K,
+    value: UserSettings[K]
+  ) => {
     const settings = getUserSettings();
     settings[key] = value;
     setUserSettings(settings);

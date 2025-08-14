@@ -37,7 +37,7 @@ import DisclaimerCloseHeroPopup from './DisclaimerCloseHeroPopup.vue';
 
 const userSettings = useUserSettings();
 
-const showHero = userSettings.getUserSettingRef<boolean>('showHero');
+const showHero = userSettings.getUserSettingRef('showHero');
 
 const onHide = () => {
   userSettings.updateUserSetting('showHero', false);

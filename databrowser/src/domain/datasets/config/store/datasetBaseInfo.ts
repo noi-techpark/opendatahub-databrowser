@@ -34,7 +34,7 @@ export const useDatasetBaseInfo = (
   // This allows the user to select a preferred language for datasets
   // and have it persist across sessions.
 
-  const preferredLanguage = useUserSettings().getUserSettingRef<string>(
+  const preferredLanguage = useUserSettings().getUserSettingRef(
     'preferredDatasetLanguage'
   );
 

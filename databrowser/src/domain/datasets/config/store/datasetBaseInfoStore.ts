@@ -24,10 +24,9 @@ export const useDatasetBaseInfoStore = defineStore(
     // User preferred source, which is stored in local storage
     // This allows the user to select a preferred source for datasets
     // and have it persist across sessions.
-    const preferredSource =
-      useUserSettings().getUserSettingRef<DatasetConfigSource>(
-        'preferredDatasetSource'
-      );
+    const preferredSource = useUserSettings().getUserSettingRef(
+      'preferredDatasetSource'
+    );
 
     // Compute reactive dataset base info
     const baseInfo = useDatasetBaseInfo(routeLocation, preferredSource);
