@@ -86,7 +86,12 @@
       "showEmptyFieldsDesc": "Show fields without a value",
       "showDeprecatedFields": "Show deprecated fields",
       "showDeprecatedFieldsDesc": "Deprecated attributes are not available in the long run and will be removed from the database.",
-      "thisIsAReferenceOfDataset": "This field is a reference of the dataset: {url}"
+      "thisIsAReferenceOfDataset": "This field is a reference of the dataset: {url}",
+      "toolBox": {
+        "settings": {
+          "defineViewPreferences": "Define preferences for your view."
+        }
+      }
     },
     "editView": {
       "authorizationChecking": "Please wait for authorization check",
@@ -178,8 +183,8 @@
       "switchViews": "Switch between views",
       "viewEmbeddedConfig": "Embedded view config",
       "viewGeneratedConfig": "Generated view config",
-      "tableSettings": "Table settings",
-      "showDeprecatedFields": "Show deprecated fields"
+      "viewUserConfig": "User view config",
+      "tableSettings": "Table settings"
     },
     "info": {
       "loadingConfig": "Loading config"
@@ -195,6 +200,7 @@
       },
       "of": "of {pageCount}",
       "ofUnknown": "of unknown",
+      "showDeprecatedFields": "Show deprecated fields",
       "tableFilterHint": "Filters have been applied to this view",
       "toolBox": {
         "searchAndFilter": {
@@ -298,9 +304,6 @@
       }
     },
     "toolBox": {
-      "settings": {
-        "defineViewPreferences": "Define preferences for your view."
-      },
       "exportDatasets": {
         "apiDatasets": {
           "header": "API datasets",
