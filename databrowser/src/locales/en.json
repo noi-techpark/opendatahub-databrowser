@@ -516,7 +516,15 @@
       "filtered": "(filtered)",
       "resetFilters": "Reset Filters",
       "noMetadataAvailable": "No metadata available",
-      "deprecated": "Deprecated",
+      "deprecated": {
+        "name": "Deprecated",
+        "infoPopup": {
+          "header": "Attribute is deprecated",
+          "body": "A deprecated attribute is one that is phasing out and will not be available anymore in the future. It is not recommended to use it.",
+          "linkHref": "https://github.com/noi-techpark/odh-docs/wiki/What-does-%22deprecated%22-mean%3F",
+          "linkText": "More info"
+        }
+      },
       "searchDataset": "Search Dataset",
       "dataSpace": "Dataspace",
       "showFilters": "Show filters",

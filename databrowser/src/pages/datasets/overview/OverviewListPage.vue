@@ -122,37 +122,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                     :filter-selected="filterSelectedForComponent"
                     class="mr-2"
                   />
-                  {{ t('overview.listPage.deprecated') }}
+                  {{ t('overview.listPage.deprecated.name') }}
                   <InfoPopover>
                     <PopoverCustomPanel>
                       <PopoverContentHeader class="pb-0">
-                        {{
-                          t(
-                            'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.header'
-                          )
-                        }}
+                        {{ t('overview.listPage.deprecated.infoPopup.header') }}
                       </PopoverContentHeader>
                       <PopoverContent class="flex max-w-sm flex-col gap-3 pt-2">
-                        {{
-                          t(
-                            'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.body'
-                          )
-                        }}
+                        {{ t('overview.listPage.deprecated.infoPopup.body') }}
                         <ButtonExternalLink
                           class="flex items-center justify-center p-2"
                           target="_blank"
                           :href="
-                            t(
-                              'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.linkHref'
-                            )
+                            t('overview.listPage.deprecated.infoPopup.linkHref')
                           "
                           :size="Size.xs"
                           :variant="Variant.ghost"
                         >
                           {{
-                            t(
-                              'datasets.listView.toolBox.deprecatedInfoTooltip.deprecatedInfo.infoPopup.linkText'
-                            )
+                            t('overview.listPage.deprecated.infoPopup.linkText')
                           }}
                         </ButtonExternalLink>
                       </PopoverContent>
