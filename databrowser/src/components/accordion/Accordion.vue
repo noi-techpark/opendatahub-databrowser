@@ -41,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, watch } from 'vue';
+import { ref, toRefs } from 'vue';
 import ArrowLine from '../svg/ArrowLine.vue';
 
 const props = defineProps<{
@@ -50,7 +50,6 @@ const props = defineProps<{
   buttonClass?: string;
   buttonLabelClass?: string;
   badgeValue?: string | number;
-  filterSelected?: { key: string; value: string }[];
 }>();
 const { text, buttonClass, buttonLabelClass } = toRefs(props);
 
@@ -58,18 +57,6 @@ const show = ref(false);
 
 const target = ref(null);
 
-watch(
-  () => props.filterSelected,
-  (newValue) => {
-    show.value =
-      Array.isArray(newValue) &&
-      newValue.some(
-        (filter) =>
-          filter.key?.toLowerCase() === props.accordionId?.toLowerCase()
-      );
-  },
-  { immediate: true }
-);
 const close = () => {
   show.value = false;
   emit('visible', show.value);

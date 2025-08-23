@@ -7,9 +7,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="flex w-full flex-col justify-between gap-6 md:flex-row md:gap-0">
     <span class="grow text-2xl font-semibold text-gray-900">
-      {{ isOtherDatasetsLoading ? '...' : visibleDatasets?.length }}
+      {{ isOtherDatasetsLoading ? '...' : visibleDatasetsCount }}
       {{
-        !isOtherDatasetsLoading && visibleDatasets?.length === 1
+        !isOtherDatasetsLoading && visibleDatasetsCount === 1
           ? t('overview.listPage.datasetFound')
           : t('overview.listPage.datasetsFound')
       }}
@@ -24,7 +24,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :placeholder="t('overview.listPage.searchDataset')"
       type="search"
       input-classes="w-full md:w-64"
-      @input="useUpdateURL(router, updatedFilters, searchTerm)"
     />
   </div>
 </template>
@@ -32,17 +31,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import InputCustom from '../../../components/input/InputCustom.vue';
-import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
-import { useUpdateURL } from '../../../domain/homepage/utils.ts';
-import { useRouter } from 'vue-router';
 
 const { t } = useI18n();
-const router = useRouter();
 
 defineProps<{
   isOtherDatasetsLoading: boolean;
-  updatedFilters: string[];
-  visibleDatasets: TourismMetaData[];
+  visibleDatasetsCount: number;
 }>();
 
 const searchTerm = defineModel<string>('searchTerm');
