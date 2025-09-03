@@ -11,4 +11,7 @@ services:
     volumes:
       - ./:/code
     working_dir: /code
-    command: tail -f /dev/null
+    command: sh -c "test -d node_modules || npm install; npm run dev -- --host 0.0.0.0"
+    #command: npm run dev -- --host 0.0.0.0
+    ports:
+      - 3000:3000        
