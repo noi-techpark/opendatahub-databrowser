@@ -39,6 +39,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :tags="items"
         :options="options"
         :unique="uniqueValue"
+        :tags-data="computedTagsData"
+        :show-additional-data="showAdditionalDataValue"
       />
     </template>
   </EditListCell>
@@ -57,32 +59,55 @@ import {
 } from '../../utils/remoteSelectOptions/useRemoteSelectOptions';
 import TagReferenceTable from './TagReferenceTable.vue';
 
+type TagId = string;
+interface TagData {
+  Id: TagId;
+  Type?: string | null;
+  Source?: string | null;
+}
+
 const props = withDefaults(
   defineProps<{
     tags?: string[] | null;
+    tagsData?: TagData[];
     url?: string;
     keySelector?: string;
     labelSelector?: string;
     unique?: boolean | string;
     sortByLabel?: boolean | string;
     editable?: boolean;
+    showAdditionalData?: boolean | string;
   }>(),
   {
     tags: () => [],
+    tagsData: () => [],
     url: undefined,
     keySelector: undefined,
     labelSelector: undefined,
     unique: true,
     sortByLabel: true,
     editable: true,
+    showAdditionalData: false,
   }
 );
 
-const { tags, url, keySelector, labelSelector, unique, sortByLabel, editable } =
+const { tags, url, keySelector, labelSelector, unique, sortByLabel, editable, showAdditionalData } =
   toRefs(props);
+
+const computedTagsData = computed(() => {
+  if (props.tagsData && Array.isArray(props.tagsData)) {
+    return props.tagsData;
+  }
+  
+  return [];
+});
 
 const uniqueValue = computed(() =>
   booleanOrStringToBoolean(unique.value, true)
+);
+
+const showAdditionalDataValue = computed(() =>
+  booleanOrStringToBoolean(showAdditionalData.value, false)
 );
 
 const { isLoading, isSuccess, isError, error, options } =
