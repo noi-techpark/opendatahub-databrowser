@@ -19,11 +19,16 @@ export const tagCell = (mainentity?: string): PropertyConfig => {
   return {
     title: 'Assigned Tags',
     component: CellComponent.TagReferenceCell,
-    arrayMapping: {
-      targetPropertyName: 'items',
-      pathToParent: 'TagIds',
+    objectMapping: {
+      tags: 'TagIds',
+      tagsData: 'Tags',
     },
-    params: { url, keySelector: 'Id', labelSelector: 'TagName.{language}' },
+    params: { 
+      url, 
+      keySelector: 'Id', 
+      labelSelector: 'TagName.{language}',
+      showAdditionalData: 'true',
+    },
   };
 };
 
