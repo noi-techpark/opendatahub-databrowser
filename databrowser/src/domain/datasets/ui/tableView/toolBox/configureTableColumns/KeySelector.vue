@@ -9,14 +9,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #trigger>
       <PopoverCustomButton
         :disabled="disabled"
-        :class="
+        :class="'mx-0 my-5 flex items-center gap-2 px-3 py-1' +
           computeButtonClasses({
-            size: Size.sm,
+            size: Size.xs,
+            variant:Variant.solid,
+            tone:Tone.white,
             disabled,
           })
         "
       >
-        {{ buttonText }}
+        <IconAdd class="flex h-3 w-auto fill-current text-green-400" />
+        <span class="flex py-1">{{ buttonText }}</span>
       </PopoverCustomButton>
     </template>
     <template #container>
@@ -41,11 +44,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { computeButtonClasses } from '../../../../../../components/button/styles';
-import { Size } from '../../../../../../components/button/types';
-import PopoverCustom from '../../../../../../components/popover/PopoverCustom.vue';
-import PopoverCustomButton from '../../../../../../components/popover/PopoverCustomButton.vue';
-import PopoverCustomPanel from '../../../../../../components/popover/PopoverCustomPanel.vue';
+import { computeButtonClasses } from '@/components/button/styles';
+import { Size, Tone, Variant } from '@/components/button/types';
+import PopoverCustom from '@/components/popover/PopoverCustom.vue';
+import PopoverCustomButton from '@/components/popover/PopoverCustomButton.vue';
+import PopoverCustomPanel from '@/components/popover/PopoverCustomPanel.vue';
+import IconAdd from '@/components/svg/IconAdd.vue';
 
 const emit = defineEmits<{ (e: 'selectKey', key: string): void }>();
 

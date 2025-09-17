@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <DialogCustom :is-open="dialogsStore.leaveSectionDialogVisible">
+  <DialogCustom :is-open="dialogsStore.leaveSectionDialogVisible" :width="DialogPanelWidth.sm">
     <template #title>
       {{ t('datasets.editView.dialog.leaveSection.title') }}
     </template>
@@ -13,18 +13,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       {{ t('datasets.editView.dialog.leaveSection.description') }}
     </template>
     <template #body>
-      <ButtonCustom @click="leaveSectionDialogResult = 'save'">
+      <ButtonCustom
+        class="font-semibold"
+        @click="leaveSectionDialogResult = 'save'"
+      >
         {{ t('datasets.editView.dialog.leaveSection.buttonSave') }}
       </ButtonCustom>
       <ButtonCustom
+        class="font-semibold"
         :variant="Variant.ghost"
+        :tone="Tone.primary"
         @click="leaveSectionDialogResult = 'discard'"
       >
         {{ t('datasets.editView.dialog.leaveSection.buttonDontSave') }}
       </ButtonCustom>
       <ButtonCustom
-        class="mt-2"
+        class="mt-2 font-semibold"
         :variant="Variant.ghost"
+        :tone="Tone.primary"
         @click="leaveSectionDialogResult = 'cancel'"
       >
         {{ t('datasets.editView.dialog.leaveSection.buttonCancel') }}
@@ -38,11 +44,12 @@ import { until } from '@vueuse/shared';
 import { ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { onBeforeRouteLeave } from 'vue-router';
-import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
-import { Variant } from '../../../../../components/button/types';
-import DialogCustom from '../../../../../components/dialog/DialogCustom.vue';
+import ButtonCustom from '@/components/button/ButtonCustom.vue';
+import { Tone, Variant } from '@/components/button/types';
+import DialogCustom from '@/components/dialog/DialogCustom.vue';
 import { useEditStore } from '../store/editStore';
 import { useDialogsStore } from './dialogsStore';
+import { DialogPanelWidth } from '@/components/dialog/types.ts';
 
 const { t } = useI18n();
 

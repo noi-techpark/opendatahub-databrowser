@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <!-- Dropdown menu -->
       <div
         v-show="show"
-        class="absolute z-10 min-w-full border bg-white shadow-xl"
+        class="absolute z-[999] min-w-full border bg-white shadow-xl"
       >
         <slot :events="{ close }"></slot>
       </div>

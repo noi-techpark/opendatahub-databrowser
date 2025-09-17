@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { toRefs } from 'vue';
+import { ref, toRefs } from 'vue';
 import { useDatasetBaseInfoStore } from '../../config/store/datasetBaseInfoStore';
 import { useDatasetView } from './datasetView';
+import { DiffEditMode } from '@/domain/datasets/view/types.ts';
 
 export const useDatasetViewStore = defineStore('datasetViewStore', () => {
   // Note: using toRefs here instead of storeToRefs because storeToRefs
@@ -29,13 +30,53 @@ export const useDatasetViewStore = defineStore('datasetViewStore', () => {
     objectValueReplacer,
   } = toRefs(useDatasetBaseInfoStore());
 
-  return useDatasetView(
-    datasetDomain,
-    baseViews,
-    viewKey,
-    stringReplacer,
-    objectValueReplacer
-  );
+  //json editor
+  const diffAdds = ref(0)
+  const diffDels = ref(0)
+  const setDiffStats = (adds: number, dels: number) => {
+    diffAdds.value = adds
+    diffDels.value = dels
+  }
+  const resetDiffStats = () => setDiffStats(0, 0)
+
+  const isRawEditing = ref(false);
+  const toggleRawEditing = () => {
+    isRawEditing.value = !isRawEditing.value;
+    if(!isRawEditing.value) {
+      isDiffEditing.value = false;
+      resetDiffStats();
+    }
+  }
+
+  const isDiffEditing = ref(false);
+  const toggleDiffEditing = () => {
+    isDiffEditing.value = !isDiffEditing.value;
+  }
+
+  const diffEditMode = ref(DiffEditMode.VERTICAL);
+  const setDiffEditMode = (mode: DiffEditMode) => {
+    diffEditMode.value = mode;
+  }
+
+  return {
+    ...useDatasetView(
+      datasetDomain,
+      baseViews,
+      viewKey,
+      stringReplacer,
+      objectValueReplacer
+    ),
+    isRawEditing,
+    toggleRawEditing,
+    isDiffEditing,
+    toggleDiffEditing,
+    diffAdds,
+    diffDels,
+    setDiffStats,
+    resetDiffStats,
+    diffEditMode,
+    setDiffEditMode,
+  };
 });
 
 // Add support for hot-module-reload

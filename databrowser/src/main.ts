@@ -13,6 +13,7 @@ import registerCellComponents from './domain/cellComponents/plugins/registerCell
 import { setupI18n } from './i18n';
 import './index.css';
 import { router } from './routes';
+import '@/domain/datasets/jsonEditor/monacoInit'
 import { createHead } from '@unhead/vue/client';
 
 const isProduction = process.env.NODE_ENV !== 'development';

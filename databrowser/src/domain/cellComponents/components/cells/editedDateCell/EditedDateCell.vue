@@ -14,15 +14,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { format as formatFn, formatDistanceToNow } from 'date-fns';
+
 const props = withDefaults(
-  defineProps<{
-    date?: string;
-    format?: string;
-  }>(),
-  {
-    date: undefined,
-    format: undefined,
-  }
+    defineProps<{
+      date?: string;
+      format?: string;
+    }>(),
+    {
+      date: undefined,
+      format: undefined,
+    }
 );
 const { date, format } = toRefs(props);
 const formattedDate = computed(() => {
@@ -43,4 +44,5 @@ const formattedDistance = computed(() => {
   }
   return '';
 });
+
 </script>

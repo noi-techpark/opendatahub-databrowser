@@ -29,6 +29,7 @@ const props = withDefaults(
     size?: string;
     tone?: string;
     disabled?: boolean;
+    active?: boolean;
     indicator?: boolean;
   }>(),
   {
@@ -36,6 +37,7 @@ const props = withDefaults(
     size: Size.md,
     tone: Tone.primary,
     disabled: false,
+    active: false,
     indicator: false,
   }
 );
@@ -49,6 +51,7 @@ const className = computed(() => {
     tone,
     size,
     disabled: props.disabled,
+    active: props.active,
   });
 });
 </script>

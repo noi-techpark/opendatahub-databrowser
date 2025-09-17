@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             !open ? 'rounded' : isBottomPlacement ? 'rounded-t' : 'rounded-b',
             buttonClassNames,
           ]"
+          :inputButtonClasses="inputButtonClasses"
           :label="selectedLabel"
           :data-test="`${id}-select-button`"
         />
@@ -84,6 +85,7 @@ const props = withDefaults(
     groupedOptions?: GroupSelectOption[];
     size?: SelectSize;
     id?: string;
+    inputButtonClasses?: string;
     // Show the search box if there are at least this amount of options (default 7)
     // - set this number to zero to always show the search
     // - set this number to Infinity to always hide the search
@@ -99,6 +101,7 @@ const props = withDefaults(
     groupedOptions: undefined,
     size: SelectSize.md,
     id: randomId(),
+    inputButtonClasses: '',
     showSearchWhenAtLeastCountOptions: 7,
     showEmptyValue: false,
     showAddNewValue: false,

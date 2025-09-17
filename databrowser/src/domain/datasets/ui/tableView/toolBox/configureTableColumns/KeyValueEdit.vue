@@ -6,11 +6,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div>
-    <ul class="flex flex-col gap-4 divide-y divide-gray-250">
+    <ul
+      class="justify-betwee mb-5 flex flex-col gap-4 divide-y divide-gray-250"
+    >
       <li
         v-for="(value, key) in data"
         :key="key"
-        class="flex flex-col gap-2 pt-3"
+        class="flex flex-col gap-2 bg-white px-3 pt-3"
       >
         <button
           class="self-end rounded p-1 text-delete"
@@ -24,7 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :model-value="key"
             :disabled="type === 'objectMapping'"
             class="basis-1/2"
-            inputClasses="w-full"
+            inputClasses="w-full bg-transparent"
             placeholder="Key"
             @update:modelValue="
               emit('update:data', {
@@ -53,7 +55,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :model-value="value"
             class="basis-1/2"
             deletable
-            inputClasses="w-full"
+            inputClasses="w-full bg-transparent"
             placeholder="Value"
             @update:model-value="
               emit('update:data', { key, newKey: key, value: String($event) })
@@ -62,11 +64,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
       </li>
     </ul>
+
+    <hr />
     <KeySelector
       v-if="type === 'objectMapping'"
       :keys="availableComponentKeys"
       :buttonText="addKeyLabel"
-      class="mt-8"
+      class="mx-3 my-5"
       @select-key="
         emit('add:key', $event);
         updateSuggestionTerm('');
@@ -74,24 +78,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
     <ButtonCustom
       v-else
-      class="mt-8"
-      :size="Size.sm"
+      :variant="Variant.solid"
+      :tone="Tone.white"
+      class="px-3 py-1 mx-3 my-5 flex items-center gap-2"
+      :size="Size.xs"
       @click="emit('add:key', '')"
     >
-      {{ addKeyLabel }}
+      <IconAdd class="flex h-3 w-auto fill-current text-green-400" />
+      <span class="flex">{{ addKeyLabel }}</span>
     </ButtonCustom>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
-import { Size } from '../../../../../../components/button/types';
-import InputCustom from '../../../../../../components/input/InputCustom.vue';
-import InputSuggest from '../../../../../../components/input/InputSuggest.vue';
-import IconDelete from '../../../../../../components/svg/IconDelete.vue';
-import { useOpenApiPathSuggestion } from '../../../../../openApi/autocomplete/useOpenApiPathSuggestion';
+import ButtonCustom from '@/components/button/ButtonCustom.vue';
+import { Size, Tone, Variant } from '@/components/button/types';
+import InputCustom from '@/components/input/InputCustom.vue';
+import InputSuggest from '@/components/input/InputSuggest.vue';
+import IconDelete from '@/components/svg/IconDelete.vue';
+import { useOpenApiPathSuggestion } from '@/domain/openApi/autocomplete/useOpenApiPathSuggestion.ts';
 import KeySelector from './KeySelector.vue';
+import IconAdd from '@/components/svg/IconAdd.vue';
 
 export interface KeyValueEditData {
   key: string;

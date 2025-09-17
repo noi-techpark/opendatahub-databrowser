@@ -18,15 +18,23 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         [customWrapperClasses]: !!customWrapperClasses,
       }"
     >
-      <div
-        class="truncate text-sm"
-        :class="{
-          [customTextClasses]: !!customTextClasses,
-        }"
-      >
-        {{ label }}
+      <div class="flex items-center gap-4">
+        <slot name="toggle" />
+        <div
+          class="truncate text-sm"
+          :class="{
+            [customTextClasses]: !!customTextClasses,
+          }"
+        >
+          {{ label }}
+        </div>
+        <span
+          v-if="hasBullet"
+          class="h-2 w-2 rounded-full bg-deprecated"
+        ></span>
       </div>
-      <slot name="toggle" />
+
+      <slot name="info" />
     </div>
     <div v-if="!!description" class="bg-white p-4 font-mono text-xs">
       {{ description }}
@@ -47,6 +55,7 @@ withDefaults(
     useWrapperClasses?: boolean;
     customWrapperClasses?: string;
     customTextClasses?: string;
+    hasBullet?: boolean;
   }>(),
   {
     description: '',
@@ -55,6 +64,7 @@ withDefaults(
     useWrapperClasses: true,
     customWrapperClasses: '',
     customTextClasses: '',
+    hasBullet: false,
   }
 );
 </script>

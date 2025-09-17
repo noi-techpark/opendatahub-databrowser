@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <PopoverGroup>
     <Popover v-slot="{ open }">
       <span ref="trigger" :class="triggerContainerClasses">
-        <slot name="trigger"></slot>
+        <slot name="trigger" :open="open"></slot>
       </span>
 
       <Teleport to="#popper-root">

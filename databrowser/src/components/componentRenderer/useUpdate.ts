@@ -84,7 +84,7 @@ export const useUpdate = (
         (prev, [key, value]) => {
           // Get property name, e.g. ImageTitle.en
           const targetPropertyName = objectMapping[key];
-
+          
           // If target property is unknown, log error and return previous value
           if (targetPropertyName == null) {
             logUnknownProperty(key, tagName.value, objectMapping);

@@ -11,6 +11,8 @@ import {
   pushDataTableCell,
   publishedOnTableCell,
   sourceTableCell,
+  lastPushTableCell,
+  lastSyncTableCell,
   locationTableCellsMinimal,
 } from '../../builder/tourism';
 
@@ -89,6 +91,8 @@ export const accommodationListView: ListViewConfig = {
         separator: ', ',
       },
     },
+    lastPushTableCell(true),
+    lastSyncTableCell(true),
     {
       title: 'Themes',
       component: CellComponent.ArrayCell,

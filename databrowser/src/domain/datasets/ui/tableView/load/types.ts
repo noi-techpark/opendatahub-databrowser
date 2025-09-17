@@ -6,5 +6,6 @@ import { RecordId } from '../../../types';
 
 export interface RecordValues {
   recordId: RecordId;
+  data: unknown;
   values: Record<string, unknown>[];
 }

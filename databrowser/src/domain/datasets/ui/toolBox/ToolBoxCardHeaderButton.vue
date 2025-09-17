@@ -19,6 +19,6 @@ defineEmits(['icon-click']);
 
 <style scoped>
 :slotted(svg) {
-  @apply h-5 w-5;
+  @apply h-4 w-4;
 }
 </style>

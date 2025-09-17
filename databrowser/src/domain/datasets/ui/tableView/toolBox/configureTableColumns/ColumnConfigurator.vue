@@ -15,6 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         mode = 'columnSettings';
       "
       @update:cols="applyChangesWithCheckpoint"
+      @reset:cols="showDiscardConfirmationDialog = true"
     />
 
     <ColumnSettings
@@ -25,40 +26,64 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       @back="mode = 'tableColumns'"
     />
 
-    <div class="mt-4 flex flex-wrap gap-1 sm:gap-2">
+
+    <ToolBoxCard class="mx-0">
+      <ToolBoxCardBody class="bg-white py-3 mx-0">
+        <ShowDeprecatedFields
+          custom-wrapper-classes="flex justify-between"
+          custom-text-classes="font-semibold"
+          :use-container-classes="false"
+          :use-wrapper-classes="false"
+        />
+      </ToolBoxCardBody>
+    </ToolBoxCard>
+
+
+    <div class="mt-4 flex flex-wrap justify-between gap-1 sm:gap-2">
       <ButtonCustom
-        class="flex items-center gap-2"
+        class="flex items-center gap-2 px-3 py-1"
         :disabled="!canUndoLastChange"
-        :size="Size.sm"
+        :size="Size.xs"
         @click="beginSaveColumnConfiguration"
       >
         <IconCheckCircle class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.save') }}
       </ButtonCustom>
+
+      <div class="flex items-center gap-3">
+        <ButtonCustom
+          class="flex items-center gap-2 px-3 py-1"
+          :disabled="!canUndoLastChange"
+          :size="Size.xs"
+          :variant="Variant.solid"
+          :tone="Tone.white"
+          @click="undoLastChange"
+        >
+          <IconEditorUndo class="size-4" />
+          {{ t('datasets.listView.toolBox.columnConfiguration.undo') }}
+        </ButtonCustom>
+        <ButtonCustom
+          class="flex items-center gap-2 px-3 py-1"
+          :disabled="!canRedoLastChange"
+          :size="Size.xs"
+          :variant="Variant.solid"
+          :tone="Tone.white"
+          @click="redoLastChange"
+        >
+          <IconEditorRedo class="size-4" />
+          {{ t('datasets.listView.toolBox.columnConfiguration.redo') }}
+        </ButtonCustom>
+      </div>
+
       <ButtonCustom
-        class="flex items-center gap-2"
-        :disabled="!canUndoLastChange"
-        :size="Size.sm"
-        @click="undoLastChange"
+        class="flex items-center gap-2 px-3 py-1"
+        :disabled="userPreferredDatasetSource != 'user'"
+        :size="Size.xs"
+        :variant="Variant.ghost"
+        @click="showDeleteConfirmationDialog = true"
       >
-        <IconEditorUndo class="size-4" />
-        {{ t('datasets.listView.toolBox.columnConfiguration.undo') }}
-      </ButtonCustom>
-      <ButtonCustom
-        class="flex items-center gap-2"
-        :disabled="!canRedoLastChange"
-        :size="Size.sm"
-        @click="redoLastChange"
-      >
-        <IconEditorRedo class="size-4" />
-        {{ t('datasets.listView.toolBox.columnConfiguration.redo') }}
-      </ButtonCustom>
-      <ButtonCustom
-        :disabled="!canUndoLastChange"
-        :size="Size.sm"
-        @click="showDiscardConfirmationDialog = true"
-      >
-        {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
+        <IconDelete class="size-4 text-delete" />
+        {{ t('datasets.listView.toolBox.columnConfiguration.deleteConfig') }}
       </ButtonCustom>
     </div>
 
@@ -71,19 +96,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
 
     <div class="mt-4 flex flex-wrap gap-1 sm:gap-2">
-      <ButtonCustom
-        class="flex items-center gap-2"
-        :disabled="userPreferredDatasetSource != 'user'"
-        :size="Size.sm"
-        @click="showDeleteConfirmationDialog = true"
-      >
-        <IconDelete class="size-4" />
-        {{ t('datasets.listView.toolBox.columnConfiguration.deleteConfig') }}
-      </ButtonCustom>
 
       <ButtonCustom
-        class="flex items-center gap-2"
-        :size="Size.sm"
+        class="flex items-center gap-2 px-3 py-1"
+        :size="Size.xs"
         @click="
           exportConfiguration();
           mode = 'tableColumns';
@@ -93,8 +109,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         {{ t('datasets.listView.toolBox.columnConfiguration.exportConfig') }}
       </ButtonCustom>
       <ButtonCustom
-        class="flex items-center gap-2"
-        :size="Size.sm"
+        class="flex items-center gap-2 px-3 py-1"
+        :size="Size.xs"
         @click="
           importConfiguration();
           mode = 'tableColumns';
@@ -103,6 +119,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <IconImport class="size-5" />
         {{ t('datasets.listView.toolBox.columnConfiguration.importConfig') }}
       </ButtonCustom>
+
     </div>
 
     <ColumnConfigurationSaveDialog
@@ -145,16 +162,16 @@ import { watchDebounced } from '@vueuse/core';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
-import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
-import { Size } from '../../../../../../components/button/types';
-import IconEditorRedo from '../../../../../../components/html/icons/IconEditorRedo.vue';
-import IconEditorUndo from '../../../../../../components/html/icons/IconEditorUndo.vue';
-import IconCheckCircle from '../../../../../../components/svg/IconCheckCircle.vue';
-import IconDelete from '../../../../../../components/svg/IconDelete.vue';
-import IconDownload from '../../../../../../components/svg/IconDownload.vue';
-import IconImport from '../../../../../../components/svg/IconImport.vue';
-import { CellComponent } from '../../../../../cellComponents/types';
-import { useUserSettings } from '../../../../../user/userSettings';
+import ButtonCustom from '@/components/button/ButtonCustom.vue';
+import { Size,Variant,Tone } from '@/components/button/types';
+import IconEditorRedo from '@/components/html/icons/IconEditorRedo.vue';
+import IconEditorUndo from '@/components/html/icons/IconEditorUndo.vue';
+import IconCheckCircle from '@/components/svg/IconCheckCircle.vue';
+import IconDelete from '@/components/svg/IconDelete.vue';
+import IconDownload from '@/components/svg/IconDownload.vue';
+import IconImport from '@/components/svg/IconImport.vue';
+import { CellComponent } from '@/domain/cellComponents/types.ts';
+import { useUserSettings } from '@/domain/user/userSettings.ts';
 import { injectColumnConfiguration } from './columnConfiguration';
 import { useColumnConfigurationDatasetChangeGuard } from './columnConfigurationDatasetChangeGuard';
 import ColumnConfigurationDeleteDialog from './ColumnConfigurationDeleteDialog.vue';
@@ -168,6 +185,10 @@ import {
   useColumnConfigurationValidation,
   validateColumnConfiguration,
 } from './columnValidation';
+import ShowDeprecatedFields from '@/domain/datasets/ui/common/showDeprecatedFields/ShowDeprecatedFields.vue';
+import ToolBoxCardBody from '@/domain/datasets/ui/toolBox/ToolBoxCardBody.vue';
+import ToolBoxCard from '@/domain/datasets/ui/toolBox/ToolBoxCard.vue';
+import { useHeaderAlert } from '@/layouts/useHeaderAlert.ts';
 
 const { t } = useI18n();
 
@@ -203,8 +224,14 @@ const beginSaveColumnConfiguration = () => {
   }
 };
 
+const {fire} = useHeaderAlert();
+
 const commitSaveColumnConfiguration = () => {
   saveChanges();
+  fire({
+    title: t('datasets.listView.toolBox.columnConfiguration.saveSuccessTitle'),
+    content: t('datasets.listView.toolBox.columnConfiguration.saveSuccessText'),
+  });
   validateColumnConfigurationAndSetIssues();
 };
 

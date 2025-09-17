@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../domain/cellComponents/types';
-import { PropertyConfig } from '../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types.ts';
+import { PropertyConfig } from '@/domain/datasets/config/types.ts';
 
 export const pushDataTableCell = (): PropertyConfig => ({
   title: 'Push data',

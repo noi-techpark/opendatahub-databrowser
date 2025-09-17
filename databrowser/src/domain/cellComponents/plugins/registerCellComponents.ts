@@ -57,6 +57,8 @@ import ToggleCell from '../components/cells/toggleCell/ToggleCell.vue';
 import ToggleTriStateCell from '../components/cells/toggleCell/ToggleTriStateCell.vue';
 import TypeBasedCell from '../components/cells/typeBasedCell/TypeBasedCell.vue';
 import UpdateHistoryCell from '../components/cells/updateHistoryCell/UpdateHistoryCell.vue';
+import LastPushCell from '../components/cells/pushDataCell/LastPushCell.vue';
+import LastSyncCell from '../components/cells/lastSyncCell/LastSyncCell.vue';
 import UrlCell from '../components/cells/UrlCell/UrlCell.vue';
 import WebcamCell from '../components/cells/webcamCell/WebcamCell.vue';
 
@@ -241,6 +243,16 @@ export const registeredComponents: readonly RegisteredComponent[] = [
   [
     CellComponent.UpdateHistoryCell,
     UpdateHistoryCell,
+    { supportsTableView: true },
+  ],
+  [
+    CellComponent.LastPushCell,
+    LastPushCell,
+    { supportsTableView: true },
+  ],
+  [
+    CellComponent.LastSyncCell,
+    LastSyncCell,
     { supportsTableView: true },
   ],
 ];
