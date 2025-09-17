@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <button
       :id="`${id}-previous-page`"
       class="mr-4 rounded"
-      :class="[pagination.hasPrevious ? 'text-green-500' : 'text-gray-400']"
+      :class="[pagination.hasPrevious ? 'text-green-400' : 'text-gray-400']"
       :disabled="!pagination.hasPrevious"
       :data-test="`${id}-previous-page`"
       @click="navigation.goToPage(pagination.currentPage - 1)"
@@ -42,7 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <button
       :id="`${id}-next-page`"
       class="rounded"
-      :class="[pagination.hasNext ? 'text-green-500' : 'text-gray-400']"
+      :class="[pagination.hasNext ? 'text-green-400' : 'text-gray-400']"
       :disabled="!pagination.hasNext"
       :data-test="`${id}-next-page`"
       @click="navigation.goToPage(pagination.currentPage + 1)"

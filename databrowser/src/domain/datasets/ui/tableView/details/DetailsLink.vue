@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     :to="to"
     variant="ghost"
     size="xs"
-    class="flex h-10 w-11 flex-col items-center p-1"
+    class="flex h-10 w-11 flex-col items-center p-1 text-green-400"
     :disabled="disabled"
   >
     <slot></slot>
@@ -20,8 +20,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { RouteLocationRaw } from 'vue-router';
-import ButtonCustom from '../../../../components/button/ButtonCustom.vue';
-import ButtonLink from '../../../../components/button/ButtonLink.vue';
+import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
+import ButtonLink from '../../../../../components/button/ButtonLink.vue';
 
 const props = defineProps<{ to?: RouteLocationRaw }>();
 

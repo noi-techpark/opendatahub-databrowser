@@ -5,13 +5,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="flex w-full justify-between bg-green-500">
+  <div class="flex w-full justify-between bg-green-500 font-semibold">
     <EditFooterButton
       :class="[{ 'opacity-50': isSaving }]"
       :disabled="isSaving"
       @click="cancel"
     >
-      <IconClose class="mr-2" />
+      <IconClose class="mr-1" />
       <span class="inline md:hidden">
         {{ t('datasets.editView.footer.cancelMobile') }}
       </span>
@@ -24,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       {{ t('datasets.editView.footer.saving') }}
     </EditFooterButton>
     <EditFooterButton v-else @click="save">
-      <IconCheck class="mr-2" />
+      <IconCheck class="mr-1" />
       <span class="inline md:hidden">
         {{ t('datasets.editView.footer.saveMobile') }}
       </span>
@@ -39,10 +39,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { useMagicKeys } from '@vueuse/core';
 import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import IconCheck from '../../../../components/svg/IconCheck.vue';
-import IconClose from '../../../../components/svg/IconClose.vue';
-import IconLoading from '../../../../components/svg/IconLoading.vue';
-import EditFooterButton from './EditFooterButton.vue';
+import IconCheck from '../../../../../components/svg/IconCheck.vue';
+import IconClose from '../../../../../components/svg/IconClose.vue';
+import IconLoading from '../../../../../components/svg/IconLoading.vue';
+import EditFooterButton from '../../editView/EditFooterButton.vue';
 
 const { t } = useI18n();
 

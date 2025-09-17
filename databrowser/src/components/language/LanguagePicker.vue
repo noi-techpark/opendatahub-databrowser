@@ -6,28 +6,42 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="relative flex items-center">
-    <ButtonLink
-      v-for="link in links"
-      :key="link.value"
-      :to="link.to"
-      size="xs"
-      variant="ghost"
-      class="mx-1 hidden size-9 text-center text-base uppercase md:flex md:items-center md:justify-center"
-      :class="[
-        link.value === selected ? 'border-green-500 bg-green-500/10' : '',
-      ]"
-      :data-test="`desktop-language-picker-${link.value}`"
-      @click="selected = link.value"
-    >
-      {{ link.label }}
-    </ButtonLink>
+    <!--    <ButtonLink-->
+    <!--      v-for="link in links"-->
+    <!--      :to="link.to"-->
+    <!--      :key="link.value"-->
+    <!--      size="xs"-->
+    <!--      variant="ghost"-->
+    <!--      class="mx-1 hidden size-9 text-center text-base uppercase md:flex md:items-center md:justify-center"-->
+    <!--      :class="[-->
+    <!--        link.value === selected ? 'border-green-500 bg-green-500/10' : '',-->
+    <!--      ]"-->
+    <!--      :data-test="`desktop-language-picker-${link.value}`"-->
+    <!--      @click="selected = link.value"-->
+    <!--    >-->
+    <!--      {{ link.label }}-->
+    <!--    </ButtonLink>-->
 
+    <SelectWithIconButton
+      id="mobile-language-picker"
+      extra-button-classes="h-11 hidden md:flex"
+      :options="links"
+      :value="selected"
+      :size="SelectSize.xs"
+      :show-search-when-at-least-count-options="Infinity"
+      :z-index="zIndex"
+      label="Lang"
+      :iconComponent="OdhLanguage"
+      extra-height
+      @change="selected = $event"
+    />
     <SelectCustom
       id="mobile-language-picker"
       class="w-16 md:hidden"
       extra-button-classes="h-9"
       :options="links"
       :model-value="selected"
+      label="Lang"
       :size="SelectSize.xs"
       :show-search-when-at-least-count-options="Infinity"
       :z-index="zIndex"
@@ -43,9 +57,10 @@ import {
   defaultLanguage,
   FilterLanguage,
 } from '../../domain/datasets/language';
-import ButtonLink from '../button/ButtonLink.vue';
 import SelectCustom from '../select/SelectCustom.vue';
 import { SelectSize } from '../select/types';
+import SelectWithIconButton from "@/components/select/SelectWithIconButton.vue";
+import OdhLanguage from "@/components/svg/odh/OdhLanguage.vue";
 
 const props = withDefaults(
   defineProps<{

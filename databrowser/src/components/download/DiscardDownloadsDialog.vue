@@ -7,17 +7,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <DialogCustom :is-open="isOpen">
     <template #title>
-      {{ t('datasets.download.dialog.discardChanges.title') }}
+      {{ t('datasets.download.dialog.discardExports.title') }}
     </template>
     <template #description>
-      {{ t('datasets.download.dialog.discardChanges.description') }}
+      {{ t('datasets.download.dialog.discardExports.description') }}
     </template>
     <template #body>
       <ButtonCustom @click="discard">
-        {{ t('datasets.download.dialog.discardChanges.buttonYes') }}
+        {{ t('datasets.download.dialog.discardExports.buttonYes') }}
       </ButtonCustom>
       <ButtonCustom :variant="Variant.ghost" @click="close">
-        {{ t('datasets.download.dialog.discardChanges.buttonNo') }}
+        {{ t('datasets.download.dialog.discardExports.buttonNo') }}
       </ButtonCustom>
     </template>
   </DialogCustom>

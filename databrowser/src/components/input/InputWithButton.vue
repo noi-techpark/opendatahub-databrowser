@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="flex h-9 items-center justify-between gap-2 rounded border border-gray-400 bg-white p-2 py-5 text-black focus-within:border-green-500 focus-within:bg-green-500/10 md:p-2"
+    class="flex h-11 items-center justify-between gap-2 rounded border border-gray-400 bg-white p-2 py-5 text-black focus-within:border-green-500 focus-within:bg-green-500/10 md:p-2"
   >
     <slot v-if="showIcon" name="icon"></slot>
     <ButtonCustom
@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="id"
       ref="inputRef"
       v-model="text"
-      class="w-full border-none bg-transparent focus:ring-0"
+      class="w-full border-none bg-transparent focus:ring-0 pl-0 text-sm"
       :placeholder="labelPlaceholder"
       :disabled="disabled"
       :data-test="`${id}-input`"
@@ -48,7 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </button>
       <ButtonCustom
         v-if="hasConfirmButton && !showButtonOnLeft"
-        class="-m-1 flex items-center gap-2 rounded p-2 md:px-3 md:py-1"
+        class="-m-1 flex items-center gap-2 rounded p-2 md:px-3 md:py-2"
         aria-label="Search"
         :size="Size.xs"
         :disabled="disabled"
@@ -59,8 +59,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <span
           v-if="labelButton"
           :class="{ 'hidden md:inline': !showButtonTextMobile }"
-          >{{ labelButton }}</span
+          class="md:text-sm md:font-semibold"
         >
+          {{ labelButton }}
+        </span>
       </ButtonCustom>
     </div>
   </div>

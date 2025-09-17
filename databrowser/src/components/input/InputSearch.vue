@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     @confirmed-value="emit('search', $event)"
   >
     <template #icon>
-      <IconSearch class="size-6 text-green-500" />
+      <IconSearch class="size-5 text-green-500" :class="{ 'opacity-50': disabled }" />
     </template>
   </InputWithButton>
 </template>

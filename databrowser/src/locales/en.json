@@ -144,7 +144,7 @@
       "footer": {
         "cancel": "Cancel (ESC)",
         "cancelMobile": "Cancel",
-        "save": "Save (ALT + S)",
+        "save": "Save changes (ALT + S)",
         "saveMobile": "Save",
         "saving": "Saving your changes ..."
       },
@@ -186,6 +186,9 @@
       "switchViews": "Switch between views",
       "viewEmbeddedConfig": "Embedded view config",
       "viewGeneratedConfig": "Generated view config",
+      "viewEmbeddedShortLabel": "Default",
+      "viewGeneratedShortLabel": "Raw",
+      "showDeprecatedFields": "Show deprecated fields",
       "viewUserConfig": "User view config",
       "tableSettings": "Table settings"
     },
@@ -195,13 +198,15 @@
     "listView": {
       "colDetail": "Detail",
       "go": "GO",
-      "linesPerPage": "Lines per page",
+      "perPage": "per page",
       "loadingData": "Loading data",
       "noData": {
         "dataDoesNotExist": "You were looking for data that does not exist!",
         "suggestion": "Please rethink your request"
       },
       "of": "of {pageCount}",
+      "areShown": "are shown",
+      "recordsOutOf": "records out of",
       "ofUnknown": "of unknown",
       "showDeprecatedFields": "Show deprecated fields",
       "tableFilterHint": "Filters have been applied to this view",
@@ -286,7 +291,7 @@
             "filterInputButton": "Filter",
             "resetAllFilters": "Reset all filters"
           },
-          "panelName": "Filter"
+          "panelName": "Filters"
         },
         "userTableAttributes": {
           "panelName": "Attributes",
@@ -309,6 +314,10 @@
         "delete": {
           "short": "Delete",
           "title": "Delete view"
+        },
+        "actions": {
+          "short": "Actions",
+          "title": "Actions"
         }
       }
     },
@@ -336,11 +345,15 @@
       }
     },
     "navigation": {
-      "detailView": "Detail View",
+      "detailView": "Detail",
       "editView": "Edit View",
       "newView": "New Record",
-      "rawView": "Raw View",
-      "tableView": "Table View"
+      "rawView": "Json",
+      "tableView": "Table View",
+      "actions": {
+        "diff": "Diff",
+        "edit": "Edit"
+      }
     },
     "download": {
       "info": "Retrieve data based on table settings",
@@ -349,6 +362,12 @@
       "downloadJSON": "Download dataset as JSON",
       "downloadCSV": "Download dataset as CSV",
       "dialog": {
+        "discardExports": {
+          "buttonNo": "No",
+          "buttonYes": "Yes",
+          "description": "If you confirm, the process will stop and the exported data won't be downloaded.",
+          "title": "Cancel export?"
+        },
         "discardChanges": {
           "title": "Discard unsaved data?",
           "description": "Are you sure you want to discard unsaved data?",
@@ -361,20 +380,28 @@
       "exportDatasets": {
         "apiDatasets": {
           "header": "API datasets",
-          "iconAlt": "Copy the URL for the currently displayed data"
+          "iconAlt": "Copy the URL for the currently displayed data",
+          "button": "Copy"
         },
         "references": {
           "iconAlt": "Shoe/hide the URL for the currently referenced data"
         },
         "documentation": {
-          "header": "documentation",
+          "header": "Documentation",
           "body": "Check documentation for full details",
-          "iconAlt": "Link to documentation"
+          "iconAlt": "Link to documentation",
+          "button": "More info"
         },
         "download": {
           "header": "Download",
           "button": "Download",
           "buttonAlt": "Download the currently displayed data",
+          "infoPopup": {
+            "header": "Information on how to download records.",
+            "body": "Access our wiki to get all information on how to download our records.",
+            "linkHref": "https://github.com/noi-techpark/it.bz.opendatahub.databrowser/wiki/How-To-Filter-and-Search#filter",
+            "linkText": "Open wiki"
+          },
           "csv": {
             "header": "CSV FILE",
             "body": "Export of all filtered records (including media links)."
@@ -382,6 +409,10 @@
           "json": {
             "header": "JSON",
             "body": "Export of all filtered records (including media links)."
+          },
+          "media": {
+            "header": "MEDIA FILES",
+            "body": "Zip archive of media filtered records only."
           }
         },
         "settings": "Settings",
@@ -415,7 +446,7 @@
     },
     "downloadMenu": {
       "title": "{countActive} export in progress",
-      "subtitle": "{countCompleted} completed, {countFailed} failed"
+      "subtitle": "{countFailed} failed, {countCompleted} completed"
     },
     "mappingTable": {
       "addKeyValue": "Add key and value",
@@ -463,6 +494,20 @@
         "settings": "Settings"
       }
     },
+    "syncData": {
+      "lastSyncInfo": {
+        "title": "Information on last sync.",
+        "sentAt": "Last Sync: {date}",
+        "error": "Error: {error}"
+      },
+      "dialog": {
+        "buttonCancel": "No (n)",
+        "buttonAfterSend": "Push-Notifications sent",
+        "buttonBeforeSend": "Yes (y)",
+        "description": "If you confirm, the synchronization of {title} will start.",
+        "title": "Sync {title}"
+      }
+    },
     "pushData": {
       "lastPushInfo": {
         "title": "Information on last push.",
@@ -479,6 +524,17 @@
         "pushSendImmediately": "Push-Notification is immediately sent out",
         "selectChannel": "Stay connected! Select the channel you want to send the push notification to:",
         "title": "Push-Notification"
+      },
+      "dialog": {
+        "buttonCancel": "Cancel",
+        "buttonAfterSend": "Push-Notifications sent",
+        "buttonBeforeSend": "Send out the Push-Notifications",
+        "contactSupport1": "If you think this is an error, please contact the",
+        "contactSupport2": "support",
+        "noPublishersAvailable": "For this entry, there are no publishers available to send push.",
+        "pushSendImmediately": "Push-Notification is immediately sent out",
+        "selectChannel": "Stay connected! Select the channel you want to send the push notification to:",
+        "title": "Push-Notification for {title}"
       },
       "result": {
         "errorTitle": "Couldn't send push notification to {name}",

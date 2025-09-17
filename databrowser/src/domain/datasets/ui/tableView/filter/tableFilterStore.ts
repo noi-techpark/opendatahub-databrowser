@@ -36,14 +36,15 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
   );
 
   // Update filters if datasetFilters or cols change
-  watch([datasetFilters, cols], () => {
+  const handleDatasetFiltersChange = () => {
     tableFilters.value = datasetFilters.value.map((filter) => {
       const title =
-        cols.value.find((col) => col.firstPropertyPath === filter.propertyPath)
-          ?.title ?? filter.propertyPath;
+          cols.value.find((col) => col.firstPropertyPath === filter.propertyPath)
+              ?.title ?? filter.propertyPath;
       return { ...filter, title };
     });
-  });
+  }
+  watch([datasetFilters, cols], handleDatasetFiltersChange);
 
   // Add empty filter
   const addEmptyFilter = () => {
@@ -95,7 +96,10 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
     });
 
   // Remove all filters
-  const removeAllFilters = () => (datasetFilters.value = []);
+  const removeAllFilters = () => {
+    datasetFilters.value = []
+    handleDatasetFiltersChange()
+  };
 
   // Remove filter for a given propertyPath
   const removeFilterByPropertyPath = (propertyPath?: string) => {
@@ -110,6 +114,7 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
   const removeFilterByIndex = (index?: number) => {
     if (index != null) {
       datasetFilters.value = tableFilters.value.filter((_, i) => i !== index);
+      handleDatasetFiltersChange()
     }
   };
 

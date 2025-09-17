@@ -9,31 +9,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div class="sticky top-0 w-full">
     <div class="bg-white">
       <ContentAlignmentX
-        class="m-auto flex flex-col gap-x-12 gap-y-2 px-4 pb-2 md:flex-row md:pb-0"
+        class="m-auto flex flex-col gap-x-6 gap-y-2 px-4 pb-2 md:flex-row md:pb-0"
         :class="[isFullWidthNav ? 'w-full' : 'xl:w-default']"
       >
-        <div class="flex items-center justify-between gap-2 md:items-start">
+        <div class="my-2 flex items-center md:items-start">
           <InternalLink
             to="/"
             data-test="link-to-home-page"
             variant="no-underline"
           >
-            <div class="flex">
+            <div class="flex items-stretch">
               <div
-                class="h-full rounded-b border-x border-b border-black px-2 py-1 text-base font-semibold leading-5 text-black"
+                class="h-full rounded border border-black px-2 py-0 text-lg font-bold leading-5 text-black"
                 v-html="t('header.toolBadge')"
               ></div>
-              <div class="hidden h-min md:block">
-                <TagCustom
-                  v-if="envBadge"
-                  :type="envBadge === 'BETA' ? 'pink' : 'info'"
-                  :text="envBadge"
-                  class="rounded-none text-sm"
-                />
-              </div>
+              <TagCustom
+                v-if="envBadge"
+                :type="envBadge === 'BETA' ? 'pink' : 'info'"
+                :text="envBadge"
+                class="h-100 ml-4 flex items-center text-sm"
+              />
             </div>
           </InternalLink>
-
           <IconClose
             v-if="props.isMenuOpen"
             class="ml-auto md:hidden"
@@ -48,7 +45,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <MenuItems
           :class="props.isMenuOpen ? '' : 'hidden'"
-          class="grow border-t border-gray-250 pb-4 pt-2 md:flex md:border-0 md:pb-2"
+          class="grow border-t border-gray-250 py-1 md:flex md:border-0"
         />
       </ContentAlignmentX>
     </div>

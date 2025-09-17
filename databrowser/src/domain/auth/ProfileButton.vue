@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="flex size-8 items-center justify-center rounded-full text-lg font-bold text-white"
+    class="flex size-7 items-center justify-center rounded-full text-lg font-bold text-white"
     :class="bgColorClass"
     :title="username"
   >

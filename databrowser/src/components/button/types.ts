@@ -4,6 +4,7 @@
 
 export enum Variant {
   solid = 'solid',
+  soft = 'soft',
   ghost = 'ghost',
   transparent = 'transparent',
 }

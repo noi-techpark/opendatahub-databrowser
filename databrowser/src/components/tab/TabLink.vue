@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <ButtonLink variant="ghost" size="sm" :class="classes" :to="to">
+  <ButtonLink variant="ghost" size="sm" class="text-green-500" :class="classes" :to="to">
     {{ label }}
   </ButtonLink>
 </template>

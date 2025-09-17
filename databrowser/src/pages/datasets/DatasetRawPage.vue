@@ -6,11 +6,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <SingleDatasetLayout>
-    <RawView />
+    <JsonView />
   </SingleDatasetLayout>
 </template>
 
 <script setup lang="ts">
-import RawView from '../../domain/datasets/ui/rawView/RawView.vue';
+import JsonView from '../../domain/datasets/ui/rawView/JsonView.vue';
 import SingleDatasetLayout from './SingleDatasetLayout.vue';
 </script>

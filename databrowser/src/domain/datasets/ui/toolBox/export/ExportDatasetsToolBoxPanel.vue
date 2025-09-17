@@ -5,102 +5,115 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <ToolBoxPanel>
-    <ToolBoxSectionLabel>{{
-      t('datasets.toolBox.exportDatasets.sectionRetrieveData')
-    }}</ToolBoxSectionLabel>
-    <ToolBoxCard v-if="url != null">
-      <ToolBoxCardHeader>
-        {{ t('datasets.toolBox.exportDatasets.apiDatasets.header') }}
-        <ToolBoxCardHeaderButton
+  <ToolBoxSectionLabel>{{
+    t('datasets.toolBox.exportDatasets.sectionRetrieveData')
+  }}</ToolBoxSectionLabel>
+
+  <ToolBoxCard v-if="url != null">
+    <ToolBoxCardHeader :uppercase="false" class="rounded">
+      {{ t('datasets.toolBox.exportDatasets.apiDatasets.header') }}
+    </ToolBoxCardHeader>
+    <ToolBoxCardBody :with-bg-color="withBgColor" class="break-all">
+      <span class="block w-full">
+        {{ url }}
+      </span>
+      <ToolBoxCardHeaderButton
           :aria-label="t('datasets.toolBox.exportDatasets.apiDatasets.iconAlt')"
-          @icon-click="copyUrl"
+      >
+        <ButtonCustom
+            class="mt-4 flex items-center gap-3 px-2 py-1.5 text-sm"
+            :size="Size.xs"
+            :aria-label="t('datasets.toolBox.exportDatasets.download.iconAlt')"
+            @click="copyUrl"
         >
-          <IconCopy v-if="!copiedUrl" />
+          <IconCopy v-if="!copiedUrl" class="size-4" />
           <IconCheck v-else />
-        </ToolBoxCardHeaderButton>
-      </ToolBoxCardHeader>
-      <ToolBoxCardBody :with-bg-color="withBgColor" class="break-all">{{
-        url
-      }}</ToolBoxCardBody>
-    </ToolBoxCard>
+          <span>{{ t('datasets.toolBox.exportDatasets.apiDatasets.button') }}</span>
+        </ButtonCustom>
+      </ToolBoxCardHeaderButton>
+    </ToolBoxCardBody>
+  </ToolBoxCard>
 
     <DownloadCard v-if="url != null" :url="url"></DownloadCard>
 
-    <ToolBoxSectionLabel v-if="!!referencesUrls">{{
-      t('datasets.toolBox.exportDatasets.sectionReferencesData')
-    }}</ToolBoxSectionLabel>
-    <ToolBoxCard
-      v-for="referenceUrl in referencesUrls || []"
-      :key="getReferenceKey(referenceUrl)"
+  <!-- TODO: fare qui sotto come da mock. -->
+  <!-- TODO: fare qui sotto come da mock. -->
+  <!-- TODO: fare qui sotto come da mock. -->
+  <ToolBoxSectionLabel v-if="!!referencesUrls">{{
+    t('datasets.toolBox.exportDatasets.sectionReferencesData')
+  }}</ToolBoxSectionLabel>
+
+  <ToolBoxCard
+    v-for="referenceUrl in referencesUrls || []"
+    :key="getReferenceKey(referenceUrl)"
+    class="rounded"
+  >
+    <ToolBoxCardHeader :uppercase="false" class="rounded">
+
+      <span class="truncate">
+        {{ referenceUrl.from }}
+      </span>
+      <ToolBoxCardHeaderButton
+        @icon-click="
+          referencesUrlsAccordions[getReferenceKey(referenceUrl)] =
+            !referencesUrlsAccordions[getReferenceKey(referenceUrl)]
+        "
+      >
+        <ArrowLine
+          class="size-4 transition"
+          :class="
+            referencesUrlsAccordions[getReferenceKey(referenceUrl)]
+              ? '-rotate-90'
+              : 'rotate-90'
+          "
+        />      </ToolBoxCardHeaderButton>
+    </ToolBoxCardHeader>
+    <ToolBoxCardBody
+      v-if="referencesUrlsAccordions[getReferenceKey(referenceUrl)]"
+      :with-bg-color="withBgColor"
     >
-      <ToolBoxCardHeader :uppercase="false">
-        <span
-          class="truncate"
-          :class="{
-            'text-hint-info':
-              referencesUrlsAccordions[getReferenceKey(referenceUrl)],
-          }"
-          >{{ referenceUrl.from }}</span
-        >
+      <div class="items-center gap-1">
+        <p class="break-all font-mono text-xs">{{ referenceUrl.url }}</p>
+
         <ToolBoxCardHeaderButton
-          @icon-click="
-            referencesUrlsAccordions[getReferenceKey(referenceUrl)] =
-              !referencesUrlsAccordions[getReferenceKey(referenceUrl)]
-          "
+          :aria-label="t('datasets.toolBox.exportDatasets.apiDatasets.iconAlt')"
         >
-          <ArrowLine
-            class="size-4 text-green-400 transition"
-            :class="
-              referencesUrlsAccordions[getReferenceKey(referenceUrl)]
-                ? '-rotate-90'
-                : 'rotate-90'
-            "
-          />
+          <ButtonCustom
+            class="mt-4 flex items-center gap-3 px-2 py-1.5 text-sm"
+            :size="Size.xs"
+            :aria-label="t('datasets.toolBox.exportDatasets.download.iconAlt')"
+            @click="onCopyReference(referenceUrl.url)"
+          >
+            <IconCheck v-if="referenceUrlToCopy === referenceUrl.url" />
+            <IconCopy v-else />
+            <span>{{ t('datasets.toolBox.exportDatasets.apiDatasets.button') }}</span>
+          </ButtonCustom>
         </ToolBoxCardHeaderButton>
-      </ToolBoxCardHeader>
-      <ToolBoxCardBody
-        v-if="referencesUrlsAccordions[getReferenceKey(referenceUrl)]"
-        :with-bg-color="withBgColor"
-        ><div class="flex items-center gap-1">
-          <p class="break-all font-mono text-xs">{{ referenceUrl.url }}</p>
+      </div>
+    </ToolBoxCardBody>
+  </ToolBoxCard>
 
-          <div class="basis-4">
-            <IconCopy
-              v-if="
-                referenceUrlToCopy !== referenceUrl.url && !copiedReferenceUrl
-              "
-              class="size-4 cursor-pointer text-green-400"
-              @click="onCopyReference(referenceUrl.url)"
-            />
-            <IconCheck v-else class="size-4 text-green-400" />
-          </div></div
-      ></ToolBoxCardBody>
-    </ToolBoxCard>
+  <ToolBoxSectionLabel>{{
+    t('datasets.toolBox.exportDatasets.sectionFurtherDetails')
+  }}</ToolBoxSectionLabel>
 
-    <ToolBoxSectionLabel>{{
-      t('datasets.toolBox.exportDatasets.sectionFurtherDetails')
-    }}</ToolBoxSectionLabel>
-
-    <ToolBoxCard>
-      <ToolBoxCardHeader>
-        {{ t('datasets.toolBox.exportDatasets.documentation.header') }}
-        <a
-          href="https://opendatahub.readthedocs.io/en/latest/index.html"
-          target="_blank"
-          class="rounded"
-          :aria-label="
-            t('datasets.toolBox.exportDatasets.documentation.iconAlt')
-          "
-        >
-          <IconLink class="text-green-500" />
-        </a>
-      </ToolBoxCardHeader>
-      <ToolBoxCardBody :with-bg-color="withBgColor">{{
-        t('datasets.toolBox.exportDatasets.documentation.body')
-      }}</ToolBoxCardBody>
-    </ToolBoxCard>
-  </ToolBoxPanel>
+  <ToolBoxCard>
+    <ToolBoxCardHeader :uppercase="false" class="rounded">
+      {{ t('datasets.toolBox.exportDatasets.documentation.header') }}
+    </ToolBoxCardHeader>
+    <ToolBoxCardBody :with-bg-color="withBgColor">
+      {{ t('datasets.toolBox.exportDatasets.documentation.body') }}
+      <ButtonCustom
+          class="mt-4 flex items-center gap-3 px-2 py-1.5 text-sm"
+          :size="Size.xs"
+          :aria-label="t('datasets.toolBox.exportDatasets.documentation.iconAlt')"
+          @click="goToDocumentation('https://opendatahub.readthedocs.io/en/latest/index.html')"
+      >
+        <IconInfo />
+        <span>{{ t('datasets.toolBox.exportDatasets.documentation.button') }}</span>
+      </ButtonCustom>
+    </ToolBoxCardBody>
+  </ToolBoxCard>
 </template>
 
 <script setup lang="ts">
@@ -110,15 +123,16 @@ import { useI18n } from 'vue-i18n';
 import ArrowLine from '../../../../../components/svg/ArrowLine.vue';
 import IconCheck from '../../../../../components/svg/IconCheck.vue';
 import IconCopy from '../../../../../components/svg/IconCopy.vue';
-import IconLink from '../../../../../components/svg/IconLink.vue';
 import ToolBoxCard from '../ToolBoxCard.vue';
 import ToolBoxCardBody from '../ToolBoxCardBody.vue';
 import ToolBoxCardHeader from '../ToolBoxCardHeader.vue';
 import ToolBoxCardHeaderButton from '../ToolBoxCardHeaderButton.vue';
-import ToolBoxPanel from '../ToolBoxPanel.vue';
 import ToolBoxSectionLabel from '../ToolBoxSectionLabel.vue';
 import { ReferenceInfoToolBoxFetchUrlInfo } from '../types';
 import DownloadCard from './DownloadCard.vue';
+import ButtonCustom from "@/components/button/ButtonCustom.vue";
+import {Size} from "@/components/button/types.ts";
+import IconInfo from "@/components/svg/IconInfo.vue";
 
 const { t } = useI18n();
 
@@ -128,7 +142,7 @@ const props = withDefaults(
     referencesUrls?: ReferenceInfoToolBoxFetchUrlInfo[];
     withBgColor?: boolean;
   }>(),
-  { url: undefined, referencesUrls: undefined, withBgColor: true }
+  { url: undefined, referencesUrls: undefined, withBgColor: false }
 );
 
 const { url, referencesUrls } = toRefs(props);
@@ -145,10 +159,14 @@ const onCopyReference = (url: string) => {
   copyReferenceUrl(url);
 };
 
-const { copy: copyReferenceUrl, copied: copiedReferenceUrl } = useClipboard();
+const { copy: copyReferenceUrl } = useClipboard();
 
 const getReferenceKey = (referenceUrl: ReferenceInfoToolBoxFetchUrlInfo) => {
   return `${referenceUrl.from}_${referenceUrl.url}`;
+};
+
+const goToDocumentation = (url: string) => {
+  window.open(url, '_blank');
 };
 
 watch(referencesUrls, (newVal) => {

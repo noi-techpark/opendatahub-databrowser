@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <ToolBoxAlignment :class="{ 'bg-gray-50': withBgColor }">
+  <ToolBoxAlignment class="rounded border" :class="{ 'bg-white': withBgColor, 'bg-trasparent': !withBgColor }">
     <slot></slot>
   </ToolBoxAlignment>
 </template>

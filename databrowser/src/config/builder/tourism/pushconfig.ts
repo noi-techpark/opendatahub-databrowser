@@ -7,9 +7,10 @@ import {
   DetailElements,
   PropertyConfig,
 } from '../../../domain/datasets/config/types';
+import {DEFAULT_DATE_TIME_FORMAT} from "@/config/utils.ts";
 
 export const pushconfigCell = (): PropertyConfig => ({
-  title: '',
+  title: 'asasd',
   component: CellComponent.PushConfigCell,
   arrayMapping: {
     targetPropertyName: 'pushconfigs',
@@ -31,4 +32,22 @@ export const pushconfigCategory = (): DetailElements => ({
       properties: [pushconfigCell()],
     },
   ],
+});
+
+export const lastPushTableCell = (hasAction:boolean = true) : PropertyConfig => ({
+  title: 'Last Push',
+  component: CellComponent.LastPushCell,
+  class: 'w-48',
+  objectMapping: {
+    id: '_Meta.Id',
+    type: '_Meta.Type',
+    publishedOn: 'PublishedOn',
+    date: 'LastChange',
+    // title: 'Shortname'
+    //TODO: capie perchè se lo aggiungo scompare la colonna
+  },
+  params: { 
+    format: DEFAULT_DATE_TIME_FORMAT, 
+    hasAction: (hasAction) ? "1" : "0"
+  }
 });

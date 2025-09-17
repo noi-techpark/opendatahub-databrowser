@@ -2,25 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { useUserSettings } from '../../../user/userSettings';
-
-const breakpoints = useBreakpoints(breakpointsTailwind);
-const mdAndLarger = breakpoints.greater('md');
-
-// Using userSettings to persist toolbox visibility state
-const userSettings = useUserSettings();
-
-const preferredToolboxVisibility = !mdAndLarger.value
-  ? 'false'
-  : userSettings.getUserSetting('showToolbox');
+import {ToolBoxSectionKey} from "@/domain/datasets/ui/toolBox/types.ts";
 
 const initialState = {
-  visible:
-    preferredToolboxVisibility === 'false'
-      ? false
-      : userSettings.getUserSetting('showToolbox'),
+  activeSectionKey:ToolBoxSectionKey.NONE,
   settings: {
     showAll: false,
     showDeprecated: false,
@@ -32,9 +18,12 @@ export const useToolBoxStore = defineStore('toolBoxStore', {
   state: () => initialState,
 
   actions: {
-    toggleToolboxVisibility(isVisible: boolean) {
-      this.visible = isVisible;
-      userSettings.updateUserSetting('showToolbox', isVisible);
+    toggleToolBoxSectionKey(sectionKey: ToolBoxSectionKey) {
+      if (this.activeSectionKey === sectionKey) {
+        sectionKey = ToolBoxSectionKey.NONE;
+      }
+
+      this.activeSectionKey = sectionKey;
     },
   },
 });

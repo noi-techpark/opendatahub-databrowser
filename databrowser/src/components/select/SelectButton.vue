@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <ListboxButton
     v-slot="{ open }"
-    class="relative w-full truncate border border-gray-300 pl-2 pr-9 text-left leading-tight"
+    class="relative w-full truncate bg-white border border-gray-300 pl-2 pr-9 text-left leading-tight"
   >
     <span :title="label">{{ label }}</span>
     <span
