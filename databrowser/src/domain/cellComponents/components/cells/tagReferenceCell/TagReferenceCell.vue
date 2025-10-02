@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EditListCell :items="tags" :editable="editable">
+  <EditListCell :items="props.items" :editable="editable">
     <template #table="{ items }">
       <AlertError
         v-if="url == null"
@@ -36,7 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       />
       <TagReferenceTable
         v-if="isSuccess || !editable"
-        :tags="items"
+        :tags="items as string[]"
         :options="options"
         :unique="uniqueValue"
         :tags-data="computedTagsData"
@@ -58,18 +58,11 @@ import {
   withSelectors,
 } from '../../utils/remoteSelectOptions/useRemoteSelectOptions';
 import TagReferenceTable from './TagReferenceTable.vue';
-
-type TagId = string;
-interface TagData {
-  Id: TagId;
-  Type?: string | null;
-  Source?: string | null;
-}
+import { useEditStore } from '../../../../datasets/ui/editView/store/editStore';
 
 const props = withDefaults(
   defineProps<{
-    tags?: string[] | null;
-    tagsData?: TagData[];
+    items?: string[] | null;
     url?: string;
     keySelector?: string;
     labelSelector?: string;
@@ -79,8 +72,7 @@ const props = withDefaults(
     showAdditionalData?: boolean | string;
   }>(),
   {
-    tags: () => [],
-    tagsData: () => [],
+    items: () => [],
     url: undefined,
     keySelector: undefined,
     labelSelector: undefined,
@@ -91,12 +83,15 @@ const props = withDefaults(
   }
 );
 
-const { tags, url, keySelector, labelSelector, unique, sortByLabel, editable, showAdditionalData } =
+const { url, keySelector, labelSelector, unique, sortByLabel, editable, showAdditionalData } =
   toRefs(props);
 
+const editStore = useEditStore();
+
 const computedTagsData = computed(() => {
-  if (props.tagsData && Array.isArray(props.tagsData)) {
-    return props.tagsData;
+  const currentData = editStore.current;
+  if (currentData?.Tags && Array.isArray(currentData.Tags)) {
+    return currentData.Tags;
   }
   
   return [];
