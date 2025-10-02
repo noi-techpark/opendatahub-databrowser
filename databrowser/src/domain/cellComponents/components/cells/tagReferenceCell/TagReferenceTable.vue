@@ -8,8 +8,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <EditListTable :items="tags" :hide-tab-link="true">
     <template #colGroup>
       <col class="w-32 md:w-80" />
-      <col v-if="showAdditionalData" class="w-24 md:w-32" />
-      <col v-if="showAdditionalData" class="w-24 md:w-32" />
+      <col v-if="showAdditionalData" class="w-36 md:w-48" />
+      <col v-if="showAdditionalData" class="w-16 md:w-20" />
     </template>
 
     <template #tableHeader>
