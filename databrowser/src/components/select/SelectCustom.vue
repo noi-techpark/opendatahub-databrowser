@@ -75,7 +75,10 @@ import {
   unknownValueLabel,
 } from './utils';
 
-const emit = defineEmits(['change', 'open']);
+const emit = defineEmits<{
+  (e: 'change', value: SelectValue | undefined): void;
+  (e: 'open'): void;
+}>();
 
 // Handle input props
 const props = withDefaults(
