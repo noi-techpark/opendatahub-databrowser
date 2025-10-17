@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="id"
       ref="inputRef"
       v-model="text"
-      class="rounded border border-gray-400 p-2 text-black focus:border-green-500"
+      class="rounded border border-gray-400 p-2 text-black focus:border-green-500 focus:ring-transparent"
       :class="[inputClasses, deletable ? 'pr-10' : '']"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -48,12 +48,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { randomId } from '../utils/random';
-import IconSearch from '../svg/IconSearch.vue';
 import IconClose from '../svg/IconClose.vue';
+import IconSearch from '../svg/IconSearch.vue';
+import { randomId } from '../utils/random';
 
-import { useEventDelete } from './utils';
 import { InputType } from './types';
+import { useEventDelete } from './utils';
 
 const id = randomId();
 
