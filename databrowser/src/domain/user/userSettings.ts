@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { useLocalStorage } from '@vueuse/core';
-import { computed } from 'vue';
+import { computed, onDeactivated, onUnmounted } from 'vue';
 import { UserSettings } from './types';
 
 const initialSettings: UserSettings = {
@@ -33,6 +33,26 @@ userSettings.value = {
 
 type UserSettingsKeys = keyof UserSettings;
 
+interface GuardEntry {
+  key: UserSettingsKeys | 'ALL';
+  fn: (next: UserSettings, previous: UserSettings) => Promise<boolean>;
+}
+
+const changeGuards: GuardEntry[] = [];
+
+const registerGuard = (key: GuardEntry['key'], fn: GuardEntry['fn']) => {
+  const removeFromList = () => {
+    changeGuards.splice(changeGuards.indexOf({ key, fn }), 1);
+  };
+
+  onUnmounted(removeFromList);
+  onDeactivated(removeFromList);
+
+  changeGuards.push({ key, fn: fn });
+
+  return removeFromList;
+};
+
 export const useUserSettings = () => {
   // This hook can be used to manage user settings stored in local storage.
   const getUserSettings = (): UserSettings => {
@@ -47,24 +67,57 @@ export const useUserSettings = () => {
     return computed(() => userSettings.value[key]);
   };
 
-  const setUserSettings = (settings: UserSettings) => {
-    userSettings.value = settings;
-  };
+  // const setUserSettings = async (settings: UserSettings): Promise<boolean> => {
+  //   // Check all registered guards before updating the setting
+  //   for (const { key, fn } of changeGuards) {
+  //     if (key !== 'ALL') {
+  //       continue;
+  //     }
+  //     const canProceed = await fn(settings, userSettings.value);
+  //     if (!canProceed) {
+  //       console.log('User settings update blocked by guard');
+  //       return false;
+  //     }
+  //   }
+  //   userSettings.value = settings;
+  //   return true;
+  // };
 
-  const updateUserSetting = <K extends UserSettingsKeys>(
+  const updateUserSetting = async <K extends UserSettingsKeys>(
     key: K,
-    value: UserSettings[K]
-  ) => {
-    const settings = getUserSettings();
-    settings[key] = value;
-    setUserSettings(settings);
+    value: UserSettings[K],
+    { skipGuards } = { skipGuards: false }
+  ): Promise<boolean> => {
+    // Check all registered guards before updating the setting
+    if (!skipGuards) {
+      for (const { key: guardKey, fn } of changeGuards) {
+        if (guardKey !== 'ALL' && guardKey !== key) {
+          continue;
+        }
+        const nextSettings = { ...getUserSettings(), [key]: value };
+        const canProceed = await fn(nextSettings, userSettings.value);
+        if (!canProceed) {
+          console.log('User settings update blocked by guard');
+          return false;
+        }
+      }
+    }
+    console.log(`-------Updating user setting "${key}" to:`, value);
+    const nextSettings = { ...getUserSettings(), [key]: value };
+    userSettings.value = nextSettings;
+    console.log(
+      `-------Updated user setting "${key}". New settings:`,
+      JSON.parse(JSON.stringify(userSettings.value))
+    );
+    return true;
   };
 
   return {
     getUserSettings,
     getUserSetting,
     getUserSettingRef,
-    setUserSettings,
+    // setUserSettings,
     updateUserSetting,
+    registerGuard,
   };
 };

@@ -9,44 +9,64 @@ import {
   DatasetQuery,
   PathSegments,
 } from '../../datasets/config/types';
+import { TourismMetaData } from './types';
 
 // Return the metadata for the route specified by the path params and query
 export const useMetaDataForRoute = (
   datasetPath: Ref<DatasetPath | undefined>,
-  datasetQuery: Ref<DatasetQuery | undefined>
+  datasetQuery: Ref<Pick<DatasetQuery, 'stringified'> | undefined>
 ) => {
   const { metaData } = useMetaDataForAllDatasets();
 
   const currentMetaData = computed(() => {
-    // TODO: use candidate computation from findCandidateConfigs?
-    const candidates = Object.values(metaData.value ?? [])
-      .filter((md) => {
-        if (
-          datasetPath.value == null ||
-          !pathsMatch(datasetPath.value, md.pathSegments)
-        ) {
-          return false;
-        }
-
-        return filterContainedInQuery(
-          md.apiFilter,
-          datasetQuery.value?.stringified
-        );
-      })
-      // There may be more than one candidate, for example if the query contains
-      // a filter that is not present in the API filter (e.g. language). In that
-      // case, we want to pick the one with the most filters, as that is the most
-      // specific.
-      .sort(
-        (a, b) =>
-          Object.keys(b.apiFilter ?? {}).length -
-          Object.keys(a.apiFilter ?? {}).length
-      );
-
-    return candidates.length > 0 ? candidates[0] : undefined;
+    return findMetaDataForPathAndQuery(
+      metaData.value,
+      datasetPath.value ?? [],
+      datasetQuery.value?.stringified
+    );
   });
 
   return { currentMetaData };
+};
+
+export const useMetaDataIdForRoute = (
+  datasetPath: Ref<DatasetPath | undefined>,
+  datasetQuery: Ref<DatasetQuery | undefined>
+) => {
+  const { currentMetaData } = useMetaDataForRoute(datasetPath, datasetQuery);
+
+  const currentDatasetId = computed<string>(() => {
+    if (currentMetaData.value != null) {
+      return currentMetaData.value.id;
+    }
+
+    console.warn('Current metadata is not available');
+    return datasetPath.value?.join('/') ?? 'default-dataset-path';
+  });
+
+  return currentDatasetId;
+};
+
+export const findMetaDataForPathAndQuery = (
+  metaDataList: TourismMetaData[],
+  path: string[],
+  query: Record<string, string> | undefined
+): TourismMetaData | undefined => {
+  const candidates = metaDataList
+    .filter((md) => {
+      if (!pathsMatch(path, md.pathSegments)) {
+        return false;
+      }
+
+      return filterContainedInQuery(md.apiFilter, query);
+    })
+    .sort(
+      (a, b) =>
+        Object.keys(b.apiFilter ?? {}).length -
+        Object.keys(a.apiFilter ?? {}).length
+    );
+
+  return candidates.length > 0 ? candidates[0] : undefined;
 };
 
 const pathsMatch = (path1: PathSegments, path2: PathSegments) =>

@@ -10,11 +10,10 @@ import {
   ViewValue,
 } from '../../config/types';
 import { useDynamicParamsReplacement } from '../modifiers/dynamicParams/dynamicParamsReplacement';
-import { useOpenApiEnhancements } from '../modifiers/openApiEnhancements/openApiEnhancements';
+import { useExtractView } from '../modifiers/extractView/ViewKey';
 import { ObjectValueReplacer, StringReplacer } from '../types';
 import { useComputeViewPresence } from '../viewPresence';
 import { useComputeViewType } from '../viewType';
-import { useExtractView } from '../modifiers/extractView/ViewKey';
 
 export const useDatasetView = (
   datasetDomain: MaybeRef<DatasetDomain | undefined>,
@@ -36,12 +35,12 @@ export const useDatasetView = (
     objectValueReplacer
   );
 
-  // Enhance view with OpenAPI information
-  const viewWithOpenApiEnhancements = useOpenApiEnhancements(
-    datasetDomain,
-    datasetPath,
-    viewWithReplacements
-  );
+  // // Enhance view with OpenAPI information
+  // const viewWithOpenApiEnhancements = useOpenApiEnhancements(
+  //   datasetDomain,
+  //   datasetPath,
+  //   viewWithReplacements
+  // );
 
   // Compute view type
   const { isTableView, isDetailView, isEditView, isNewView, isRawView } =
@@ -52,7 +51,7 @@ export const useDatasetView = (
     useComputeViewPresence(baseViews);
 
   return {
-    view: viewWithOpenApiEnhancements,
+    view: viewWithReplacements,
     isTableView,
     isDetailView,
     isEditView,

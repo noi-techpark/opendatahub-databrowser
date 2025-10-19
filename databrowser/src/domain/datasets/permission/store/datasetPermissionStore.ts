@@ -10,12 +10,13 @@ import { useComputeDatasetPermission } from './datasetPermission';
 export const useDatasetPermissionStore = defineStore(
   'datasetPermissionStore',
   () => {
-    const { isEmbeddedSource, operations } = storeToRefs(
+    const { isEmbeddedSource, isUserSource, operations } = storeToRefs(
       useDatasetBaseInfoStore()
     );
     const { hasEditView, hasNewView } = storeToRefs(useDatasetViewStore());
     return useComputeDatasetPermission({
       isEmbeddedSource,
+      isUserSource,
       operations,
       hasEditView,
       hasNewView,

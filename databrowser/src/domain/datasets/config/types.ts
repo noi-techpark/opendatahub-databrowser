@@ -32,6 +32,7 @@ export interface BasePropertyConfig {
   deprecationInfo?: DeprecationInfo[];
   referenceInfo?: ReferenceInfo;
   nullable?: boolean;
+  hidden?: boolean;
 }
 
 /**
@@ -157,7 +158,7 @@ export interface Operation {
   rolesAllowed: string[];
 }
 
-export type DatasetConfigSource = 'any' | 'embedded' | 'generated';
+export type DatasetConfigSource = 'any' | 'embedded' | 'generated' | 'user';
 
 export interface DatasetConfig {
   source: DatasetConfigSource;

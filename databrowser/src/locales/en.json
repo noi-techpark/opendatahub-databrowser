@@ -228,15 +228,9 @@
           },
           "panelName": "Filter"
         },
-        "deprecatedInfoTooltip": {
-          "deprecatedInfo": {
-            "infoPopup": {
-              "header": "Attribute is deprecated",
-              "body": "A deprecated attribute is one that is phasing out and will not be available anymore in the future. It is not recommended to use it.",
-              "linkHref": "https://github.com/noi-techpark/odh-docs/wiki/What-does-%22deprecated%22-mean%3F",
-              "linkText": "More info"
-            }
-          }
+        "userTableAttributes": {
+          "panelName": "Attributes",
+          "header": "Attributes"
         }
       },
       "viewLinks": {
