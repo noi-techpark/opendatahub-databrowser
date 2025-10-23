@@ -4,7 +4,12 @@
 
 import { CellComponent } from '../../../domain/cellComponents/types';
 import { EditElements } from '../../../domain/datasets/config/types';
-import { echargingdataCategory } from './echargingdata';
+import { echargingdataCategory } from './additionalproperties/echargingdata';
+import { poiagedataCategory } from './additionalproperties/poiagedata';
+import { activityltsdataCategory } from './additionalproperties/activityltsdata';
+import { poiltsdataCategory } from './additionalproperties/poiltsdata';
+import { gastronomyltsdataCategory } from './additionalproperties/gastronomyltsdata';
+import { suedtirolweincompanydataCategory } from './additionalproperties/suedtirolweincompanydata';
 
 export const additionalPropertiesCategory = (): EditElements => ({
   name: 'Additional properties',
@@ -27,6 +32,26 @@ export const additionalPropertiesCategory = (): EditElements => ({
     {
       objectPath: 'AdditionalProperties.EchargingDataProperties',
       elements: echargingdataCategory(),
+    },
+    {
+      objectPath: 'AdditionalProperties.PoiAgeDataProperties',
+      elements: poiagedataCategory(),
+    },
+    {
+      objectPath: 'AdditionalProperties.ActivityLtsDataProperties',
+      elements: activityltsdataCategory(),
+    },
+    {
+      objectPath: 'AdditionalProperties.PoiLtsDataProperties',
+      elements: poiltsdataCategory(),
+    },
+    {
+      objectPath: 'AdditionalProperties.GastronomyLtsDataProperties',
+      elements: gastronomyltsdataCategory(),
+    },
+        {
+      objectPath: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties',
+      elements: suedtirolweincompanydataCategory(),
     },
   ],
 });
