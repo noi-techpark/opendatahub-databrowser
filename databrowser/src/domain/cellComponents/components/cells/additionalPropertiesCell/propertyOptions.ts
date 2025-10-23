@@ -9,6 +9,7 @@ import { poiltsdataCategory } from '../../../../../config/builder/tourism/additi
 import { activityltsdataCategory } from '../../../../../config/builder/tourism/additionalproperties/activityltsdata';
 import { gastronomyltsdataCategory } from '../../../../../config/builder/tourism/additionalproperties/gastronomyltsdata';
 import { suedtirolweincompanydataCategory } from '../../../../../config/builder/tourism/additionalproperties/suedtirolweincompanydata';
+import { siagmuseumdataCategory } from '../../../../../config/builder/tourism/additionalproperties/siagmuseumdata';
 import { AdditionalProperty } from './types';
 
 // Add here new additional properties
@@ -19,6 +20,7 @@ const { name: poiltsname, slug: poiltsslug } = poiltsdataCategory();
 const { name: activityltsname, slug: activityltsslug } = activityltsdataCategory();
 const { name: gastronomyltsname, slug: gastronomyltsslug } = gastronomyltsdataCategory();
 const { name: suedtirolweincompanyname, slug: suedtirolweincompanyslug } = suedtirolweincompanydataCategory();
+const { name: siagmuseumname, slug: siagmuseumslug } = siagmuseumdataCategory();
 
 export type AdditionalPropertiesOptions = SelectOption<string> &
   AdditionalProperty;
@@ -55,5 +57,10 @@ export const availableAdditionalPropertiesOptions: AdditionalPropertiesOptions[]
       label: suedtirolweincompanyname,
       value: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties',
       slug: suedtirolweincompanyslug,
+    },
+    {
+      label: siagmuseumname,
+      value: 'AdditionalProperties.SiagMuseumDataProperties',
+      slug: siagmuseumslug,
     },
   ];

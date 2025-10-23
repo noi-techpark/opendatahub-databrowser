@@ -10,6 +10,7 @@ import { activityltsdataCategory } from './additionalproperties/activityltsdata'
 import { poiltsdataCategory } from './additionalproperties/poiltsdata';
 import { gastronomyltsdataCategory } from './additionalproperties/gastronomyltsdata';
 import { suedtirolweincompanydataCategory } from './additionalproperties/suedtirolweincompanydata';
+import { siagmuseumdataCategory } from './additionalproperties/siagmuseumdata';
 
 export const additionalPropertiesCategory = (): EditElements => ({
   name: 'Additional properties',
@@ -49,9 +50,13 @@ export const additionalPropertiesCategory = (): EditElements => ({
       objectPath: 'AdditionalProperties.GastronomyLtsDataProperties',
       elements: gastronomyltsdataCategory(),
     },
-        {
+    {
       objectPath: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties',
       elements: suedtirolweincompanydataCategory(),
+    },
+    {
+      objectPath: 'AdditionalProperties.SiagMuseumDataProperties',
+      elements: siagmuseumdataCategory(),
     },
   ],
 });
