@@ -23,51 +23,56 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       @back="mode = 'tableColumns'"
     />
 
-    <ButtonCustom
-      :disabled="!isColumnConfigChanged"
-      :size="Size.sm"
-      @click="saveChanges"
-    >
-      Save Config
-    </ButtonCustom>
+    <div class="flex flex-wrap gap-1 sm:gap-2">
+      <ButtonCustom
+        :disabled="!isColumnConfigChanged"
+        :size="Size.sm"
+        @click="saveChanges"
+      >
+        {{ t('datasets.listView.toolBox.columnConfiguration.save') }}
+      </ButtonCustom>
 
-    <ButtonCustom
-      :disabled="!canUndoLastChange"
-      :size="Size.sm"
-      @click="
-        undoLastChange();
-        applyChanges();
-      "
-    >
-      Undo
-    </ButtonCustom>
-    <ButtonCustom
-      :disabled="!canRedoLastChange"
-      :size="Size.sm"
-      @click="
-        redoLastChange();
-        applyChanges();
-      "
-    >
-      Redo
-    </ButtonCustom>
-    <ButtonCustom
-      :disabled="!canUndoLastChange"
-      :size="Size.sm"
-      @click="discardChanges"
-    >
-      Reset
-    </ButtonCustom>
+      <ButtonCustom
+        :disabled="!canUndoLastChange"
+        :size="Size.sm"
+        @click="
+          undoLastChange();
+          applyChanges();
+        "
+      >
+        {{ t('datasets.listView.toolBox.columnConfiguration.undo') }}
+      </ButtonCustom>
+      <ButtonCustom
+        :disabled="!canRedoLastChange"
+        :size="Size.sm"
+        @click="
+          redoLastChange();
+          applyChanges();
+        "
+      >
+        {{ t('datasets.listView.toolBox.columnConfiguration.redo') }}
+      </ButtonCustom>
+      <ButtonCustom
+        :disabled="!canUndoLastChange"
+        :size="Size.sm"
+        @click="discardChanges"
+      >
+        {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
+      </ButtonCustom>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Size } from '../../../../../../components/button/types';
 import { injectColumnConfiguration } from './columnConfiguration';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
+
+const { t } = useI18n();
 
 const mode = ref<'tableColumns' | 'column'>('tableColumns');
 

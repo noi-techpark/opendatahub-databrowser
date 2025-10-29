@@ -15,13 +15,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <IconStrokedArrowDown
         class="-ml-1 mr-1 size-5 rotate-90 stroke-current"
       />
-      <span class="line-height-1">Back to columns</span>
+      <span class="line-height-1">{{
+        t('datasets.listView.toolBox.columnConfiguration.columnSettings.back')
+      }}</span>
     </ButtonCustom>
 
     <div class="flex flex-col gap-6 divide-y divide-gray-250">
       <div class="flex flex-col gap-4 pt-4">
         <div class="flex flex-col">
-          <label>Title</label>
+          <label>{{
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.title'
+            )
+          }}</label>
           <InputCustom
             inputClasses="w-full"
             :model-value="col.title"
@@ -30,7 +36,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
 
         <div class="flex flex-col">
-          <label>Component</label>
+          <label>{{
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.component'
+            )
+          }}</label>
           <SelectCustom
             :model-value="col.component"
             :options="componentSelectOptions"
@@ -39,7 +49,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
 
         <div class="flex flex-col">
-          <label>Mapping type</label>
+          <label>{{
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.mappingType'
+            )
+          }}</label>
           <SelectCustom
             :model-value="mappingType"
             :options="mappingTypeSelectOptions"
@@ -55,10 +69,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         v-if="mappingType === 'arrayMapping'"
         class="flex flex-col gap-4 pt-4"
       >
-        <label class="text-lg font-bold">Array Mapping</label>
+        <label class="text-lg font-bold">{{
+          t(
+            'datasets.listView.toolBox.columnConfiguration.columnSettings.arrayMapping'
+          )
+        }}</label>
 
         <div class="flex flex-col">
-          <label>Target property name</label>
+          <label>{{
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.targetPropertyName'
+            )
+          }}</label>
           <InputCustom
             inputClasses="w-full"
             :model-value="col.arrayMapping?.targetPropertyName"
@@ -69,7 +91,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
 
         <div class="flex flex-col">
-          <label>Path to parent</label>
+          <label>{{
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.pathToParent'
+            )
+          }}</label>
           <InputCustom
             inputClasses="w-full"
             :model-value="col.arrayMapping?.pathToParent"
@@ -84,12 +110,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
 
       <div class="flex flex-col pt-4">
-        <label class="text-lg font-bold">Object Mapping</label>
+        <label class="text-lg font-bold">{{
+          t(
+            'datasets.listView.toolBox.columnConfiguration.columnSettings.objectMapping'
+          )
+        }}</label>
         <KeyValueEdit
           class="px-3"
           :availableKeys="availableComponentKeys"
           :data="col.objectMapping"
-          :addKeyLabel="' + Add object mapping entry'"
+          :addKeyLabel="
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.addObjectMapping'
+            )
+          "
           @update:data="updateData('objectMapping', $event)"
           @add:key="addKey('objectMapping', $event)"
           @delete:key="deleteKey('objectMapping', $event)"
@@ -97,22 +131,38 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
 
       <div class="flex flex-col pt-4">
-        <label>Params</label>
+        <label>{{
+          t(
+            'datasets.listView.toolBox.columnConfiguration.columnSettings.params'
+          )
+        }}</label>
         <KeyValueEdit
           class="px-3"
           :availableKeys="availableComponentKeys"
           :data="col.params"
-          :addKeyLabel="' + Add params entry'"
+          :addKeyLabel="
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.addParams'
+            )
+          "
           @update:data="updateData('params', $event)"
           @add:key="addKey('params', $event)"
           @delete:key="deleteKey('params', $event)"
         />
       </div>
 
-      <div class="flex flex-col gap-4 pt-4">
-        <label class="text-lg font-bold">Styling</label>
+      <div class="flex flex-col gap-4 py-4">
+        <label class="text-lg font-bold">{{
+          t(
+            'datasets.listView.toolBox.columnConfiguration.columnSettings.styling'
+          )
+        }}</label>
         <div>
-          <label>Class</label>
+          <label>{{
+            t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.class'
+            )
+          }}</label>
           <InputCustom
             inputClasses="w-full"
             :model-value="col.class"
@@ -121,14 +171,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
       </div>
     </div>
-    <pre>
-      {{ col }}
-    </pre>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import InputCustom from '../../../../../../components/input/InputCustom.vue';
 import SelectCustom from '../../../../../../components/select/SelectCustom.vue';
@@ -137,6 +185,8 @@ import IconStrokedArrowDown from '../../../../../../components/svg/IconStrokedAr
 import { registeredComponents } from '../../../../../cellComponents/plugins/registerCellComponents';
 import { ArrayMapping, PropertyConfig } from '../../../../config/types';
 import KeyValueEdit, { KeyValueEditData } from './KeyValueEdit.vue';
+
+const { t } = useI18n();
 
 const emit = defineEmits<{ (e: 'back'): void }>();
 
@@ -166,8 +216,18 @@ const availableComponentKeys = computed<string[]>(() => {
 });
 
 const mappingTypeSelectOptions: SelectOption[] = [
-  { label: 'Object Mapping', value: 'objectMapping' },
-  { label: 'Array Mapping', value: 'arrayMapping' },
+  {
+    label: t(
+      'datasets.listView.toolBox.columnConfiguration.columnSettings.objectMapping'
+    ),
+    value: 'objectMapping',
+  },
+  {
+    label: t(
+      'datasets.listView.toolBox.columnConfiguration.columnSettings.arrayMapping'
+    ),
+    value: 'arrayMapping',
+  },
 ];
 
 const mappingType = ref<'objectMapping' | 'arrayMapping'>(
@@ -214,7 +274,6 @@ const updateData = (
 };
 
 const addKey = (from: 'objectMapping' | 'params', key: string) => {
-  console.log('Adding key', key);
   const newCol: PropertyConfig = { ...col.value };
   newCol[from] = { ...newCol[from], [key]: '' };
   col.value = newCol;

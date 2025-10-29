@@ -206,6 +206,27 @@
       "showDeprecatedFields": "Show deprecated fields",
       "tableFilterHint": "Filters have been applied to this view",
       "toolBox": {
+        "columnConfiguration": {
+          "redo": "Redo",
+          "reset": "Reset",
+          "save": "Save",
+          "undo": "Undo",
+          "columnSettings": {
+            "addParams": "+ Add params entry",
+            "addObjectMapping": "+ Add object mapping entry",
+            "arrayMapping": "Array mapping",
+            "back": "Back to columns",
+            "class": "Class",
+            "component": "Component",
+            "mappingType": "Mapping type",
+            "objectMapping": "Object mapping",
+            "params": "Params",
+            "pathToParent": "Path to parent",
+            "styling": "Styling",
+            "targetPropertyName": "Target property name",
+            "title": "Title"
+          }
+        },
         "searchAndFilter": {
           "basicSearch": {
             "header": "Basic search",
