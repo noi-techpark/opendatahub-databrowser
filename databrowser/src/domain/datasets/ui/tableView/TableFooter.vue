@@ -12,11 +12,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <SelectCustom
       id="dataset-table-page-size"
       class="mr-6 w-16"
+      :model-value="pagination.pageSize.toString()"
       :options="options"
-      :value="pagination.pageSize.toString()"
       :show-value-as-label-fallback="true"
       :size="SelectSize.sm"
-      @change="navigation.changePageSize($event)"
+      @update:model-value="navigation.changePageSize(Number($event))"
     />
     <Paginator
       v-if="pagination.hasPagination"

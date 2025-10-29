@@ -12,12 +12,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div v-if="hasConfig" class="w-full font-bold text-black">
       <SelectCustom
         extra-button-classes="h-9"
+        :model-value="currentDatasetName"
         :grouped-options="selectOptions"
-        :value="currentDatasetName"
         :show-search-when-at-least-count-options="1"
         :size="SelectSize.sm"
         :show-value-as-label-fallback="true"
-        @change="handleDatasetChange"
+        @update:model-value="handleDatasetChange"
       />
     </div>
 
@@ -36,6 +36,7 @@ import SelectCustom from '../../../../components/select/SelectCustom.vue';
 import {
   GroupSelectOption,
   SelectSize,
+  SelectValue,
 } from '../../../../components/select/types';
 import { useMetaDataForAllDatasets } from '../../../../pages/datasets/overview/useDatasets';
 import { useMetaDataStore } from '../../../metaDataConfig/tourism/metaDataStore';
@@ -137,8 +138,8 @@ const selectOptions = computed<GroupSelectOption[]>(() => {
     : [allDatasetsOptions.value];
 });
 
-const handleDatasetChange = (value: string) => {
-  const [path, query] = value.split('?');
+const handleDatasetChange = (value: SelectValue | undefined) => {
+  const [path, query] = String(value).split('?');
 
   if (path == null) {
     return;

@@ -9,14 +9,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <SelectCustom
       v-if="isWriteable && !isAddNewValue"
       :options="selectOptions"
-      :value="value"
+      :model-value="value"
       :show-empty-value="showEmptyValue"
       :show-add-new-value="showAddNewValue"
       :show-value-as-label-fallback="showValueAsLabelFallback"
       :show-search-when-at-least-count-options="
         showSearchWhenAtLeastCountOptions
       "
-      @change="change"
+      @update:model-value="change"
     />
     <StringCell
       v-else-if="isWriteable && isAddNewValue && showAddNewValue"
@@ -144,11 +144,11 @@ watch(
   }
 );
 
-const change = (value: string) => {
+const change = (value: SelectValue | undefined) => {
   isAddNewValue.value = value === selectAddNewValue;
   onUpdate(value);
 };
-const onUpdate = (value: string) => {
+const onUpdate = (value: SelectValue | undefined) => {
   emit('update', { prop: 'value', value });
 };
 </script>

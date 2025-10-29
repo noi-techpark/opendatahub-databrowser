@@ -9,10 +9,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <SelectCustom
       id="mobile-main-category"
       class="md:hidden"
+      :model-value="slug"
       :options="selectOptions"
-      :value="slug"
       :show-search-when-at-least-count-options="Infinity"
-      @change="setSelectedCategory"
+      @update:model-value="setSelectedCategory"
     />
 
     <div class="hidden flex-col md:flex">
@@ -71,9 +71,9 @@ import { computed, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import PillLink from '../../../../components/pill/PillLink.vue';
 import SelectCustom from '../../../../components/select/SelectCustom.vue';
-import { SelectOption } from '../../../../components/select/types';
-import { Category, SubElementCategory } from './types';
+import { SelectOption, SelectValue } from '../../../../components/select/types';
 import ArrowUp from '../../../../components/svg/ArrowUp.vue';
+import { Category, SubElementCategory } from './types';
 
 const emit = defineEmits(['change']);
 
@@ -96,7 +96,7 @@ const selectOptions = computed<SelectOption[]>(() =>
 
 const router = useRouter();
 
-const setSelectedCategory = (slug: string) => {
+const setSelectedCategory = (slug: SelectValue | undefined) => {
   const nextCategory = categories.value.find(
     (category) => category.slug === slug
   );

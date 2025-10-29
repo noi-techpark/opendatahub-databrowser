@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div>
-    <Listbox v-slot="{ open }" v-model="valueInternal">
+    <Listbox v-slot="{ open }" v-model="value">
       <div ref="trigger">
         <SelectButton
           :id="id"
@@ -55,7 +55,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { Listbox } from '@headlessui/vue';
-import { computed, ref, toRefs, watch } from 'vue';
+import { computed, toRefs } from 'vue';
 import { randomId } from '../utils/random';
 import { useFloatingUi } from '../utils/useFloatingUi';
 import SelectButton from './SelectButton.vue';
@@ -75,17 +75,13 @@ import {
   unknownValueLabel,
 } from './utils';
 
-const emit = defineEmits<{
-  (e: 'change', value: SelectValue | undefined): void;
-  (e: 'open'): void;
-}>();
+const value = defineModel<SelectValue>();
 
 // Handle input props
 const props = withDefaults(
   defineProps<{
     options?: SelectOption[];
     groupedOptions?: GroupSelectOption[];
-    value?: SelectValue;
     size?: SelectSize;
     id?: string;
     // Show the search box if there are at least this amount of options (default 7)
@@ -101,7 +97,6 @@ const props = withDefaults(
   {
     options: () => [],
     groupedOptions: undefined,
-    value: undefined,
     size: SelectSize.md,
     id: randomId(),
     showSearchWhenAtLeastCountOptions: 7,
@@ -115,23 +110,12 @@ const props = withDefaults(
 const {
   options,
   groupedOptions,
-  value,
   size,
   showEmptyValue,
   showAddNewValue,
   showValueAsLabelFallback,
   showSearchWhenAtLeastCountOptions,
 } = toRefs(props);
-
-const valueInternal = ref(value.value);
-
-watch(value, (v) => (valueInternal.value = v));
-watch(valueInternal, (v) => {
-  // Emit change event only if value has changed internally, but not if input prop has change
-  if (v !== value.value) {
-    emit('change', v);
-  }
-});
 
 // Compute internal options array. If showEmptyValue is set,
 // then a "no value" option is added to the front of the list
@@ -179,8 +163,8 @@ const searchResultsGroupedOptions = computed(() => {
 const selectedLabel = computed(() => {
   const selectedOption = optionsInternal.value.find(
     (option) =>
-      option.value === valueInternal.value ||
-      (option.value == null && valueInternal.value == null)
+      option.value === value.value ||
+      (option.value == null && value.value == null)
   );
 
   if (selectedOption != null) {
@@ -188,10 +172,10 @@ const selectedLabel = computed(() => {
   }
 
   if (showValueAsLabelFallback.value) {
-    return (valueInternal.value as string) ?? '';
+    return (value.value as string) ?? '';
   }
 
-  return unknownValueLabel(valueInternal.value);
+  return unknownValueLabel(value.value);
 });
 
 // Handle options placement

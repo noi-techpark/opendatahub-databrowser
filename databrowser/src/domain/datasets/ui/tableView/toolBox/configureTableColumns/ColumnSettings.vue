@@ -32,18 +32,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div class="flex flex-col">
           <label>Component</label>
           <SelectCustom
+            :model-value="col.component"
             :options="componentSelectOptions"
-            :value="col.component"
-            @change="col = { ...col, component: String($event) }"
+            @update:model-value="col = { ...col, component: String($event) }"
           />
         </div>
 
         <div class="flex flex-col">
           <label>Mapping type</label>
           <SelectCustom
+            :model-value="mappingType"
             :options="mappingTypeSelectOptions"
-            :value="mappingType"
-            @change="
+            @update:model-value="
               mappingType =
                 ($event as 'objectMapping' | 'arrayMapping') ?? 'objectMapping'
             "
