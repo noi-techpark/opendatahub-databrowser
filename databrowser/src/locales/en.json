@@ -161,6 +161,9 @@
           },
           "panelName": "General"
         },
+        "settings": {
+          "defineViewPreferences": "Define preferences for your view."
+        },
         "jsonDiff": {
           "panelName": "JSON diff"
         }
