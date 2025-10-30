@@ -13,6 +13,7 @@ import registerCellComponents from './domain/cellComponents/plugins/registerCell
 import { setupI18n } from './i18n';
 import './index.css';
 import { router } from './routes';
+import { createHead } from '@unhead/vue/client';
 
 const isProduction = process.env.NODE_ENV !== 'development';
 
@@ -25,6 +26,8 @@ app.use(router);
 
 // Add pinia store
 app.use(createPinia());
+
+app.use(createHead());
 
 // Add TanStack query client (see https://tanstack.com/query/latest)
 app.use(VueQueryPlugin);

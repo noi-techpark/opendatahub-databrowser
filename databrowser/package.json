@@ -25,6 +25,7 @@
     "@tiptap/starter-kit": "^2.25.1",
     "@tiptap/vue-3": "^2.25.1",
     "@turf/turf": "^7.2.0",
+    "@unhead/vue": "^2.0.19",
     "@vueuse/core": "^13.5.0",
     "@vueuse/integrations": "^13.5.0",
     "@vueuse/router": "^13.5.0",
