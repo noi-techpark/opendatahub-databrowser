@@ -33,7 +33,7 @@ userSettings.value = {
 
 type UserSettingsKeys = keyof UserSettings;
 
-interface GuardEntry {
+export interface GuardEntry {
   key: UserSettingsKeys | 'ALL';
   fn: (next: UserSettings, previous: UserSettings) => Promise<boolean>;
 }
