@@ -40,10 +40,12 @@ import OverviewCardSuggestion from './OverviewCardSuggestion.vue';
 import { useMetaDataQuery } from '../../../domain/metaDataConfig/tourism/useMetaDataQuery';
 import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
 import OverviewToListLink from './OverviewToListLink.vue';
+import { useHead } from '@unhead/vue';
 
 const route = useRoute();
 
 const metaData = useMetaDataQuery();
+
 const dataset = computed<TourismMetaData | undefined>(() => {
   return (metaData.data?.value ?? []).find(
     (dataset) => dataset.id === route.params.id
@@ -51,6 +53,30 @@ const dataset = computed<TourismMetaData | undefined>(() => {
 });
 
 const randomDatasets = ref<TourismMetaData[]>([]);
+
+//Head injection: Created a JSON-LD script 
+useHead({
+  script: computed(() => {
+    if (!dataset.value) return [];
+    return [
+      {
+        type: "application/ld+json",
+        textContent: JSON.stringify({
+          "@context": "https://schema.org/",
+          "@type": "Dataset",
+          name: dataset.value.shortname,
+          description: dataset.value.description,
+          "url": window.location.href,
+          creator: {
+          "@type": "Organization",
+          name: "Open Data Hub",
+          url: "https://opendatahub.com/" 
+          },
+        }),
+      }
+    ];
+  }),
+});
 
 watch(
   () => dataset.value,
@@ -64,6 +90,15 @@ watch(
       ),
       3
     ).sort((a, b) => a.shortname?.localeCompare(b.shortname));
+  },
+  
+  { immediate: true }
+);
+
+watch(
+  () => dataset.value,
+  (current) => {
+    console.log("Current dataset:", current);
   },
   { immediate: true }
 );
