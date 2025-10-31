@@ -14,3 +14,10 @@ export interface UserSettings {
   showMapViewNote: boolean;
   views: DatasetUserSettings['views'];
 }
+
+export type UserSettingsKeys = keyof UserSettings;
+
+export type UserSettingsGuard = (
+  next: UserSettings,
+  previous: UserSettings
+) => Promise<boolean>;

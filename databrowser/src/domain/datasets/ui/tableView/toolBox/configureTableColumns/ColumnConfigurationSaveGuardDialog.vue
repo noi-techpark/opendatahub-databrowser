@@ -41,7 +41,7 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Variant } from '../../../../../../components/button/types';
 import DialogCustom from '../../../../../../components/dialog/DialogCustom.vue';
-import { useUserSettings } from '../../../../../user/userSettings';
+import { registerUserSettingsGuard } from '../../../../../user/userSettingsGuard';
 import { useColumnConfigurationSaveGuard } from './columnConfigurationSaveGuard';
 
 const { t } = useI18n();
@@ -57,12 +57,15 @@ const { hasUnsavedChanges, isSaveSuccess } = toRefs(props);
 const {
   leaveSectionDialogResult,
   leaveSectionDialogVisible,
-  userSettingsGuard,
+  preferredDatasetSourceGuard,
   routeGuard,
 } = useColumnConfigurationSaveGuard(isSaveSuccess, hasUnsavedChanges, emit);
 
 // Register guard for user settings change
-useUserSettings().registerGuard('preferredDatasetSource', userSettingsGuard);
+registerUserSettingsGuard(
+  'preferredDatasetSource',
+  preferredDatasetSourceGuard
+);
 
 // Register route guards
 onBeforeRouteLeave(routeGuard);

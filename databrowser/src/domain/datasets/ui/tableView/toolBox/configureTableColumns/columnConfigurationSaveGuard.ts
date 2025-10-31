@@ -12,7 +12,7 @@ import {
 import { useMetaDataForAllDatasets } from '../../../../../../pages/datasets/overview/useDatasets';
 import { DatasetPage } from '../../../../../../routes';
 import { findMetaDataForPathAndQuery } from '../../../../../metaDataConfig/tourism/useMetaData';
-import { GuardEntry } from '../../../../../user/userSettings';
+import { UserSettingsGuard } from '../../../../../user/types';
 import { computeRoutePath } from '../../../../location/routePath';
 import { stringifyRouteQuery } from '../../../../location/stringifyQuery';
 
@@ -60,7 +60,10 @@ export const useColumnConfigurationSaveGuard = (
   };
 
   // Guard for user settings change
-  const userSettingsGuard: GuardEntry['fn'] = async (next, previous) => {
+  const preferredDatasetSourceGuard: UserSettingsGuard = async (
+    next,
+    previous
+  ) => {
     // If there are no changes, just navigate
     if (!hasUnsavedChanges.value) {
       return true;
@@ -112,7 +115,7 @@ export const useColumnConfigurationSaveGuard = (
   return {
     leaveSectionDialogResult,
     leaveSectionDialogVisible,
-    userSettingsGuard,
+    preferredDatasetSourceGuard,
     routeGuard,
   };
 };
