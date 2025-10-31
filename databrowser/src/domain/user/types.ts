@@ -2,8 +2,13 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { DatasetUserSettings } from '../datasets/config/store/types';
-import { DatasetConfigSource } from '../datasets/config/types';
+import { DatasetConfigSource, PropertyConfig } from '../datasets/config/types';
+
+interface TableViewCol {
+  id: string;
+  title: string;
+  elements: PropertyConfig[];
+}
 
 export interface UserSettings {
   preferredDatasetSource: DatasetConfigSource;
@@ -12,7 +17,11 @@ export interface UserSettings {
   showHero: boolean;
   showToolbox: boolean;
   showMapViewNote: boolean;
-  views: DatasetUserSettings['views'];
+  views: {
+    tableView: {
+      cols: Record<string, TableViewCol[]>;
+    };
+  };
 }
 
 export type UserSettingsKeys = keyof UserSettings;

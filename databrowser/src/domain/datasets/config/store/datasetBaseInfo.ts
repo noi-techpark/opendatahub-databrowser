@@ -14,11 +14,11 @@ import { useStringReplacer } from '../mapping/stringReplacer';
 import { useValueExtractor } from '../mapping/valueExtractor';
 import { RouteLocation } from '../types';
 import { useDatasetConfigWithUserSettings } from './datasetConfigWithUserSettings';
-import { DatasetUserSettingsRef } from './types';
+import { DatasetUserSettings } from './types';
 
 export const useDatasetBaseInfo = (
   routeLocation: MaybeRef<ToRefs<RouteLocation>>,
-  userSettings: DatasetUserSettingsRef
+  datasetUserSettings: DatasetUserSettings
 ) => {
   // Compute route location info
   const { routeName, routeDomain, routePath, routeId, routeQuery } =
@@ -30,7 +30,7 @@ export const useDatasetBaseInfo = (
   // Resolve dataset config
   const { isResolving, isError, datasetConfig, error } =
     useResolveDatasetConfig(
-      userSettings.preferredSource,
+      datasetUserSettings.preferredDatasetSource,
       routeDomain,
       routePath
     );
@@ -61,7 +61,7 @@ export const useDatasetBaseInfo = (
     viewKey,
     datasetPath,
     datasetQuery,
-    userSettings
+    datasetUserSettings
   );
 
   // Compute base views, enhanced with OpenAPI information

@@ -3,23 +3,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { Ref } from 'vue';
-import { DatasetConfigSource, PropertyConfig } from '../types';
-
-export interface DatasetUserSettingsTableViewCol {
-  id: string;
-  title: string;
-  elements: PropertyConfig[];
-}
+import { UserSettings } from '../../../user/types';
 
 export interface DatasetUserSettings {
-  preferredSource: DatasetConfigSource;
-  views: {
-    tableView: {
-      cols: Record<string, DatasetUserSettingsTableViewCol[]>;
-    };
-  };
+  preferredDatasetSource: Ref<UserSettings['preferredDatasetSource']>;
+  views: Ref<UserSettings['views']>;
 }
-
-export type DatasetUserSettingsRef = {
-  [K in keyof DatasetUserSettings]: Ref<DatasetUserSettings[K]>;
-};

@@ -6,7 +6,6 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useComputeRouteLocation } from '../../location/routeLocation';
-import { DatasetConfigSource } from '../types.ts';
 import { useDatasetBaseInfo } from './datasetBaseInfo';
 import { useDatasetUserSettings } from './datasetUserSettings.ts';
 import { useQueryParamsCleanUp } from './utils';
@@ -33,7 +32,7 @@ export const useDatasetBaseInfoStore = defineStore(
     );
 
     // Current source
-    const source = ref<DatasetConfigSource>(userSettings.preferredSource.value);
+    const source = ref(userSettings.preferredDatasetSource.value);
 
     // Update source state
     watch(

@@ -6,14 +6,14 @@ import * as R from 'ramda';
 import { computed, MaybeRef, toRef, toValue } from 'vue';
 import { useMetaDataIdForRoute } from '../../../metaDataConfig/tourism/useMetaData';
 import { DatasetConfig, DatasetPath, DatasetQuery, ViewKey } from '../types';
-import { DatasetUserSettingsRef } from './types';
+import { DatasetUserSettings } from './types';
 
 export const useDatasetConfigWithUserSettings = (
   datasetConfig: MaybeRef<DatasetConfig | undefined>,
   viewKey: MaybeRef<ViewKey | undefined>,
   datasetPath: MaybeRef<DatasetPath | undefined>,
   datasetQuery: MaybeRef<DatasetQuery | undefined>,
-  userSettings: DatasetUserSettingsRef
+  datasetUserSettings: DatasetUserSettings
 ) => {
   const currentDatasetId = useMetaDataIdForRoute(
     toRef(datasetPath),
@@ -22,12 +22,12 @@ export const useDatasetConfigWithUserSettings = (
 
   const datasetConfigWithUserSettings = computed<DatasetConfig | undefined>(
     () => {
-      const userSettingsValue = toValue(userSettings);
+      const userSettingsValue = toValue(datasetUserSettings);
       const datasetConfigValue = toValue(datasetConfig);
       const viewKeyValue = toValue(viewKey);
 
       if (
-        userSettingsValue.preferredSource.value !== 'user' ||
+        userSettingsValue.preferredDatasetSource.value !== 'user' ||
         datasetConfigValue == null ||
         viewKeyValue == null
       ) {
@@ -58,7 +58,7 @@ export const useDatasetConfigWithUserSettings = (
 const handleTableViewCols = (
   datasetConfig: DatasetConfig,
   datasetId: string,
-  userSettings: DatasetUserSettingsRef
+  userSettings: DatasetUserSettings
 ) => {
   const userSettingsTableElements =
     userSettings.views.value.tableView.cols[datasetId]?.[0]?.elements;
