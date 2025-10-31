@@ -54,26 +54,26 @@ const dataset = computed<TourismMetaData | undefined>(() => {
 
 const randomDatasets = ref<TourismMetaData[]>([]);
 
-//Head injection: Created a JSON-LD script 
+//Head injection: Created a JSON-LD script
 useHead({
   script: computed(() => {
     if (!dataset.value) return [];
     return [
       {
-        type: "application/ld+json",
+        type: 'application/ld+json',
         textContent: JSON.stringify({
-          "@context": "https://schema.org/",
-          "@type": "Dataset",
+          '@context': 'https://schema.org/',
+          '@type': 'Dataset',
           name: dataset.value.shortname,
           description: dataset.value.description,
-          "url": window.location.href,
+          url: window.location.href,
           creator: {
-          "@type": "Organization",
-          name: "Open Data Hub",
-          url: "https://opendatahub.com/" 
+            '@type': 'Organization',
+            name: 'Open Data Hub',
+            url: 'https://opendatahub.com/',
           },
         }),
-      }
+      },
     ];
   }),
 });
@@ -91,7 +91,7 @@ watch(
       3
     ).sort((a, b) => a.shortname?.localeCompare(b.shortname));
   },
-  
+
   { immediate: true }
 );
 </script>
