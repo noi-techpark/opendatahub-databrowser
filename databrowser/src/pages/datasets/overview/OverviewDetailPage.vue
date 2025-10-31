@@ -94,12 +94,4 @@ watch(
   
   { immediate: true }
 );
-
-watch(
-  () => dataset.value,
-  (current) => {
-    console.log("Current dataset:", current);
-  },
-  { immediate: true }
-);
 </script>
