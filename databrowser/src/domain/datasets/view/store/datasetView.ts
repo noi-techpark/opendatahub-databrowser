@@ -3,12 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { MaybeRef } from 'vue';
-import {
-  DatasetDomain,
-  DatasetPath,
-  ViewKey,
-  ViewValue,
-} from '../../config/types';
+import { DatasetDomain, ViewKey, ViewValue } from '../../config/types';
 import { useDynamicParamsReplacement } from '../modifiers/dynamicParams/dynamicParamsReplacement';
 import { useExtractView } from '../modifiers/extractView/ViewKey';
 import { ObjectValueReplacer, StringReplacer } from '../types';
@@ -17,7 +12,6 @@ import { useComputeViewType } from '../viewType';
 
 export const useDatasetView = (
   datasetDomain: MaybeRef<DatasetDomain | undefined>,
-  datasetPath: MaybeRef<DatasetPath | undefined>,
   baseViews: MaybeRef<ViewValue | undefined>,
   viewKey: MaybeRef<ViewKey | undefined>,
   stringReplacer: MaybeRef<StringReplacer>,
@@ -34,13 +28,6 @@ export const useDatasetView = (
     stringReplacer,
     objectValueReplacer
   );
-
-  // // Enhance view with OpenAPI information
-  // const viewWithOpenApiEnhancements = useOpenApiEnhancements(
-  //   datasetDomain,
-  //   datasetPath,
-  //   viewWithReplacements
-  // );
 
   // Compute view type
   const { isTableView, isDetailView, isEditView, isNewView, isRawView } =

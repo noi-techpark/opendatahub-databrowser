@@ -2,22 +2,17 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { computed, MaybeRef, ref, ToRefs, toValue, watch } from 'vue';
-import {
-  domainIsKnownToHaveOpenApiDocument,
-  useOpenApi,
-} from '../../../openApi';
+import { computed, MaybeRef, ToRefs, toValue } from 'vue';
 import { useUserSettings } from '../../../user/userSettings';
 import { useComputeDatasetLocation } from '../../location/datasetLocation';
-import { extractView } from '../../view/modifiers/extractView/ViewKey';
-import { computeViewWithOpenApiEnhancements } from '../../view/modifiers/openApiEnhancements/computeDeprecationAndRequiredAndReference';
+import { useOpenApiEnhancements } from '../../view/modifiers/openApiEnhancements/openApiEnhancements';
 import { useComputeViewKey } from '../../view/viewKey';
 import { useDatasetConfigSourceComputations } from '../datasetConfigSource';
 import { useResolveDatasetConfig } from '../load/datasetConfigResolver';
 import { useObjectValueReplacer } from '../mapping/objectValueReplacer';
 import { useStringReplacer } from '../mapping/stringReplacer';
 import { useValueExtractor } from '../mapping/valueExtractor';
-import { DatasetConfig, RouteLocation } from '../types';
+import { RouteLocation } from '../types';
 import { useDatasetConfigWithUserSettings } from './datasetConfigWithUserSettings';
 import { DatasetUserSettingsRef } from './types';
 
@@ -69,6 +64,14 @@ export const useDatasetBaseInfo = (
     userSettings
   );
 
+  // Compute base views, enhanced with OpenAPI information
+  const { baseViews } = useOpenApiEnhancements(
+    datasetConfigWithUserSettings,
+    datasetDomain,
+    datasetPath,
+    viewKey
+  );
+
   // Build params replacement facilities
   const stringifiedQuery = computed(() => toValue(datasetQuery)?.stringified);
   const stringReplacer = useStringReplacer(stringifiedQuery);
@@ -78,63 +81,6 @@ export const useDatasetBaseInfo = (
   // Compute source type
   const { isEmbeddedSource, isGeneratedSource, isUserSource } =
     useDatasetConfigSourceComputations(datasetConfigWithUserSettings);
-
-  const baseViews = ref<DatasetConfig['views']>();
-  watch(
-    [datasetConfigWithUserSettings, datasetDomain, datasetPath, viewKey],
-    ([_datasetConfig, _datasetDomain, _datasetPath, _viewKey]) => {
-      baseViews.value = _datasetConfig?.views;
-
-      // If any of the values needed for computation is undefined, do nothing
-      if (
-        _datasetConfig?.views == null ||
-        _datasetDomain == null ||
-        _datasetPath == null ||
-        _viewKey == null
-      ) {
-        return;
-      }
-
-      if (_datasetConfig.views[_viewKey] == null) {
-        console.warn(
-          `View ${_viewKey} is not defined in dataset config, view is not enhanced with OpenAPI information.`
-        );
-        return;
-      }
-
-      // Check that domain is known to have an OpenAPI document
-      if (!domainIsKnownToHaveOpenApiDocument(_datasetDomain)) {
-        console.warn(
-          `Domain ${_datasetDomain} is not known to have an OpenAPI document, view is not enhanced with OpenAPI information.`
-        );
-        return;
-      }
-
-      // Load OpenAPI document and then enhance view
-      useOpenApi()
-        .loadDocument(_datasetDomain)
-        .then((doc) => {
-          const view = extractView(_datasetConfig.views, _viewKey);
-          if (view == null) {
-            return;
-          }
-
-          const viewWithOpenApiEnhancements =
-            computeViewWithOpenApiEnhancements(
-              doc,
-              _datasetDomain,
-              _datasetPath,
-              view
-            );
-
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { type, defaultQueryParams, ...restView } =
-            viewWithOpenApiEnhancements;
-
-          baseViews.value = { ...baseViews.value, [_viewKey]: restView };
-        });
-    }
-  );
 
   return {
     isLoading: isResolving,
