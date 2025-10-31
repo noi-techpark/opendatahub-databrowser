@@ -8,12 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div>
     <ColumnsList
       v-if="mode === 'tableColumns'"
-      v-model:cols="columns"
+      v-model:columns="columns"
       @edit:col="
         editColIndex = $event;
         mode = 'column';
       "
-      @update:cols="commitAndApplyChanges"
+      @update:columns="commitAndApplyChanges"
     />
 
     <ColumnSettings

@@ -7,24 +7,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <ul>
     <VueDraggableNext
-      v-model="cols"
+      v-model="columns"
       handle=".handle"
       class="divide-y divide-gray-200"
-      @change="emit('update:cols', cols)"
+      @change="emit('update:cols', columns)"
     >
       <li
-        v-for="(col, index) in cols"
+        v-for="(column, index) in columns"
         :key="index"
         class="flex items-center justify-between gap-2 py-2"
       >
         <div class="flex items-center gap-2">
           <CheckboxCustom
-            :model-value="!col.hidden"
-            :label="col.title"
-            @update:model-value="setColHidden(col, !$event)"
+            :model-value="!column.hidden"
+            :label="column.title"
+            @update:model-value="setColHidden(column, !$event)"
           ></CheckboxCustom>
           <div
-            v-if="showDeprecatedInfo(col)"
+            v-if="showDeprecatedInfo(column)"
             class="size-2 rounded-full bg-deprecated"
           ></div>
         </div>
@@ -73,7 +73,7 @@ const emit = defineEmits<{
   (e: 'update:cols', value: PropertyConfig[]): void;
 }>();
 
-const cols = defineModel<PropertyConfig[]>('cols', {
+const columns = defineModel<PropertyConfig[]>('columns', {
   default: () => [],
 });
 
@@ -85,11 +85,11 @@ const showDeprecatedInfo = (col: PropertyConfig) => {
 
 const setColHidden = (col: PropertyConfig, hidden: boolean) => {
   col.hidden = hidden;
-  emit('update:cols', cols.value);
+  emit('update:cols', columns.value);
 };
 
 const deleteCol = (index: number) => {
-  cols.value.splice(index, 1);
-  emit('update:cols', cols.value);
+  columns.value.splice(index, 1);
+  emit('update:cols', columns.value);
 };
 </script>

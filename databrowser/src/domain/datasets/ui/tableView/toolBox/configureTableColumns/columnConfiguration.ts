@@ -14,83 +14,60 @@ import { useMetaDataStore } from '../../../../../metaDataConfig/tourism/metaData
 import { useUserSettings } from '../../../../../user/userSettings';
 import { useDatasetBaseInfoStore } from '../../../../config/store/datasetBaseInfoStore';
 import { PropertyConfig } from '../../../../config/types';
+import { useToolBoxStore } from '../../../toolBox/toolBoxStore';
 
 type ColumnConfigurationReturnType = ReturnType<typeof useColumnConfiguration>;
 
 export const useColumnConfiguration = () => {
-  const datasetId = computed(() => useMetaDataStore().currentMetaData?.id);
-  const datasetName = computed(
-    () => useMetaDataStore().currentMetaData?.shortname
-  );
-
   const initialColumns = ref<PropertyConfig[]>([]);
   const columns = ref<PropertyConfig[]>([]);
-
-  const { clear, commit, undo, redo, canUndo, canRedo } = useManualRefHistory(
-    columns,
-    { clone: true }
-  );
-
-  const debouncedCommit = useDebounceFn(() => commit(), 500);
-
-  // const isDeprecated = (col: PropertyConfig) => {
-  //   return col.deprecationInfo?.length ?? 0 > 0;
-  // };
-
-  const { baseViews, source } = storeToRefs(useDatasetBaseInfoStore());
-
-  watchDebounced(
-    [datasetId, source],
-    ([newId, newSource], [oldId, oldSource]) => {
-      if (newId !== oldId) {
-        console.log(
-          `MetaData ID changed from "${oldId}" to "${newId}", resetting cols`
-        );
-        columns.value =
-          baseViews.value?.table?.elements.map((col) => ({
-            ...col,
-            hidden: col.hidden ?? false,
-          })) ?? [];
-        initialColumns.value = R.clone(columns.value);
-        commit();
-        clear();
-      } else {
-        console.log('MetaData ID did not change, no reset needed');
-      }
-
-      if (newSource !== oldSource) {
-        console.log(
-          `Data source changed from "${oldSource}" to "${newSource}", resetting cols`
-        );
-        columns.value =
-          baseViews.value?.table?.elements.map((col) => ({
-            ...col,
-            hidden: col.hidden ?? false,
-          })) ?? [];
-        initialColumns.value = R.clone(columns.value);
-        commit();
-        clear();
-      } else {
-        console.log('Data source did not change, no reset needed');
-      }
-
-      // if (!showDeprecated) {
-      //   columns.value = columns.value.filter((col) => !isDeprecated(col));
-      // }
-    },
-    { immediate: true, debounce: 300 }
-  );
 
   const isColumnConfigChanged = computed(
     () => !R.equals(initialColumns.value, columns.value)
   );
 
-  const isSaveSuccess = ref(false);
+  // Set up manual history tracking for columns to enable undo/redo functionality
+  const { clear, commit, undo, redo, canUndo, canRedo } = useManualRefHistory(
+    columns,
+    { clone: true }
+  );
+  const debouncedCommit = useDebounceFn(() => commit(), 500);
 
-  const commitAndApplyChanges = () => {
-    debouncedCommit();
-    applyChanges();
-  };
+  // Get dataset metadata for current dataset
+  const datasetId = computed(() => useMetaDataStore().currentMetaData?.id);
+  const datasetName = computed(
+    () => useMetaDataStore().currentMetaData?.shortname
+  );
+
+  // Get source and base views from dataset store
+  const { source, baseViews } = storeToRefs(useDatasetBaseInfoStore());
+
+  // Watch for changes in datasetId, source, or deprecated setting to update columns
+  watchDebounced(
+    [datasetId, source, () => useToolBoxStore().settings.showDeprecated],
+    () => {
+      columns.value =
+        baseViews.value?.table?.elements.map((column) => ({
+          ...column,
+          hidden: column.hidden ?? false,
+        })) ?? [];
+
+      // Filter out deprecated columns if the setting is disabled
+      if (!useToolBoxStore().settings.showDeprecated) {
+        columns.value = columns.value.filter((column) => {
+          const deprecated = column.deprecationInfo?.length ?? 0 > 0;
+          return !deprecated;
+        });
+      }
+
+      initialColumns.value = R.clone(columns.value);
+      commit();
+      clear();
+    },
+    { immediate: true, debounce: 300 }
+  );
+
+  const isSaveSuccess = ref(false);
 
   const applyChanges = () => {
     baseViews.value = R.assocPath(
@@ -102,6 +79,11 @@ export const useColumnConfiguration = () => {
     isSaveSuccess.value = false;
   };
 
+  const commitAndApplyChanges = () => {
+    debouncedCommit();
+    applyChanges();
+  };
+
   const { getUserSetting, updateUserSetting } = useUserSettings();
   const saveChanges = async () => {
     if (datasetId.value == null) {
@@ -109,10 +91,13 @@ export const useColumnConfiguration = () => {
       return;
     }
 
+    // Set preferred dataset source to 'user' to indicate custom configuration.
+    // Skip guards to allow saving in any case.
     await updateUserSetting('preferredDatasetSource', 'user', {
       skipGuards: true,
     });
 
+    // Update the tableView user setting with the new column configuration
     const views = getUserSetting('views');
     const tableView = R.assocPath(
       ['cols', datasetId.value],
@@ -126,8 +111,10 @@ export const useColumnConfiguration = () => {
       views.tableView ?? {}
     );
 
+    // Save the updated tableView back to user settings, skipping guards
     await updateUserSetting('views', { tableView }, { skipGuards: true });
 
+    // Clear undo / redo history after saving
     clear();
 
     initialColumns.value = columns.value;
@@ -150,7 +137,6 @@ export const useColumnConfiguration = () => {
 
   return {
     columns,
-    initialColumns,
     isColumnConfigChanged,
     datasetId,
     datasetName,
