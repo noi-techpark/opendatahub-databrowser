@@ -39,6 +39,12 @@ interface OdhTourismMetaData {
   Category?: string[];
   DataProvider?: string[];
   ApiType?: string;
+  LicenseInfo?: {
+    Author?: string;
+    License?: string;
+    ClosedData?: boolean;
+    LicenseHolder?: string;
+  };
 }
 
 const metaDataUrl = withOdhBaseUrl('/v1/MetaData?pagesize=1000');
@@ -90,6 +96,7 @@ const mapResponse = (datasets: OdhTourismMetaData[]): TourismMetaData[] =>
       singleDataset: dataset.SingleDataset,
       datasetConfigurations: [],
       apiType: parseApiType(dataset.ApiType, dataset.ApiUrl),
+      licenseInfo: parseLicenseInfo(dataset.LicenseInfo),
     }))
     .sort((a, b) => a?.shortname?.localeCompare(b?.shortname));
 
@@ -177,4 +184,21 @@ const parseApiType = (apiType?: string, apiUrl?: string): ApiType => {
   }
 
   return 'unknown';
+};
+
+const parseLicenseInfo = (licenseInfo?: {
+  Author?: string;
+  License?: string;
+  ClosedData?: boolean;
+  LicenseHolder?: string;
+}) => {
+  if (licenseInfo == null) {
+    return undefined;
+  }
+  return {
+    author: licenseInfo.Author ?? undefined,
+    license: licenseInfo.License ?? undefined,
+    closedData: licenseInfo.ClosedData ?? undefined,
+    licenseHolder: licenseInfo.LicenseHolder ?? undefined,
+  };
 };

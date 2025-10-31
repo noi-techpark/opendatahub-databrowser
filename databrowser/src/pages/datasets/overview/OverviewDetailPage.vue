@@ -58,6 +58,7 @@ const randomDatasets = ref<TourismMetaData[]>([]);
 useHead({
   script: computed(() => {
     if (!dataset.value) return [];
+    console.log(dataset.value);
     return [
       {
         type: 'application/ld+json',
@@ -72,6 +73,7 @@ useHead({
             name: 'Open Data Hub',
             url: 'https://opendatahub.com/',
           },
+          license: dataset.value.licenseInfo?.license,
         }),
       },
     ];
