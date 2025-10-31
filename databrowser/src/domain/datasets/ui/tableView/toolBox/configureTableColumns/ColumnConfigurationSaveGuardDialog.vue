@@ -34,6 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
+import { useEventListener } from '@vueuse/core';
 import { toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
@@ -66,4 +67,13 @@ useUserSettings().registerGuard('preferredDatasetSource', userSettingsGuard);
 // Register route guards
 onBeforeRouteLeave(routeGuard);
 onBeforeRouteUpdate(routeGuard);
+
+// Listen for window close / reload event and let the user know
+// if there are unsaved changes
+useEventListener(window, 'beforeunload', (evt) => {
+  if (hasUnsavedChanges.value) {
+    evt.returnValue = 'Do you really want to close?';
+    return evt.returnValue;
+  }
+});
 </script>
