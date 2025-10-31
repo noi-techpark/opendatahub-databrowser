@@ -78,7 +78,7 @@ export const useColumnConfiguration = () => {
       //   columns.value = columns.value.filter((col) => !isDeprecated(col));
       // }
     },
-    { debounce: 300 }
+    { immediate: true, debounce: 300 }
   );
 
   const isColumnConfigChanged = computed(
