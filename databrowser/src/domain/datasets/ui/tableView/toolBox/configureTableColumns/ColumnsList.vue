@@ -5,76 +5,109 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <ul>
-    <VueDraggableNext
-      v-model="columns"
-      handle=".handle"
-      class="divide-y divide-gray-200"
-      @change="emit('update:cols', columns)"
-    >
-      <li
-        v-for="(column, index) in columns"
-        :key="index"
-        class="flex items-center justify-between gap-2 py-2"
+  <div>
+    <InputSearch
+      id="search-dataset"
+      v-model="searchTerm"
+      class="flex w-full"
+      :show-confirm-button="false"
+    />
+    <div class="flex items-center justify-between py-4">
+      <div>
+        <span class="font-bold">{{ columnsVisibleCount }}</span>
+        {{ t('datasets.listView.toolBox.columnConfiguration.columnsVisible') }}
+        <span class="font-bold">{{ columns.length }}</span>
+      </div>
+      <ButtonCustom
+        :size="Size.sm"
+        :variant="Variant.ghost"
+        @click="emit('add:column')"
       >
-        <div class="flex items-center gap-2">
-          <CheckboxCustom
-            :model-value="!column.hidden"
-            :label="column.title"
-            @update:model-value="setColHidden(column, !$event)"
-          ></CheckboxCustom>
-          <div
-            v-if="showDeprecatedInfo(column)"
-            class="size-2 rounded-full bg-deprecated"
-          ></div>
-        </div>
+        {{ t('datasets.listView.toolBox.columnConfiguration.addColumn') }}
+      </ButtonCustom>
+    </div>
+    <ul>
+      <VueDraggableNext
+        v-model="searchResults"
+        handle=".handle"
+        class="divide-y divide-gray-200"
+        @change="emit('update:cols', searchResults)"
+      >
+        <li
+          v-for="(column, index) in searchResults"
+          :key="index"
+          class="flex items-center justify-between gap-2 py-2"
+        >
+          <div class="flex items-center gap-2">
+            <CheckboxCustom
+              :model-value="!column.hidden"
+              :label="column.title"
+              @update:model-value="setColumnHidden(column, !$event)"
+            ></CheckboxCustom>
+            <div
+              v-if="showDeprecatedInfo(column)"
+              class="size-2 rounded-full bg-deprecated"
+            ></div>
+          </div>
 
-        <div class="flex items-center gap-2">
-          <ButtonCustom
-            :size="Size.xs"
-            :variant="Variant.ghost"
-            class="px-2.5 py-1"
-            @click="emit('edit:col', index)"
-          >
-            <IconEdit class="text-hint-info" />
-          </ButtonCustom>
+          <div class="flex items-center gap-2">
+            <ButtonCustom
+              :size="Size.xs"
+              :variant="Variant.ghost"
+              class="px-2.5 py-1"
+              @click="emit('edit:column', index)"
+            >
+              <IconEdit class="text-hint-info" />
+            </ButtonCustom>
 
-          <ButtonCustom
-            :size="Size.xs"
-            :variant="Variant.ghost"
-            class="px-2.5 py-1"
-            @click="deleteCol(index)"
-          >
-            <IconTrash class="text-delete" />
-          </ButtonCustom>
+            <ButtonCustom
+              :size="Size.xs"
+              :variant="Variant.ghost"
+              class="px-2.5 py-1"
+              @click="deleteColumn(index)"
+            >
+              <IconTrash class="text-delete" />
+            </ButtonCustom>
 
-          <button>
-            <IconDragAndDrop class="handle text-hint-info" />
-          </button>
-        </div>
-      </li>
-    </VueDraggableNext>
-  </ul>
+            <button>
+              <IconDragAndDrop class="handle text-hint-info" />
+            </button>
+          </div>
+        </li>
+      </VueDraggableNext>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
+import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Size, Variant } from '../../../../../../components/button/types';
 import CheckboxCustom from '../../../../../../components/checkbox/CheckboxCustom.vue';
+import InputSearch from '../../../../../../components/input/InputSearch.vue';
 import IconDragAndDrop from '../../../../../../components/svg/IconDragAndDrop.vue';
 import IconEdit from '../../../../../../components/svg/IconEdit.vue';
 import IconTrash from '../../../../../../components/svg/IconTrash.vue';
 import { PropertyConfig } from '../../../../config/types';
 import { useToolBoxStore } from '../../../toolBox/toolBoxStore';
+import { useColumnSearch } from './columnSearch';
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
-  (e: 'edit:col', index: number): void;
+  (e: 'add:column'): void;
+  (e: 'edit:column', index: number): void;
   (e: 'update:cols', value: PropertyConfig[]): void;
 }>();
 
 const columns = defineModel<PropertyConfig[]>('columns', {
   default: () => [],
+});
+
+const columnsVisibleCount = computed(() => {
+  return columns.value.filter((column) => !column.hidden).length;
 });
 
 const showDeprecatedInfo = (col: PropertyConfig) => {
@@ -83,13 +116,15 @@ const showDeprecatedInfo = (col: PropertyConfig) => {
   return showDeprecated && isDeprecated;
 };
 
-const setColHidden = (col: PropertyConfig, hidden: boolean) => {
+const setColumnHidden = (col: PropertyConfig, hidden: boolean) => {
   col.hidden = hidden;
   emit('update:cols', columns.value);
 };
 
-const deleteCol = (index: number) => {
+const deleteColumn = (index: number) => {
   columns.value.splice(index, 1);
   emit('update:cols', columns.value);
 };
+
+const { searchTerm, searchResults } = useColumnSearch(columns);
 </script>

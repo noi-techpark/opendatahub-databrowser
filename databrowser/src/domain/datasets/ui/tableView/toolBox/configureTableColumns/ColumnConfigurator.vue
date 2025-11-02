@@ -9,7 +9,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <ColumnsList
       v-if="mode === 'tableColumns'"
       v-model:columns="columns"
-      @edit:col="
+      @add:column="addColumn"
+      @edit:column="
         editColIndex = $event;
         mode = 'column';
       "
@@ -23,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       @back="mode = 'tableColumns'"
     />
 
-    <div class="flex flex-wrap gap-1 sm:gap-2">
+    <div class="mt-4 flex flex-wrap gap-1 sm:gap-2">
       <ButtonCustom
         :disabled="!canUndoLastChange"
         :size="Size.sm"
@@ -65,6 +66,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Size } from '../../../../../../components/button/types';
+import { CellComponent } from '../../../../../cellComponents/types';
 import { injectColumnConfiguration } from './columnConfiguration';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
@@ -85,4 +87,22 @@ const {
   undoLastChange,
   redoLastChange,
 } = injectColumnConfiguration();
+
+const addColumn = () => {
+  // Add a new column at the beginning of the list and switch to edit mode
+  columns.value = [
+    {
+      title: 'New column',
+      component: CellComponent.TypeBasedCell,
+      objectMapping: {
+        data: 'Id',
+      },
+      class: 'w-40',
+    },
+    ...columns.value,
+  ];
+  editColIndex.value = 0;
+  mode.value = 'column';
+  applyChangesWithCheckpoint();
+};
 </script>

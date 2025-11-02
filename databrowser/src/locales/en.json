@@ -207,6 +207,8 @@
       "tableFilterHint": "Filters have been applied to this view",
       "toolBox": {
         "columnConfiguration": {
+          "addColumn": "+ Add new",
+          "columnsVisible": "columns visible out of",
           "redo": "Redo",
           "reset": "Reset",
           "save": "Save",
