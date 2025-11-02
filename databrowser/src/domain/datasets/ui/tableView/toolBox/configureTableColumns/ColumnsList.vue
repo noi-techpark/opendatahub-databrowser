@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div>
     <InputSearch
-      id="search-dataset"
+      id="search-columns"
       v-model="searchTerm"
       class="flex w-full"
       :show-confirm-button="false"
@@ -28,10 +28,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </div>
     <ul>
       <VueDraggableNext
-        v-model="searchResults"
+        v-model="columns"
         handle=".handle"
         class="divide-y divide-gray-200"
-        @change="emit('update:cols', searchResults)"
+        :sort="searchResults.length === columns.length"
+        @change="emit('update:cols', columns)"
       >
         <li
           v-for="(column, index) in searchResults"
@@ -69,8 +70,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               <IconTrash class="text-delete" />
             </ButtonCustom>
 
-            <button>
-              <IconDragAndDrop class="handle text-hint-info" />
+            <button :disabled="searchResults.length !== columns.length">
+              <IconDragAndDrop
+                class=" text-hint-info"
+                :class="[searchResults.length !== columns.length ? 'opacity-50': 'handle']"
+              />
             </button>
           </div>
         </li>

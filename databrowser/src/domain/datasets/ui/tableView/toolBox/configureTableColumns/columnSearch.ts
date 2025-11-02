@@ -23,13 +23,7 @@ export const useColumnSearch = (
     matchAllWhenSearchEmpty: true,
   });
 
-  const searchResults = computed(() => {
-    if (searchTerm.value.length === 0) {
-      return columns.value;
-    }
-
-    return results.value.map((r) => r.item);
-  });
+  const searchResults = computed(() => results.value.map((r) => r.item));
 
   return { searchTerm, searchResults };
 };
