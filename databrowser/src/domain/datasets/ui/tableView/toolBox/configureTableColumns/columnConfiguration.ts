@@ -69,7 +69,7 @@ export const useColumnConfiguration = () => {
 
   const isSaveSuccess = ref(false);
 
-  const applyChanges = () => {
+  const applyChangesWithoutCheckpoint = () => {
     baseViews.value = R.assocPath(
       ['table', 'elements'],
       columns.value,
@@ -79,9 +79,9 @@ export const useColumnConfiguration = () => {
     isSaveSuccess.value = false;
   };
 
-  const commitAndApplyChanges = () => {
+  const applyChangesWithCheckpoint = () => {
     debouncedCommit();
-    applyChanges();
+    applyChangesWithoutCheckpoint();
   };
 
   const { getUserSetting, updateUserSetting } = useUserSettings();
@@ -143,20 +143,29 @@ export const useColumnConfiguration = () => {
     isSaveSuccess.value = true;
   };
 
+  const undoLastChange = () => {
+    undo();
+    applyChangesWithoutCheckpoint();
+  };
+
+  const redoLastChange = () => {
+    redo();
+    applyChangesWithoutCheckpoint();
+  };
+
   return {
     columns,
     isColumnConfigChanged,
     datasetId,
     datasetName,
     isSaveSuccess,
-    commitAndApplyChanges,
-    applyChanges,
+    applyChangesWithCheckpoint,
     saveChanges,
     discardChanges,
     canUndoLastChange: canUndo,
     canRedoLastChange: canRedo,
-    undoLastChange: undo,
-    redoLastChange: redo,
+    undoLastChange,
+    redoLastChange,
   };
 };
 

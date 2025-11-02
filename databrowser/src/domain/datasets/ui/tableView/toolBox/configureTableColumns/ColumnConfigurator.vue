@@ -13,19 +13,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         editColIndex = $event;
         mode = 'column';
       "
-      @update:columns="commitAndApplyChanges"
+      @update:cols="applyChangesWithCheckpoint"
     />
 
     <ColumnSettings
       v-if="mode === 'column'"
       v-model:col="columns[editColIndex!]"
-      @update:col="commitAndApplyChanges"
+      @update:col="applyChangesWithCheckpoint"
       @back="mode = 'tableColumns'"
     />
 
     <div class="flex flex-wrap gap-1 sm:gap-2">
       <ButtonCustom
-        :disabled="!isColumnConfigChanged"
+        :disabled="!canUndoLastChange"
         :size="Size.sm"
         @click="saveChanges"
       >
@@ -35,20 +35,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <ButtonCustom
         :disabled="!canUndoLastChange"
         :size="Size.sm"
-        @click="
-          undoLastChange();
-          applyChanges();
-        "
+        @click="undoLastChange"
       >
         {{ t('datasets.listView.toolBox.columnConfiguration.undo') }}
       </ButtonCustom>
       <ButtonCustom
         :disabled="!canRedoLastChange"
         :size="Size.sm"
-        @click="
-          redoLastChange();
-          applyChanges();
-        "
+        @click="redoLastChange()"
       >
         {{ t('datasets.listView.toolBox.columnConfiguration.redo') }}
       </ButtonCustom>
@@ -83,9 +77,7 @@ const editColIndex = ref<number | null>(null);
 
 const {
   columns,
-  isColumnConfigChanged,
-  commitAndApplyChanges,
-  applyChanges,
+  applyChangesWithCheckpoint,
   discardChanges,
   saveChanges,
   canUndoLastChange,
