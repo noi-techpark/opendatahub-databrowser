@@ -55,7 +55,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <ButtonCustom
         :disabled="!canUndoLastChange"
         :size="Size.sm"
-        @click="discardChanges"
+        @click="
+          discardChanges();
+          mode = 'tableColumns';
+        "
       >
         {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
       </ButtonCustom>

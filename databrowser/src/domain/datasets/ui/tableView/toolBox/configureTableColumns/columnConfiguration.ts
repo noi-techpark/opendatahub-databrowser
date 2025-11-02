@@ -129,6 +129,14 @@ export const useColumnConfiguration = () => {
     }
 
     columns.value = R.clone(initialColumns.value);
+
+    // Reset baseViews to initial columns
+    baseViews.value = R.assocPath(
+      ['table', 'elements'],
+      columns.value,
+      baseViews.value ?? {}
+    );
+
     commit();
     clear();
 
