@@ -24,6 +24,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :placeholder="placeholder"
       :disabled="disabled"
       :type="type"
+      :min="min"
+      :max="max"
     />
     <span v-if="label != null" class="ml-3 font-semibold"></span>
     <div
@@ -69,6 +71,8 @@ const props = defineProps<{
   hasLabelTop?: boolean;
   disabled?: boolean;
   type?: InputType;
+  min?: number;
+  max?: number;
 }>();
 
 const inputRef = ref();
