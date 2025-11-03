@@ -90,6 +90,28 @@ export const useColumnConfiguration = () => {
   };
 
   const { getUserSetting, updateUserSetting } = useUserSettings();
+
+  /**
+   * Saves the current column configuration for the active dataset to user settings.
+   *
+   * This function performs the following operations:
+   * 1. Validates that a datasetId is available
+   * 2. Sets the preferred dataset source to 'user' to indicate custom configuration
+   * 3. Updates or creates a column configuration for the current dataset
+   * 4. Saves the configuration to the user's tableView settings
+   * 5. Clears the undo/redo history and updates the initial columns state
+   *
+   * The function handles both cases:
+   * - Updating an existing configuration if one exists for the active config ID
+   * - Creating a new configuration with a generated ID if none exists
+   *
+   * @remarks
+   * - All user setting updates are performed with `skipGuards: true` to bypass validation
+   * - The save operation sets `isSaveSuccess.value` to true upon completion
+   * - If no datasetId is available, the function logs an error and returns early
+   *
+   * @returns A promise that resolves when the configuration has been saved
+   */
   const saveChanges = async () => {
     if (datasetId.value == null) {
       console.error('No datasetId available, cannot save column config');
@@ -174,6 +196,22 @@ export const useColumnConfiguration = () => {
     isSaveSuccess.value = true;
   };
 
+  /**
+   * Discards any changes made to the table column configuration and reverts to the initial state.
+   *
+   * This function performs the following actions:
+   * - Validates that a datasetId is available
+   * - Restores columns to their initial configuration
+   * - Updates the baseViews with the initial column elements
+   * - Commits the changes
+   * - Clears any temporary state
+   * - Sets the save success flag to true
+   *
+   * @remarks
+   * If no datasetId is available, the function logs an error and returns early without making changes.
+   *
+   * @returns {void}
+   */
   const discardChanges = () => {
     if (datasetId.value == null) {
       console.error('No datasetId available, cannot discard column config');
@@ -195,6 +233,102 @@ export const useColumnConfiguration = () => {
     isSaveSuccess.value = true;
   };
 
+  /**
+   * Deletes the currently active column configuration for the dataset.
+   *
+   * This function removes the active configuration from the user's table view settings.
+   * If no configurations remain after deletion, it cleans up the dataset entry entirely
+   * and resets the preferred dataset source to 'embedded'.
+   *
+   * @remarks
+   * - Requires a valid `datasetId` to be present
+   * - Automatically selects the first remaining configuration as active after deletion
+   * - Skips user setting guards when updating settings
+   * - Resets `preferredDatasetSource` to 'embedded' when no configurations remain
+   *
+   * @returns {void}
+   */
+  const deleteActiveConfiguration = async () => {
+    if (datasetId.value == null) {
+      console.error(
+        'No datasetId available, cannot delete column configuration'
+      );
+      return;
+    }
+
+    // Remove the tableView configuration for the current dataset from user settings
+    const views = getUserSetting('views');
+
+    // Check if there's an existing configuration for the current dataset
+    const activeConfigId: string | undefined =
+      views.tableView[datasetId.value]?.activeConfigId;
+
+    if (activeConfigId == null) {
+      console.warn('No active configuration to delete for this dataset');
+      // Reset preferred dataset source to 'embedded', because no user configs remain
+      await updateUserSetting('preferredDatasetSource', 'embedded', {
+        skipGuards: true,
+      });
+      return;
+    }
+
+    // Find existing configuration by activeConfigId
+    const config = views.tableView[datasetId.value]?.configs.find(
+      (cfg) => cfg.id === activeConfigId
+    );
+
+    // If no config found, nothing to delete
+    if (config == null) {
+      console.warn('No configuration found to delete for this dataset');
+      // Reset preferred dataset source to 'embedded', because no user configs remain
+      await updateUserSetting('preferredDatasetSource', 'embedded', {
+        skipGuards: true,
+      });
+      return;
+    }
+
+    // Filter out the active configuration to delete it
+    const updatedConfigs =
+      views.tableView[datasetId.value]?.configs.filter(
+        (cfg) => cfg.id !== activeConfigId
+      ) ?? [];
+
+    // Determine new activeConfigId after deletion
+    const newActiveConfigId =
+      updatedConfigs.length > 0 ? updatedConfigs[0].id : undefined;
+
+    if (newActiveConfigId == null) {
+      // If no configurations remain, remove the entire entry for this dataset
+      const tableView = R.dissocPath<UserSettings['views']['tableView']>(
+        [datasetId.value],
+        views.tableView ?? {}
+      );
+
+      // Save the updated tableView back to user settings, skipping guards
+      await updateUserSetting('views', { tableView }, { skipGuards: true });
+      // Also reset preferred dataset source to 'embedded', because no user configs remain
+      await updateUserSetting('preferredDatasetSource', 'embedded', {
+        skipGuards: true,
+      });
+    } else {
+      // Otherwise, update the entry with remaining configurations
+      const tableView = R.assocPath<
+        UserSettingTableViewConfig,
+        UserSettings['views']['tableView']
+      >(
+        [datasetId.value],
+        {
+          activeConfigId: newActiveConfigId,
+          configs: updatedConfigs,
+        },
+        views.tableView ?? {}
+      );
+
+      // Save the updated tableView back to user settings, skipping guards
+      await updateUserSetting('views', { tableView }, { skipGuards: true });
+    }
+  };
+
   const undoLastChange = () => {
     undo();
     applyChangesWithoutCheckpoint();
@@ -214,6 +348,7 @@ export const useColumnConfiguration = () => {
     applyChangesWithCheckpoint,
     saveChanges,
     discardChanges,
+    deleteActiveConfiguration,
     canUndoLastChange: canUndo,
     canRedoLastChange: canRedo,
     undoLastChange,

@@ -57,6 +57,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       >
         {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
       </ButtonCustom>
+      <ButtonCustom
+        :disabled="userPreferredDatasetSource != 'user'"
+        :size="Size.sm"
+        @click="
+          deleteActiveConfiguration();
+          mode = 'tableColumns';
+        "
+      >
+        {{ t('datasets.listView.toolBox.columnConfiguration.deleteConfig') }}
+      </ButtonCustom>
     </div>
   </div>
 </template>
@@ -67,6 +77,7 @@ import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Size } from '../../../../../../components/button/types';
 import { CellComponent } from '../../../../../cellComponents/types';
+import { useUserSettings } from '../../../../../user/userSettings';
 import { injectColumnConfiguration } from './columnConfiguration';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
@@ -82,11 +93,16 @@ const {
   applyChangesWithCheckpoint,
   discardChanges,
   saveChanges,
+  deleteActiveConfiguration,
   canUndoLastChange,
   canRedoLastChange,
   undoLastChange,
   redoLastChange,
 } = injectColumnConfiguration();
+
+const userPreferredDatasetSource = useUserSettings().getUserSettingRef(
+  'preferredDatasetSource'
+);
 
 const addColumn = () => {
   // Add a new column at the beginning of the list and switch to edit mode
