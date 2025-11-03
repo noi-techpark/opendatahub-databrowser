@@ -196,9 +196,9 @@ const parseLicenseInfo = (licenseInfo?: {
     return undefined;
   }
   return {
-    author: licenseInfo.Author ?? undefined,
-    license: licenseInfo.License ?? undefined,
-    closedData: licenseInfo.ClosedData ?? undefined,
-    licenseHolder: licenseInfo.LicenseHolder ?? undefined,
+    author: licenseInfo.Author,
+    license: licenseInfo.License,
+    closedData: licenseInfo.ClosedData,
+    licenseHolder: licenseInfo.LicenseHolder,
   };
 };
