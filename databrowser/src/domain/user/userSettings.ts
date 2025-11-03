@@ -15,9 +15,7 @@ const initialSettings: UserSettings = {
   showToolbox: true,
   showMapViewNote: true,
   views: {
-    tableView: {
-      cols: {},
-    },
+    tableView: {},
   },
 };
 

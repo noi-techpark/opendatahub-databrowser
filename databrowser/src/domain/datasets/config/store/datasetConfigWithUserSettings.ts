@@ -60,16 +60,29 @@ const handleTableViewCols = (
   datasetId: string,
   userSettings: DatasetUserSettings
 ) => {
-  const userSettingsTableElements =
-    userSettings.views.value.tableView.cols[datasetId]?.[0]?.elements;
+  // Get the table view configuration for the current dataset from user settings
+  const tableViewForDatasetId = userSettings.views.value.tableView[datasetId];
 
-  if (userSettingsTableElements == null) {
+  // If no user setting exists for this dataset, return the original dataset config
+  if (tableViewForDatasetId == null) {
     return datasetConfig;
   }
 
+  // Get the current active configuration based on the activeConfigId
+  const currentTableViewConfigId = tableViewForDatasetId.activeConfigId;
+  const currentTableViewConfig = tableViewForDatasetId.configs.find(
+    (cfg) => cfg.id === currentTableViewConfigId
+  );
+
+  // If no active configuration is found, return the original dataset config
+  if (currentTableViewConfig == null) {
+    return datasetConfig;
+  }
+
+  // Enhance the dataset config with user-specific table view settings
   const enhancedDatasetConfig = R.assocPath(
     ['views', 'table', 'elements'],
-    userSettingsTableElements,
+    currentTableViewConfig.elements,
     datasetConfig
   );
   enhancedDatasetConfig.source = 'user';

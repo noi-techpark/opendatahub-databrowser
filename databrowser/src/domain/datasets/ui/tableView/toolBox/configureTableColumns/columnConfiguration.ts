@@ -10,7 +10,12 @@ import {
 import { storeToRefs } from 'pinia';
 import * as R from 'ramda';
 import { computed, inject, InjectionKey, provide, ref } from 'vue';
+import { randomId } from '../../../../../../components/utils/random';
 import { useMetaDataStore } from '../../../../../metaDataConfig/tourism/metaDataStore';
+import {
+  UserSettings,
+  UserSettingTableViewConfig,
+} from '../../../../../user/types';
 import { useUserSettings } from '../../../../../user/userSettings';
 import { useDatasetBaseInfoStore } from '../../../../config/store/datasetBaseInfoStore';
 import { PropertyConfig } from '../../../../config/types';
@@ -99,20 +104,67 @@ export const useColumnConfiguration = () => {
 
     // Update the tableView user setting with the new column configuration
     const views = getUserSetting('views');
-    const tableView = R.assocPath(
-      ['cols', datasetId.value],
-      [
-        {
-          id: datasetId.value,
-          title: datasetName.value,
-          elements: columns.value,
-        },
-      ],
-      views.tableView ?? {}
+
+    // Check if there's an existing configuration for the current dataset
+    const activeConfigId =
+      views.tableView[datasetId.value]?.activeConfigId ?? randomId();
+
+    // Find existing configuration by activeConfigId
+    const config = views.tableView[datasetId.value]?.configs.find(
+      (cfg) => cfg.id === activeConfigId
     );
 
-    // Save the updated tableView back to user settings, skipping guards
-    await updateUserSetting('views', { tableView }, { skipGuards: true });
+    // If config exists, update it; otherwise, create a new one
+    if (config != null) {
+      // Update existing configuration
+      const updatedConfig = {
+        ...config,
+        elements: columns.value,
+      };
+
+      const tableView = R.assocPath<
+        UserSettingTableViewConfig,
+        UserSettings['views']['tableView']
+      >(
+        [datasetId.value],
+        {
+          activeConfigId,
+          configs:
+            views.tableView[datasetId.value]?.configs.map((cfg) =>
+              cfg.id === activeConfigId ? updatedConfig : cfg
+            ) ?? [],
+        },
+        views.tableView ?? {}
+      );
+
+      // Save the updated tableView back to user settings, skipping guards
+      await updateUserSetting('views', { tableView }, { skipGuards: true });
+    } else {
+      // Create a new configuration
+      const newConfig = {
+        id: activeConfigId,
+        name: `${datasetName.value} (custom)`,
+        elements: columns.value,
+      };
+
+      const tableView = R.assocPath<
+        UserSettingTableViewConfig,
+        UserSettings['views']['tableView']
+      >(
+        [datasetId.value],
+        {
+          activeConfigId,
+          configs: [
+            ...(views.tableView[datasetId.value]?.configs ?? []),
+            newConfig,
+          ],
+        },
+        views.tableView ?? {}
+      );
+
+      // Save the updated tableView back to user settings, skipping guards
+      await updateUserSetting('views', { tableView }, { skipGuards: true });
+    }
 
     // Clear undo / redo history after saving
     clear();

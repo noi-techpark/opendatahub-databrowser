@@ -2,12 +2,23 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { DatasetConfigSource, PropertyConfig } from '../datasets/config/types';
+import {
+  DatasetConfigSource,
+  DatasetId,
+  PropertyConfig,
+} from '../datasets/config/types';
 
-interface TableViewCol {
-  id: string;
-  title: string;
+type ConfigId = string;
+
+interface TableViewColumnConfig {
+  id: ConfigId;
+  name: string;
   elements: PropertyConfig[];
+}
+
+export interface UserSettingTableViewConfig {
+  activeConfigId: ConfigId;
+  configs: TableViewColumnConfig[];
 }
 
 export interface UserSettings {
@@ -18,9 +29,7 @@ export interface UserSettings {
   showToolbox: boolean;
   showMapViewNote: boolean;
   views: {
-    tableView: {
-      cols: Record<string, TableViewCol[]>;
-    };
+    tableView: Record<DatasetId, UserSettingTableViewConfig>;
   };
 }
 
