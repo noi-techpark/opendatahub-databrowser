@@ -92,12 +92,14 @@ const addColumn = () => {
   // Add a new column at the beginning of the list and switch to edit mode
   columns.value = [
     {
-      title: 'New column',
+      title: t(
+        'datasets.listView.toolBox.columnConfiguration.columnDefaultName'
+      ),
       component: CellComponent.TypeBasedCell,
       objectMapping: {
         data: 'Id',
       },
-      class: 'w-40',
+      style: { widthInPx: 250 },
     },
     ...columns.value,
   ];

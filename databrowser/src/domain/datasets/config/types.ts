@@ -27,6 +27,9 @@ export interface BasePropertyConfig {
   component: string;
   params?: Record<string, string>;
   class?: string;
+  style?: {
+    widthInPx?: number;
+  };
   tooltip?: string;
   required?: boolean;
   deprecationInfo?: DeprecationInfo[];

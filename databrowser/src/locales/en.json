@@ -208,6 +208,7 @@
       "toolBox": {
         "columnConfiguration": {
           "addColumn": "+ Add new",
+          "columnDefaultName": "New column",
           "columnsVisible": "columns visible out of",
           "redo": "Redo",
           "reset": "Reset",
@@ -226,7 +227,8 @@
             "pathToParent": "Path to parent",
             "styling": "Styling",
             "targetPropertyName": "Target property name",
-            "title": "Title"
+            "title": "Title",
+            "widthInPx": "Width in px"
           }
         },
         "searchAndFilter": {

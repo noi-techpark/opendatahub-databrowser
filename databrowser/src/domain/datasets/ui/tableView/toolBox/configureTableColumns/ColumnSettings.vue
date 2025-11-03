@@ -160,6 +160,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div>
           <label>{{
             t(
+              'datasets.listView.toolBox.columnConfiguration.columnSettings.widthInPx'
+            )
+          }}</label>
+          <InputCustom
+            inputClasses="w-full"
+            type="number"
+            :min="0"
+            :model-value="col.style?.widthInPx"
+            @update:model-value="updateWidthInPx"
+          />
+        </div>
+        <div>
+          <label>{{
+            t(
               'datasets.listView.toolBox.columnConfiguration.columnSettings.class'
             )
           }}</label>
@@ -236,6 +250,13 @@ const mappingType = ref<'objectMapping' | 'arrayMapping'>(
 
 const updateTitle = (newTitle: Event) => {
   col.value = { ...col.value, title: stringOrEventToString(newTitle) };
+};
+
+const updateWidthInPx = (newWidth: Event) => {
+  col.value = {
+    ...col.value,
+    style: { ...col.value.style, widthInPx: Number(newWidth) },
+  };
 };
 
 const updateClass = (newClass: Event) => {
