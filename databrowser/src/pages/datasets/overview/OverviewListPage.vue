@@ -666,22 +666,17 @@ const visibleDatasets = computed(() => {
   let datasets = [...metaData.value];
 
   if (filters.value.searchVal) {
-  const searchTerm = filters.value.searchVal.toLowerCase(); // Pre-calculate lowercase search term
-  datasets = datasets.filter((dataset) =>
-    // Check if shortname includes the search term
-    (dataset.shortname
-    .toLowerCase()
-    .includes(searchTerm)
-    ) ||
-    // Check if description exists AND includes the search term
-    (dataset.description &&
-    dataset.description
-      .toLowerCase()
-      .includes(searchTerm)
-    )
-  );
+    const searchTerm = filters.value.searchVal.toLowerCase(); // Pre-calculate lowercase search term
+    datasets = datasets.filter(
+      (dataset) =>
+        // Check if shortname includes the search term
+        dataset.shortname.toLowerCase().includes(searchTerm) ||
+        // Check if description exists AND includes the search term
+        (dataset.description &&
+          dataset.description.toLowerCase().includes(searchTerm))
+    );
   }
-  
+
   // Group filters by key
   const filterGroups: Record<string, (string | boolean)[]> = {};
   for (const filter of Object.values(filters.value.applied)) {

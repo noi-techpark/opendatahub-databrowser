@@ -77,7 +77,7 @@ export const useUpload = (url: Ref<string>) => {
 
       isUploadSuccess.value = true;
       uploadResponse.value = fileUrls;
-      uploadSuccessEventHook.trigger(uploadResponse.value);
+      uploadSuccessEventHook.trigger(...uploadResponse.value);
     } catch (error) {
       isUploadError.value = true;
       const errorMessage = toError(error).message;

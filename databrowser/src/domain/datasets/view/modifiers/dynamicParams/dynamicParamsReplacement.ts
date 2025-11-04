@@ -96,7 +96,7 @@ const applyReplacementsToSingleRecordView = <
   T extends
     | DetailViewConfigWithType
     | NewViewConfigWithType
-    | EditViewConfigWithType
+    | EditViewConfigWithType,
 >(
   view: T,
   stringReplacer: StringReplacer,

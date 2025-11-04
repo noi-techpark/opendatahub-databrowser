@@ -7,7 +7,11 @@ import { useRouteQuery } from '@vueuse/router';
 
 import * as R from 'ramda';
 
-export function useUpdateURL(router: Router, filters: string[] = [], searchQuery: string = '') {
+export function useUpdateURL(
+  router: Router,
+  filters: string[] = [],
+  searchQuery: string = ''
+) {
   const currentQuery = router.currentRoute.value.query;
   const newQuery: { [key: string]: string | LocationQueryValue[] | null } = {
     ...currentQuery,

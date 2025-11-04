@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { DomainWithOpenApiDocument } from '../../openApi/types';
 import { MaybeRef } from 'vue';
+import { DomainWithOpenApiDocument } from '../../openApi/types';
 
 export interface Deprecation {
   pathToDeprecation: string;
@@ -204,6 +204,7 @@ export interface DatasetQuery {
   raw: Record<string, string | null | (string | null)[]>;
   stringified: Record<string, string>;
   default: Record<string, string>;
+  preferred?: Record<string, string>;
 }
 
 export interface DatasetLocation {

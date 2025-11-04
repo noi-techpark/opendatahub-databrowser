@@ -23,11 +23,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import ToolBox from './ToolBox.vue';
+import ToolBox from '../ToolBox.vue';
 import ExportDatasetsToolBoxPanel from './ExportDatasetsToolBoxPanel.vue';
-import SettingsToolBoxPanel from './SettingsToolBoxPanel.vue';
+import SettingsToolBoxPanel from '../SettingsToolBoxPanel.vue';
 import { useI18n } from 'vue-i18n';
-import { ReferenceInfoToolBoxFetchUrlInfo } from './types';
+import { ReferenceInfoToolBoxFetchUrlInfo } from '../types';
 
 const { t } = useI18n();
 

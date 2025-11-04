@@ -49,6 +49,9 @@ export const computeSingleRecordLocations = (
     delete singleRecordQuery['where'];
     delete singleRecordQuery['offset'];
     delete singleRecordQuery['limit'];
+    if (pathSegments.length > 3) {
+      params.pathSegments = pathSegments.slice(0, 3);
+    }
   }
 
   const singleRecordLocation = {

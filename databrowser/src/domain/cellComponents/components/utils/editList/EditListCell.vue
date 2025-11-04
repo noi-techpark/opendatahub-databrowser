@@ -58,13 +58,13 @@ const {
 const editable = computed(() => props.editable === true);
 useProvideEditMode(editable);
 
-onAddItems((items: T[]) => {
+onAddItems((...items: T[]) => {
   const newItems = [...itemsInternal.value, ...(items ?? [])];
   updateItems(newItems);
   setActiveTab(newItems.length - 1);
 });
 
-onDeleteItems((indexes: number[]) => {
+onDeleteItems((...indexes: number[]) => {
   const indexSet = new Set(indexes);
   const remainingItems = itemsInternal.value.filter(
     (item, index) => !indexSet.has(index)
@@ -106,7 +106,7 @@ onUpdateItem(({ index, item }) => {
   updateItems(items);
 });
 
-onUpdateItems((items: T[]) => {
+onUpdateItems((...items: T[]) => {
   emit('update', { prop: 'items', value: items });
 });
 

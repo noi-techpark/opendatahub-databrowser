@@ -32,13 +32,13 @@ To build the projects in the repository, the following prerequisites must be met
 Get a copy of the repository, e.g. by cloning it from the following location:
 
 ```bash
-git clone https://github.com/noi-techpark/it.bz.opendatahub.databrowser
+git clone https://github.com/noi-techpark/opendatahub-databrowser
 ```
 
 Change into the `databrowser` directory:
 
 ```bash
-cd it.bz.opendatahub.databrowser/databrowser
+cd opendatahub-databrowser/databrowser
 ```
 
 Install the dependencies:

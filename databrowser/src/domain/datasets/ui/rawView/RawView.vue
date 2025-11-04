@@ -27,7 +27,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue';
-import ExportDatasetsToolBox from '../toolBox/ExportDatasetsToolBox.vue';
+import ExportDatasetsToolBox from '../toolBox/export/ExportDatasetsToolBox.vue';
 import 'vue-json-pretty/lib/styles.css';
 import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
 import ContentAlignmentX from '../../../../components/content/ContentAlignmentX.vue';

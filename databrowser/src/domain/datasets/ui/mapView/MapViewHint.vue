@@ -16,13 +16,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { useLocalStorage } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import HintCustom from '../../../../components/hint/HintCustom.vue';
+import { useUserSettings } from '../../../user/userSettings';
 
 const { t } = useI18n();
 
-const showMapViewNote = useLocalStorage('showMapViewNote', true);
+const userSettings = useUserSettings();
 
-const hideHint = () => (showMapViewNote.value = false);
+const showMapViewNote =
+  userSettings.getUserSettingRef<boolean>('showMapViewNote');
+
+const hideHint = () => userSettings.updateUserSetting('showMapViewNote', false);
 </script>

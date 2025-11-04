@@ -250,13 +250,13 @@ const editor = useEditor({
     Superscript,
     Link.configure({
       linkOnPaste: true, // auto‑link pasted URLs
-      autolink:    true, // auto‑link written URLs
+      autolink: true, // auto‑link written URLs
       openOnClick: true, // open links on click
       defaultProtocol: 'https',
       HTMLAttributes: {
         target: '_blank',
         rel: 'noopener noreferrer',
-      }
+      },
     }),
   ],
   onUpdate: ({ editor }) => {

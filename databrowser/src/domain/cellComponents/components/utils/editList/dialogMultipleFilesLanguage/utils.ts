@@ -167,7 +167,9 @@ export const toggleAllItemsSelected = (value: boolean) => {
 
 export const setDialogItems = (
   items: {
-    name: string, src: string, data?: unknown
+    name: string;
+    src: string;
+    data?: unknown;
   }[],
   currentLanguage: string | undefined
 ) => {
@@ -206,7 +208,10 @@ export const updateItemsInModalAndSave = () => {
   const itemInModalToSave = getCurrentItemToSave();
   const itemInModalToDelete = getCurrentItemDelete();
 
-  const Documents = currentState.Documents as Record<string, { DocumentURL?: string, DocumentName?: string, Language?: string }[]>;
+  const Documents = currentState.Documents as Record<
+    string,
+    { DocumentURL?: string; DocumentName?: string; Language?: string }[]
+  >;
 
   for (const documentInModal of itemInModalToDelete.data) {
     const keyLangDocuments = documentInModal.language as keyof typeof Documents;
@@ -254,7 +259,10 @@ export const addItemsInModalAndSave = () => {
   const dialogStore = useDialogStore();
   const items = dialogStore.items;
 
-  const Documents = currentState.Documents as Record<string, { DocumentURL?: string, DocumentName?: string, Language?: string }[]>;;
+  const Documents = currentState.Documents as Record<
+    string,
+    { DocumentURL?: string; DocumentName?: string; Language?: string }[]
+  >;
 
   for (const item of items) {
     for (const itemData of item.data.filter((v) => v.available)) {

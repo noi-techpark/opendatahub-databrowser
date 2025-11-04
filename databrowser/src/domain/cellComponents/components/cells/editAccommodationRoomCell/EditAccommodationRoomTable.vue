@@ -26,7 +26,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
     <template #noItems>No room info has been defined yet</template>
     <template #addItems>
-      <EditListAddButton :text="'Add new room info data'" @click="addItem({})" />
+      <EditListAddButton
+        :text="'Add new room info data'"
+        @click="addItem({})"
+      />
     </template>
   </EditListTable>
 </template>

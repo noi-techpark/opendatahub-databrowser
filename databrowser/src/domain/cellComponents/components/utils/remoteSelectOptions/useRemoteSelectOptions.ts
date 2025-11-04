@@ -40,7 +40,7 @@ export const withSelectors = (
 
 export const useRemoteSelectOptionsWithMapper = <
   T extends SelectOption = SelectOption,
-  D = unknown
+  D = unknown,
 >(
   url: MaybeRef<string | undefined>,
   sortByLabel: MaybeRef<string | boolean | undefined>,

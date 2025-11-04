@@ -147,7 +147,7 @@ watch(files, (filesFromFileDialog) => {
   uploadFiles(filesToUpload);
 });
 
-onUploadSuccess((urls: string[]) =>
+onUploadSuccess((...urls: string[]) =>
   emit('uploadSuccess', urls, fileNames.value)
 );
 

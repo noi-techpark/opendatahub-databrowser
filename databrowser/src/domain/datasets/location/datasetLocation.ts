@@ -36,6 +36,7 @@ interface ComputeDatasetLocationParams {
   routePath: RoutePath;
   routeId: RouteId;
   routeQuery: RouteQuery;
+  preferredLanguage?: string;
 }
 
 export const computeDatasetLocation = ({
@@ -45,6 +46,7 @@ export const computeDatasetLocation = ({
   routePath,
   routeId,
   routeQuery,
+  preferredLanguage,
 }: ComputeDatasetLocationParams): ComputeDatasetLocation => {
   if (datasetConfig == null || viewKey == null) {
     return {
@@ -58,9 +60,13 @@ export const computeDatasetLocation = ({
 
   const datasetDomain = computeDatasetDomain(routeDomain);
 
+  const preferredValues: Record<string, string> | undefined =
+    preferredLanguage != null ? { language: preferredLanguage } : undefined;
+
   const datasetQuery = computeDatasetQuery(
     routeQuery,
-    datasetConfig.views?.[viewKey]?.defaultQueryParams
+    datasetConfig.views?.[viewKey]?.defaultQueryParams,
+    preferredValues
   );
 
   const fullPath = computeApiFullUrl(
@@ -89,6 +95,7 @@ export const useComputeDatasetLocation = (
     const routePath = toValue(params.routePath);
     const routeId = toValue(params.routeId);
     const routeQuery = toValue(params.routeQuery);
+    const preferredLanguage = toValue(params.preferredLanguage);
 
     return computeDatasetLocation({
       datasetConfig,
@@ -97,6 +104,7 @@ export const useComputeDatasetLocation = (
       routePath,
       routeId,
       routeQuery,
+      preferredLanguage,
     });
   });
 
@@ -116,10 +124,11 @@ const computeDatasetDomain = (
 
 const computeDatasetQuery = (
   routeQuery: RouteQuery,
-  defaultValues: Record<string, string> | undefined
+  defaultValues: Record<string, string> | undefined,
+  preferredValues?: Record<string, string> | undefined
 ): DatasetQuery => {
   const def = defaultValues ?? {};
-  const raw = { ...def, ...routeQuery };
+  const raw = { ...def, ...preferredValues, ...routeQuery };
   // The array serialization depends on the current dataset domain and
   // should be configurable in the future
   const stringified = stringifyRouteQuery(raw);
@@ -128,5 +137,6 @@ const computeDatasetQuery = (
     raw,
     stringified,
     default: def,
+    preferred: preferredValues,
   };
 };
