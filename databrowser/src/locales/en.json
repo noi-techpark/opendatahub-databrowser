@@ -379,6 +379,9 @@
       "labelButton": "Search",
       "labelPlaceholder": "Insert search value ..."
     },
+    "inputSuggest": {
+      "notFound": "No results found"
+    },
     "downloadMenu": {
       "title": "{countActive} export in progress",
       "subtitle": "{countCompleted} completed, {countFailed} failed"
