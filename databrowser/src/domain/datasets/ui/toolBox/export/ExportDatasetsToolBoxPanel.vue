@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <ToolBoxSectionLabel>{{
       t('datasets.toolBox.exportDatasets.sectionRetrieveData')
     }}</ToolBoxSectionLabel>
-    <ToolBoxCard v-if="hasUrl">
+    <ToolBoxCard v-if="url != null">
       <ToolBoxCardHeader>
         {{ t('datasets.toolBox.exportDatasets.apiDatasets.header') }}
         <ToolBoxCardHeaderButton
@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       }}</ToolBoxCardBody>
     </ToolBoxCard>
 
-    <DownloadCard v-if="hasUrl" :url="url"></DownloadCard>
+    <DownloadCard v-if="url != null" :url="url"></DownloadCard>
 
     <ToolBoxSectionLabel v-if="!!referencesUrls">{{
       t('datasets.toolBox.exportDatasets.sectionReferencesData')
@@ -105,7 +105,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { useClipboard } from '@vueuse/core';
-import { computed, ref, toRefs, watch } from 'vue';
+import { ref, toRefs, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ArrowLine from '../../../../../components/svg/ArrowLine.vue';
 import IconCheck from '../../../../../components/svg/IconCheck.vue';
@@ -135,8 +135,6 @@ const { url, referencesUrls } = toRefs(props);
 
 const referenceUrlToCopy = ref('');
 const referencesUrlsAccordions = ref<Record<string, boolean>>({});
-
-const hasUrl = computed(() => url.value != null);
 
 const { copy: copyUrl, copied: copiedUrl } = useClipboard({
   source: url.value,
