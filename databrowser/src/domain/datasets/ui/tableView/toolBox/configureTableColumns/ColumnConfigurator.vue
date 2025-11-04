@@ -74,10 +74,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import {
+  NavigationGuard,
+  onBeforeRouteLeave,
+  onBeforeRouteUpdate,
+  RouteLocationNormalized,
+  RouteLocationNormalizedLoaded,
+} from 'vue-router';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Size } from '../../../../../../components/button/types';
+import { useMetaDataForAllDatasets } from '../../../../../../pages/datasets/overview/useDatasets';
 import { CellComponent } from '../../../../../cellComponents/types';
+import { findMetaDataForPathAndQuery } from '../../../../../metaDataConfig/tourism/useMetaData';
 import { useUserSettings } from '../../../../../user/userSettings';
+import { computeRoutePath } from '../../../../location/routePath';
+import { stringifyRouteQuery } from '../../../../location/stringifyQuery';
 import { injectColumnConfiguration } from './columnConfiguration';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
@@ -123,4 +134,31 @@ const addColumn = () => {
   mode.value = 'column';
   applyChangesWithCheckpoint();
 };
+
+const { metaData } = useMetaDataForAllDatasets();
+
+const columnConfiguratorGuard: NavigationGuard = async (
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalizedLoaded
+) => {
+  // Find metadata for from and to route
+  const toMetaData = findMetaDataForPathAndQuery(
+    metaData.value,
+    computeRoutePath(to),
+    stringifyRouteQuery(to.query)
+  );
+  const fromMetaData = findMetaDataForPathAndQuery(
+    metaData.value,
+    computeRoutePath(from),
+    stringifyRouteQuery(from.query)
+  );
+
+  // If we stay in the same dataset's table view, just navigate
+  if (toMetaData?.id !== fromMetaData?.id) {
+    mode.value = 'tableColumns';
+  }
+};
+
+onBeforeRouteLeave(columnConfiguratorGuard);
+onBeforeRouteUpdate(columnConfiguratorGuard);
 </script>

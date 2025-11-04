@@ -118,6 +118,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <KeyValueEdit
           class="px-3"
           :availableKeys="availableComponentKeys"
+          :type="'objectMapping'"
           :data="col.objectMapping"
           :addKeyLabel="
             t(
@@ -139,6 +140,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <KeyValueEdit
           class="px-3"
           :availableKeys="availableComponentKeys"
+          :type="'params'"
           :data="col.params"
           :addKeyLabel="
             t(

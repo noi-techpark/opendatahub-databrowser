@@ -30,11 +30,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
           <InputCustom
             :model-value="value"
+            :suggestions="suggestions"
             class="basis-1/2"
             inputClasses="w-full"
             placeholder="Value"
             @update:model-value="
-              emit('update:data', { key, newKey: key, value: $event })
+              emit('update:data', { key, newKey: key, value: $event });
+              checkAutocomplete($event);
             "
           />
         </div>
@@ -50,11 +52,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import InputCustom from '../../../../../../components/input/InputCustom.vue';
+import IconDelete from '../../../../../../components/svg/IconDelete.vue';
+import { useMetaDataStore } from '../../../../../metaDataConfig/tourism/metaDataStore';
+import { useOpenApi } from '../../../../../openApi';
+import { AutocompleteGenerator } from '../../../../../openApi/autocomplete/openapi-autocomplete-generator';
 import KeySelector from './KeySelector.vue';
 
-import IconDelete from '../../../../../../components/svg/IconDelete.vue';
 export interface KeyValueEditData {
   key: string;
   newKey: string | Event;
@@ -70,6 +75,7 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     availableKeys: string[];
+    type: 'objectMapping' | 'params';
     data?: Record<string, string>;
     addKeyLabel?: string;
   }>(),
@@ -82,4 +88,29 @@ const props = withDefaults(
 const availableComponentKeys = computed<string[]>(() => {
   return props.availableKeys.filter((key) => props.data?.[key] == null);
 });
+
+const path = `/${useMetaDataStore().currentMetaData?.pathSegments.join('/')}/{id}`;
+console.log('Current path for autocomplete:', path);
+
+let generator: AutocompleteGenerator | null = null;
+useOpenApi()
+  .loadDocument('tourism')
+  .then((openApiSpec) => {
+    generator = new AutocompleteGenerator(openApiSpec, path);
+  });
+
+const suggestions = ref<string[]>();
+
+const checkAutocomplete = (input: string) => {
+  if (props.type !== 'objectMapping') {
+    return;
+  }
+
+  if (!generator) {
+    console.error('Autocomplete generator is not initialized');
+    return;
+  }
+
+  suggestions.value = generator.generateSuggestions(input, 100);
+};
 </script>
