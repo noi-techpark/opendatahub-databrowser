@@ -18,27 +18,38 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       "
       @update:model-value="change"
     />
-    <StringCell
+    <div
       v-else-if="isWriteable && isAddNewValue && showAddNewValue"
-      v-model="newItemValue"
-      focus
-      :editable="editable"
-      :deletable="true"
-      @update="onUpdate($event.value)"
-    />
+      class="flex items-center gap-2"
+    >
+      <StringCell
+        v-model="newItemValue"
+        focus
+        class="w-full"
+        :editable="editable"
+        :deletable="true"
+        @update="onUpdate($event.value)"
+      />
+      <button
+        class="rounded p-1 text-delete disabled:opacity-50"
+        @click="abort"
+      >
+        <IconDelete />
+      </button>
+    </div>
   </div>
   <span v-else>{{ value }}</span>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, toRefs, useAttrs, watch } from 'vue';
-import { useEventDelete } from '../../../../../components/input/utils';
 import SelectCustom from '../../../../../components/select/SelectCustom.vue';
 import {
   SelectOption,
   SelectValue,
 } from '../../../../../components/select/types';
 import { selectAddNewValue } from '../../../../../components/select/utils';
+import IconDelete from '../../../../../components/svg/IconDelete.vue';
 import { useEditStore } from '../../../../datasets/ui/editView/store/editStore';
 import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 import {
@@ -112,12 +123,10 @@ const isAddNewValue = ref(false);
 const newItemValue = ref('');
 const originalValue = ref(value.value);
 
-useEventDelete.on((eventValue: boolean) => {
-  if (eventValue) {
-    change(originalValue.value as string);
-    isAddNewValue.value = false;
-  }
-});
+const abort = () => {
+  change(originalValue.value as string);
+  isAddNewValue.value = false;
+};
 
 watch(
   () => editStore.isEqual,
