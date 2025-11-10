@@ -28,15 +28,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             disabled
           />
 
-          <InputCustom
+          <InputSuggest
             :model-value="value"
             :suggestions="suggestions"
             class="basis-1/2"
+            deletable
             inputClasses="w-full"
             placeholder="Value"
             @update:model-value="
-              emit('update:data', { key, newKey: key, value: $event });
-              checkAutocomplete($event);
+              emit('update:data', { key, newKey: key, value: String($event) });
+              checkAutocomplete(String($event));
             "
           />
         </div>
@@ -54,6 +55,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import InputCustom from '../../../../../../components/input/InputCustom.vue';
+import InputSuggest from '../../../../../../components/input/InputSuggest.vue';
 import IconDelete from '../../../../../../components/svg/IconDelete.vue';
 import { useMetaDataStore } from '../../../../../metaDataConfig/tourism/metaDataStore';
 import { useOpenApi } from '../../../../../openApi';

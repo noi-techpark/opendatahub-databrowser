@@ -5,11 +5,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div>
+  <div class="flex h-full flex-col overflow-y-auto">
     <ButtonCustom
       variant="ghost"
       size="xs"
-      class="mr-2 flex h-6 items-center bg-white px-3 py-1 md:mr-9"
+      class="mr-2 flex h-6 w-fit items-center bg-white px-3 py-1 md:mr-9"
       @click="emit('back')"
     >
       <IconStrokedArrowDown
@@ -20,7 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       }}</span>
     </ButtonCustom>
 
-    <div class="flex flex-col gap-6 divide-y divide-gray-250">
+    <div class="flex flex-col gap-6 divide-y divide-gray-250 px-1">
       <div class="flex flex-col gap-4 pt-4">
         <div class="flex flex-col">
           <label>{{

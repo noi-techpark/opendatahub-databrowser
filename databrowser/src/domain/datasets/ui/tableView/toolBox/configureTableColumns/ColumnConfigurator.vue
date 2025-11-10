@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div>
+  <div class="flex h-full flex-col">
     <ColumnsList
       v-if="mode === 'tableColumns'"
       v-model:columns="columns"

@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <ToolBoxPanel>
-    <ToolBoxCard>
+    <ToolBoxCard class="min-h-[28rem]">
       <ToolBoxCardBody>
         <ColumnConfigurator />
       </ToolBoxCardBody>

@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div>
+  <div class="flex h-full flex-col overflow-y-auto">
     <InputSearch
       id="search-columns"
       v-model="searchTerm"
@@ -26,7 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         {{ t('datasets.listView.toolBox.columnConfiguration.addColumn') }}
       </ButtonCustom>
     </div>
-    <ul>
+    <ul class="h-full max-h-fit overflow-y-auto px-1">
       <VueDraggableNext
         v-model="columns"
         handle=".handle"
@@ -72,8 +72,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
             <button :disabled="searchResults.length !== columns.length">
               <IconDragAndDrop
-                class=" text-hint-info"
-                :class="[searchResults.length !== columns.length ? 'opacity-50': 'handle']"
+                class="text-hint-info"
+                :class="[
+                  searchResults.length !== columns.length
+                    ? 'opacity-50'
+                    : 'handle',
+                ]"
               />
             </button>
           </div>
