@@ -30,7 +30,7 @@ export class AutocompleteGenerator {
       (match) => match[0]
     );
 
-    const cleanInput = this.cleanInput(input).replaceAll(/\.\d+/g, '.*');
+    const cleanInput = this.cleanInput(input).replaceAll(/\.\d+/g, '.0');
 
     if (cleanInput.length === 0) {
       // Return top-level paths when no input
@@ -46,7 +46,7 @@ export class AutocompleteGenerator {
     const finalPaths = limitedPaths.map((path) => {
       let modifiedPath = path;
       pathVariables.forEach((variable) => {
-        modifiedPath = modifiedPath.replace('.*', variable);
+        modifiedPath = modifiedPath.replace('.0', variable);
       });
 
       return modifiedPath.replaceAll(/\.{2,}/g, '.');

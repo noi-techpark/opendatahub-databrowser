@@ -226,12 +226,12 @@ export class OpenAPIParser {
     // Add the current array path
     if (currentPath) {
       paths.push(currentPath);
-      paths.push(`${currentPath}.*`); // Array notation
+      paths.push(`${currentPath}.0`); // Array notation
     }
 
     // Process array items
     if (schema.items) {
-      const itemPath = currentPath ? `${currentPath}.*` : '.*';
+      const itemPath = currentPath ? `${currentPath}.0` : '.0';
       paths.push(
         ...this.extractPathsFromSchema(schema.items, itemPath, depth + 1)
       );
