@@ -20,7 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       @update:model-value="text = $event"
       v-slot="{ open }"
     >
-      <div class="relative">
+      <div class="relative w-full">
         <ComboboxInput
           :id="id"
           ref="inputRef"

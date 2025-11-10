@@ -6,19 +6,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="flex h-full flex-col overflow-y-auto">
-    <ButtonCustom
-      variant="ghost"
-      size="xs"
-      class="mr-2 flex h-6 w-fit items-center bg-white px-3 py-1 md:mr-9"
-      @click="emit('back')"
-    >
-      <IconStrokedArrowDown
-        class="-ml-1 mr-1 size-5 rotate-90 stroke-current"
-      />
-      <span class="line-height-1">{{
-        t('datasets.listView.toolBox.columnConfiguration.columnSettings.back')
-      }}</span>
-    </ButtonCustom>
+    <div class="flex items-center justify-between">
+      <ButtonCustom
+        variant="ghost"
+        size="xs"
+        class="mr-2 flex h-6 w-fit items-center bg-white px-3 py-1 md:mr-9"
+        @click="emit('back')"
+      >
+        <IconStrokedArrowDown
+          class="-ml-1 mr-1 size-5 rotate-90 stroke-current"
+        />
+        <span class="line-height-1">{{
+          t('datasets.listView.toolBox.columnConfiguration.columnSettings.back')
+        }}</span>
+      </ButtonCustom>
+      <span class="mr-2 text-dialog"># {{ colIndex }}</span>
+    </div>
 
     <div class="flex flex-col gap-6 divide-y divide-gray-250 px-1">
       <div class="flex flex-col gap-4 pt-4">
@@ -30,6 +33,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           }}</label>
           <InputCustom
             inputClasses="w-full"
+            placeholder="Title"
             :model-value="col.title"
             @update:model-value="updateTitle"
           />
@@ -81,11 +85,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               'datasets.listView.toolBox.columnConfiguration.columnSettings.targetPropertyName'
             )
           }}</label>
-          <InputCustom
-            inputClasses="w-full"
+          <SelectCustom
             :model-value="col.arrayMapping?.targetPropertyName"
+            :options="
+              availableComponentKeys.map((key) => ({
+                label: key,
+                value: key,
+              }))
+            "
             @update:model-value="
-              updateArrayMapping($event, col.arrayMapping?.pathToParent || '')
+              updateArrayMapping(
+                String($event),
+                col.arrayMapping?.pathToParent || ''
+              )
             "
           />
         </div>
@@ -96,14 +108,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               'datasets.listView.toolBox.columnConfiguration.columnSettings.pathToParent'
             )
           }}</label>
-          <InputCustom
-            inputClasses="w-full"
+          <InputSuggest
             :model-value="col.arrayMapping?.pathToParent"
+            :suggestions="suggestions"
+            deletable
+            inputClasses="w-full"
+            placeholder="Value"
             @update:model-value="
               updateArrayMapping(
                 col.arrayMapping?.targetPropertyName || '',
-                $event
-              )
+                String($event)
+              );
+              checkAutocomplete(String($event));
             "
           />
         </div>
@@ -117,15 +133,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         }}</label>
         <KeyValueEdit
           class="px-3"
-          :availableKeys="availableComponentKeys"
+          :availableKeys="
+            mappingType === 'objectMapping' ? availableComponentKeys : []
+          "
           :type="'objectMapping'"
-          :data="col.objectMapping"
+          :data="
+            col.objectMapping != null
+              ? col.objectMapping
+              : col.arrayMapping?.objectMapping
+          "
           :addKeyLabel="
             t(
               'datasets.listView.toolBox.columnConfiguration.columnSettings.addObjectMapping'
             )
           "
-          @update:data="updateData('objectMapping', $event)"
+          @update:data="debouncedUpdateData('objectMapping', $event)"
           @add:key="addKey('objectMapping', $event)"
           @delete:key="deleteKey('objectMapping', $event)"
         />
@@ -147,7 +169,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               'datasets.listView.toolBox.columnConfiguration.columnSettings.addParams'
             )
           "
-          @update:data="updateData('params', $event)"
+          @update:data="debouncedUpdateData('params', $event)"
           @add:key="addKey('params', $event)"
           @delete:key="deleteKey('params', $event)"
         />
@@ -191,14 +213,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
+import { useDebounceFn } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import InputCustom from '../../../../../../components/input/InputCustom.vue';
+import InputSuggest from '../../../../../../components/input/InputSuggest.vue';
 import SelectCustom from '../../../../../../components/select/SelectCustom.vue';
 import { SelectOption } from '../../../../../../components/select/types';
 import IconStrokedArrowDown from '../../../../../../components/svg/IconStrokedArrowDown.vue';
 import { registeredComponents } from '../../../../../cellComponents/plugins/registerCellComponents';
+import { useMetaDataStore } from '../../../../../metaDataConfig/tourism/metaDataStore';
+import { useOpenApi } from '../../../../../openApi';
+import { AutocompleteGenerator } from '../../../../../openApi/autocomplete/openapi-autocomplete-generator';
 import { ArrayMapping, PropertyConfig } from '../../../../config/types';
 import KeyValueEdit, { KeyValueEditData } from './KeyValueEdit.vue';
 
@@ -207,6 +234,8 @@ const { t } = useI18n();
 const emit = defineEmits<{ (e: 'back'): void }>();
 
 const col = defineModel<PropertyConfig>('col', { required: true });
+
+defineProps<{ colIndex: number }>();
 
 const componentSelectOptions: SelectOption[] = registeredComponents.map(
   ([name]) => ({ label: name, value: name })
@@ -296,6 +325,8 @@ const updateData = (
   col.value = newCol;
 };
 
+const debouncedUpdateData = useDebounceFn(updateData, 300);
+
 const addKey = (from: 'objectMapping' | 'params', key: string) => {
   const newCol: PropertyConfig = { ...col.value };
   newCol[from] = { ...newCol[from], [key]: '' };
@@ -315,5 +346,26 @@ const stringOrEventToString = (input: string | Event) => {
   return typeof input === 'string'
     ? input
     : (input.target as HTMLInputElement).value;
+};
+
+const path = `/${useMetaDataStore().currentMetaData?.pathSegments.join('/')}/{id}`;
+console.log('Current path for autocomplete:', path);
+
+let generator: AutocompleteGenerator | null = null;
+useOpenApi()
+  .loadDocument('tourism')
+  .then((openApiSpec) => {
+    generator = new AutocompleteGenerator(openApiSpec, path);
+  });
+
+const suggestions = ref<string[]>();
+
+const checkAutocomplete = (input: string) => {
+  if (!generator) {
+    console.error('Autocomplete generator is not initialized');
+    return;
+  }
+
+  suggestions.value = generator.generateSuggestions(input, 100);
 };
 </script>

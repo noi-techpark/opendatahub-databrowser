@@ -12,39 +12,45 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       @add:column="addColumn"
       @edit:column="
         editColIndex = $event;
-        mode = 'column';
+        mode = 'columnSettings';
       "
       @update:cols="applyChangesWithCheckpoint"
     />
 
     <ColumnSettings
-      v-if="mode === 'column'"
+      v-if="mode === 'columnSettings'"
       v-model:col="columns[editColIndex!]"
+      :colIndex="editColIndex! + 1"
       @update:col="applyChangesWithCheckpoint"
       @back="mode = 'tableColumns'"
     />
 
     <div class="mt-4 flex flex-wrap gap-1 sm:gap-2">
       <ButtonCustom
+        class="flex items-center gap-2"
         :disabled="!canUndoLastChange"
         :size="Size.sm"
         @click="saveChanges"
       >
+        <IconCheckCircle class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.save') }}
       </ButtonCustom>
-
       <ButtonCustom
+        class="flex items-center gap-2"
         :disabled="!canUndoLastChange"
         :size="Size.sm"
         @click="undoLastChange"
       >
+        <IconEditorUndo class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.undo') }}
       </ButtonCustom>
       <ButtonCustom
+        class="flex items-center gap-2"
         :disabled="!canRedoLastChange"
         :size="Size.sm"
         @click="redoLastChange()"
       >
+        <IconEditorRedo class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.redo') }}
       </ButtonCustom>
       <ButtonCustom
@@ -57,7 +63,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       >
         {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
       </ButtonCustom>
+    </div>
+    <div class="mt-4 flex flex-wrap gap-1 sm:gap-2">
       <ButtonCustom
+        class="flex items-center gap-2"
         :disabled="userPreferredDatasetSource != 'user'"
         :size="Size.sm"
         @click="
@@ -65,7 +74,31 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           mode = 'tableColumns';
         "
       >
+        <IconDelete class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.deleteConfig') }}
+      </ButtonCustom>
+
+      <ButtonCustom
+        class="flex items-center gap-2"
+        :size="Size.sm"
+        @click="
+          exportConfiguration();
+          mode = 'tableColumns';
+        "
+      >
+        <IconDownload class="size-5" />
+        {{ t('datasets.listView.toolBox.columnConfiguration.exportConfig') }}
+      </ButtonCustom>
+      <ButtonCustom
+        class="flex items-center gap-2"
+        :size="Size.sm"
+        @click="
+          importConfiguration();
+          mode = 'tableColumns';
+        "
+      >
+        <IconImport class="size-5" />
+        {{ t('datasets.listView.toolBox.columnConfiguration.importConfig') }}
       </ButtonCustom>
     </div>
   </div>
@@ -74,28 +107,26 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import {
-  NavigationGuard,
-  onBeforeRouteLeave,
-  onBeforeRouteUpdate,
-  RouteLocationNormalized,
-  RouteLocationNormalizedLoaded,
-} from 'vue-router';
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Size } from '../../../../../../components/button/types';
-import { useMetaDataForAllDatasets } from '../../../../../../pages/datasets/overview/useDatasets';
+import IconEditorRedo from '../../../../../../components/html/icons/IconEditorRedo.vue';
+import IconEditorUndo from '../../../../../../components/html/icons/IconEditorUndo.vue';
+import IconCheckCircle from '../../../../../../components/svg/IconCheckCircle.vue';
+import IconDelete from '../../../../../../components/svg/IconDelete.vue';
+import IconDownload from '../../../../../../components/svg/IconDownload.vue';
+import IconImport from '../../../../../../components/svg/IconImport.vue';
 import { CellComponent } from '../../../../../cellComponents/types';
-import { findMetaDataForPathAndQuery } from '../../../../../metaDataConfig/tourism/useMetaData';
 import { useUserSettings } from '../../../../../user/userSettings';
-import { computeRoutePath } from '../../../../location/routePath';
-import { stringifyRouteQuery } from '../../../../location/stringifyQuery';
 import { injectColumnConfiguration } from './columnConfiguration';
+import { useColumnConfigurationDatasetChangeGuard } from './columnConfigurationDatasetChangeGuard';
+import { useColumnConfigurationImportExport } from './columnConfigurationImportExport';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
 
 const { t } = useI18n();
 
-const mode = ref<'tableColumns' | 'column'>('tableColumns');
+const mode = ref<'tableColumns' | 'columnSettings'>('tableColumns');
 
 const editColIndex = ref<number | null>(null);
 
@@ -131,34 +162,17 @@ const addColumn = () => {
     ...columns.value,
   ];
   editColIndex.value = 0;
-  mode.value = 'column';
+  mode.value = 'columnSettings';
   applyChangesWithCheckpoint();
 };
 
-const { metaData } = useMetaDataForAllDatasets();
+// Handle import/export of column configuration
+const { exportConfiguration, importConfiguration } =
+  useColumnConfigurationImportExport(columns, applyChangesWithCheckpoint);
 
-const columnConfiguratorGuard: NavigationGuard = async (
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalizedLoaded
-) => {
-  // Find metadata for from and to route
-  const toMetaData = findMetaDataForPathAndQuery(
-    metaData.value,
-    computeRoutePath(to),
-    stringifyRouteQuery(to.query)
-  );
-  const fromMetaData = findMetaDataForPathAndQuery(
-    metaData.value,
-    computeRoutePath(from),
-    stringifyRouteQuery(from.query)
-  );
-
-  // If we stay in the same dataset's table view, just navigate
-  if (toMetaData?.id !== fromMetaData?.id) {
-    mode.value = 'tableColumns';
-  }
-};
-
-onBeforeRouteLeave(columnConfiguratorGuard);
-onBeforeRouteUpdate(columnConfiguratorGuard);
+// Add route guards to reset component mode on navigation if the dataset changes
+// This prevents being stuck in column settings mode for a different dataset
+const { datasetChangeGuard } = useColumnConfigurationDatasetChangeGuard(mode);
+onBeforeRouteLeave(datasetChangeGuard);
+onBeforeRouteUpdate(datasetChangeGuard);
 </script>

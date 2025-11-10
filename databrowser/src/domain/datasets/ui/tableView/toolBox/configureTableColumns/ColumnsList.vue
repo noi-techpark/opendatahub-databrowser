@@ -45,6 +45,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               :label="column.title"
               @update:model-value="setColumnHidden(column, !$event)"
             ></CheckboxCustom>
+            <span class="text-dialog"># {{ index + 1 }}</span>
             <div
               v-if="showDeprecatedInfo(column)"
               class="size-2 rounded-full bg-deprecated"

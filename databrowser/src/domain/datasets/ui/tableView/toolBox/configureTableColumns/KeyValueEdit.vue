@@ -22,10 +22,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div class="flex gap-3">
           <InputCustom
             :model-value="key"
+            :disabled="availableComponentKeys.length > 0"
             class="basis-1/2"
             inputClasses="w-full"
             placeholder="Key"
-            disabled
+            @update:modelValue="
+              emit('update:data', {
+                key,
+                newKey: String($event),
+                value,
+              })
+            "
           />
 
           <InputSuggest
@@ -44,16 +51,27 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </li>
     </ul>
     <KeySelector
+      v-if="availableComponentKeys.length > 0"
       :keys="availableComponentKeys"
       :buttonText="addKeyLabel"
       class="mt-8"
       @select-key="emit('add:key', $event)"
     />
+    <ButtonCustom
+      v-else
+      class="mt-8"
+      :size="Size.sm"
+      @click="emit('add:key', '')"
+    >
+      {{ addKeyLabel }}
+    </ButtonCustom>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
+import { Size } from '../../../../../../components/button/types';
 import InputCustom from '../../../../../../components/input/InputCustom.vue';
 import InputSuggest from '../../../../../../components/input/InputSuggest.vue';
 import IconDelete from '../../../../../../components/svg/IconDelete.vue';

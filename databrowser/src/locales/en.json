@@ -211,6 +211,8 @@
           "columnDefaultName": "New column",
           "columnsVisible": "columns visible out of",
           "deleteConfig": "Delete configuration",
+          "exportConfig": "Export configuration",
+          "importConfig": "Import configuration",
           "redo": "Redo",
           "reset": "Reset",
           "save": "Save",
