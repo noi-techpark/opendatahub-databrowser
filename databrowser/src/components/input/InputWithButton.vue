@@ -38,7 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
     <div class="flex items-center gap-2">
       <button
-        class="p-[3px] text-green-500"
+        class="rounded p-1 text-green-500"
         :class="{ hidden: !hasText }"
         :data-test="`${id}-reset-search`"
         :disabled="!hasText || disabled"
@@ -70,8 +70,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { computed, onMounted, ref, useSlots, watch } from 'vue';
 import ButtonCustom from '../button/ButtonCustom.vue';
 import { Size } from '../button/types';
-import { randomId } from '../utils/random';
 import IconClose from '../svg/IconClose.vue';
+import { randomId } from '../utils/random';
 
 const emit = defineEmits(['confirmedValue', 'update:modelValue']);
 
