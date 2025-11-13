@@ -69,10 +69,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex items-center gap-2"
         :disabled="userPreferredDatasetSource != 'user'"
         :size="Size.sm"
-        @click="
-          deleteActiveConfiguration();
-          mode = 'tableColumns';
-        "
+        @click="showDeleteConfirmationDialog = true"
       >
         <IconDelete class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.deleteConfig') }}
@@ -101,6 +98,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         {{ t('datasets.listView.toolBox.columnConfiguration.importConfig') }}
       </ButtonCustom>
     </div>
+
+    <ColumnConfigurationDeleteDialog
+      v-if="showDeleteConfirmationDialog"
+      :config-title="activeConfigName"
+      @deleteConfirmed="
+        deleteActiveConfiguration();
+        showDeleteConfirmationDialog = false;
+        mode = 'tableColumns';
+      "
+      @deleteCancelled="showDeleteConfirmationDialog = false"
+    />
   </div>
 </template>
 
@@ -120,6 +128,7 @@ import { CellComponent } from '../../../../../cellComponents/types';
 import { useUserSettings } from '../../../../../user/userSettings';
 import { injectColumnConfiguration } from './columnConfiguration';
 import { useColumnConfigurationDatasetChangeGuard } from './columnConfigurationDatasetChangeGuard';
+import ColumnConfigurationDeleteDialog from './ColumnConfigurationDeleteDialog.vue';
 import { useColumnConfigurationImportExport } from './columnConfigurationImportExport';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
@@ -132,6 +141,7 @@ const editColIndex = ref<number | null>(null);
 
 const {
   columns,
+  activeConfigName,
   applyChangesWithCheckpoint,
   discardChanges,
   saveChanges,
@@ -165,6 +175,8 @@ const addColumn = () => {
   mode.value = 'columnSettings';
   applyChangesWithCheckpoint();
 };
+
+const showDeleteConfirmationDialog = ref(false);
 
 // Handle import/export of column configuration
 const { exportConfiguration, importConfiguration } =

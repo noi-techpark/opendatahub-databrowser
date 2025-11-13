@@ -256,7 +256,6 @@ export const useColumnConfiguration = () => {
       return;
     }
 
-    // Remove the tableView configuration for the current dataset from user settings
     const views = getUserSetting('views');
 
     // Check if there's an existing configuration for the current dataset
@@ -329,6 +328,24 @@ export const useColumnConfiguration = () => {
     }
   };
 
+  const defaultConfigName = 'no name';
+  const activeConfigName = computed<string>(() => {
+    if (datasetId.value == null) {
+      return defaultConfigName;
+    }
+
+    const views = getUserSetting('views');
+
+    const activeConfigId =
+      views.tableView[datasetId.value]?.activeConfigId ?? null;
+
+    const config = views.tableView[datasetId.value]?.configs.find(
+      (cfg) => cfg.id === activeConfigId
+    );
+
+    return config?.name ?? defaultConfigName;
+  });
+
   const undoLastChange = () => {
     undo();
     applyChangesWithoutCheckpoint();
@@ -345,6 +362,7 @@ export const useColumnConfiguration = () => {
     datasetId,
     datasetName,
     isSaveSuccess,
+    activeConfigName,
     applyChangesWithCheckpoint,
     saveChanges,
     discardChanges,
