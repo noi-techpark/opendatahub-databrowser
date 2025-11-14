@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div
     v-if="title != null || hasContent"
-    class="flex gap-8 px-4 py-2"
+    class="relative flex gap-8 px-4 py-2"
     :class="classNames.background"
   >
     <div
@@ -24,13 +24,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <slot></slot>
       </div>
     </div>
+    <button
+      v-if="hasCloseButton"
+      class="absolute right-2 top-2 rounded"
+      :class="classNames.text"
+    >
+      <IconClose class="size-6" @click="emit('close')" />
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
-import IconWarning from '../svg/IconWarning.vue';
 import IconCheck from '../svg/IconCheck.vue';
+import IconClose from '../svg/IconClose.vue';
+import IconWarning from '../svg/IconWarning.vue';
 import { AlertType } from './types';
 
 interface Color {
@@ -62,7 +70,13 @@ const types: Record<string, Color> = {
   },
 };
 
-const props = defineProps<{ type: AlertType; title?: string }>();
+const emit = defineEmits<{ (e: 'close'): void }>();
+
+const props = defineProps<{
+  type: AlertType;
+  title?: string;
+  hasCloseButton?: boolean;
+}>();
 
 const hasContent = computed(() => useSlots().default != null);
 
