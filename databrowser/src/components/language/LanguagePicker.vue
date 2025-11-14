@@ -27,12 +27,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       class="w-16 md:hidden"
       extra-button-classes="h-9"
       :options="links"
-      :value="selected"
+      :model-value="selected"
       :size="SelectSize.xs"
       :show-search-when-at-least-count-options="Infinity"
       :z-index="zIndex"
       extra-height
-      @change="selected = $event"
     />
   </div>
 </template>

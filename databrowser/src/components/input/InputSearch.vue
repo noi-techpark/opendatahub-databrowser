@@ -10,7 +10,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     :model-value="modelValue"
     :disabled="disabled"
     :focus="focus"
-    :label-placeholder="t('components.inputSearch.labelPlaceholder')"
+    :label-placeholder="
+      placeholder ?? t('components.inputSearch.labelPlaceholder')
+    "
     :label-button="t('components.inputSearch.labelButton')"
     :show-icon-in-button="false"
     :show-button-text-mobile="true"
@@ -41,6 +43,7 @@ withDefaults(
     focus?: boolean;
     id?: string;
     showConfirmButton?: boolean;
+    placeholder?: string;
   }>(),
   {
     modelValue: undefined,
@@ -48,6 +51,7 @@ withDefaults(
     focus: undefined,
     id: undefined,
     showConfirmButton: false,
+    placeholder: undefined,
   }
 );
 </script>

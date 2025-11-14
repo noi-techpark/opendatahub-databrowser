@@ -7,7 +7,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <TableWithStickyHeader id="dataset-table">
     <template #colgroup-cols>
-      <col v-for="col in cols" :key="col.title" :class="col.class" />
+      <col
+        v-for="col in cols"
+        :key="col.title"
+        :class="col.class"
+        :style="col.style?.widthInPx ? `width:${col.style?.widthInPx}px` : null"
+      />
       <col v-if="showLinkColumn" class="w-28 md:w-32" />
     </template>
 
@@ -51,8 +56,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <ComponentRenderer
             :tag-name="col.component"
             :attributes="values[colIndex]"
-            :object-mapping="col.objectMapping"
           />
+          <!-- :object-mapping="col.objectMapping" -->
+          <!-- :array-mapping="col.arrayMapping" -->
         </TableCell>
         <TableCell
           v-if="showLinkColumn"

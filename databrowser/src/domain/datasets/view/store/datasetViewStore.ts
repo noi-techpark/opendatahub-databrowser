@@ -23,7 +23,6 @@ export const useDatasetViewStore = defineStore('datasetViewStore', () => {
   // See also: https://github.com/vuejs/pinia/blob/v2/packages/pinia/src/storeToRefs.ts
   const {
     datasetDomain,
-    datasetPath,
     baseViews,
     viewKey,
     stringReplacer,
@@ -32,7 +31,6 @@ export const useDatasetViewStore = defineStore('datasetViewStore', () => {
 
   return useDatasetView(
     datasetDomain,
-    datasetPath,
     baseViews,
     viewKey,
     stringReplacer,

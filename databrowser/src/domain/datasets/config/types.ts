@@ -27,11 +27,15 @@ export interface BasePropertyConfig {
   component: string;
   params?: Record<string, string>;
   class?: string;
+  style?: {
+    widthInPx?: number;
+  };
   tooltip?: string;
   required?: boolean;
   deprecationInfo?: DeprecationInfo[];
   referenceInfo?: ReferenceInfo;
   nullable?: boolean;
+  hidden?: boolean;
 }
 
 /**
@@ -157,7 +161,7 @@ export interface Operation {
   rolesAllowed: string[];
 }
 
-export type DatasetConfigSource = 'any' | 'embedded' | 'generated';
+export type DatasetConfigSource = 'any' | 'embedded' | 'generated' | 'user';
 
 export interface DatasetConfig {
   source: DatasetConfigSource;

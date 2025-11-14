@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :model-value="selected.every((item) => item === true)"
       :disabled="disabled"
       label="All"
-      @click="toggleAll($event)"
+      @update:model-value="toggleAll($event)"
     />
     <CheckboxCustom
       v-for="(item, index) in selected"

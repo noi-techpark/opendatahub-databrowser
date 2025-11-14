@@ -14,11 +14,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <!-- Popup -->
     <DatasetHeaderConfigPopup
-      :picked="source"
+      :model-value="source"
       :class="{
         'animate-pulse rounded outline outline-green-500': !hasConfig,
       }"
-      @picked-change="changeSource($event)"
+      @update:model-value="changeSource($event)"
     />
 
     <DatasetHeaderSearch
@@ -72,7 +72,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import InputSearch from '../../../../components/input/InputSearch.vue';
 import LanguagePicker from '../../../../components/language/LanguagePicker.vue';
@@ -94,9 +94,7 @@ const { isTableView } = storeToRefs(useDatasetViewStore());
 
 const { t } = useI18n();
 
-const { datasetDomain, hasConfig, source } = storeToRefs(
-  useDatasetBaseInfoStore()
-);
+const { datasetDomain, hasConfig } = storeToRefs(useDatasetBaseInfoStore());
 
 const inputSearchOpen = ref<boolean>();
 
@@ -117,13 +115,28 @@ const currentLanguage = useDatasetQueryStore().handle('language');
 
 const showLanguagePicker = computed(() => datasetDomain.value === 'tourism');
 
-const userSettings = useUserSettings();
+const { getUserSetting, updateUserSetting } = useUserSettings();
 
-const changeSource = (value: DatasetConfigSource) => {
-  userSettings.updateUserSetting('preferredDatasetSource', value);
+const source = ref(getUserSetting('preferredDatasetSource'));
+watch(
+  () => getUserSetting('preferredDatasetSource'),
+  (newValue) => (source.value = newValue)
+);
+
+const changeSource = async (value: DatasetConfigSource) => {
+  const oldSourceValue = getUserSetting('preferredDatasetSource');
+  // Try to update user setting, but it may fail due to guards
+  const isUpdateSuccessful = await updateUserSetting(
+    'preferredDatasetSource',
+    value
+  );
+  // If it failed, revert the local value
+  if (!isUpdateSuccessful) {
+    source.value = oldSourceValue;
+  }
 };
 
 const changeLanguage = (value: string) => {
-  userSettings.updateUserSetting('preferredDatasetLanguage', value);
+  updateUserSetting('preferredDatasetLanguage', value);
 };
 </script>

@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         />
         <TableFooter :pagination="pagination" />
       </div>
-      <TableToolBox :url="fullPath" />
+      <TableViewToolBox :url="fullPath" />
     </div>
   </section>
   <EditListDeleteDialog
@@ -47,19 +47,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import LoadingError from '../../../../components/loading/LoadingError.vue';
-import { useI18n } from 'vue-i18n';
+import EditListDeleteDialog from '../../../cellComponents/components/utils/editList/dialogs/EditListDeleteDialog.vue';
+import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
 import TableContent from './TableContent.vue';
 import TableFooter from './TableFooter.vue';
 import TableFilterHint from './filter/TableFilterHint.vue';
 import { useTableLoad } from './load/useTableLoad';
 import { useTableViewRouteQueryStore } from './tableViewRouteQueryStore';
-import TableToolBox from './toolBox/TableToolBox.vue';
-import EditListDeleteDialog from '../../../cellComponents/components/utils/editList/dialogs/EditListDeleteDialog.vue';
-
+import TableViewToolBox from './toolBox/TableViewToolBox.vue';
 import { useTableDelete } from './useTableDelete';
-import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
 
 const { t } = useI18n();
 

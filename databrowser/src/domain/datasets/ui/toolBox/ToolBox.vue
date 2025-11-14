@@ -35,9 +35,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         "
         @before-leave="(el: Element) => (el.classList.value = 'hidden')"
       >
-        <div v-if="toolBoxStore.visible" :class="{ hidden: !mdAndLarger }">
+        <div
+          v-if="toolBoxStore.visible"
+          :class="{ hidden: !mdAndLarger }"
+          class="h-full"
+        >
           <ContentAlignmentX class="h-full">
-            <div class="flex flex-col justify-between">
+            <div class="flex h-full flex-col justify-between">
               <TabGroup :default-index="defaultIndex">
                 <div
                   class="sticky top-0 z-10 flex flex-col justify-end bg-gray-50 pt-3"
@@ -75,7 +79,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   </TabList>
                 </div>
 
-                <TabPanels class="mb-4">
+                <TabPanels class="mb-4 h-full overflow-y-hidden">
                   <slot></slot>
                 </TabPanels>
               </TabGroup>
@@ -126,17 +130,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { Tab, TabGroup, TabList, TabPanels } from '@headlessui/vue';
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../components/button/ButtonCustom.vue';
 import ContentAlignmentX from '../../../../components/content/ContentAlignmentX.vue';
-import IconClose from '../../../../components/svg/IconClose.vue';
 import IconAdd from '../../../../components/svg/IconAdd.vue';
+import IconClose from '../../../../components/svg/IconClose.vue';
 import IconStrokedArrowDown from '../../../../components/svg/IconStrokedArrowDown.vue';
 import TabButton from '../../../../components/tab/TabButton.vue';
 import { useToolBoxStore } from './toolBoxStore';
-import { watch } from 'vue';
 
 const { t } = useI18n();
 

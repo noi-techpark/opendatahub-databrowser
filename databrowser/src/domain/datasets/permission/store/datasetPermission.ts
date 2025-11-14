@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { ToRefs, toRefs, toValue } from 'vue';
 import { reactiveComputed } from '@vueuse/core';
-import { Operations, ToMaybeRefs } from '../../config/types';
+import { ToRefs, toRefs, toValue } from 'vue';
 import { useAuth } from '../../../auth/store/auth';
+import { Operations, ToMaybeRefs } from '../../config/types';
 
 export interface ComputeDatasetPermission {
   addRecordSupported: boolean;
@@ -17,6 +17,7 @@ export interface ComputeDatasetPermissionParams {
   hasEditView: boolean;
   hasNewView: boolean;
   isEmbeddedSource: boolean;
+  isUserSource: boolean;
   operations?: Operations;
 }
 
@@ -24,9 +25,13 @@ export const computeDatasetPermission = ({
   hasEditView,
   hasNewView,
   isEmbeddedSource,
+  isUserSource,
   operations,
 }: ComputeDatasetPermissionParams): ComputeDatasetPermission => {
-  if (operations == null || isEmbeddedSource === false) {
+  if (
+    operations == null ||
+    (isEmbeddedSource === false && isUserSource === false)
+  ) {
     return {
       addRecordSupported: false,
       editRecordSupported: false,
@@ -52,12 +57,14 @@ export const useComputeDatasetPermission = (
     const hasEditView = toValue(params.hasEditView);
     const hasNewView = toValue(params.hasNewView);
     const isEmbeddedSource = toValue(params.isEmbeddedSource);
+    const isUserSource = toValue(params.isUserSource);
     const operations = toValue(params.operations);
 
     return computeDatasetPermission({
       hasEditView,
       hasNewView,
       isEmbeddedSource,
+      isUserSource,
       operations,
     });
   });

@@ -20,19 +20,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           class="flex-1"
         />
       </ContentAlignmentX>
-      <ExportDatasetsToolBox :url="fullPath" use-custom-button-labels />
+      <RawViewToolBox :url="fullPath" use-custom-button-labels />
     </div>
   </template>
 </template>
 
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue';
-import ExportDatasetsToolBox from '../toolBox/export/ExportDatasetsToolBox.vue';
 import 'vue-json-pretty/lib/styles.css';
-import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
 import ContentAlignmentX from '../../../../components/content/ContentAlignmentX.vue';
 import LoadingError from '../../../../components/loading/LoadingError.vue';
 import LoadingCell from '../../../cellComponents/components/cells/loadingCell/LoadingCell.vue';
+import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
+import RawViewToolBox from './toolBox/RawViewToolBox.vue';
 
 const VueJsonPretty = defineAsyncComponent(() =>
   import('vue-json-pretty').then((exports) => exports.default)

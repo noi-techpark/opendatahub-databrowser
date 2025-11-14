@@ -5,13 +5,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="flex" @click="disabled ? undefined : emit('click', !checked)">
+  <div class="flex">
     <label
       class="inline-flex cursor-pointer items-center"
       :class="{ 'opacity-50': disabled }"
     >
       <input
         v-model="checked"
+        :indeterminate="indeterminate"
         type="checkbox"
         class="size-5 cursor-pointer rounded border-gray-400 text-green-700"
         :disabled="disabled"
@@ -23,26 +24,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+const checked = defineModel<boolean>({
+  default: false,
+});
 
-const emit = defineEmits(['click', 'update:modelValue']);
-
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    modelValue: boolean;
     label?: string;
     tabbable?: boolean;
     disabled?: boolean;
+    indeterminate?: boolean;
   }>(),
   {
     label: undefined,
     tabbable: true,
     disabled: false,
+    indeterminate: false,
   }
 );
-
-const checked = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value),
-});
 </script>

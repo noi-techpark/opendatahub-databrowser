@@ -31,19 +31,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <div class="flex items-center gap-2">
           <SelectCustom
+            :model-value="filter.propertyPath"
             :options="filterColSelectOptions"
             :show-value-as-label-fallback="true"
-            :value="filter.propertyPath"
             :z-index="30"
             class="basis-1/2"
-            @change="filter.propertyPath = $event"
+            @update:model-value="filter.propertyPath = String($event)"
           />
           <SelectCustom
+            :model-value="filter.operator"
             :options="filterTypeSelectOptions"
-            :value="filter.operator"
             :z-index="30"
             class="basis-1/2"
-            @change="updateFilter(index, $event, filter.value, false)"
+            @update:model-value="
+              updateFilter(index, String($event), filter.value, false)
+            "
           />
         </div>
         <InputFilter
@@ -90,7 +92,9 @@ import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
 import { Size, Variant } from '../../../../../components/button/types';
 import InputFilter from '../../../../../components/input/InputFilter.vue';
 import SelectCustom from '../../../../../components/select/SelectCustom.vue';
+import IconAdd from '../../../../../components/svg/IconAdd.vue';
 import IconDelete from '../../../../../components/svg/IconDelete.vue';
+import IconFilter from '../../../../../components/svg/IconFilter.vue';
 import { useDatasetBaseInfoStore } from '../../../config/store/datasetBaseInfoStore';
 import ToolBoxCard from '../../toolBox/ToolBoxCard.vue';
 import ToolBoxCardBody from '../../toolBox/ToolBoxCardBody.vue';
@@ -102,10 +106,8 @@ import {
   tourismFilterTypeSelectOptions,
 } from '../filter/filterSelectOptions';
 import { useTableFilterStore } from '../filter/tableFilterStore';
-import InfoFilter from './InfoFilter.vue';
 import { Filter, FilterOperator, FilterValue } from '../filter/types';
-import IconAdd from '../../../../../components/svg/IconAdd.vue';
-import IconFilter from '../../../../../components/svg/IconFilter.vue';
+import InfoFilter from './InfoFilter.vue';
 
 const { t } = useI18n();
 
