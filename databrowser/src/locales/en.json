@@ -241,6 +241,12 @@
               "description2": "Would you like to proceed?",
               "title": "Delete configuration [{title}]?"
             },
+            "discard": {
+              "buttonNo": "No (n)",
+              "buttonYes": "Yes (y)",
+              "description": "Are you sure you want to discard unsaved data?",
+              "title": "Discard unsaved data?"
+            },
             "navigationGuard": {
               "buttonCancel": "Cancel (c)",
               "buttonDontSave": "Don't save changes (n)",

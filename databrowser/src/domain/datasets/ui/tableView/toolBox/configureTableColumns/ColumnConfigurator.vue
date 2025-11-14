@@ -56,10 +56,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <ButtonCustom
         :disabled="!canUndoLastChange"
         :size="Size.sm"
-        @click="
-          discardChanges();
-          mode = 'tableColumns';
-        "
+        @click="showDiscardConfirmationDialog = true"
       >
         {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
       </ButtonCustom>
@@ -111,23 +108,34 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <ColumnConfigurationSaveDialog
       v-if="showSaveConfirmationDialog"
       :config-title="activeConfigName"
-      @saveConfirmed="
+      @save-confirmed="
         updateUserSetting('showSaveColumnConfigurationDialog', false);
         commitSaveColumnConfiguration();
         showSaveConfirmationDialog = false;
       "
-      @saveCancelled="showSaveConfirmationDialog = false"
+      @save-cancelled="showSaveConfirmationDialog = false"
+    />
+
+    <ColumnConfigurationDiscardDialog
+      v-if="showDiscardConfirmationDialog"
+      :config-title="activeConfigName"
+      @discard-confirmed="
+        discardChanges();
+        showDiscardConfirmationDialog = false;
+        mode = 'tableColumns';
+      "
+      @discard-cancelled="showDiscardConfirmationDialog = false"
     />
 
     <ColumnConfigurationDeleteDialog
       v-if="showDeleteConfirmationDialog"
       :config-title="activeConfigName"
-      @deleteConfirmed="
+      @delete-confirmed="
         deleteActiveConfiguration();
         showDeleteConfirmationDialog = false;
         mode = 'tableColumns';
       "
-      @deleteCancelled="showDeleteConfirmationDialog = false"
+      @delete-cancelled="showDeleteConfirmationDialog = false"
     />
   </div>
 </template>
@@ -150,6 +158,7 @@ import { useUserSettings } from '../../../../../user/userSettings';
 import { injectColumnConfiguration } from './columnConfiguration';
 import { useColumnConfigurationDatasetChangeGuard } from './columnConfigurationDatasetChangeGuard';
 import ColumnConfigurationDeleteDialog from './ColumnConfigurationDeleteDialog.vue';
+import ColumnConfigurationDiscardDialog from './ColumnConfigurationDiscardDialog.vue';
 import { useColumnConfigurationImportExport } from './columnConfigurationImportExport';
 import ColumnConfigurationInvalidConfig from './ColumnConfigurationInvalidConfig.vue';
 import ColumnConfigurationSaveDialog from './ColumnConfigurationSaveDialog.vue';
@@ -199,8 +208,9 @@ const commitSaveColumnConfiguration = () => {
   validateColumnConfigurationAndSetIssues();
 };
 
-const showDeleteConfirmationDialog = ref(false);
 const showSaveConfirmationDialog = ref(false);
+const showDiscardConfirmationDialog = ref(false);
+const showDeleteConfirmationDialog = ref(false);
 
 const addColumn = () => {
   // Add a new column at the beginning of the list and switch to edit mode

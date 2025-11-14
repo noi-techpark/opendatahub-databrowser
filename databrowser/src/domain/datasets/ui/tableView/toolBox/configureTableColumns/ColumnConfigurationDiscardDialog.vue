@@ -8,39 +8,30 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <DialogCustom :is-open="true">
     <template #title>
       {{
-        t('datasets.listView.toolBox.columnConfiguration.dialog.delete.title', {
-          title: configTitle,
-        })
+        t('datasets.listView.toolBox.columnConfiguration.dialog.discard.title')
       }}
     </template>
     <template #description>
       <div>
         {{
           t(
-            'datasets.listView.toolBox.columnConfiguration.dialog.delete.description1'
-          )
-        }}
-      </div>
-      <div class="mt-5 font-bold">
-        {{
-          t(
-            'datasets.listView.toolBox.columnConfiguration.dialog.delete.description2'
+            'datasets.listView.toolBox.columnConfiguration.dialog.discard.description'
           )
         }}
       </div>
     </template>
     <template #body>
-      <ButtonCustom @click="emit('deleteConfirmed')">
+      <ButtonCustom @click="emit('discardConfirmed')">
         {{
           t(
-            'datasets.listView.toolBox.columnConfiguration.dialog.delete.buttonYes'
+            'datasets.listView.toolBox.columnConfiguration.dialog.discard.buttonYes'
           )
         }}
       </ButtonCustom>
-      <ButtonCustom :variant="Variant.ghost" @click="emit('deleteCancelled')">
+      <ButtonCustom :variant="Variant.ghost" @click="emit('discardCancelled')">
         {{
           t(
-            'datasets.listView.toolBox.columnConfiguration.dialog.delete.buttonNo'
+            'datasets.listView.toolBox.columnConfiguration.dialog.discard.buttonNo'
           )
         }}
       </ButtonCustom>
@@ -57,11 +48,9 @@ import DialogCustom from '../../../../../../components/dialog/DialogCustom.vue';
 
 const { t } = useI18n();
 
-defineProps<{ configTitle: string }>();
-
 const emit =
-  defineEmits<(event: 'deleteConfirmed' | 'deleteCancelled') => void>();
+  defineEmits<(event: 'discardConfirmed' | 'discardCancelled') => void>();
 
-onKeyStroke('y', () => emit('deleteConfirmed'));
-onKeyStroke('n', () => emit('deleteCancelled'));
+onKeyStroke('y', () => emit('discardConfirmed'));
+onKeyStroke('n', () => emit('discardCancelled'));
 </script>
