@@ -22,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div class="flex gap-3">
           <InputCustom
             :model-value="key"
-            :disabled="availableComponentKeys.length > 0"
+            :disabled="type === 'objectMapping'"
             class="basis-1/2"
             inputClasses="w-full"
             placeholder="Key"
@@ -67,7 +67,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :keys="availableComponentKeys"
       :buttonText="addKeyLabel"
       class="mt-8"
-      @select-key="emit('add:key', $event)"
+      @select-key="
+        emit('add:key', $event);
+        updateSuggestionTerm('');
+      "
     />
     <ButtonCustom
       v-else
