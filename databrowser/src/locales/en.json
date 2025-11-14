@@ -235,8 +235,8 @@
           },
           "dialog": {
             "delete": {
-              "buttonNo": "No",
-              "buttonYes": "Yes",
+              "buttonNo": "No (n)",
+              "buttonYes": "Yes (y)",
               "description1": "You are about to permanently delete this saved configuration. This action will remove all associated settings and cannot be undone.",
               "description2": "Would you like to proceed?",
               "title": "Delete configuration [{title}]?"

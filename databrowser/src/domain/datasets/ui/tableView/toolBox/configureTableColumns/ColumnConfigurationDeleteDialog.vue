@@ -49,6 +49,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
+import { onKeyStroke } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Variant } from '../../../../../../components/button/types';
@@ -60,4 +61,8 @@ defineProps<{ configTitle: string }>();
 
 const emit =
   defineEmits<(event: 'deleteConfirmed' | 'deleteCancelled') => void>();
+
+onKeyStroke('y', () => emit('deleteConfirmed'));
+
+onKeyStroke('n', () => emit('deleteCancelled'));
 </script>
