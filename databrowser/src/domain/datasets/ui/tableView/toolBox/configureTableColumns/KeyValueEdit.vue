@@ -36,8 +36,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           />
 
           <InputSuggest
+            v-if="suggestions != null"
             :model-value="value"
             :suggestions="suggestions"
+            class="basis-1/2"
+            deletable
+            inputClasses="w-full"
+            placeholder="Value"
+            @update:model-value="
+              emit('update:data', { key, newKey: key, value: String($event) });
+              checkAutocomplete(String($event));
+            "
+          />
+          <InputCustom
+            v-else
+            :model-value="value"
             class="basis-1/2"
             deletable
             inputClasses="w-full"
@@ -110,7 +123,6 @@ const availableComponentKeys = computed<string[]>(() => {
 });
 
 const path = `/${useMetaDataStore().currentMetaData?.pathSegments.join('/')}/{id}`;
-console.log('Current path for autocomplete:', path);
 
 let generator: AutocompleteGenerator | null = null;
 useOpenApi()
