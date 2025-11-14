@@ -5,4 +5,8 @@
 import { Component } from 'vue';
 import { CellComponent } from '../types';
 
-export type RegisteredComponent = [CellComponent, Component];
+export type RegisteredComponent = [
+  CellComponent,
+  Component,
+  { supportsTableView: boolean },
+];
