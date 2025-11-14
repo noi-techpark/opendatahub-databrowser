@@ -52,7 +52,6 @@ import StringTemplateCell from '../components/cells/stringTemplateCell/StringTem
 import SyncDataConfigCell from '../components/cells/syncDataConfigCell/SyncDataConfigCell.vue';
 import TagReferenceCell from '../components/cells/tagReferenceCell/TagReferenceCell.vue';
 import TextAreaCell from '../components/cells/textAreaCell/TextAreaCell.vue';
-import TextHighlightCell from '../components/cells/textHighlightCell/TextHighlightCell.vue';
 import ToggleButtonCell from '../components/cells/toggleCell/ToggleButtonCell.vue';
 import ToggleCell from '../components/cells/toggleCell/ToggleCell.vue';
 import ToggleTriStateCell from '../components/cells/toggleCell/ToggleTriStateCell.vue';
@@ -215,11 +214,6 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     { supportsTableView: false },
   ],
   [CellComponent.TextAreaCell, TextAreaCell, { supportsTableView: true }],
-  [
-    CellComponent.TextHighlightCell,
-    TextHighlightCell,
-    { supportsTableView: false },
-  ],
   [
     CellComponent.ToggleButtonCell,
     ToggleButtonCell,
