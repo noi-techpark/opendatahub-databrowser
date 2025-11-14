@@ -11,7 +11,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       t('datasets.toolBox.exportDatasets.panelName'),
       t('datasets.listView.toolBox.userTableAttributes.panelName'),
     ]"
-    :default-index="2"
   >
     <SearchAndFilterToolBoxPanel />
     <ExportDatasetsToolBoxPanel :url="url" />
