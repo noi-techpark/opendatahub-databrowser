@@ -233,6 +233,10 @@
             "title": "Title",
             "widthInPx": "Width in px"
           },
+          "configIssue": {
+            "errorTitle": "Configuration errors",
+            "warningTitle": "Configuration warnings"
+          },
           "dialog": {
             "delete": {
               "buttonNo": "No",

@@ -30,7 +30,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex items-center gap-2"
         :disabled="!canUndoLastChange"
         :size="Size.sm"
-        @click="saveChanges"
+        @click="
+          saveChanges();
+          validateColumnConfigurationAndSetIssues();
+        "
       >
         <IconCheckCircle class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.save') }}
@@ -48,7 +51,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex items-center gap-2"
         :disabled="!canRedoLastChange"
         :size="Size.sm"
-        @click="redoLastChange()"
+        @click="redoLastChange"
       >
         <IconEditorRedo class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.redo') }}
@@ -64,6 +67,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
       </ButtonCustom>
     </div>
+
+    <ColumnConfigurationInvalidConfig
+      v-if="configIssueType != null"
+      :type="configIssueType"
+      :errors="configIssues"
+      class="mt-4"
+      @close="setConfigIssues([], [])"
+    />
+
     <div class="mt-4 flex flex-wrap gap-1 sm:gap-2">
       <ButtonCustom
         class="flex items-center gap-2"
@@ -113,6 +125,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
+import { watchDebounced } from '@vueuse/core';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
@@ -130,8 +143,13 @@ import { injectColumnConfiguration } from './columnConfiguration';
 import { useColumnConfigurationDatasetChangeGuard } from './columnConfigurationDatasetChangeGuard';
 import ColumnConfigurationDeleteDialog from './ColumnConfigurationDeleteDialog.vue';
 import { useColumnConfigurationImportExport } from './columnConfigurationImportExport';
+import ColumnConfigurationInvalidConfig from './ColumnConfigurationInvalidConfig.vue';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
+import {
+  useColumnConfigurationValidation,
+  validateColumnConfiguration,
+} from './columnValidation';
 
 const { t } = useI18n();
 
@@ -178,9 +196,26 @@ const addColumn = () => {
 
 const showDeleteConfirmationDialog = ref(false);
 
+const { configIssues, configIssueType, setConfigIssues } =
+  useColumnConfigurationValidation();
+
+const validateColumnConfigurationAndSetIssues = () => {
+  const { violations } = validateColumnConfiguration(columns.value);
+  setConfigIssues([], violations);
+};
+
+watchDebounced(columns, () => validateColumnConfigurationAndSetIssues(), {
+  deep: true,
+  debounce: 300,
+});
+
 // Handle import/export of column configuration
 const { exportConfiguration, importConfiguration } =
-  useColumnConfigurationImportExport(columns, applyChangesWithCheckpoint);
+  useColumnConfigurationImportExport(
+    columns,
+    applyChangesWithCheckpoint,
+    setConfigIssues
+  );
 
 // Add route guards to reset component mode on navigation if the dataset changes
 // This prevents being stuck in column settings mode for a different dataset

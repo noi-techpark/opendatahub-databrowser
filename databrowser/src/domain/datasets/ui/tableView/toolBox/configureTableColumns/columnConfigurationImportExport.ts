@@ -5,12 +5,14 @@
 import { Ref } from 'vue';
 import { PropertyConfig } from '../../../../config/types';
 import { injectColumnConfiguration } from './columnConfiguration';
+import { validateColumnConfiguration } from './columnValidation';
 
 export const useColumnConfigurationImportExport = (
   columns: Ref<PropertyConfig[]>,
   applyChangesWithCheckpoint: ReturnType<
     typeof injectColumnConfiguration
-  >['applyChangesWithCheckpoint']
+  >['applyChangesWithCheckpoint'],
+  setConfigIssues: (errors: string[], warnings: string[]) => void
 ) => {
   const exportConfiguration = () => {
     const dataStr =
@@ -29,6 +31,8 @@ export const useColumnConfigurationImportExport = (
     inputElement.type = 'file';
     inputElement.accept = '.json,application/json';
     inputElement.onchange = (event: Event) => {
+      setConfigIssues([], []);
+
       const target = event.target as HTMLInputElement;
       if (target.files && target.files.length > 0) {
         const file = target.files[0];
@@ -38,15 +42,21 @@ export const useColumnConfigurationImportExport = (
             try {
               const importedColumns = JSON.parse(e.target.result);
               if (Array.isArray(importedColumns)) {
+                // Validate imported configuration
+                const { violations } =
+                  validateColumnConfiguration(importedColumns);
+                setConfigIssues([], violations);
+
                 columns.value = importedColumns;
                 applyChangesWithCheckpoint();
               } else {
-                alert(
-                  'Invalid column configuration format, expected an array.'
+                setConfigIssues(
+                  ['Invalid column configuration format, expected an array.'],
+                  []
                 );
               }
             } catch (error) {
-              alert('Error parsing JSON file: ' + error);
+              setConfigIssues(['Error parsing JSON file: ' + error], []);
             }
           }
         };
