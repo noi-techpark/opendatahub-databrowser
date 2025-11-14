@@ -45,7 +45,6 @@ export enum CellComponent {
   SelectWithOptionsCell = 'SelectWithOptionsCell',
   StateCell = 'StateCell',
   StringCell = 'StringCell',
-  TagCell = 'TagCell',
   TagReferenceCell = 'TagReferenceCell',
   UrlCell = 'UrlCell',
   StringTemplateCell = 'StringTemplateCell',

@@ -50,7 +50,6 @@ import StateCell from '../components/cells/stateCell/StateCell.vue';
 import StringCell from '../components/cells/stringCell/StringCell.vue';
 import StringTemplateCell from '../components/cells/stringTemplateCell/StringTemplateCell.vue';
 import SyncDataConfigCell from '../components/cells/syncDataConfigCell/SyncDataConfigCell.vue';
-import TagCell from '../components/cells/tagCell/TagCell.vue';
 import TagReferenceCell from '../components/cells/tagReferenceCell/TagReferenceCell.vue';
 import TextAreaCell from '../components/cells/textAreaCell/TextAreaCell.vue';
 import TextHighlightCell from '../components/cells/textHighlightCell/TextHighlightCell.vue';
@@ -210,7 +209,6 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     StringTemplateCell,
     { supportsTableView: true },
   ],
-  [CellComponent.TagCell, TagCell, { supportsTableView: false }],
   [
     CellComponent.TagReferenceCell,
     TagReferenceCell,
