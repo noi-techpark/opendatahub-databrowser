@@ -44,7 +44,6 @@ import MeasurementsCell from '../components/cells/measurementsCell/MeasurementsC
 import OperationScheduleCell from '../components/cells/operationScheduleCell/OperationScheduleCell.vue';
 import PushConfigCell from '../components/cells/pushConfigCell/PushConfigCell.vue';
 import PushDataCell from '../components/cells/pushDataCell/PushDataCell.vue';
-import ReferenceCell from '../components/cells/referenceCell/ReferenceCell.vue';
 import RelatedContentCell from '../components/cells/relatedContentCell/RelatedContentCell.vue';
 import SelectWithOptionsCell from '../components/cells/selectWithOptionsCell/SelectWithOptionsCell.vue';
 import StateCell from '../components/cells/stateCell/StateCell.vue';
@@ -198,7 +197,6 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     { supportsTableView: false },
   ],
   [CellComponent.PushDataCell, PushDataCell, { supportsTableView: true }],
-  [CellComponent.ReferenceCell, ReferenceCell, { supportsTableView: false }],
   [
     CellComponent.SelectWithOptionsCell,
     SelectWithOptionsCell,
