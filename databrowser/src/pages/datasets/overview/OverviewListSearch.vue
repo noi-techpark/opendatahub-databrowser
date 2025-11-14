@@ -19,18 +19,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           : ''
       }}
     </span>
-    <InputCustom
+    <InputSearch
+      id="search-datasets"
       v-model="searchTerm"
       :placeholder="t('overview.listPage.searchDataset')"
-      type="search"
-      input-classes="w-full md:w-64"
+      :show-confirm-button="false"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import InputCustom from '../../../components/input/InputCustom.vue';
+import InputSearch from '../../../components/input/InputSearch.vue';
 
 const { t } = useI18n();
 
