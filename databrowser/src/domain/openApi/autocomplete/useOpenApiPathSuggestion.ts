@@ -2,20 +2,31 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useMetaDataStore } from '../../metaDataConfig/tourism/metaDataStore';
+import { apiTypeToApiDomain } from '../../metaDataConfig/utils';
 import { useOpenApi } from '../store/openApi';
 import { AutocompleteGenerator } from './openApiAutocompleteGenerator';
 
 export const useOpenApiPathSuggestion = () => {
-  const path = `/${useMetaDataStore().currentMetaData?.pathSegments.join('/')}/{id}`;
+  const { currentMetaData } = storeToRefs(useMetaDataStore());
+
+  const apiType = currentMetaData.value?.apiType;
+  const apiDomain = apiTypeToApiDomain(apiType!);
+
+  const joinedPathSegments = `/${currentMetaData.value?.pathSegments.join('/')}`;
+  const path =
+    apiDomain === 'tourism' ? `${joinedPathSegments}/{id}` : joinedPathSegments;
 
   let generator: AutocompleteGenerator | null = null;
-  useOpenApi()
-    .loadDocument('tourism')
-    .then((openApiSpec) => {
-      generator = new AutocompleteGenerator(openApiSpec, path);
-    });
+  if (apiDomain !== 'unknown') {
+    useOpenApi()
+      .loadDocument(apiDomain)
+      .then((openApiSpec) => {
+        generator = new AutocompleteGenerator(openApiSpec, path);
+      });
+  }
 
   const suggestions = ref<string[]>();
 
