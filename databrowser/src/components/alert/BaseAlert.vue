@@ -11,6 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     :class="classNames.background"
   >
     <div
+      v-if="!hideIcon"
       class="my-1 flex h-14 w-20 shrink-0 items-center justify-center text-white"
       :class="classNames.icon"
     >
@@ -76,6 +77,7 @@ const props = defineProps<{
   type: AlertType;
   title?: string;
   hasCloseButton?: boolean;
+  hideIcon?: boolean;
 }>();
 
 const hasContent = computed(() => useSlots().default != null);
