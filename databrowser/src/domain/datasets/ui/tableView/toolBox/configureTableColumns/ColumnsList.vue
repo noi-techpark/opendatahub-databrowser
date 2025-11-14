@@ -86,6 +86,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </li>
       </VueDraggableNext>
     </ul>
+    <div>
+      <hr />
+      <CheckboxCustom
+        class="ml-1 pb-1 pt-4"
+        :model-value="toggleAll.value"
+        :indeterminate="toggleAll.indeterminate"
+        :label="'Show/Hide all'"
+        @update:model-value="
+          columns.forEach((col) => setColumnHidden(col, !$event))
+        "
+      />
+    </div>
   </div>
 </template>
 
@@ -137,4 +149,16 @@ const deleteColumn = (index: number) => {
 };
 
 const { searchTerm, searchResults } = useColumnSearch(columns);
+
+const toggleAll = computed(() => {
+  const visible = columns.value.filter((column) => !column.hidden).length;
+  const total = columns.value.length;
+  const value = visible === total;
+  const indeterminate = visible > 0 && visible < total;
+
+  return {
+    value,
+    indeterminate,
+  };
+});
 </script>
