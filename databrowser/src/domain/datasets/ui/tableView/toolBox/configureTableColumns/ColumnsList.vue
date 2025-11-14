@@ -39,13 +39,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :key="index"
           class="flex items-center justify-between gap-2 py-2"
         >
-          <div class="flex items-center gap-2">
+          <div class="flex items-start gap-2">
             <CheckboxCustom
               :model-value="!column.hidden"
+              class="break-all"
               :label="column.title"
               @update:model-value="setColumnHidden(column, !$event)"
             ></CheckboxCustom>
-            <span class="text-dialog"># {{ index + 1 }}</span>
+            <span class="shrink-0 text-dialog"># {{ index + 1 }}</span>
             <div
               v-if="showDeprecatedInfo(column)"
               class="size-2 rounded-full bg-deprecated"
