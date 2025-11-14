@@ -51,78 +51,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             @update:model-value="col = { ...col, component: String($event) }"
           />
         </div>
-
-        <div class="flex flex-col">
-          <label>{{
-            t(
-              'datasets.listView.toolBox.columnConfiguration.columnSettings.mappingType'
-            )
-          }}</label>
-          <SelectCustom
-            :model-value="mappingType"
-            :options="mappingTypeSelectOptions"
-            @update:model-value="
-              mappingType =
-                ($event as 'objectMapping' | 'arrayMapping') ?? 'objectMapping'
-            "
-          />
-        </div>
-      </div>
-
-      <div
-        v-if="mappingType === 'arrayMapping'"
-        class="flex flex-col gap-4 pt-4"
-      >
-        <label class="text-lg font-bold">{{
-          t(
-            'datasets.listView.toolBox.columnConfiguration.columnSettings.arrayMapping'
-          )
-        }}</label>
-
-        <div class="flex flex-col">
-          <label>{{
-            t(
-              'datasets.listView.toolBox.columnConfiguration.columnSettings.targetPropertyName'
-            )
-          }}</label>
-          <SelectCustom
-            :model-value="col.arrayMapping?.targetPropertyName"
-            :options="
-              availableComponentKeys.map((key) => ({
-                label: key,
-                value: key,
-              }))
-            "
-            @update:model-value="
-              updateArrayMapping(
-                String($event),
-                col.arrayMapping?.pathToParent || ''
-              )
-            "
-          />
-        </div>
-
-        <div class="flex flex-col">
-          <label>{{
-            t(
-              'datasets.listView.toolBox.columnConfiguration.columnSettings.pathToParent'
-            )
-          }}</label>
-          <InputSuggest
-            :model-value="col.arrayMapping?.pathToParent"
-            :suggestions="suggestions"
-            deletable
-            inputClasses="w-full"
-            placeholder="Value"
-            @update:model-value="
-              updateArrayMapping(
-                col.arrayMapping?.targetPropertyName || '',
-                String($event)
-              );
-              checkAutocomplete(String($event));
-            "
-          />
-        </div>
       </div>
 
       <div class="flex flex-col pt-4">
@@ -133,9 +61,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         }}</label>
         <KeyValueEdit
           class="px-3"
-          :availableKeys="
-            mappingType === 'objectMapping' ? availableComponentKeys : []
-          "
+          :availableKeys="availableComponentKeys"
           :type="'objectMapping'"
           :data="
             col.objectMapping != null
@@ -214,19 +140,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import InputCustom from '../../../../../../components/input/InputCustom.vue';
-import InputSuggest from '../../../../../../components/input/InputSuggest.vue';
 import SelectCustom from '../../../../../../components/select/SelectCustom.vue';
 import { SelectOption } from '../../../../../../components/select/types';
 import IconStrokedArrowDown from '../../../../../../components/svg/IconStrokedArrowDown.vue';
 import { registeredComponents } from '../../../../../cellComponents/plugins/registerCellComponents';
-import { useMetaDataStore } from '../../../../../metaDataConfig/tourism/metaDataStore';
-import { useOpenApi } from '../../../../../openApi';
-import { AutocompleteGenerator } from '../../../../../openApi/autocomplete/openapi-autocomplete-generator';
-import { ArrayMapping, PropertyConfig } from '../../../../config/types';
+import { PropertyConfig } from '../../../../config/types';
 import KeyValueEdit, { KeyValueEditData } from './KeyValueEdit.vue';
 
 const { t } = useI18n();
@@ -261,25 +183,6 @@ const availableComponentKeys = computed<string[]>(() => {
   return availableKeys.sort();
 });
 
-const mappingTypeSelectOptions: SelectOption[] = [
-  {
-    label: t(
-      'datasets.listView.toolBox.columnConfiguration.columnSettings.objectMapping'
-    ),
-    value: 'objectMapping',
-  },
-  {
-    label: t(
-      'datasets.listView.toolBox.columnConfiguration.columnSettings.arrayMapping'
-    ),
-    value: 'arrayMapping',
-  },
-];
-
-const mappingType = ref<'objectMapping' | 'arrayMapping'>(
-  col.value.arrayMapping ? 'arrayMapping' : 'objectMapping'
-);
-
 const updateTitle = (newTitle: Event) => {
   col.value = { ...col.value, title: stringOrEventToString(newTitle) };
 };
@@ -293,18 +196,6 @@ const updateWidthInPx = (newWidth: Event) => {
 
 const updateClass = (newClass: Event) => {
   col.value = { ...col.value, class: stringOrEventToString(newClass) };
-};
-
-const updateArrayMapping = (
-  targetPropertyName: string,
-  pathToParent: string
-) => {
-  const arrayMapping: ArrayMapping = {
-    ...col.value.arrayMapping,
-    targetPropertyName,
-    pathToParent,
-  };
-  col.value = { ...col.value, arrayMapping, objectMapping: undefined };
 };
 
 const updateData = (
@@ -347,26 +238,5 @@ const stringOrEventToString = (input: string | Event) => {
   return typeof input === 'string'
     ? input
     : (input.target as HTMLInputElement).value;
-};
-
-const path = `/${useMetaDataStore().currentMetaData?.pathSegments.join('/')}/{id}`;
-console.log('Current path for autocomplete:', path);
-
-let generator: AutocompleteGenerator | null = null;
-useOpenApi()
-  .loadDocument('tourism')
-  .then((openApiSpec) => {
-    generator = new AutocompleteGenerator(openApiSpec, path);
-  });
-
-const suggestions = ref<string[]>();
-
-const checkAutocomplete = (input: string) => {
-  if (!generator) {
-    console.error('Autocomplete generator is not initialized');
-    return;
-  }
-
-  suggestions.value = generator.generateSuggestions(input, 100);
 };
 </script>
