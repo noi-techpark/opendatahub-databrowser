@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { OpenAPIV3 } from 'openapi-types';
-import { OpenAPIParser } from './openapi-autocomplete-parser';
+import { OpenAPIParser } from './openApiAutocompleteParser';
 
 //
 // Note: this file was largely generated with the help of GitHub Copilot

@@ -45,7 +45,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             placeholder="Value"
             @update:model-value="
               emit('update:data', { key, newKey: key, value: String($event) });
-              checkAutocomplete(String($event));
+              updateSuggestionTerm(String($event));
             "
           />
           <InputCustom
@@ -56,15 +56,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             inputClasses="w-full"
             placeholder="Value"
             @update:model-value="
-              emit('update:data', { key, newKey: key, value: String($event) });
-              checkAutocomplete(String($event));
+              emit('update:data', { key, newKey: key, value: String($event) })
             "
           />
         </div>
       </li>
     </ul>
     <KeySelector
-      v-if="availableComponentKeys.length > 0"
+      v-if="type === 'objectMapping'"
       :keys="availableComponentKeys"
       :buttonText="addKeyLabel"
       class="mt-8"
@@ -82,15 +81,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import ButtonCustom from '../../../../../../components/button/ButtonCustom.vue';
 import { Size } from '../../../../../../components/button/types';
 import InputCustom from '../../../../../../components/input/InputCustom.vue';
 import InputSuggest from '../../../../../../components/input/InputSuggest.vue';
 import IconDelete from '../../../../../../components/svg/IconDelete.vue';
-import { useMetaDataStore } from '../../../../../metaDataConfig/tourism/metaDataStore';
-import { useOpenApi } from '../../../../../openApi';
-import { AutocompleteGenerator } from '../../../../../openApi/autocomplete/openapi-autocomplete-generator';
+import { useOpenApiPathSuggestion } from '../../../../../openApi/autocomplete/useOpenApiPathSuggestion';
 import KeySelector from './KeySelector.vue';
 
 export interface KeyValueEditData {
@@ -122,27 +119,5 @@ const availableComponentKeys = computed<string[]>(() => {
   return props.availableKeys.filter((key) => props.data?.[key] == null);
 });
 
-const path = `/${useMetaDataStore().currentMetaData?.pathSegments.join('/')}/{id}`;
-
-let generator: AutocompleteGenerator | null = null;
-useOpenApi()
-  .loadDocument('tourism')
-  .then((openApiSpec) => {
-    generator = new AutocompleteGenerator(openApiSpec, path);
-  });
-
-const suggestions = ref<string[]>();
-
-const checkAutocomplete = (input: string) => {
-  if (props.type !== 'objectMapping') {
-    return;
-  }
-
-  if (!generator) {
-    console.error('Autocomplete generator is not initialized');
-    return;
-  }
-
-  suggestions.value = generator.generateSuggestions(input, 100);
-};
+const { suggestions, updateSuggestionTerm } = useOpenApiPathSuggestion();
 </script>
