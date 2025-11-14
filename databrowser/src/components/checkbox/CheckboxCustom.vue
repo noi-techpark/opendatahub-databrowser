@@ -12,6 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     >
       <input
         v-model="checked"
+        :indeterminate="indeterminate"
         type="checkbox"
         class="size-5 cursor-pointer rounded border-gray-400 text-green-700"
         :disabled="disabled"
@@ -32,11 +33,13 @@ withDefaults(
     label?: string;
     tabbable?: boolean;
     disabled?: boolean;
+    indeterminate?: boolean;
   }>(),
   {
     label: undefined,
     tabbable: true,
     disabled: false,
+    indeterminate: false,
   }
 );
 </script>
