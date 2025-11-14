@@ -14,6 +14,7 @@ const initialSettings: UserSettings = {
   showHero: true,
   showToolbox: true,
   showMapViewNote: true,
+  showSaveColumnConfigurationDialog: true,
   views: {
     tableView: {},
   },

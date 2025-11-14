@@ -28,6 +28,7 @@ export interface UserSettings {
   showHero: boolean;
   showToolbox: boolean;
   showMapViewNote: boolean;
+  showSaveColumnConfigurationDialog: boolean;
   views: {
     tableView: Record<DatasetId, UserSettingTableViewConfig>;
   };

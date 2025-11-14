@@ -240,6 +240,13 @@
               "description1": "You are about to permanently delete this saved configuration. This action will remove all associated settings and cannot be undone.",
               "description2": "Would you like to proceed?",
               "title": "Delete configuration [{title}]?"
+            },
+            "save": {
+              "buttonNo": "No (n)",
+              "buttonYes": "Save as default (y)",
+              "description1": "You are about to overwrite your current default configuration for this dataset.  This new setup will be used as your personal default view from now on.",
+              "description2": "Would you like to proceed?",
+              "title": "Save as your default configuration [{title}]?"
             }
           }
         },

@@ -30,10 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex items-center gap-2"
         :disabled="!canUndoLastChange"
         :size="Size.sm"
-        @click="
-          saveChanges();
-          validateColumnConfigurationAndSetIssues();
-        "
+        @click="beginSaveColumnConfiguration"
       >
         <IconCheckCircle class="size-4" />
         {{ t('datasets.listView.toolBox.columnConfiguration.save') }}
@@ -111,6 +108,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </ButtonCustom>
     </div>
 
+    <ColumnConfigurationSaveDialog
+      v-if="showSaveConfirmationDialog"
+      :config-title="activeConfigName"
+      @saveConfirmed="
+        updateUserSetting('showSaveColumnConfigurationDialog', false);
+        commitSaveColumnConfiguration();
+        showSaveConfirmationDialog = false;
+      "
+      @saveCancelled="showSaveConfirmationDialog = false"
+    />
+
     <ColumnConfigurationDeleteDialog
       v-if="showDeleteConfirmationDialog"
       :config-title="activeConfigName"
@@ -144,6 +152,7 @@ import { useColumnConfigurationDatasetChangeGuard } from './columnConfigurationD
 import ColumnConfigurationDeleteDialog from './ColumnConfigurationDeleteDialog.vue';
 import { useColumnConfigurationImportExport } from './columnConfigurationImportExport';
 import ColumnConfigurationInvalidConfig from './ColumnConfigurationInvalidConfig.vue';
+import ColumnConfigurationSaveDialog from './ColumnConfigurationSaveDialog.vue';
 import ColumnSettings from './ColumnSettings.vue';
 import ColumnsList from './ColumnsList.vue';
 import {
@@ -170,9 +179,28 @@ const {
   redoLastChange,
 } = injectColumnConfiguration();
 
-const userPreferredDatasetSource = useUserSettings().getUserSettingRef(
-  'preferredDatasetSource'
+// Access user settings
+const { getUserSettingRef, updateUserSetting } = useUserSettings();
+const userPreferredDatasetSource = getUserSettingRef('preferredDatasetSource');
+const userShowSaveColumnConfigurationDialog = getUserSettingRef(
+  'showSaveColumnConfigurationDialog'
 );
+
+const beginSaveColumnConfiguration = () => {
+  if (userShowSaveColumnConfigurationDialog.value) {
+    showSaveConfirmationDialog.value = true;
+  } else {
+    commitSaveColumnConfiguration();
+  }
+};
+
+const commitSaveColumnConfiguration = () => {
+  saveChanges();
+  validateColumnConfigurationAndSetIssues();
+};
+
+const showDeleteConfirmationDialog = ref(false);
+const showSaveConfirmationDialog = ref(false);
 
 const addColumn = () => {
   // Add a new column at the beginning of the list and switch to edit mode
@@ -193,8 +221,6 @@ const addColumn = () => {
   mode.value = 'columnSettings';
   applyChangesWithCheckpoint();
 };
-
-const showDeleteConfirmationDialog = ref(false);
 
 const { configIssues, configIssueType, setConfigIssues } =
   useColumnConfigurationValidation();
