@@ -237,9 +237,10 @@ const col = defineModel<PropertyConfig>('col', { required: true });
 
 defineProps<{ colIndex: number }>();
 
-const componentSelectOptions: SelectOption[] = registeredComponents.map(
-  ([name]) => ({ label: name, value: name })
-);
+const componentSelectOptions: SelectOption[] = registeredComponents
+  .filter(([, , meta]) => meta.supportsTableView)
+  .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+  .map(([name]) => ({ label: name, value: name }));
 
 const availableComponentKeys = computed<string[]>(() => {
   const registeredComponent = registeredComponents.find(
