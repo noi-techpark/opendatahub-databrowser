@@ -16,7 +16,7 @@ import { UserSettingsGuard } from '../../../../../user/types';
 import { computeRoutePath } from '../../../../location/routePath';
 import { stringifyRouteQuery } from '../../../../location/stringifyQuery';
 
-export const useColumnConfigurationSaveGuard = (
+export const useColumnConfigurationNavigationGuard = (
   isSaveSuccess: Ref<boolean>,
   hasUnsavedChanges: Ref<boolean>,
   emit: (event: 'saveChanges' | 'discardChanges') => void

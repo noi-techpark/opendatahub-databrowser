@@ -18,11 +18,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <UserTableSettingsToolBoxPanel />
   </ToolBox>
 
-  <ColumnConfigurationSaveGuardDialog
+  <ColumnConfigurationNavigationGuardHandler
     :has-unsaved-changes="isColumnConfigChanged"
     :is-save-success="isSaveSuccess"
     @discard-changes="discardChanges"
-    @saveChanges="saveChanges"
+    @save-changes="saveChanges"
   />
 </template>
 
@@ -31,7 +31,7 @@ import { useI18n } from 'vue-i18n';
 import ExportDatasetsToolBoxPanel from '../../toolBox/export/ExportDatasetsToolBoxPanel.vue';
 import ToolBox from '../../toolBox/ToolBox.vue';
 import { provideColumnConfiguration } from './configureTableColumns/columnConfiguration';
-import ColumnConfigurationSaveGuardDialog from './configureTableColumns/ColumnConfigurationSaveGuardDialog.vue';
+import ColumnConfigurationNavigationGuardHandler from './configureTableColumns/ColumnConfigurationNavigationGuardHandler.vue';
 import SearchAndFilterToolBoxPanel from './SearchAndFilterToolBoxPanel.vue';
 import UserTableSettingsToolBoxPanel from './UserTableSettingsToolBoxPanel.vue';
 
