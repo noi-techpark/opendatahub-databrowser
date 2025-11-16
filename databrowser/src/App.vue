@@ -8,6 +8,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <router-view></router-view>
 </template>
 
+<script lang="ts" setup>
+import { useCanonicalHead } from './domain/contentpage/head/canonicalHead';
+
+// Head injection: set canonical URL
+useCanonicalHead();
+</script>
+
 <style>
 @font-face {
   font-family: 'SourceSansPro';
