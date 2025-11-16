@@ -33,7 +33,7 @@ export function setFilterAndSearchQuery(
   }
 }
 
-export function getStartedQuery() {
+export function getFilterAndSearchQuery() {
   const filterQuery = useRouteQuery<string[] | string | null>(
     'filterQuery'
   ).value;

@@ -297,7 +297,7 @@ import IconLocationOn from '../../../components/svg/IconLocationOn.vue';
 import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePage.vue';
 import { embeddedDatasetConfigs } from '../../../config/config';
 import {
-  getStartedQuery,
+  getFilterAndSearchQuery,
   setFilterAndSearchQuery,
 } from '../../../domain/contentpage/utils.ts';
 import { DatasetConfig } from '../../../domain/datasets/config/types';
@@ -433,7 +433,7 @@ const hideFilters = () => {
 const filterSelectedForComponent = ref<{ key: string; value: string }[]>([]);
 
 const initializeFiltersAndSearch = () => {
-  const { filterQuery, searchQuery } = getStartedQuery();
+  const { filterQuery, searchQuery } = getFilterAndSearchQuery();
   if (
     !searchQuery &&
     searchQuery !== '' &&
