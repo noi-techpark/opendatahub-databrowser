@@ -298,7 +298,7 @@ import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePag
 import { embeddedDatasetConfigs } from '../../../config/config';
 import {
   getStartedQuery,
-  useUpdateURL,
+  setFilterAndSearchQuery,
 } from '../../../domain/contentpage/utils.ts';
 import { DatasetConfig } from '../../../domain/datasets/config/types';
 import MapViewAsDialog from '../../../domain/datasets/ui/mapView/MapViewAsDialog.vue';
@@ -445,7 +445,7 @@ const initializeFiltersAndSearch = () => {
   if (searchQuery) {
     filters.value.searchVal = searchQuery;
     if (!filterQuery && filterQuery.length === 0)
-      useUpdateURL(router, [], searchQuery);
+      setFilterAndSearchQuery(router, [], searchQuery);
   }
   if (filterQuery && filterQuery.length > 0) {
     filterSelectedForComponent.value = decodeURIComponent(filterQuery)
@@ -467,7 +467,7 @@ onBeforeMount(() => {
 });
 
 const resetFilters = () => {
-  useUpdateURL(router, [], '');
+  setFilterAndSearchQuery(router, [], '');
 
   filters.value = structuredClone(defaultFilters);
   filterSelectedForComponent.value = [];
@@ -516,7 +516,11 @@ const toggleFilter = (key: string, value?: string) => {
     setFilter(key, value);
   }
 
-  useUpdateURL(router, updatedFilters.value, filters.value.searchVal);
+  setFilterAndSearchQuery(
+    router,
+    updatedFilters.value,
+    filters.value.searchVal
+  );
 };
 
 const setFilter = (key: string, value?: string) => {
