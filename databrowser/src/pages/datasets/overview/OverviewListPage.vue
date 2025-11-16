@@ -281,17 +281,25 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Accordion from '../../../components/accordion/Accordion.vue';
 import ButtonCustom from '../../../components/button/ButtonCustom.vue';
+import ButtonExternalLink from '../../../components/button/ButtonExternalLink.vue';
 import { Size, Variant } from '../../../components/button/types';
 import CardDivider from '../../../components/card/CardDivider.vue';
+import CheckboxCustomHomePage from '../../../components/checkbox/CheckboxCustomHomePage.vue';
 import PageGridContent from '../../../components/content/PageGridContent.vue';
 import PartnersAndContributors from '../../../components/partners/PartnersAndContributors.vue';
 import InfoPopover from '../../../components/popover/InfoPopover.vue';
 import PopoverContent from '../../../components/popover/PopoverContent.vue';
+import PopoverContentHeader from '../../../components/popover/PopoverContentHeader.vue';
 import PopoverCustomPanel from '../../../components/popover/PopoverCustomPanel.vue';
 import IconClose from '../../../components/svg/IconClose.vue';
 import IconFilter from '../../../components/svg/IconFilter.vue';
 import IconLocationOn from '../../../components/svg/IconLocationOn.vue';
+import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePage.vue';
 import { embeddedDatasetConfigs } from '../../../config/config';
+import {
+  getStartedQuery,
+  useUpdateURL,
+} from '../../../domain/contentpage/utils.ts';
 import { DatasetConfig } from '../../../domain/datasets/config/types';
 import MapViewAsDialog from '../../../domain/datasets/ui/mapView/MapViewAsDialog.vue';
 import ResetAllFilters from '../../../domain/datasets/ui/tableView/filter/ResetAllFilters.vue';
@@ -299,16 +307,8 @@ import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
 import AppLayout from '../../../layouts/AppLayout.vue';
 import OverviewCardItem from './OverviewCardItem.vue';
 import OverviewListPageHero from './OverviewListPageHero.vue';
-import ButtonExternalLink from '../../../components/button/ButtonExternalLink.vue';
-import PopoverContentHeader from '../../../components/popover/PopoverContentHeader.vue';
 import OverviewListSearch from './OverviewListSearch.vue';
 import { useMetaDataForAllDatasets } from './useDatasets';
-import {
-  getStartedQuery,
-  useUpdateURL,
-} from '../../../domain/homepage/utils.ts';
-import CheckboxCustomHomePage from '../../../components/checkbox/CheckboxCustomHomePage.vue';
-import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePage.vue';
 
 const { t } = useI18n();
 
