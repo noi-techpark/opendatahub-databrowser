@@ -3,13 +3,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { Ref, watch } from 'vue';
+import { useApiMutate } from '../../../api/useApi';
 import { useEditStore } from './store/editStore';
 import { EditData } from './store/initialState';
 
 export const useEditStoreSync = (
   data: Ref<unknown>,
   isMutateSuccess: Ref<boolean>,
-  mutate: (data?: unknown) => unknown
+  mutate: ReturnType<typeof useApiMutate>['mutate'],
+  { onSuccess }: { onSuccess?: (data: unknown) => void } = {}
 ) => {
   const editStore = useEditStore();
 
@@ -31,7 +33,7 @@ export const useEditStoreSync = (
     }
   );
 
-  const mutateData = () => mutate(editStore.current);
+  const mutateData = () => mutate(editStore.current, { onSuccess });
   const resetData = () => editStore.setCurrent(editStore.initial);
 
   return { mutate: mutateData, reset: resetData };

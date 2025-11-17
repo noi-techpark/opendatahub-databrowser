@@ -78,8 +78,10 @@ import {
 } from '../../../cellComponents/components/utils/editList/dialogMultipleFilesLanguage/utils';
 import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
 import MainAndSubCategories from '../common/MainAndSubCategories.vue';
+import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
 import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
 import { useSingleRecordMutateData } from '../common/load/useSingleRecordMutateData';
+import { useToolBoxStore } from '../toolBox/toolBoxStore';
 import EditFooter from './EditFooter.vue';
 import EditSaveError from './EditSaveError.vue';
 import DiscardChangesDialog from './dialogs/DiscardChangesDialog.vue';
@@ -89,8 +91,6 @@ import { useEditStore } from './store/editStore';
 import EditToolBox from './toolBox/EditToolBox.vue';
 import { useApplyError } from './useApplyError';
 import { useEditStoreSync } from './useEditStoreSync';
-import { useToolBoxStore } from '../toolBox/toolBoxStore';
-import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
 
 const { t } = useI18n();
 
@@ -126,6 +126,7 @@ const {
   hasEditView,
   isGeneratedSource,
   isNewView,
+  refetch,
 } = useSingleRecordLoad();
 
 const {
@@ -146,7 +147,9 @@ const {
 } = useApplyError(categories, subcategories, mutateError);
 
 // Sync data to edit store
-const storeSync = useEditStoreSync(data, isMutateSuccess, mutate);
+const storeSync = useEditStoreSync(data, isMutateSuccess, mutate, {
+  onSuccess: () => refetch(),
+});
 
 // Triggers request and sync editStore
 const saveChanges = () => storeSync.mutate();
