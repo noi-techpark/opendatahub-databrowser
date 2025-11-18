@@ -10,6 +10,7 @@ import {
 import { accommodationConfig } from './accommodation/accommodation.config';
 import { accommodationRoomsConfig } from './accommodationRooms/accommodationRooms.config';
 import { accommodationTypesConfig } from './accommodationTypes/accommodationTypes.config';
+import { announcementConfig } from './announcement/announcement.config';
 import { articleConfig } from './article/article.config';
 import { districtConfig } from './district/district.config';
 import { eventConfig } from './event/event.config';
@@ -47,6 +48,7 @@ import { wineAwardConfig } from './wineAward/wineAward.config';
 export const tourismEmbeddedDatasetConfigs = [
   accommodationConfig,
   accommodationRoomsConfig,
+  announcementConfig,
   articleConfig,
   eventShortConfig,
   odhActivityPoiConfig,

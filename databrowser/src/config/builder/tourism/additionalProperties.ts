@@ -5,6 +5,7 @@
 import { CellComponent } from '../../../domain/cellComponents/types';
 import { EditElements } from '../../../domain/datasets/config/types';
 import { echargingdataCategory } from './echargingdata';
+import { roadIncidentdataCategory } from './roadIncident';
 
 export const additionalPropertiesCategory = (): EditElements => ({
   name: 'Additional properties',
@@ -27,6 +28,10 @@ export const additionalPropertiesCategory = (): EditElements => ({
     {
       objectPath: 'AdditionalProperties.EchargingDataProperties',
       elements: echargingdataCategory(),
+    },
+    {
+      objectPath: 'AdditionalProperties.RoadIncidentProperties',
+      elements: roadIncidentdataCategory(),
     },
   ],
 });
