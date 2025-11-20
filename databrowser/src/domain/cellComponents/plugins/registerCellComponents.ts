@@ -27,11 +27,15 @@ import EditGpsInfoCell from '../components/cells/editGpsInfoCell/EditGpsInfoCell
 import GpsPointMap from '../components/cells/editGpsInfoCell/GpsPointMap.vue';
 import EditGpsTrackCell from '../components/cells/editGpsTrackCell/EditGpsTrackCell.vue';
 import EditImageGalleryCell from '../components/cells/editImageGalleryCell/EditImageGalleryCell.vue';
+import EditGeoDataCell from '../components/cells/editGeoDataCell/EditGeoDataCell.vue';
 import EditRoomBookedCell from '../components/cells/editRoomBookedCell/EditRoomBookedCell.vue';
 import EditRoomVenueCell from '../components/cells/editRoomVenueCell/EditRoomVenueCell.vue';
 import EditVideoItemsCell from '../components/cells/editVideoItemsCell/EditVideoItemsCell.vue';
 import EventDocumentCell from '../components/cells/eventDocumentCell/EventDocumentCell.vue';
+import GpsPointMap from '../components/cells/editGpsInfoCell/GpsPointMap.vue';
+import GeoDataMap from '../components/cells/editGeoDataCell/GeoDataMap.vue';
 import GpsPointsCell from '../components/cells/gpsPointsCell/GpsPointsCell.vue';
+import GeoDataCell from '../components/cells/geoDataCell/GeoDataCell.vue';
 import HtmlCell from '../components/cells/htmlCell/HtmlCell.vue';
 import ImageCell from '../components/cells/imageCell/ImageCell.vue';
 import ImageEditCell from '../components/cells/imageCell/ImageEditCell.vue';
@@ -262,5 +266,77 @@ export default {
     registeredComponents.forEach(([key, component]) =>
       app.component(key, component)
     );
+    app.component(CellComponent.ArrayCell, ArrayCell);
+    app.component(CellComponent.ArrayEditableCell, ArrayEditableCell);
+    app.component(CellComponent.ArrayLookupCell, ArrayLookupCell);
+    app.component(CellComponent.ArrayTagsCell, ArrayTagsCell);
+    app.component(
+      CellComponent.ArticleAdditionalInfoCell,
+      ArticleAdditionalInfoCell
+    );
+    app.component(CellComponent.ArticleLinkInfoCell, ArticleLinkInfoCell);
+    app.component(CellComponent.ArticleTypeCell, ArticleTypeCell);
+    app.component(
+      CellComponent.EditAccommodationBookingCell,
+      EditAccommodationBookingCell
+    );
+    app.component(
+      CellComponent.EditAccommodationFeatureCell,
+      EditAccommodationFeatureCell
+    );
+    app.component(
+      CellComponent.EditAccommodationRoomCell,
+      EditAccommodationRoomCell
+    );
+    app.component(CellComponent.EditGpsTrackCell, EditGpsTrackCell);
+    app.component(CellComponent.DateCell, DateCell);
+    app.component(CellComponent.CustomDataArrayCell, CustomDataArrayCell);
+    app.component(CellComponent.DictionaryCell, DictionaryCell);
+    app.component(CellComponent.EditedDateCell, EditedDateCell);
+    app.component(CellComponent.EditImageGalleryCell, EditImageGalleryCell);
+    app.component(CellComponent.EditGpsInfoCell, EditGpsInfoCell);
+    app.component(CellComponent.EditGeoDataCell, EditGeoDataCell);
+    app.component(CellComponent.EditRoomBookedCell, EditRoomBookedCell);
+    app.component(CellComponent.EditRoomVenueCell, EditRoomVenueCell);
+    app.component(CellComponent.EditVideoItemsCell, EditVideoItemsCell);
+    app.component(CellComponent.EditEventPublisherCell, EditEventPublisherCell);
+    app.component(CellComponent.EditEventUrlCell, EditEventUrlCell);
+    app.component(CellComponent.EditEventDateCell, EditEventDateCell);
+    app.component(CellComponent.EditEventVariantCell, EditEventVariantCell);
+    app.component(CellComponent.EventDocumentCell, EventDocumentCell);
+    app.component(CellComponent.GpsPointMap, GpsPointMap);
+    app.component(CellComponent.GeoDataMap, GeoDataMap);
+    app.component(CellComponent.GpsPointsCell, GpsPointsCell);
+    app.component(CellComponent.GeoDataCell, GeoDataCell);
+    app.component(CellComponent.HtmlCell, HtmlCell);
+    app.component(CellComponent.InputReferenceCell, InputReferenceCell);
+    app.component(CellComponent.ImageCell, ImageCell);
+    app.component(CellComponent.ImageEditCell, ImageEditCell);
+    app.component(CellComponent.ImageGalleryCell, ImageGalleryCell);
+    app.component(CellComponent.JsonCell, JsonCell);
+    app.component(CellComponent.LoadingCell, LoadingCell);
+    app.component(CellComponent.MappingCell, MappingCell);
+    app.component(CellComponent.MeasurementsCell, MeasurementsCell);
+    app.component(CellComponent.OperationScheduleCell, OperationScheduleCell);
+    app.component(CellComponent.PushDataCell, PushDataCell);
+    app.component(CellComponent.ReferenceCell, ReferenceCell);
+    app.component(CellComponent.SelectWithOptionsCell, SelectWithOptionsCell);
+    app.component(CellComponent.StateCell, StateCell);
+    app.component(CellComponent.StringCell, StringCell);
+    app.component(CellComponent.UrlCell, UrlCell);
+    app.component(CellComponent.StringTemplateCell, StringTemplateCell);
+    app.component(CellComponent.TagCell, TagCell);
+    app.component(CellComponent.TagReferenceCell, TagReferenceCell);
+    app.component(CellComponent.TextAreaCell, TextAreaCell);
+    app.component(CellComponent.TextHighlightCell, TextHighlightCell);
+    app.component(CellComponent.ToggleButtonCell, ToggleButtonCell);
+    app.component(CellComponent.ToggleCell, ToggleCell);
+    app.component(CellComponent.ToggleTriStateCell, ToggleTriStateCell);
+    app.component(CellComponent.TypeBasedCell, TypeBasedCell);
+    app.component(CellComponent.WebcamCell, WebcamCell);
+    app.component(CellComponent.RelatedContentCell, RelatedContentCell);
+    app.component(CellComponent.PushConfigCell, PushConfigCell);
+    app.component(CellComponent.SyncDataConfigCell, SyncDataConfigCell);
+    app.component(CellComponent.UpdateHistoryCell, UpdateHistoryCell);
   },
 };
