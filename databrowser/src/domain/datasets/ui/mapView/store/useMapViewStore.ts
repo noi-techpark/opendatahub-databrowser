@@ -137,11 +137,28 @@ export const useMapViewStore = defineStore('mapViewStore', {
 
         const axiosInstance = await axiosWithMaybeAuth(true, apiType);
 
-        const fetchUrl = getDatasetUrl(dataset.api);
+        // Pass coordinateSource from metadata if available
+        let coordinateSource = dataset.metaData.coordinateSource;
+        if (!coordinateSource && dataset.metaData.datasetName == "Announcement") {
+          coordinateSource = {
+            type: "geoData",
+            field: "Geo",
+            useDefault: true,
+          }
+        } else if (!coordinateSource && dataset.metaData.datasetName == "Hiking") {
+          coordinateSource = {
+            type: "geoShapeReference",
+            field: "GpsTrack",
+            useFirst: true,
+          }
+        }
+
+        const fetchUrl = getDatasetUrl(dataset.api, [coordinateSource?.field]);
         const responseData = await axiosInstance.get<unknown>(fetchUrl);
 
         const records = unwrapData<unknown[]>(responseData.data);
-        const mapSource = computeMapSource(apiType, records);
+        // computeMapSource is now async to support fetching GeoShape references
+        const mapSource = await computeMapSource(apiType, records, coordinateSource);
 
         this.datasets[datasetId].records.fetching = false;
         this.datasets[datasetId].records.fetched = true;

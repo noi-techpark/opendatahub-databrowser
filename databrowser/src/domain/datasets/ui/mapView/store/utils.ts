@@ -5,12 +5,14 @@
 import { KnownApiType } from '../../../../metaDataConfig/types';
 import { MapDatasetApi } from '../types';
 
-export const getDatasetUrl = ({ apiType, apiUrl }: MapDatasetApi): string => {
+export const getDatasetUrl = ({ apiType, apiUrl }: MapDatasetApi, additionalFields: Array<string>): string => {
   switch (apiType) {
     case 'content': {
       const url = new URL(apiUrl);
       url.searchParams.set('pagesize', '1000000');
-      url.searchParams.set('fields', 'Id,GpsInfo,Shortname');
+      url.searchParams.set('fields', 'Id,GpsInfo,Shortname' + 
+          (additionalFields?.length ? `,${additionalFields.join(",")}` : "")
+      );
       return url.toString();
     }
     case 'timeseries': {

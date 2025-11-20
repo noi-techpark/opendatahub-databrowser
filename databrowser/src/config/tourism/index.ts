@@ -43,10 +43,12 @@ import { weatherInfoConfig } from './weatherInfo/weatherInfo.config';
 import { weatherRealTimeConfig } from './weatherRealTime/weatherRealTime.config';
 import { webcamInfoConfig } from './webcamInfo/webcamInfo.config';
 import { wineAwardConfig } from './wineAward/wineAward.config';
+import { announcementConfig } from './announcement/announcement.config';
 
 export const tourismEmbeddedDatasetConfigs = [
   accommodationConfig,
   accommodationRoomsConfig,
+  announcementConfig,
   articleConfig,
   eventShortConfig,
   odhActivityPoiConfig,
