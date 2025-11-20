@@ -31,7 +31,7 @@ import { computed } from 'vue';
 import LoadingError from '../../../../components/loading/LoadingError.vue';
 import MainAndSubCategories from '../common/MainAndSubCategories.vue';
 import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
-import ExportDatasetsAndSettingsToolBox from '../toolBox/ExportDatasetsAndSettingsToolBox.vue';
+import ExportDatasetsAndSettingsToolBox from '../toolBox/export/ExportDatasetsAndSettingsToolBox.vue';
 import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
 
 const {

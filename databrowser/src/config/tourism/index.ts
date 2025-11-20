@@ -8,7 +8,7 @@ import {
   defaultTourismTableQueryParameters,
 } from '../../domain/datasets/ui/tableView/defaultValues';
 import { accommodationConfig } from './accommodation/accommodation.config';
-import { accommodationRoomsConfig} from './accommodationRooms/accommodationRooms.config';
+import { accommodationRoomsConfig } from './accommodationRooms/accommodationRooms.config';
 import { accommodationTypesConfig } from './accommodationTypes/accommodationTypes.config';
 import { articleConfig } from './article/article.config';
 import { districtConfig } from './district/district.config';

@@ -17,16 +17,20 @@ export const useSingleRecordLoadData = (
   // Don't fetch data if we are in a new view
   const enabled = computed(() => !toValue(isNewView));
 
-  const { data, error, isError, isLoading } = useApiRead(normalizedPath, {
-    withAuth: true,
-    enabled,
-    queryKey: [normalizedPath],
-  });
+  const { data, error, isError, isLoading, refetch } = useApiRead(
+    normalizedPath,
+    {
+      withAuth: true,
+      enabled,
+      queryKey: [normalizedPath],
+    }
+  );
 
   return {
     data,
     error,
     isError,
     isDataLoading: isLoading,
+    refetch,
   };
 };

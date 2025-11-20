@@ -19,11 +19,10 @@ export interface UseFloatingUi {
   offset?: number;
   leftOffset?: number;
   arrow?: Ref<HTMLElement>;
-
 }
 
 export const useFloatingUi = (
-  options: UseFloatingUi,
+  options: UseFloatingUi
 ): [Ref<HTMLElement | null>, Ref<HTMLElement | null>, Ref<Placement>] => {
   const reference = ref<HTMLElement | null>(null);
   const tooltip = ref<HTMLElement | null>(null);
@@ -77,7 +76,7 @@ export const useFloatingUi = (
               left: 'right',
             }[staticPlacement]!;
 
-            if(arrowEl){
+            if (arrowEl) {
               Object.assign(arrowEl.style, {
                 left: arrowX != null ? `${arrowX - leftOffset}px` : '',
                 top: arrowY != null ? `${arrowY}px` : '',
@@ -86,19 +85,18 @@ export const useFloatingUi = (
                 [staticSide]: '-8px',
               });
             }
-     
           }
         });
       });
       onInvalidate(cleanup);
-    }),
+    })
   );
 
   return [reference, tooltip, placement];
 };
 
 const buildMiddleware = (
-  options: UseFloatingUi & { tooltipEl: HTMLElement; arrowEl?: HTMLElement },
+  options: UseFloatingUi & { tooltipEl: HTMLElement; arrowEl?: HTMLElement }
 ): Middleware[] => {
   const middleware: Middleware[] = [];
 
@@ -124,7 +122,7 @@ const buildMiddleware = (
             width: `${rects.reference.width}px`,
           });
         },
-      }),
+      })
     );
   }
 

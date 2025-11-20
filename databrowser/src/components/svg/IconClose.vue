@@ -6,18 +6,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <svg
-    width="24"
-    height="24"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
     fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M6 18L18 6M6 6l12 12"
+      d="M13.7669 6.5L6.5 13.7669"
+      stroke="currentColor"
+      stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="2"
+    />
+    <path
+      d="M6.5 6.5L13.7669 13.7669"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </svg>
 </template>

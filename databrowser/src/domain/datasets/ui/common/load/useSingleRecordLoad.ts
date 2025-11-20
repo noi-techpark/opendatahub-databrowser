@@ -26,11 +26,8 @@ export const useSingleRecordLoad = () => {
   const { view, isNewView, hasEditView } = toRefs(useDatasetViewStore());
 
   // Load single record data
-  const { data, error, isError, isDataLoading } = useSingleRecordLoadData(
-    datasetDomain,
-    fullPath,
-    isNewView
-  );
+  const { data, error, isError, isDataLoading, refetch } =
+    useSingleRecordLoadData(datasetDomain, fullPath, isNewView);
 
   updateDatasetLocationStore(datasetDomain, datasetPath, datasetQuery, data);
 
@@ -73,5 +70,6 @@ export const useSingleRecordLoad = () => {
     subcategories,
     currentCategory,
     datasetDomain,
+    refetch,
   };
 };

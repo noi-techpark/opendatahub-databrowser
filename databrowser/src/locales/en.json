@@ -287,7 +287,15 @@
       "copyTitle": "API DATASET",
       "copyAction": "Copy to clipboard",
       "downloadJSON": "Download dataset as JSON",
-      "downloadCSV": "Download dataset as CSV"
+      "downloadCSV": "Download dataset as CSV",
+      "dialog": {
+        "discardChanges": {
+          "title": "Discard unsaved data?",
+          "description": "Are you sure you want to discard unsaved data?",
+          "buttonYes": "Yes (y)",
+          "buttonNo": "No (n)"
+        }
+      }
     },
     "toolBox": {
       "settings": {
@@ -306,10 +314,18 @@
           "body": "Check documentation for full details",
           "iconAlt": "Link to documentation"
         },
-        "json": {
-          "header": "JSON",
-          "body": "dataset.json",
-          "iconAlt": "Download the currently displayed data"
+        "download": {
+          "header": "Download",
+          "button": "Download",
+          "buttonAlt": "Download the currently displayed data",
+          "csv": {
+            "header": "CSV FILE",
+            "body": "Export of all filtered records (including media links)."
+          },
+          "json": {
+            "header": "JSON",
+            "body": "Export of all filtered records (including media links)."
+          }
         },
         "settings": "Settings",
         "panelName": "Export datasets",
@@ -336,6 +352,10 @@
     "inputSearch": {
       "labelButton": "Search",
       "labelPlaceholder": "Insert search value ..."
+    },
+    "downloadMenu": {
+      "title": "{countActive} export in progress",
+      "subtitle": "{countCompleted} completed, {countFailed} failed"
     },
     "mappingTable": {
       "addKeyValue": "Add key and value",

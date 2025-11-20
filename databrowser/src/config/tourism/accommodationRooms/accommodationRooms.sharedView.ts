@@ -128,7 +128,7 @@ export const accommodationRoomsSharedView = ():
                   OtaCodes: 'OtaCodes',
                   RoomAmenityCodes: 'RoomAmenityCodes',
                 },
-                targetPropertyName: 'accommodationFeature', 
+                targetPropertyName: 'accommodationFeature',
               },
             },
           ],

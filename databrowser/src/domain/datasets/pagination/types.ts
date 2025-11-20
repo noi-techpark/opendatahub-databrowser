@@ -21,17 +21,13 @@ export interface WithTourismPagination<T = unknown> {
   Items: T[];
 }
 
-export const hasTourismPaginationShape =(
-  arg: unknown
-) => {
+export const hasTourismPaginationShape = (arg: unknown) => {
   if (arg == null) {
     return false;
   }
   const data = arg as WithTourismPagination;
   return (
-    data.TotalResults != null &&
-    data.TotalPages != null &&
-    data.Items != null
+    data.TotalResults != null && data.TotalPages != null && data.Items != null
   );
 };
 

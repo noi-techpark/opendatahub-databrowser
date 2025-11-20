@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <slot name="tableHeader"></slot>
       </TableHeader>
       <tbody class="divide-y divide-gray-200">
-        <tr v-for="(item, index) in (itemsInternal as any)" :key="index">
+        <tr v-for="(item, index) in itemsInternal as any" :key="index">
           <template v-if="hasItems">
             <TableCell class="relative">
               <CheckboxCustom

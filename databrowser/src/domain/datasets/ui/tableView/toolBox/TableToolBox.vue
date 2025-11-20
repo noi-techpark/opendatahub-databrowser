@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import ExportDatasetsToolBoxPanel from '../../toolBox/ExportDatasetsToolBoxPanel.vue';
+import ExportDatasetsToolBoxPanel from '../../toolBox/export/ExportDatasetsToolBoxPanel.vue';
 import ToolBox from '../../toolBox/ToolBox.vue';
 import SearchAndFilterToolBoxPanel from './SearchAndFilterToolBoxPanel.vue';
 

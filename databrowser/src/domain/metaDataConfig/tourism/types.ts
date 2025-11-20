@@ -28,4 +28,5 @@ export interface TourismMetaData {
   dataProviders: string[];
   singleDataset?: boolean;
   datasetConfigurations: string[];
+  licenseInfo?: { author?: string; license?: string; closedData?: boolean; licenseHolder?: string   }
 }
