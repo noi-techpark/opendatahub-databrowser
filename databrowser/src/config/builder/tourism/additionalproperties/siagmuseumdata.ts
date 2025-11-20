@@ -20,8 +20,7 @@ export const siagmuseumdataCategory = (
           component: CellComponent.StringCell,
           objectMapping: {
             text: 'AdditionalProperties.SiagMuseumDataProperties.Test',
-          },
-          params: { type: 'string' },
+          },          
         },        
       ],
     },   
