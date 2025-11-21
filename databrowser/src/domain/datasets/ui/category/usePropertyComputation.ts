@@ -42,7 +42,14 @@ export const usePropertyComputation = () => {
             ? computeReferencedPropertyAsStringOrArrayCell(property)
             : property;
 
-        const value = buildTargetFromMapping(data, propertyToMap);
+        // For arrayMapping with nested properties, pass deprecationInfo so it can be
+        // propagated to nested components (e.g., EditNestedArrayCell)
+        const extraParams =
+          propertyToMap.arrayMapping?.properties != null
+            ? { parentDeprecationInfo: property.deprecationInfo }
+            : {};
+
+        const value = buildTargetFromMapping(data, propertyToMap, extraParams);
         return { ...propertyToMap, value };
       });
 

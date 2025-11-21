@@ -5,10 +5,26 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
+  <!-- Nested array table container with visual border for clarity -->
   <EditListTable :items="items" :editable="editable">
+    <!-- Define column widths to distribute space evenly -->
+    <template #colGroup>
+      <col
+        v-for="(property, index) in filteredProperties"
+        :key="index"
+        :class="getColumnWidthClass()"
+      />
+    </template>
+
     <template #tableHeader>
-      <TableHeaderCell v-for="(property, index) in properties" :key="index">
+      <TableHeaderCell v-for="(property, index) in filteredProperties" :key="index">
         {{ property.title }}
+        <!-- Show deprecation indicator in header if property is deprecated -->
+        <span
+          v-if="hasDeprecation(property)"
+          class="ml-1 text-xs text-deprecated"
+          title="Deprecated"
+        >⚠</span>
       </TableHeaderCell>
     </template>
 
@@ -18,14 +34,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         {{ logTableRow(item, index) }}
       </template>
 
-      <TableCell v-for="(property, propIndex) in properties" :key="propIndex">
+      <TableCell v-for="(property, propIndex) in getComputedPropertiesForItem(item)" :key="propIndex">
         <ComponentRenderer
           :tag-name="property.component"
-          :attributes="computePropertyAttributes(item, property)"
+          :attributes="property.value"
           :object-mapping="property.objectMapping"
           :array-mapping="property.arrayMapping"
           :editable="false"
-          @update="(update) => handleNestedUpdate(index, update, property)"
+          @update="(update: { prop: string; value: unknown; }) => handleNestedUpdate(index, update, property)"
         />
       </TableCell>
     </template>
@@ -56,10 +72,12 @@ import TableCell from '../../../../../components/table/TableCell.vue';
 import ComponentRenderer from '../../../../../components/componentRenderer/ComponentRenderer.vue';
 import EditListTable from '../../utils/editList/table/EditListTable.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
-import { PropertyConfig } from '../../../../datasets/config/types';
-import { buildTargetFromMapping } from '../../../../datasets/config/mapping/utils';
+import { DeprecationInfo, PropertyConfig } from '../../../../datasets/config/types';
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
+import { useToolBoxStore } from '../../../../datasets/ui/toolBox/toolBoxStore';
+import { usePropertyComputation } from '../../../../datasets/ui/category/usePropertyComputation';
+import { PropertyConfigWithValue } from '../../../../datasets/ui/category/types';
 
 const props = withDefaults(
   defineProps<{
@@ -68,6 +86,8 @@ const props = withDefaults(
     pathToParent?: string;
     editable?: boolean;
     debug?: boolean;
+    // Deprecation info from parent - merged with nested property deprecation
+    parentDeprecationInfo?: DeprecationInfo[];
   }>(),
   {
     items: () => [],
@@ -75,6 +95,7 @@ const props = withDefaults(
     pathToParent: '',
     editable: false,
     debug: false,
+    parentDeprecationInfo: () => [],
   }
 );
 
@@ -82,7 +103,63 @@ const emit = defineEmits<{
   update: [value: { prop: string; value: unknown[] }];
 }>();
 
-const debugMode = computed(() => true);
+const debugMode = computed(() => props.debug || import.meta.env.DEV);
+
+const toolboxStore = useToolBoxStore();
+const { computeProperties } = usePropertyComputation();
+
+/**
+ * Get filtered properties for table columns (respects showDeprecated, showReferences).
+ * Uses computeProperties with empty data to get the column definitions.
+ */
+const filteredProperties = computed(() => {
+  // Use computeProperties to filter and transform properties
+  // Pass empty object since we just need column definitions, not values
+  return computeProperties(
+    {},
+    props.properties,
+    true, // showAll - always show columns in table
+    props.editable,
+    toolboxStore.settings.showDeprecated,
+    toolboxStore.settings.showReferences
+  );
+});
+
+/**
+ * Compute property values for a specific item.
+ * Returns the computed properties with values for rendering.
+ */
+const getComputedPropertiesForItem = (item: unknown): PropertyConfigWithValue[] => {
+  return computeProperties(
+    item,
+    props.properties,
+    true, // showAll - always show all columns in table
+    props.editable,
+    toolboxStore.settings.showDeprecated,
+    toolboxStore.settings.showReferences
+  );
+};
+
+/**
+ * Check if a property has deprecation (own or inherited from parent)
+ */
+const hasDeprecation = (property: PropertyConfig | PropertyConfigWithValue): boolean => {
+  const parentInfo = props.parentDeprecationInfo ?? [];
+  const propertyInfo = property.deprecationInfo ?? [];
+  return parentInfo.length > 0 || propertyInfo.length > 0;
+};
+
+/**
+ * Get column width class based on number of properties.
+ * Uses min-width to ensure columns have minimum size but can grow to fill space.
+ */
+const getColumnWidthClass = (): string => {
+  const count = filteredProperties.value?.length ?? 1;
+  if (count <= 2) return 'min-w-48 md:min-w-64';
+  if (count <= 3) return 'min-w-40 md:min-w-52';
+  if (count <= 4) return 'min-w-36 md:min-w-44';
+  return 'min-w-32 md:min-w-40';  // 5+ properties: smaller minimum
+};
 
 // Get navigation and action triggers from EditListCell context
 const { navigateToTab } = useInjectNavigation();
@@ -102,30 +179,9 @@ const logTableRow = (item: unknown, index: number) => {
   console.log('[EditNestedArrayTable] Rendering row:', {
     index,
     item,
-    properties: props.properties.map(p => p.title),
+    properties: filteredProperties.value.map(p => p.title),
   });
   return null; // Don't render anything
-};
-
-/**
- * Extract values for a specific property from an array item
- * Uses the same buildTargetFromMapping logic as the rest of the system
- */
-const computePropertyAttributes = (
-  item: unknown,
-  property: PropertyConfig
-): Record<string, unknown> => {
-  const result = buildTargetFromMapping(item, property);
-
-  if (debugMode.value) {
-    console.log('[EditNestedArrayTable] computePropertyAttributes:', {
-      property: property.title,
-      item,
-      result,
-    });
-  }
-
-  return result;
 };
 
 /**
@@ -135,7 +191,7 @@ const computePropertyAttributes = (
 const handleNestedUpdate = (
   itemIndex: number,
   update: { prop: string; value: unknown },
-  property: PropertyConfig
+  property: PropertyConfig | PropertyConfigWithValue
 ) => {
   if (debugMode.value) {
     console.log('[EditNestedArrayTable] handleNestedUpdate:', {
@@ -191,7 +247,7 @@ const handleNestedUpdate = (
  */
 const getDataPathFromUpdate = (
   updateProp: string,
-  property: PropertyConfig
+  property: PropertyConfig | PropertyConfigWithValue
 ): string | null => {
   // For object mapping, find which data path corresponds to this prop
   if (property.objectMapping != null) {
