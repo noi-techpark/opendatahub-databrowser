@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <GoToReferenceAttributeDialog />
       <div class="flex h-screen flex-col justify-between overflow-auto">
         <div
-          class="flex grow md:overflow-y-auto"
+          class="flex h-full grow md:overflow-y-auto"
           :class="[{ 'pointer-events-none opacity-50': isMutateLoading }]"
         >
           <div

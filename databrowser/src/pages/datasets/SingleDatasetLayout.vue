@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <DatasetNavigation />
     <ContentDivider />
     <section
-      :class="ignoreSectionStyling ? '' : `flex flex-col overflow-y-auto`"
+      :class="ignoreSectionStyling ? '' : `flex flex-1 flex-col overflow-y-auto`"
     >
       <slot></slot>
     </section>

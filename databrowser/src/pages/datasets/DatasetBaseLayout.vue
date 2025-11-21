@@ -12,7 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <ContentDivider />
 
-    <div class="relative flex h-full overflow-y-auto">
+    <div class="relative flex flex-1 overflow-y-auto">
       <div class="flex flex-1 flex-col overflow-x-auto">
         <ContentAlignmentX>
           <DatasetHeader />
