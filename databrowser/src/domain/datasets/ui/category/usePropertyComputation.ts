@@ -5,6 +5,7 @@
 import { CellComponent } from '../../../cellComponents/types';
 import { buildTargetFromMapping } from '../../config/mapping/utils';
 import { PropertyConfig } from '../../config/types';
+import { validatePropertyConfigs, logValidationErrors } from '../../config/validation/arrayMappingValidation';
 import { PropertyConfigWithValue } from './types';
 
 export const usePropertyComputation = () => {
@@ -16,6 +17,14 @@ export const usePropertyComputation = () => {
     showDeprecatedProperties: boolean,
     showReferences: boolean
   ): PropertyConfigWithValue[] => {
+    // Validate property configurations in development mode
+    if (import.meta.env.DEV) {
+      const validationErrors = validatePropertyConfigs(properties, 'properties');
+      if (validationErrors.length > 0) {
+        logValidationErrors(validationErrors, 'PropertyConfig[]');
+      }
+    }
+
     // Add data to properties such that it can be used in the render component
     const propertiesWithValue: PropertyConfigWithValue[] = properties
       .filter((property) => {
