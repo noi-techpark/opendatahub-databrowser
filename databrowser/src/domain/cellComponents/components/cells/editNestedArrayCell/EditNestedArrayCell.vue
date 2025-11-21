@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :path-to-parent="pathToParent"
         :editable="editable"
         :debug="debug"
+        :parent-deprecation-info="parentDeprecationInfo"
         @update="handleUpdate"
       />
     </template>
@@ -26,6 +27,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :path-to-parent="pathToParent"
         :editable="editable"
         :debug="debug"
+        :parent-deprecation-info="parentDeprecationInfo"
         @update="handleUpdate"
       />
     </template>
@@ -42,7 +44,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { PropertyConfig } from '../../../../datasets/config/types';
+import { DeprecationInfo, PropertyConfig } from '../../../../datasets/config/types';
 import EditListCell from '../../utils/editList/EditListCell.vue';
 import EditNestedArrayTable from './EditNestedArrayTable.vue';
 import EditNestedArrayTab from './EditNestedArrayTab.vue';
@@ -54,6 +56,8 @@ const props = withDefaults(
     pathToParent?: string;
     editable?: boolean;
     debug?: boolean;
+    // Deprecation info from parent - propagated to nested properties
+    parentDeprecationInfo?: DeprecationInfo[];
   }>(),
   {
     items: () => [],
@@ -61,6 +65,7 @@ const props = withDefaults(
     pathToParent: '',
     editable: false,
     debug: false,
+    parentDeprecationInfo: () => [],
   }
 );
 
