@@ -33,6 +33,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :text="position.Geometry"
           :editable="editable"
           :enabled="position.Default"
+          @update="onUpdateDefaultValue($event.value)"
         />
       </SubCategoryItem>
 
@@ -148,6 +149,10 @@ const onAddNewValueInSelect = (value: boolean) => {
 
 const onUpdateGpsType = (value: string) => {
   onUpdatePosition({ ...position.value, Type: value });
+};
+
+const onUpdateDefaultValue = (value: boolean) => {
+  onUpdatePosition({ ...position.value, Default: value });
 };
 
 const onUpdateInputPositionValue = (key: GeoDataEntryKey, value: string) => {
