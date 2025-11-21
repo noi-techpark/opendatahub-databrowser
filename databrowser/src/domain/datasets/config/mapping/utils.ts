@@ -59,7 +59,7 @@ export const buildTargetFromArrayMapping = (
   arrayMapping: ArrayMapping,
   params?: Record<string, unknown>
 ) => {
-  const { pathToParent, objectMapping, targetPropertyName } = arrayMapping;
+  const { pathToParent, objectMapping, properties, targetPropertyName } = arrayMapping;
 
   // Return object has a property whose name is the value of the "targetPropertyName" variable
   // e.g. value of "targetPropertyName" is "abcdefg", then the result object will have a property "abcdefg"
@@ -73,14 +73,26 @@ export const buildTargetFromArrayMapping = (
     return defaultResult;
   }
 
-  // If object mapping is undefined or empty, then the object defined by parentPath
+  // NEW: If properties are defined, pass raw array items to EditNestedArrayCell
+  // The component will handle rendering each property for each item
+  // Note: Use "items" as the key (not targetPropertyName) because EditNestedArrayCell expects it
+  if (properties != null && properties.length > 0) {
+    return {
+      items: dataArray,
+      properties: properties,  // Pass property configs to the component
+      pathToParent: pathToParent,  // Pass pathToParent for update propagation
+      ...params,
+    };
+  }
+
+  // LEGACY: If object mapping is undefined or empty, then the object defined by parentPath
   // is returned as it is. This is useful e.g. for an array of simple types
   // (strings, numbers or booleans)
   if (isObjectMappingEmpty(objectMapping)) {
     return { ...defaultResult, [targetPropertyName]: dataArray };
   }
 
-  // For each entry in the array, build target objects as defined by the object mapping
+  // LEGACY: For each entry in the array, build target objects as defined by the object mapping
   const arrayOfTargetObjects = dataArray.map((item) => {
     return buildTargetFromObjectMapping(item, objectMapping);
   });

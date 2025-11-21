@@ -71,6 +71,64 @@ export const announcementSharedView = ():
     geoDataCategory(),
     tagCategory(''),
     additionalPropertiesCategory(),
+    {
+      name: 'Road Information',
+      slug: 'road-info',
+      subcategories: [
+        {
+          name: 'Roads',
+          properties: [
+            {
+              title: 'Roads Involved',
+              component: CellComponent.EditNestedArrayCell,
+              arrayMapping: {
+                targetPropertyName: 'roads',
+                pathToParent: 'AdditionalProperties.RoadIncidentProperties.RoadsInvolved',
+                // Nested properties for each road
+                properties: [
+                  {
+                    title: 'Road Code',
+                    component: CellComponent.StringCell,
+                    objectMapping: { text: 'Code' },
+                  },
+                  {
+                    title: 'Road Name',
+                    component: CellComponent.StringCell,
+                    objectMapping: { text: 'Name' },
+                  },
+                  {
+                    title: 'Affected Lanes',
+                    component: CellComponent.EditNestedArrayCell,
+                    arrayMapping: {
+                      targetPropertyName: 'lanes',
+                      pathToParent: 'Lanes',
+                      // Nested properties for each lane
+                      properties: [
+                        {
+                          title: 'Lane Number',
+                          component: CellComponent.StringCell,
+                          objectMapping: { text: 'Lane' },
+                        },
+                        {
+                          title: 'Lane Name',
+                          component: CellComponent.StringCell,
+                          objectMapping: { text: 'LaneName' },
+                        },
+                        {
+                          title: 'Direction',
+                          component: CellComponent.StringCell,
+                          objectMapping: { text: 'Direction' },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ]
+        }
+      ]
+    },
     licenseInfoCategory(),
     mappingCategory(),
     updatehistoryCategory(),
