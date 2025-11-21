@@ -132,7 +132,7 @@ const enhancePropertyWithOpenApi = (
     // e.g., if parent pathToParent is "Foo.Valid" and this arrayMapping pathToParent is "Nested",
     // the full path for nested properties is "Foo.Valid.[].Nested.[]."
     const nestedParentPath = parentPath
-      ? `${parentPath}[].${property.arrayMapping.pathToParent}`
+      ? `${parentPath}.[].${property.arrayMapping.pathToParent}`
       : property.arrayMapping.pathToParent;
 
     const enhancedNestedProperties = property.arrayMapping.properties.map(
