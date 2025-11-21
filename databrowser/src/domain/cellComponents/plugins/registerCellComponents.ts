@@ -28,6 +28,7 @@ import GpsPointMap from '../components/cells/editGpsInfoCell/GpsPointMap.vue';
 import EditGpsTrackCell from '../components/cells/editGpsTrackCell/EditGpsTrackCell.vue';
 import EditImageGalleryCell from '../components/cells/editImageGalleryCell/EditImageGalleryCell.vue';
 import EditGeoDataCell from '../components/cells/editGeoDataCell/EditGeoDataCell.vue';
+import EditNestedArrayCell from '../components/cells/editNestedArrayCell/EditNestedArrayCell.vue';
 import EditRoomBookedCell from '../components/cells/editRoomBookedCell/EditRoomBookedCell.vue';
 import EditRoomVenueCell from '../components/cells/editRoomVenueCell/EditRoomVenueCell.vue';
 import EditVideoItemsCell from '../components/cells/editVideoItemsCell/EditVideoItemsCell.vue';
@@ -296,6 +297,7 @@ export default {
     app.component(CellComponent.EditImageGalleryCell, EditImageGalleryCell);
     app.component(CellComponent.EditGpsInfoCell, EditGpsInfoCell);
     app.component(CellComponent.EditGeoDataCell, EditGeoDataCell);
+    app.component(CellComponent.EditNestedArrayCell, EditNestedArrayCell);
     app.component(CellComponent.EditRoomBookedCell, EditRoomBookedCell);
     app.component(CellComponent.EditRoomVenueCell, EditRoomVenueCell);
     app.component(CellComponent.EditVideoItemsCell, EditVideoItemsCell);
