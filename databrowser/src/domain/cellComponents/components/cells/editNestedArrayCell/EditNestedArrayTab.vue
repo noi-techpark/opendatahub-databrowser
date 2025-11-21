@@ -7,7 +7,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <EditListTab :items="items">
     <template #body="{ item, index }">
-      <div class="space-y-4">
+      <!-- Nested array container with visual border for clarity -->
+      <div class="rounded-lg border-l-4 border-green-500 pl-4 py-2">
         <!-- Debug: Show what we have -->
         <div v-if="debugMode" class="rounded border border-yellow-300 bg-yellow-50 p-4">
           <div class="font-bold">Debug Info:</div>
@@ -18,18 +19,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <!-- Render each nested property as a SubCategoryItem -->
         <SubCategoryItem
-          v-for="(property, propIndex) in properties"
+          v-for="(property, propIndex) in getComputedPropertiesForItem(item)"
           :key="`${index}-${propIndex}`"
           :title="property.title"
           :tooltip="property.tooltip"
+          :deprecation-info="getMergedDeprecationInfo(property)"
+          :reference-info="property.referenceInfo"
+          :required="property.required"
+          :has-empty-value="property.empty"
         >
           <ComponentRenderer
             :tag-name="property.component"
-            :attributes="computePropertyAttributes(item, property)"
+            :attributes="property.value"
             :object-mapping="property.objectMapping"
             :array-mapping="property.arrayMapping"
             :editable="editable"
-            @update="(update) => handleNestedUpdate(index, update, property)"
+            @update="(update: { prop: string; value: unknown; }) => handleNestedUpdate(index, update, property)"
           />
         </SubCategoryItem>
       </div>
@@ -55,10 +60,12 @@ import ComponentRenderer from '../../../../../components/componentRenderer/Compo
 import SubCategoryItem from '../../../../datasets/ui/category/SubCategoryItem.vue';
 import EditListTab from '../../utils/editList/tab/EditListTab.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
-import { PropertyConfig } from '../../../../datasets/config/types';
-import { buildTargetFromMapping } from '../../../../datasets/config/mapping/utils';
+import { DeprecationInfo, PropertyConfig } from '../../../../datasets/config/types';
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
+import { useToolBoxStore } from '../../../../datasets/ui/toolBox/toolBoxStore';
+import { usePropertyComputation } from '../../../../datasets/ui/category/usePropertyComputation';
+import { PropertyConfigWithValue } from '../../../../datasets/ui/category/types';
 
 const props = withDefaults(
   defineProps<{
@@ -67,6 +74,8 @@ const props = withDefaults(
     pathToParent?: string;
     editable?: boolean;
     debug?: boolean;
+    // Deprecation info from parent - merged with nested property deprecation
+    parentDeprecationInfo?: DeprecationInfo[];
   }>(),
   {
     items: () => [],
@@ -74,14 +83,43 @@ const props = withDefaults(
     pathToParent: '',
     editable: false,
     debug: false,
+    parentDeprecationInfo: () => [],
   }
 );
+
+/**
+ * Merge parent deprecation info with property's own deprecation info.
+ * If the parent is deprecated, all nested properties should also show as deprecated.
+ */
+const getMergedDeprecationInfo = (property: PropertyConfig | PropertyConfigWithValue): DeprecationInfo[] => {
+  const parentInfo = props.parentDeprecationInfo ?? [];
+  const propertyInfo = property.deprecationInfo ?? [];
+  return [...parentInfo, ...propertyInfo];
+};
 
 const emit = defineEmits<{
   update: [value: { prop: string; value: unknown[] }];
 }>();
 
-const debugMode = computed(() => true);
+const debugMode = computed(() => props.debug || import.meta.env.DEV);
+
+const toolboxStore = useToolBoxStore();
+const { computeProperties } = usePropertyComputation();
+
+/**
+ * Compute properties with values for a specific array item.
+ * Uses the same logic as SubCategories.vue via usePropertyComputation.
+ */
+const getComputedPropertiesForItem = (item: unknown): PropertyConfigWithValue[] => {
+  return computeProperties(
+    item,
+    props.properties,
+    toolboxStore.settings.showAll,
+    props.editable,
+    toolboxStore.settings.showDeprecated,
+    toolboxStore.settings.showReferences
+  );
+};
 
 // Get navigation and action triggers from EditListCell context
 const { navigateToTab } = useInjectNavigation();
@@ -98,34 +136,13 @@ const addNewItem = () => {
 };
 
 /**
- * Extract values for a specific property from an array item
- * Uses the same buildTargetFromMapping logic as the rest of the system
- */
-const computePropertyAttributes = (
-  item: unknown,
-  property: PropertyConfig
-): Record<string, unknown> => {
-  const result = buildTargetFromMapping(item, property);
-
-  if (debugMode.value) {
-    console.log('[EditNestedArrayTab] computePropertyAttributes:', {
-      property: property.title,
-      item,
-      result,
-    });
-  }
-
-  return result;
-};
-
-/**
  * Handle updates from nested components within array items
  * This merges updates into the correct array item
  */
 const handleNestedUpdate = (
   itemIndex: number,
   update: { prop: string; value: unknown },
-  property: PropertyConfig
+  property: PropertyConfig | PropertyConfigWithValue
 ) => {
   if (debugMode.value) {
     console.log('[EditNestedArrayTab] handleNestedUpdate:', {
@@ -181,7 +198,7 @@ const handleNestedUpdate = (
  */
 const getDataPathFromUpdate = (
   updateProp: string,
-  property: PropertyConfig
+  property: PropertyConfig | PropertyConfigWithValue
 ): string | null => {
   // For object mapping, find which data path corresponds to this prop
   if (property.objectMapping != null) {

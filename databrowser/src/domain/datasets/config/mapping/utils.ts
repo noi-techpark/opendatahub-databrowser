@@ -81,6 +81,8 @@ export const buildTargetFromArrayMapping = (
       items: dataArray,
       properties: properties,  // Pass property configs to the component
       pathToParent: pathToParent,  // Pass pathToParent for update propagation
+      // Pass deprecationInfo for the array itself (from arrayMapping's parent property)
+      // This is handled by the caller who passes it via params
       ...params,
     };
   }

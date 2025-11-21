@@ -169,7 +169,7 @@ const replaceMappings = (
   property: PropertyConfig,
   stringReplacer: StringReplacer,
   objectValueReplacer: ObjectValueReplacer
-) => {
+): PropertyConfig => {
   if (property.objectMapping != null) {
     return {
       ...property,

@@ -77,15 +77,7 @@ const computeSingleRecordView = (
       const subcategories = element.subcategories?.map<SubCategoryElement>(
         (subcategory) => {
           const properties = subcategory.properties.map<PropertyConfig>(
-            (property) => {
-              return {
-                ...property,
-                // Extract referenced info based on property params
-                ...getReferenceInfo(property),
-                // Add deprecation and required information to the property
-                ...getDeprecationAndRequired(schema, property),
-              };
-            }
+            (property) => enhancePropertyWithOpenApi(schema, property)
           );
 
           return {
@@ -108,6 +100,105 @@ const computeSingleRecordView = (
     },
     { elements: [], type: view.type }
   );
+};
+
+/**
+ * Recursively enhance a property with OpenAPI information (deprecation, reference, required).
+ * This also processes nested properties inside arrayMapping.properties.
+ *
+ * @param schema - The root OpenAPI schema
+ * @param property - The property config to enhance
+ * @param parentPath - The path prefix from parent arrayMappings (for nested properties)
+ */
+const enhancePropertyWithOpenApi = (
+  schema: OpenAPIV3.SchemaObject,
+  property: PropertyConfig,
+  parentPath: string = ''
+): PropertyConfig => {
+  // Create the effective property with adjusted paths for nested context
+  const effectiveProperty = createEffectiveProperty(property, parentPath);
+
+  // Get base enhancements for this property
+  const referenceInfo = getReferenceInfo(effectiveProperty);
+  const deprecationAndRequired = getDeprecationAndRequired(
+    schema,
+    effectiveProperty
+  );
+
+  // If this property has nested arrayMapping.properties, recursively enhance them
+  let enhancedArrayMapping = property.arrayMapping;
+  if (property.arrayMapping?.properties != null) {
+    // Calculate the nested path prefix for child properties
+    // e.g., if parent pathToParent is "Foo.Valid" and this arrayMapping pathToParent is "Nested",
+    // the full path for nested properties is "Foo.Valid.[].Nested.[]."
+    const nestedParentPath = parentPath
+      ? `${parentPath}[].${property.arrayMapping.pathToParent}`
+      : property.arrayMapping.pathToParent;
+
+    const enhancedNestedProperties = property.arrayMapping.properties.map(
+      (nestedProp) => enhancePropertyWithOpenApi(schema, nestedProp, nestedParentPath)
+    );
+
+    enhancedArrayMapping = {
+      ...property.arrayMapping,
+      properties: enhancedNestedProperties,
+    };
+  }
+
+  // Only include arrayMapping if original property had it (objectMapping and arrayMapping are mutually exclusive)
+  if (property.objectMapping != null) {
+    return {
+      ...property,
+      ...referenceInfo,
+      ...deprecationAndRequired,
+    };
+  }
+
+  return {
+    ...property,
+    ...referenceInfo,
+    ...deprecationAndRequired,
+    arrayMapping: enhancedArrayMapping,
+  } as PropertyConfig;
+};
+
+/**
+ * Create an effective property with paths adjusted for nested context.
+ * This ensures deprecation/reference lookups use the full path from root.
+ */
+const createEffectiveProperty = (
+  property: PropertyConfig,
+  parentPath: string
+): PropertyConfig => {
+  if (!parentPath) {
+    return property;
+  }
+
+  // Adjust objectMapping paths to include parent path
+  if (property.objectMapping != null) {
+    const adjustedObjectMapping: ObjectMapping = {};
+    for (const [key, value] of Object.entries(property.objectMapping)) {
+      // Prepend parent path: "Name" -> "Foo.Valid.[].Name"
+      adjustedObjectMapping[key] = `${parentPath}.[].${value}`;
+    }
+    return {
+      ...property,
+      objectMapping: adjustedObjectMapping,
+    };
+  }
+
+  // Adjust arrayMapping pathToParent to include parent path
+  if (property.arrayMapping != null) {
+    return {
+      ...property,
+      arrayMapping: {
+        ...property.arrayMapping,
+        pathToParent: `${parentPath}.[].${property.arrayMapping.pathToParent}`,
+      },
+    };
+  }
+
+  return property;
 };
 
 const getReferenceInfo = (
@@ -153,6 +244,34 @@ const getDeprecationAndRequired = (
   // parent and 'Url' is the property name
   const pathToParent =
     objectMapping != null ? '' : `${arrayMapping?.pathToParent}.[].`;
+
+  // For arrayMapping with properties (nested arrays), check if the array path itself is deprecated
+  // This handles EditNestedArrayCell where there's no objectMapping
+  const isArrayMappingOnly =
+    objectMapping == null &&
+    arrayMapping != null &&
+    (arrayMapping.objectMapping == null ||
+      Object.keys(arrayMapping.objectMapping).length === 0);
+
+  if (isArrayMappingOnly && arrayMapping?.pathToParent) {
+    const arrayPath = arrayMapping.pathToParent;
+    const propertyPathAsArray = arrayPath.split('.');
+    const schemasForPath = getSchemasForPath(rootSchema, propertyPathAsArray);
+
+    const deprecations = schemasForPath
+      .filter(({ schema }) => schema.deprecated === true)
+      .map<Deprecation>(({ schema, pathFromRoot }) => ({
+        description: schema.description ?? '',
+        pathToDeprecation: pathFromRoot,
+      }));
+
+    if (deprecations.length > 0) {
+      return {
+        deprecationInfo: [{ propertyPath: arrayPath, deprecations }],
+        required: false,
+      };
+    }
+  }
 
   return Object.values(efectiveMapping ?? {}).reduce<{
     deprecationInfo: DeprecationInfo[];
