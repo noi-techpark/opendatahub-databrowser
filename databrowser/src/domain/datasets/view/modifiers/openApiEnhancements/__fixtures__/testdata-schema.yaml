@@ -1,0 +1,105 @@
+# SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Mock OpenAPI schema for testing nested array deprecation and reference detection
+type: object
+properties:
+  Id:
+    type: string
+  Active:
+    type: boolean
+  Detail:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        Title:
+          type: string
+        BaseText:
+          type: string
+
+  # FirstLevelNesting with nested arrays
+  Foo:
+    $ref: '#/components/schemas/FirstLevelNesting'
+
+  # Deprecated FirstLevelNesting
+  FooDeprecated:
+    deprecated: true
+    description: "Obsolete, use Foo"
+    $ref: '#/components/schemas/FirstLevelNesting'
+
+  # Array of FirstLevelNesting (3 levels deep)
+  LoreIpsum:
+    type: array
+    items:
+      $ref: '#/components/schemas/FirstLevelNesting'
+
+  # Deprecated array of FirstLevelNesting
+  LoreIpsumDeprecated:
+    type: array
+    deprecated: true
+    description: "Obsolete, use LoreIpsum"
+    items:
+      $ref: '#/components/schemas/FirstLevelNesting'
+
+components:
+  schemas:
+    FirstLevelNesting:
+      type: object
+      properties:
+        # Array of ValidStruct
+        Valid:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidStruct'
+
+        # Deprecated array of DeprecatedStruct
+        Deprecated:
+          type: array
+          deprecated: true
+          description: "Obsolete use Valid"
+          items:
+            $ref: '#/components/schemas/DeprecatedStruct'
+
+    ValidStruct:
+      type: object
+      properties:
+        ValidSource:
+          type: string
+
+        DeprecatedLeaf:
+          type: string
+          deprecated: true
+          description: "Obsolete use ValidSource"
+
+        NestedDetail:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DetailGeneric'
+
+        NestedDeprecatedLeafDetail:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DetailGeneric'
+
+    DeprecatedStruct:
+      type: object
+      properties:
+        DeprecatedSource:
+          type: string
+          deprecated: true
+          description: "Obsolete"
+
+        NestedDeprecatedDetail:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DetailGeneric'
+
+    DetailGeneric:
+      type: object
+      properties:
+        Title:
+          type: string
+        BaseText:
+          type: string
