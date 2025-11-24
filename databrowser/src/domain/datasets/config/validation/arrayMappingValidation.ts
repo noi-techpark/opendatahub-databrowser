@@ -16,18 +16,33 @@ export interface ArrayMappingValidationError {
 /**
  * Validates an ArrayMapping configuration
  * Returns an array of validation errors (empty if valid)
+ *
+ * @param arrayMapping - The ArrayMapping configuration to validate
+ * @param propertyPath - The configuration path (structural)
+ * @param semanticPath - The semantic data path (using pathToParent values)
  */
 export const validateArrayMapping = (
   arrayMapping: ArrayMapping,
-  propertyPath: string = ''
+  propertyPath: string = '',
+  semanticPath: string = ''
 ): ArrayMappingValidationError[] => {
   const errors: ArrayMappingValidationError[] = [];
+
+  // Build semantic path including pathToParent for better error messages
+  const currentSemanticPath = semanticPath
+    ? `${semanticPath}.[].${arrayMapping.pathToParent}`
+    : arrayMapping.pathToParent;
+
+  // Build combined path showing both structure and semantics
+  const combinedPath = propertyPath
+    ? `${propertyPath} (${currentSemanticPath})`
+    : currentSemanticPath;
 
   // Check mutual exclusivity of objectMapping and properties
   if (arrayMapping.objectMapping != null && arrayMapping.properties != null) {
     errors.push({
       message: `ArrayMapping cannot have both objectMapping and properties defined. They are mutually exclusive. Use objectMapping for simple flat mapping, or properties for nested component rendering. Found: objectMapping=${JSON.stringify(arrayMapping.objectMapping)}, properties.length=${arrayMapping.properties.length}`,
-      path: propertyPath,
+      path: combinedPath,
       severity: 'error',
     });
   }
@@ -36,7 +51,7 @@ export const validateArrayMapping = (
   if (arrayMapping.properties != null && arrayMapping.properties.length === 0) {
     errors.push({
       message: 'ArrayMapping.properties is defined but empty. Either provide property configurations or use objectMapping instead.',
-      path: propertyPath,
+      path: combinedPath,
       severity: 'warning',
     });
   }
@@ -59,7 +74,8 @@ export const validateArrayMapping = (
       if (property.arrayMapping) {
         const nestedErrors = validateArrayMapping(
           property.arrayMapping,
-          `${nestedPath}.arrayMapping`
+          `${nestedPath}.arrayMapping`,
+          currentSemanticPath
         );
         errors.push(...nestedErrors);
       }
