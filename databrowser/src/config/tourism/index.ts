@@ -44,7 +44,6 @@ import { weatherRealTimeConfig } from './weatherRealTime/weatherRealTime.config'
 import { webcamInfoConfig } from './webcamInfo/webcamInfo.config';
 import { wineAwardConfig } from './wineAward/wineAward.config';
 import { announcementConfig } from './announcement/announcement.config';
-import { testdataConfig } from './testdata/testdata.config';
 
 export const tourismEmbeddedDatasetConfigs = [
   accommodationConfig,
@@ -84,7 +83,6 @@ export const tourismEmbeddedDatasetConfigs = [
   pushResponseConfig,
   odhTagConfig,
   tagConfig,
-  testdataConfig,
 ].map<DatasetConfig>((config) => ({
   ...config,
   views: {
