@@ -169,7 +169,7 @@ const replaceMappings = (
   property: PropertyConfig,
   stringReplacer: StringReplacer,
   objectValueReplacer: ObjectValueReplacer
-) => {
+): PropertyConfig => {
   if (property.objectMapping != null) {
     return {
       ...property,
@@ -183,7 +183,14 @@ const replaceMappings = (
       arrayMapping: {
         ...property.arrayMapping,
         pathToParent: stringReplacer(property.arrayMapping.pathToParent),
-        objectMapping: objectValueReplacer(property.arrayMapping.objectMapping),
+        // Only set objectMapping if it exists (for backward compatibility)
+        objectMapping: property.arrayMapping.objectMapping
+          ? objectValueReplacer(property.arrayMapping.objectMapping)
+          : undefined,
+        // NEW: Recursively apply replacements to nested properties
+        properties: property.arrayMapping.properties?.map((nestedProp) =>
+          replaceMappings(nestedProp, stringReplacer, objectValueReplacer)
+        ),
       },
     };
   }
