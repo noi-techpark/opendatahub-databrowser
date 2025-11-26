@@ -16,10 +16,43 @@ export const roadIncidentdataCategory = (
       name: 'Roads involved',
       properties: [
          {
-           title: 'Road code',
-           component: CellComponent.DictionaryCell,
-           objectMapping: {
-             dictitems: 'AdditionalProperties.RoadIncidentProperties.RoadsInvolved',
+            title: 'Roads',
+            component: CellComponent.EditNestedArrayCell,
+            arrayMapping: {
+              targetPropertyName: 'roads',
+              pathToParent: 'RoadInvolved',
+              properties: [
+                {
+                  title: 'Road Name',
+                  component: CellComponent.StringCell,
+                  objectMapping: { text: 'Name' }
+                },
+                {
+                  title: 'Road Code',
+                  component: CellComponent.StringCell,
+                  objectMapping: { text: 'Code' }
+                },
+                {
+                  title: 'Lanes',
+                  component: CellComponent.EditNestedArrayCell,
+                  arrayMapping: {
+                    targetPropertyName: 'lanes',
+                    pathToParent: 'Lanes',
+                    properties: [
+                      {
+                        title: 'Lane Name',
+                        component: CellComponent.StringCell,
+                        objectMapping: { text: 'LaneName' }
+                      },
+                      {
+                        title: 'Direction',
+                        component: CellComponent.StringCell,
+                        objectMapping: { text: 'Direction' }
+                      },
+                    ]
+                  }
+                },
+              ]
             }
           },
         ],
