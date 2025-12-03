@@ -44,11 +44,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { computeButtonClasses } from '../../../../../../components/button/styles';
-import { Size, Tone, Variant } from '../../../../../../components/button/types';
-import PopoverCustom from '../../../../../../components/popover/PopoverCustom.vue';
-import PopoverCustomButton from '../../../../../../components/popover/PopoverCustomButton.vue';
-import PopoverCustomPanel from '../../../../../../components/popover/PopoverCustomPanel.vue';
+import { computeButtonClasses } from '@/components/button/styles';
+import { Size, Tone, Variant } from '@/components/button/types';
+import PopoverCustom from '@/components/popover/PopoverCustom.vue';
+import PopoverCustomButton from '@/components/popover/PopoverCustomButton.vue';
+import PopoverCustomPanel from '@/components/popover/PopoverCustomPanel.vue';
 import IconAdd from '@/components/svg/IconAdd.vue';
 
 const emit = defineEmits<{ (e: 'selectKey', key: string): void }>();
