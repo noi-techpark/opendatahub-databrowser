@@ -8,6 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="sticky top-0 w-full">
     <div class="bg-white">
+      <AlertInfo v-if="isOpen && options" :title="options.title" :content="options.content" @close="close()"/>
       <ContentAlignmentX
         class="m-auto flex flex-col gap-x-6 gap-y-2 px-4 pb-2 md:flex-row md:pb-0"
         :class="[isFullWidthNav ? 'w-full' : 'xl:w-default']"
@@ -37,7 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             @click="toggleMenu"
           />
 
-          <div v-else class="flex items-center gap-2 md:hidden">
+          <div v-else class="flex items-center gap-2 md:hidden ml-auto">
             <DownloadMenu v-if="useDownloadStore().downloads.length > 0" />
             <IconMenu @click="toggleMenu" />
           </div>
@@ -65,10 +66,14 @@ import IconMenu from '../components/svg/IconMenu.vue';
 import TagCustom from '../components/tag/TagCustom.vue';
 import { useDownloadStore } from '../domain/download/downloadStore';
 import MenuItems from './menu/MenuItems.vue';
+import AlertInfo from '@/components/alert/AlertInfo.vue';
+import { useHeaderAlert } from '@/layouts/useHeaderAlert.ts';
 
 const { currentRoute } = useRouter();
 
 const { t } = useI18n();
+
+const {isOpen, options, close} = useHeaderAlert()
 
 const props = defineProps<{
   isMenuOpen: boolean;

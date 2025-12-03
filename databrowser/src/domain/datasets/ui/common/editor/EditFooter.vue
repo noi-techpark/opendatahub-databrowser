@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <IconLoading class="mr-2 h-4" />
       {{ t('datasets.editView.footer.saving') }}
     </EditFooterButton>
-    <EditFooterButton v-else @click="save">
+    <EditFooterButton v-else @click="save" :disabled="isSaveDisabled">
       <IconCheck class="mr-1" />
       <span class="inline md:hidden">
         {{ t('datasets.editView.footer.saveMobile') }}
@@ -46,7 +46,10 @@ import EditFooterButton from '../../editView/EditFooterButton.vue';
 
 const { t } = useI18n();
 
-const props = defineProps<{ isSaving: boolean }>();
+const props = defineProps<{
+  isSaving: boolean,
+  isSaveDisabled: boolean
+}>();
 
 const emit = defineEmits(['cancel', 'save']);
 

@@ -5,16 +5,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <!-- TODO: da valutare come gestire questo -->
-  <!-- Mobile toolBox open button -->
-<!--  <ButtonCustom-->
-<!--    v-if="!toolBoxStore.visible"-->
-<!--    class="absolute bottom-16 right-[20px] z-20 flex items-center justify-center shadow-[0_10px_15px_-3px_rgba(0,0,0,0.4)] md:hidden"-->
-<!--    data-test="mobile-open-toolBox"-->
-<!--    @click="toolBoxStore.toggleToolboxVisibility(!toolBoxStore.visible)"-->
-<!--  >-->
-<!--    <IconAdd class="mr-2 size-5" /><span>Toolbox</span>-->
-<!--  </ButtonCustom>-->
 
   <!-- ToolBox content -->
   <div

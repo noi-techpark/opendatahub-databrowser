@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { useI18n } from 'vue-i18n';
 import ExportDatasetsToolBoxPanel from '../../toolBox/export/ExportDatasetsToolBoxPanel.vue';
 import ToolBox from '../../toolBox/ToolBox.vue';
-import SearchAndFilterToolBoxPanel from './SearchAndFilterToolBoxPanel.vue';
+import SearchAndFilterToolBoxPanel from '@/domain/datasets/ui/tableView/toolBox/SearchAndFilterToolBoxPanel.vue';
 import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types.ts';
 import ToolBoxSection from "@/domain/datasets/ui/toolBox/ToolBoxSection.vue";
 import IconFilter from "@/components/svg/IconFilter.vue";

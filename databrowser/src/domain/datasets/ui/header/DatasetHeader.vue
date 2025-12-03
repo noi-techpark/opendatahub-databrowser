@@ -6,131 +6,113 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <header class="flex flex-wrap items-center gap-2 py-1">
-    <!-- Dataset title -->
-    <DatasetHeaderSelectDataset :has-config="hasConfig" />
+    <div class="flex items-center gap-2 w-full md:w-auto justify-between">
 
-    <!-- More info -->
-    <DatasetHeaderMoreInfoPopup />
+      <!-- Dataset title -->
+      <DatasetHeaderSelectDataset :has-config="hasConfig" />
 
-    <!-- TODO valutare se serve ancora questo -->
-    <!-- Popup -->
-<!--    <DatasetHeaderConfigPopup-->
-<!--      :model-value="source"-->
-<!--      :class="{-->
-<!--        'animate-pulse rounded outline outline-green-500': !hasConfig,-->
-<!--      }"-->
-<!--      @update:model-value="changeSource($event)"-->
-<!--    />-->
+      <!-- More info -->
+      <DatasetHeaderMoreInfoPopup />
 
-    <DatasetHeaderSearch
-      :disabled="!isTableView"
-      :open="inputSearchOpen"
-      class="flex md:hidden"
-      @open="handleInputSearchOpen"
-    />
-
-    <DatasetHeaderOverlay
-      :active="inputSearchOpen"
-      padded
-      @overlay-click="handleInputSearchOpen(false)"
-    >
-      <InputSearch
+      <DatasetHeaderSearch
         :disabled="!isTableView"
-        id="search-dataset"
-        class="md:w-80"
-        :show-confirm-button="true"
-        :class="[inputSearchOpen ? 'flex' : 'hidden md:flex']"
-        :model-value="searchfilter"
-        @search="search"
+        :open="inputSearchOpen"
+        class="flex md:hidden"
+        @open="handleInputSearchOpen"
       />
-    </DatasetHeaderOverlay>
+      <DatasetHeaderOverlay
+        :active="inputSearchOpen"
+        padded
+        @overlay-click="handleInputSearchOpen(false)"
+      >
+        <InputSearch
+          :disabled="!isTableView"
+          id="search-dataset"
+          class="md:w-80"
+          :show-confirm-button="true"
+          :class="[inputSearchOpen ? 'flex' : 'hidden md:flex']"
+          :model-value="searchfilter"
+          @search="search"
+        />
+      </DatasetHeaderOverlay>
+    </div>
 
 
-    <!-- filters button -->
-    <DatasetHeaderButton
-      :disabled="!isTableView"
-      :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.FILTERS) }"
-      label="Filters"
-      :icon="OdhFilter"
-      :active="isToolBoxActive(ToolBoxSectionKey.FILTERS)"
-      :has-bullet="hasActiveFilters()"
-    />
 
-    <!-- Language picker -->
-    <LanguagePicker
-        v-if="showLanguagePicker"
-        :current-language="currentLanguage"
-        @language-changed="changeLanguage"
-    />
+    <div class="flex items-center gap-2 w-full md:flex-1 md:justify-between">
+      <div class="flex items-center w-auto gap-2 justify-between">
+        <!-- filters button -->
+        <DatasetHeaderButton
+          :disabled="!isTableView"
+          :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.FILTERS) }"
+          :label="t('datasets.header.filters')"
+          :icon="OdhFilter"
+          :active="isToolBoxActive(ToolBoxSectionKey.FILTERS)"
+          :has-bullet="hasActiveFilters()"
+        />
 
-    <!-- view button -->
-    <ViewPicker
-        v-if="showViewPicker"
-        :picked="source"
-        @picked-change="changeSource($event)"
-    />
+        <!-- Language picker -->
+        <LanguagePicker
+            v-if="showLanguagePicker"
+            :current-language="currentLanguage"
+            @language-changed="changeLanguage"
+        />
 
-    <!-- attributes button -->
-    <DatasetHeaderButton
-        :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.ATTRIBUTES) }"
-        label="Attributes"
-        :disabled="true"
-        :icon="OdhAttributes"
-        :active="isToolBoxActive(ToolBoxSectionKey.ATTRIBUTES)"
-    />
+        <!-- view button -->
+        <ViewPicker
+            v-if="showViewPicker"
+            :picked="source"
+            @picked-change="changeSource($event)"
+        />
 
-
-    <!-- Show information if current view is auto generated -->
-    <TagCustom
-      v-if="source === 'generated'"
-      :text="t('datasets.header.viewGeneratedConfig')"
-      size="xs"
-      type="yellow"
-      has-dot
-    />
-
-    <div class="ml-auto flex">
-      <AddRecordButton
-        v-if="addRecordSupported"
-        class="mr-2 md:flex"
-        data-test="desktop-add-record-link"
-      />
-
-      <!-- export button -->
-      <DatasetHeaderButton
-          :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.EXPORTS) }"
-          label="Export"
-          :icon="OdhExport"
-          :active="isToolBoxActive(ToolBoxSectionKey.EXPORTS)"
-      />
-<!-- TODO portare in attributes-->
-<!--      <DatasetHeaderButton-->
-<!--          :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.SETTINGS) }"-->
-<!--          label="Settings"-->
-<!--          :icon="OdhExport"-->
-<!--          :active="isToolBoxActive(ToolBoxSectionKey.SETTINGS)"-->
-<!--      />-->
+        <!-- attributes button -->
+        <DatasetHeaderButton
+            :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.ATTRIBUTES) }"
+            :label="t('datasets.header.attributes')"
+            :icon="OdhAttributes"
+            :active="isToolBoxActive(ToolBoxSectionKey.ATTRIBUTES)"
+        />
 
 
+        <!-- Show information if current view is auto generated -->
+        <TagCustom
+          v-if="source === 'generated'"
+          :text="t('datasets.header.viewGeneratedConfig')"
+          size="xs"
+          type="yellow"
+          has-dot
+        />
+      </div>
+
+      <div class="gap-2 flex items-center w-auto justify-between">
+        <!-- add new record button -->
+        <AddRecordButton
+          v-if="addRecordSupported"
+          class="md:flex"
+          data-test="desktop-add-record-link"
+        />
+
+        <!-- export button -->
+        <DatasetHeaderButton
+            :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.EXPORTS) }"
+            label="Export"
+            class="md:flex"
+            :icon="OdhExport"
+            :active="isToolBoxActive(ToolBoxSectionKey.EXPORTS)"
+        />
+
+        <!-- actions button -->
+        <ActionsLinksDropdown
+          :title="t('datasets.header.actions')"
+          data-test="dataset-edit-link"
+          @refresh="onRefresh"
+          @sync="onSync"
+        />
+      </div>
 
     </div>
 
-    <!-- actions button -->
-    <DatasetHeaderButton
-        :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.ACTIONS) }"
-        label="Actions"
-        :icon="OdhActions"
-        :active="isToolBoxActive(ToolBoxSectionKey.ACTIONS)"
-    />
-    <!-- Popup -->
-  <!-- TODO: Rimosso, resta da portare il show deprecated fields -->
-<!--    <DatasetHeaderConfigPopup-->
-<!--        :picked="source"-->
-<!--        :class="{-->
-<!--        'animate-pulse rounded outline outline-green-500': !hasConfig,-->
-<!--      }"-->
-<!--        @picked-change="changeSource($event)"-->
-<!--    />-->
+
   </header>
 </template>
 
@@ -148,7 +130,6 @@ import { useDatasetQueryStore } from '../../location/store/datasetQueryStore';
 import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
 import { useDatasetViewStore } from '../../view/store/datasetViewStore';
 import AddRecordButton from './AddRecordButton.vue';
-// import DatasetHeaderConfigPopup from './DatasetHeaderConfigPopup.vue';
 import DatasetHeaderMoreInfoPopup from './DatasetHeaderMoreInfoPopup.vue';
 import DatasetHeaderOverlay from './DatasetHeaderOverlay.vue';
 import DatasetHeaderSearch from './DatasetHeaderSearch.vue';
@@ -160,8 +141,9 @@ import ViewPicker from "@/components/view/ViewPicker.vue";
 import {useTableFilterStore} from "@/domain/datasets/ui/tableView/filter/tableFilterStore.ts";
 import OdhFilter from "@/components/svg/odh/OdhFilter.vue";
 import OdhAttributes from "@/components/svg/odh/OdhAttributes.vue";
-import OdhActions from "@/components/svg/odh/OdhActions.vue";
 import OdhExport from "@/components/svg/odh/OdhExport.vue";
+import ActionsLinksDropdown from '@/domain/datasets/ui/common/ActionsLinksDropdown.vue';
+import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad.ts';
 
 const toolBoxStore = useToolBoxStore();
 const tableFilterStore = useTableFilterStore();
@@ -211,6 +193,14 @@ const changeSource = async (value: DatasetConfigSource) => {
     source.value = oldSourceValue;
   }
 };
+
+const { refetch } = useTableLoad();
+const onRefresh = () => {
+  refetch();
+}
+const onSync = () => {
+  //TODO: implement sync all dataset
+}
 
 const changeLanguage = (value: string) => {
   updateUserSetting('preferredDatasetLanguage', value);

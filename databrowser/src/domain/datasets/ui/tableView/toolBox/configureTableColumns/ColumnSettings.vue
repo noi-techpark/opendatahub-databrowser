@@ -26,13 +26,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div class="flex flex-col gap-6 divide-y divide-gray-250 px-1">
       <div class="flex flex-col gap-4 pt-4">
         <div class="flex flex-col">
-          <label>{{
+          <label class="font-semibold text-dialog">{{
             t(
               'datasets.listView.toolBox.columnConfiguration.columnSettings.title'
             )
           }}</label>
           <InputCustom
-            inputClasses="w-full"
+            inputClasses="w-full bg-transparent"
             placeholder="Title"
             :model-value="col.title"
             @update:model-value="updateTitle"
@@ -40,12 +40,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
 
         <div class="flex flex-col">
-          <label>{{
+          <label class="font-semibold text-dialog">{{
             t(
               'datasets.listView.toolBox.columnConfiguration.columnSettings.component'
             )
           }}</label>
           <SelectCustom
+            inputButtonClasses="bg-transparent"
             :model-value="col.component"
             :options="componentSelectOptions"
             @update:model-value="col = { ...col, component: String($event) }"
@@ -60,7 +61,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           )
         }}</label>
         <KeyValueEdit
-          class="px-3"
+          class="bg-white border border-1 border-gray-400 rounded-md"
           :availableKeys="availableComponentKeys"
           :type="'objectMapping'"
           :data="
@@ -80,13 +81,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
 
       <div class="flex flex-col pt-4">
-        <label>{{
+        <label class="text-lg font-bold">{{
           t(
             'datasets.listView.toolBox.columnConfiguration.columnSettings.params'
           )
         }}</label>
         <KeyValueEdit
-          class="px-3"
+          class="bg-white border border-1 border-gray-400 rounded-md"
           :availableKeys="availableComponentKeys"
           :type="'params'"
           :data="col.params"
@@ -114,7 +115,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             )
           }}</label>
           <InputCustom
-            inputClasses="w-full"
+            inputClasses="w-full bg-transparent"
             type="number"
             :min="0"
             :model-value="col.style?.widthInPx"
@@ -128,7 +129,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             )
           }}</label>
           <InputCustom
-            inputClasses="w-full"
+            inputClasses="w-full bg-transparent"
             :model-value="col.class"
             @update:model-value="updateClass"
           />

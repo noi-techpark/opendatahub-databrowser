@@ -108,7 +108,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 <SimpleTooltip
                     v-else-if="download.status === 'failed'"
                     :key="`${download.id}-failed`"
-                    :text="download.error"
+                    :text="(download.error ?? '')"
                 >
                   <template #trigger>
                     <ButtonRounded

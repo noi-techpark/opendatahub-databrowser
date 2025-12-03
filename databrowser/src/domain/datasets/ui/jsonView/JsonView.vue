@@ -7,9 +7,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <LoadingError v-if="isError" :error="error" />
   <template v-else>
-
     <div class="flex min-h-[calc(100vh-155px)] flex-col bg-white">
-
+      <JsonError v-if="hasCurrentJsonErrors" />
       <LoadingError v-if="isError">{{ error }}</LoadingError>
       <EditSaveError v-if="isMutateError" :response-errors="responseErrors" />
       <DiscardChangesDialog @discard="resetAndCleanup" />
@@ -27,7 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <template v-else>
             <CodeEditor
               v-if="!isDiffEditing"
-              v-model:value="currentJson"
+              v-model:value="currentJsonText"
               language="json"
               theme="vs"
               height="100%"
@@ -36,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             />
             <DiffEditor
               v-else
-              v-model:value="currentJson"
+              v-model:value="currentJsonText"
               :original="editStore.initialAsJson"
               language="json"
               theme="vs"
@@ -54,6 +53,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <EditFooter
         class="transition-all md:static"
         :is-saving="isMutateLoading"
+        :is-save-disabled="hasCurrentJsonErrors"
         :class="{ hidden: editStore.isEqual }"
         @cancel="tryToDiscardChanges"
         @save="saveChanges"
@@ -62,9 +62,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   </template>
 </template>
 
-
 <script setup lang="ts">
-import { watch, onUnmounted, computed } from 'vue';
+import { watch, onUnmounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import { useSingleRecordLoad } from '@/domain/datasets/ui/common/load/useSingleRecordLoad';
@@ -88,6 +87,7 @@ import LeaveSectionDialog from '@/domain/datasets/ui/editView/dialogs/LeaveSecti
 import EditSaveError from '@/domain/datasets/ui/editView/EditSaveError.vue';
 import DiscardChangesDialog from '@/domain/datasets/ui/editView/dialogs/DiscardChangesDialog.vue';
 import { useJsonEditorConfigurator } from '@/domain/datasets/ui/common/editor/useJsonEditorConfigurator.ts';
+import JsonError from '@/domain/datasets/ui/jsonView/JsonError.vue';
 
 const {
   isError,
@@ -105,18 +105,51 @@ const { diffEditMode, isRawEditing, isDiffEditing } = storeToRefs(viewStore);
 
 const editStore = useEditStore();
 
-const currentJson = computed({
-  get: () => editStore.currentAsJson,
-  set: (val: string) => {
+const currentJsonText = ref(editStore.currentAsJson);
+const hasCurrentJsonErrors = ref(false);
+
+// quando cambia il testo dell'editor → provo a fare il parse
+watch(
+  currentJsonText,
+  (val) => {
     try {
       const parsed = JSON.parse(val || '{}');
       editStore.setCurrent(parsed);
+      hasCurrentJsonErrors.value = false;
     } catch (e) {
-      //todo: handle json parse error
+      hasCurrentJsonErrors.value = true;
       console.warn('Invalid JSON in editor:', e);
     }
   },
-});
+  { immediate: true }
+);
+
+// se da fuori cambia lo store (es. nuovo record, reset, ecc.)
+// aggiorno il testo nell'editor (solo quando non sto in errore, opzionale)
+watch(
+  () => editStore.currentAsJson,
+  (val) => {
+    if (!hasCurrentJsonErrors.value) {
+      currentJsonText.value = val;
+    }
+  },
+  { immediate: true }
+);
+
+// const currentJson = computed({
+//   get: () => editStore.currentAsJson,
+//   set: (val: string) => {
+//     console.log("son qui")
+//     try {
+//       const parsed = JSON.parse(val || '{}');
+//       editStore.setCurrent(parsed);
+//       hasCurrentJsonErrors.value = false;
+//     } catch (e) {
+//       hasCurrentJsonErrors.value = true;
+//       console.warn('Invalid JSON in editor:', e);
+//     }
+//   },
+// });
 
 const { editorOptions, diffEditorOptions, onDiffMounted } =
   useJsonEditorConfigurator({

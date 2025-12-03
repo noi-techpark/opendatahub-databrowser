@@ -12,8 +12,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <slot name="trigger" :open="open">
           <!-- fallback -->
           <IconThreeDots
-              class="fill-current transition-transform"
-              :class="{ 'rotate-90': open }"
+            class="fill-current transition-transform"
+            :class="{ 'rotate-90': open }"
           />
         </slot>
       </PopoverCustomButton>
@@ -24,6 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
   </PopoverCustom>
 </template>
+
 
 <script setup lang="ts">
 import PopoverCustomButton from './PopoverCustomButton.vue';

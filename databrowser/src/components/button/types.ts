@@ -20,4 +20,5 @@ export enum Size {
 export enum Tone {
   primary = 'primary',
   danger = 'danger',
+  white = 'white',
 }

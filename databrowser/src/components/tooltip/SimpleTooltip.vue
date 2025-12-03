@@ -4,32 +4,31 @@ SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-
 <template>
   <!-- Trigger -->
   <span
-      v-if="$slots.trigger"
-      ref="trigger"
-      @mouseenter="open"
-      @mouseleave="close"
-      @focusin="open"
-      @focusout="close"
+    v-if="$slots.trigger"
+    ref="trigger"
+    @mouseenter="open"
+    @mouseleave="close"
+    @focusin="open"
+    @focusout="close"
   >
     <slot name="trigger"></slot>
   </span>
 
   <!-- Tooltip -->
   <div
-      ref="container"
-      class="absolute pointer-events-auto transition-opacity duration-150 bg-gray-700 text-white text-sm rounded px-2 py-1 max-w-xs break-words shadow-lg"
-      :class="[
+    ref="container"
+    class="pointer-events-auto absolute max-w-xs break-words rounded bg-gray-700 px-2 py-1 text-sm text-white shadow-lg transition-opacity duration-150"
+    :class="[
       { 'z-50': zIndex == null },
-      isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+      isOpen ? 'visible opacity-100' : 'invisible opacity-0',
     ]"
-      :style="{ zIndex: zIndex == null ? undefined : zIndex }"
-      @mouseenter="open"
-      @mouseleave="close"
-      role="tooltip"
+    :style="{ zIndex: zIndex == null ? undefined : zIndex }"
+    @mouseenter="open"
+    @mouseleave="close"
+    role="tooltip"
   >
     {{ text }}
     <div ref="arrow" class="tooltip-arrow" data-placement="arrow" />
@@ -37,57 +36,60 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, withDefaults, defineProps } from 'vue'
-import { useFloatingUi } from '@/components/utils/useFloatingUi'
+import { ref, onBeforeUnmount, withDefaults, defineProps, Ref } from 'vue';
+import { useFloatingUi } from '@/components/utils/useFloatingUi';
 import { Placement } from '@floating-ui/dom';
 
 const props = withDefaults(
-    defineProps<{
-      text: string
-      zIndex?: number
-      offset?: number
-      leftOffset?: number
-      openDelay?: number
-      closeDelay?: number
-      placement?: Placement
-    }>(),
-    {
-      zIndex: undefined,
-      offset: 8,
-      leftOffset: undefined,
-      openDelay: 60,
-      closeDelay: 80,
-      placement: 'left', // tooltip a sinistra
-    }
-)
+  defineProps<{
+    text: string;
+    zIndex?: number;
+    offset?: number;
+    leftOffset?: number;
+    openDelay?: number;
+    closeDelay?: number;
+    placement?: Placement;
+  }>(),
+  {
+    zIndex: undefined,
+    offset: 8,
+    leftOffset: undefined,
+    openDelay: 60,
+    closeDelay: 80,
+    placement: 'left', // tooltip a sinistra
+  }
+);
 
-const isOpen = ref(false)
-let openTimer: number | undefined
-let closeTimer: number | undefined
+const isOpen = ref(false);
+let openTimer: number | undefined;
+let closeTimer: number | undefined;
 
-const arrow = ref<HTMLElement | null>(null)
+const arrow = ref<HTMLElement>() as Ref<HTMLElement>;
 
 // usa il composable aggiornato (placement dinamico)
 const [trigger, container] = useFloatingUi({
   placement: props.placement as Placement,
   offset: props.offset,
-  arrow,
+  arrow: arrow,
   leftOffset: props.leftOffset,
-})
+});
 
 const open = () => {
-  if (closeTimer) clearTimeout(closeTimer)
-  openTimer = window.setTimeout(() => (isOpen.value = true), props.openDelay)
-}
+  if (closeTimer) clearTimeout(closeTimer);
+  openTimer = window.setTimeout(() => (isOpen.value = true), props.openDelay);
+};
 const close = () => {
-  if (openTimer) clearTimeout(openTimer)
-  closeTimer = window.setTimeout(() => (isOpen.value = false), props.closeDelay)
-}
+  if (openTimer) clearTimeout(openTimer);
+  closeTimer = window.setTimeout(
+    () => (isOpen.value = false),
+    props.closeDelay
+  );
+};
 
 onBeforeUnmount(() => {
-  if (openTimer) clearTimeout(openTimer)
-  if (closeTimer) clearTimeout(closeTimer)
-})
+  if (openTimer) clearTimeout(openTimer);
+  if (closeTimer) clearTimeout(closeTimer);
+});
 </script>
 
 <style scoped>

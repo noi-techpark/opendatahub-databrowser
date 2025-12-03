@@ -6,7 +6,6 @@ import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia';
 import { Ref, computed, ref, watch } from 'vue';
 import { SelectOption } from '../../../../../components/select/types';
 import { PropertyPath } from '../../../config/types';
-import { useToolBoxStore } from '../../toolBox/toolBoxStore';
 import { useTableViewColsStore } from '../tableViewColsStore';
 import { useDatasetFilterStore } from './datasetFilterStore';
 import { Filter, FilterOperator, FilterValue } from './types';
@@ -73,8 +72,6 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
           value: '',
         },
       ];
-      // Show toolbox
-      useToolBoxStore().visible = true;
     }
   };
 

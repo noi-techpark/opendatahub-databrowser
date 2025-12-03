@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="flex h-11 items-center justify-between gap-2 rounded border border-gray-400 bg-white p-2 py-5 text-black focus-within:border-green-500 focus-within:bg-green-500/10 md:p-2"
+    :class="[inputWrapperClasses]"
   >
     <slot v-if="showIcon" name="icon"></slot>
     <ButtonCustom
@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="id"
       ref="inputRef"
       v-model="text"
-      class="w-full border-none bg-transparent focus:ring-0 pl-0 text-sm"
+      class="w-full border-none bg-transparent pl-0 text-sm focus:ring-0"
       :placeholder="labelPlaceholder"
       :disabled="disabled"
       :data-test="`${id}-input`"
@@ -74,11 +74,14 @@ import ButtonCustom from '../button/ButtonCustom.vue';
 import { Size } from '../button/types';
 import IconClose from '../svg/IconClose.vue';
 import { randomId } from '../utils/random';
+import { Variant } from '@/components/input/types.ts';
+import { computeInputWrapperClasses } from '@/components/input/styles.ts';
 
 const emit = defineEmits(['confirmedValue', 'update:modelValue']);
 
 const props = withDefaults(
   defineProps<{
+    variant?: Variant;
     modelValue?: string;
     disabled?: boolean;
     focus?: boolean;
@@ -92,6 +95,7 @@ const props = withDefaults(
     showConfirmButton?: boolean;
   }>(),
   {
+    variant: Variant.solid,
     modelValue: undefined,
     disabled: undefined,
     focus: undefined,
@@ -105,6 +109,13 @@ const props = withDefaults(
 );
 
 const text = ref(props.modelValue);
+
+const inputWrapperClasses = computed(() => {
+  const variant = props.variant as Variant;
+  return computeInputWrapperClasses({
+    variant
+  });
+});
 
 watch(
   () => props.modelValue,

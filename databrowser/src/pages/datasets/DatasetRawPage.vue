@@ -11,6 +11,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import JsonView from '../../domain/datasets/ui/rawView/JsonView.vue';
+import JsonView from '@/domain/datasets/ui/jsonView/JsonView.vue';
 import SingleDatasetLayout from './SingleDatasetLayout.vue';
 </script>

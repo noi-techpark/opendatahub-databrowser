@@ -17,3 +17,14 @@ export interface SyncDialogPayload {
   id: string;
   title: string;
 }
+
+
+export interface RecordActionsData {
+  _Meta?:{
+    Id?: string;
+    Type?: string;
+    [key: string]: unknown;
+  },
+  PublishedOn?: string;
+  [key: string]: unknown;
+}

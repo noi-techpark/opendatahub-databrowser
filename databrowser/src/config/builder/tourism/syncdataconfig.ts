@@ -13,7 +13,7 @@ export const syncdataconfigCell = (): PropertyConfig => ({
   title: '',
   component: CellComponent.SyncDataConfigCell,
   arrayMapping: {
-    // targetPropertyName: 'syncdataconfigs',
+    targetPropertyName: 'syncdataconfigs',
     pathToParent: 'SyncDataConfig',
     objectMapping: {
       baseurl: 'BaseUrl',
@@ -44,8 +44,8 @@ export const lastSyncTableCell = (hasAction:boolean = true) : PropertyConfig => 
     date: '_Meta.LastUpdate',
     text: 'AccoDetail.{language}.Name'
   },
-  params: { 
-    format: DEFAULT_DATE_TIME_FORMAT, 
+  params: {
+    format: DEFAULT_DATE_TIME_FORMAT,
     hasAction: (hasAction) ? "1" : "0"
   }
 })

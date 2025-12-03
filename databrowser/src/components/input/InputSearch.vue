@@ -10,6 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     :model-value="modelValue"
     :disabled="disabled"
     :focus="focus"
+    :variant="variant"
     :label-placeholder="
       placeholder ?? t('components.inputSearch.labelPlaceholder')
     "
@@ -22,7 +23,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     @confirmed-value="emit('search', $event)"
   >
     <template #icon>
-      <IconSearch class="size-5 text-green-500" :class="{ 'opacity-50': disabled }" />
+      <IconSearch
+        class="size-5 text-green-500"
+        :class="{ 'opacity-50': disabled }"
+      />
     </template>
   </InputWithButton>
 </template>
@@ -31,6 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { useI18n } from 'vue-i18n';
 import IconSearch from '../svg/IconSearch.vue';
 import InputWithButton from './InputWithButton.vue';
+import { Variant } from '@/components/input/types.ts';
 
 const { t } = useI18n();
 
@@ -38,6 +43,7 @@ const emit = defineEmits(['search', 'update:modelValue']);
 
 withDefaults(
   defineProps<{
+    variant?: Variant;
     modelValue?: string;
     disabled?: boolean;
     focus?: boolean;
@@ -46,6 +52,7 @@ withDefaults(
     placeholder?: string;
   }>(),
   {
+    variant: Variant.solid,
     modelValue: undefined,
     disabled: undefined,
     focus: undefined,

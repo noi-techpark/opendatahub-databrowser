@@ -43,11 +43,9 @@ export const lastPushTableCell = (hasAction:boolean = true) : PropertyConfig => 
     type: '_Meta.Type',
     publishedOn: 'PublishedOn',
     date: 'LastChange',
-    // title: 'Shortname'
-    //TODO: capie perchè se lo aggiungo scompare la colonna
   },
-  params: { 
-    format: DEFAULT_DATE_TIME_FORMAT, 
+  params: {
+    format: DEFAULT_DATE_TIME_FORMAT,
     hasAction: (hasAction) ? "1" : "0"
   }
 });

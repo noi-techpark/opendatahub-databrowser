@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     variant="ghost"
     :disabled="props.disabled"
     :size="Size.xs"
-    class="flex h-9 w-10 items-center justify-center bg-gray-50 md:hidden"
+    class="flex h-11 w-14 items-center justify-center bg-gray-50 md:hidden"
     @click="emit('open', true)"
   >
     <IconSearch />

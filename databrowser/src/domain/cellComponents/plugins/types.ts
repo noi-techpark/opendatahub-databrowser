@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Component } from 'vue';
+import type { Component } from 'vue';
 import { CellComponent } from '../types';
 
 export type RegisteredComponent = [

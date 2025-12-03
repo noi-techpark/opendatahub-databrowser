@@ -23,20 +23,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     >
       <ExportDatasetsToolBoxPanel :url="url" :withBgColor="false" />
     </ToolBoxSection>
-  </ToolBox>
 
-  <!-- TODO : vedi sotto la parte di gapp -->
-<!--  <ToolBox-->
-<!--    :tab-names="[-->
-<!--      t('datasets.listView.toolBox.searchAndFilter.panelName'),-->
-<!--      t('datasets.toolBox.exportDatasets.panelName'),-->
-<!--      t('datasets.listView.toolBox.userTableAttributes.panelName'),-->
-<!--    ]"-->
-<!--  >-->
-<!--    <SearchAndFilterToolBoxPanel :pagination="pagination" />-->
-<!--    <ExportDatasetsToolBoxPanel :url="url" />-->
-<!--    <UserTableSettingsToolBoxPanel />-->
-<!--  </ToolBox>-->
+    <ToolBoxSection
+      :sectionKey="ToolBoxSectionKey.ATTRIBUTES"
+      :title="t('datasets.toolBox.attributes.panelName')"
+      :iconComponent="OdhAttributes"
+      info="Personalizza la visualizzazione degli attributi"
+    >
+      <UserTableSettingsToolBoxPanel />
+    </ToolBoxSection>
+  </ToolBox>
 
   <ColumnConfigurationNavigationGuardHandler
     :has-unsaved-changes="isColumnConfigChanged"
@@ -60,6 +56,8 @@ import IconFilter from "@/components/svg/IconFilter.vue";
 import InfoFilter from "@/domain/datasets/ui/tableView/toolBox/InfoFilter.vue";
 import {Pagination} from "@/domain/datasets/pagination/types.ts";
 import IconDownload from "@/components/svg/IconDownload.vue";
+import OdhAttributes from '@/components/svg/odh/OdhAttributes.vue';
+import UserTableSettingsToolBoxPanel from '@/domain/datasets/ui/tableView/toolBox/UserTableSettingsToolBoxPanel.vue';
 
 const { t } = useI18n();
 

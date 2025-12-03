@@ -12,7 +12,6 @@ export enum ToolBoxSectionKey {
   NONE = 'NONE',
   FILTERS = 'FILTERS',
   ATTRIBUTES = 'ATTRIBUTES',
-  ACTIONS = 'ACTIONS',
   EXPORTS = 'EXPORTS',
   SETTINGS = 'SETTINGS',
 }

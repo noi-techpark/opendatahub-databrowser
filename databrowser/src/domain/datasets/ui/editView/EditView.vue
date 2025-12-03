@@ -73,6 +73,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <EditFooter
           class="fixed bottom-0 transition-all md:static"
           :is-saving="isMutateLoading"
+          :is-save-disabled="false"
           :class="{ hidden: editStore.isEqual }"
           @cancel="tryToDiscardChanges"
           @save="saveChanges"

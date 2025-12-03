@@ -5,9 +5,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <ToolBoxSectionLabel>{{
-    t('datasets.toolBox.exportDatasets.sectionRetrieveData')
-  }}</ToolBoxSectionLabel>
+  <ToolBoxSectionLabel>
+    {{ t('datasets.toolBox.exportDatasets.sectionRetrieveData') }}
+  </ToolBoxSectionLabel>
 
   <ToolBoxCard v-if="url != null">
     <ToolBoxCardHeader :uppercase="false" class="rounded">
@@ -34,11 +34,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </ToolBoxCardBody>
   </ToolBoxCard>
 
-    <DownloadCard v-if="url != null" :url="url"></DownloadCard>
+  <DownloadCard v-if="url != null" :url="url"></DownloadCard>
 
-  <!-- TODO: fare qui sotto come da mock. -->
-  <!-- TODO: fare qui sotto come da mock. -->
-  <!-- TODO: fare qui sotto come da mock. -->
   <ToolBoxSectionLabel v-if="!!referencesUrls">{{
     t('datasets.toolBox.exportDatasets.sectionReferencesData')
   }}</ToolBoxSectionLabel>

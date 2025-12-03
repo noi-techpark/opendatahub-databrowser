@@ -22,6 +22,7 @@ export const computeTableRows = (
 
   return data.map<RecordValues>((row) => ({
     recordId: computeRecordId(datasetDomain, row),
+    data: row,
     values: cols.map<Record<string, unknown>>((col) =>
       col.objectMapping != null
         ? buildTargetFromObjectMapping(row, col.objectMapping, col.params)

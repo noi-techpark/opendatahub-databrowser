@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div class="relative flex items-center">
     <SelectWithIconButton
       id="mobile-language-picker"
-      extra-button-classes="h-11 hidden md:flex"
+      extra-button-classes="h-11"
       :options="views"
       :value="internalPicked"
       :size="SelectSize.xs"
@@ -19,25 +19,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       extra-height
       @change="changePicked"
     />
-    <SelectCustom
-      id="mobile-language-picker"
-      class="w-16 md:hidden"
-      extra-button-classes="h-9"
-      :options="views"
-      :value="internalPicked"
-      label="View"
-      :size="SelectSize.xs"
-      :show-search-when-at-least-count-options="Infinity"
-      :z-index="999"
-      extra-height
-      @change="changePicked"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, toRefs, watch } from 'vue';
-import SelectCustom from '../select/SelectCustom.vue';
 import { SelectSize } from '../select/types';
 import OdhView from '@/components/svg/odh/OdhView.vue';
 import SelectWithIconButton from '@/components/select/SelectWithIconButton.vue';
@@ -55,6 +41,10 @@ const emit = defineEmits<{
 }>();
 
 const views = [
+  {
+    label: t('datasets.header.viewUserShortLabel'),
+    value: 'user',
+  },
   {
     label: t('datasets.header.viewEmbeddedShortLabel'),
     value: 'embedded',

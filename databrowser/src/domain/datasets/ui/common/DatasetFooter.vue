@@ -6,21 +6,23 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="flex items-center justify-end bg-gray-50 py-2 text-xs">
-    <span class="mr-3 block font-semibold text-gray-950">
-      {{ props.pagination.pageSize }} {{ t('datasets.listView.recordsOutOf') }} {{ props.pagination.totalItems }} {{ t('datasets.listView.areShown') }}
+    <span class="mx-3 block font-semibold text-gray-950">
+      {{ props.pagination.pageSize }}
+      <span class="text-gray-500">{{ t('datasets.listView.outOf') }}</span>
+      {{ props.pagination.totalItems }}
+      <span class="text-gray-500 hidden md:inline">{{ t('datasets.listView.areShown') }}</span>
     </span>
     <SelectCustom
       id="dataset-table-page-size"
       class="mr-2 w-16"
       :options="options"
-      :value="pagination.pageSize.toString()"
+      :model-value="pagination.pageSize.toString()"
       :show-value-as-label-fallback="true"
       :size="SelectSize.sm"
       @update:model-value="navigation.changePageSize(Number($event))"
     />
-    <span class="mr-3 block">
-      {{ t('datasets.listView.perPage') }}
-    </span>
+    <span class="mr-3 block hidden md:inline">{{ t('datasets.listView.perPage') }}</span>
+    <span class="mr-3 block md:hidden">{{ t('datasets.listView.pp') }}</span>
     <Paginator
       v-if="pagination.hasPagination"
       id="dataset-table-paginator"
