@@ -16,6 +16,7 @@ export interface PushDialogPayload {
 export interface SyncDialogPayload {
   id: string;
   title: string;
+  type:string;
 }
 
 

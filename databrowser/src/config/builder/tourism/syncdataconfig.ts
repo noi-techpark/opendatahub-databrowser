@@ -42,6 +42,7 @@ export const lastSyncTableCell = (hasAction:boolean = true) : PropertyConfig => 
   objectMapping: {
     id: 'Id',
     date: '_Meta.LastUpdate',
+    type: '_Meta.Type',
     text: 'AccoDetail.{language}.Name'
   },
   params: {

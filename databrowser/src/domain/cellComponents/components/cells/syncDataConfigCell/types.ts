@@ -7,3 +7,29 @@ export interface SyncDataConfigEntry {
   pathparam?: string[];
   syncdataapiurl?: string;
 }
+
+
+export interface SyncPayload {
+  UpdatedBy: string;
+  UpdateSource: string;
+}
+export interface SyncResponsePayload {
+  success: boolean;
+  UpdateInfo?: SyncPayload;
+  error?: string;
+}
+export interface SyncResponse {
+ response: SyncResponsePayload;
+}
+
+
+
+export interface OdhSyncResponse {
+  Result: {
+    Response: string;
+    HttpStatusCode: string;
+    Service: string;
+    Success: boolean;
+  };
+  UpdateInfo: SyncPayload;
+}

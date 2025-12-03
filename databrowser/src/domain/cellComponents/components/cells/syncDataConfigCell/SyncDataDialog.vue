@@ -38,12 +38,13 @@ import DialogCustom from '@/components/dialog/DialogCustom.vue';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { SyncDialogPayload } from '@/domain/datasets/ui/tableView/types';
 import LastSyncInfo from './LastSyncInfo.vue';
+import { useSync } from '@/domain/cellComponents/components/cells/syncDataConfigCell/useSync.ts';
 
 const { closeSyncDialog } = useTableViewStore();
 const { t } = useI18n();
 
-defineProps<{ 
-  isOpen: boolean;  
+const props = defineProps<{
+  isOpen: boolean;
   payload: SyncDialogPayload
 }>();
 
@@ -51,9 +52,12 @@ const close = () => {
   closeSyncDialog();
 };
 const confirm = () => {
-  console.log("TODO: handle sync confirm")
+  sendSync(props.payload.type, props.payload.id);
   close();
 };
+
+// Handle push sending
+const { sendSync } = useSync();
 
 onKeyStroke('y', () => {
   confirm();
