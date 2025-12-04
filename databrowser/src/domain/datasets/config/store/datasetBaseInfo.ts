@@ -3,14 +3,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { MaybeRef, ToRefs, computed, ref, toValue } from 'vue';
-import { DatasetConfigSource, RouteLocation } from '../types';
+import { useUserSettings } from '../../../user/userSettings';
 import { useComputeDatasetLocation } from '../../location/datasetLocation';
-import { useValueExtractor } from '../mapping/valueExtractor';
+import { useComputeViewKey } from '../../view/viewKey';
+import { useDatasetConfigSourceComputations } from '../datasetConfigSource';
+import { useResolveDatasetConfig } from '../load/datasetConfigResolver';
 import { useObjectValueReplacer } from '../mapping/objectValueReplacer';
 import { useStringReplacer } from '../mapping/stringReplacer';
-import { useComputeViewKey } from '../../view/viewKey';
-import { useResolveDatasetConfig } from '../load/datasetConfigResolver';
-import { useDatasetConfigSourceComputations } from '../datasetConfigSource';
+import { useValueExtractor } from '../mapping/valueExtractor';
+import { DatasetConfigSource, RouteLocation } from '../types';
 
 export const useDatasetBaseInfo = (
   routeLocation: MaybeRef<ToRefs<RouteLocation>>,
@@ -29,6 +30,14 @@ export const useDatasetBaseInfo = (
   // Compute view key
   const viewKey = useComputeViewKey(routeName);
 
+  // User preferred dataset language, which is stored in local storage
+  // This allows the user to select a preferred language for datasets
+  // and have it persist across sessions.
+
+  const preferredLanguage = useUserSettings().getUserSettingRef<string>(
+    'preferredDatasetLanguage'
+  );
+
   // Compute dataset location info
   const { datasetDomain, datasetPath, datasetQuery, datasetId, fullPath } =
     useComputeDatasetLocation({
@@ -38,6 +47,7 @@ export const useDatasetBaseInfo = (
       routePath,
       routeId,
       routeQuery,
+      preferredLanguage,
     });
 
   // Build params replacement facilities

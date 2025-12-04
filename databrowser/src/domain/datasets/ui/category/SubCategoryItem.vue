@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       'has-error': hasError,
       'my-1 rounded-lg border p-2': hasDeprecationInfo || referenceInfo != null,
       'border-deprecated': hasDeprecationInfo,
-      'border-reference ': referenceInfo != null,
+      'border-reference': referenceInfo != null,
     }"
   >
     <div

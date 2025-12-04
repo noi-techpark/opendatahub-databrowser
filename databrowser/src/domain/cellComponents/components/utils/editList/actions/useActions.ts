@@ -17,17 +17,17 @@ export const useActions = <T>() => {
   }>();
   const updateItemsEventHook = createEventHook<T[]>();
 
-  const addItem = (item: T) => addItemsEventHook.trigger([item]);
-  const addItems = (items: T[]) => addItemsEventHook.trigger(items);
+  const addItem = (item: T) => addItemsEventHook.trigger(item);
+  const addItems = (items: T[]) => addItemsEventHook.trigger(...items);
   const deleteAllItems = () => deleteAllItemsEventHook.trigger();
   const deleteItems = (indexes: number[]) =>
-    deleteItemsEventHook.trigger(indexes);
+    deleteItemsEventHook.trigger(...indexes);
   const duplicateItem = (index: number) =>
     duplicateItemEventHook.trigger(index);
   const pushItem = (index: number) => pushItemEventHook.trigger(index);
   const updateItem = (index: number, item: T) =>
     updateItemEventHook.trigger({ index, item });
-  const updateItems = (items: T[]) => updateItemsEventHook.trigger(items);
+  const updateItems = (items: T[]) => updateItemsEventHook.trigger(...items);
 
   return {
     addItem,

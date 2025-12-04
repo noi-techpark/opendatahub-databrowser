@@ -24,17 +24,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :placeholder="t('overview.listPage.searchDataset')"
       type="search"
       input-classes="w-full md:w-64"
-      @input="useUpdateURL(router, updatedFilters, searchTerm)"
+      @input="setFilterAndSearchQuery(router, updatedFilters, searchTerm)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import InputCustom from '../../../components/input/InputCustom.vue';
-import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
-import { useUpdateURL } from '../../../domain/homepage/utils.ts';
 import { useRouter } from 'vue-router';
+import InputCustom from '../../../components/input/InputCustom.vue';
+import { setFilterAndSearchQuery } from '../../../domain/contentpage/utils.ts';
+import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
 
 const { t } = useI18n();
 const router = useRouter();

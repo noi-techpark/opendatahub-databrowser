@@ -37,10 +37,7 @@ export const accommodationSharedView = ():
       subcategories: [
         {
           name: 'General data',
-          properties: [
-            shortnameCell(),
-            mainImageCell(),
-          ],
+          properties: [shortnameCell(), mainImageCell()],
         },
         {
           name: 'IDs',
@@ -427,12 +424,16 @@ export const accommodationSharedView = ():
             {
               title: 'BacklinkUrl',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'IndependentDescription.{language}.BacklinkUrl' },
+              objectMapping: {
+                text: 'IndependentDescription.{language}.BacklinkUrl',
+              },
             },
             {
               title: 'Description',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'IndependentDescription.{language}.Description' },
+              objectMapping: {
+                text: 'IndependentDescription.{language}.Description',
+              },
             },
           ],
         },
@@ -540,7 +541,7 @@ export const accommodationSharedView = ():
             {
               title: 'Room Information',
               component: CellComponent.EditAccommodationRoomCell,
-              
+
               arrayMapping: {
                 pathToParent: 'AccoRoomInfo',
                 objectMapping: {

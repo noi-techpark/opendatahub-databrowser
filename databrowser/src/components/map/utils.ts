@@ -2,8 +2,14 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { AttributionControl, Map } from 'maplibre-gl';
+import {
+  AttributionControl,
+  LngLatBounds,
+  LngLatLike,
+  Map,
+} from 'maplibre-gl';
 import { MaybeRef, toValue, watch } from 'vue';
+import { LineString, MultiLineString } from 'geojson';
 import {
   mapDefaultAttribution,
   mapDefaultCoordinates,
@@ -90,4 +96,39 @@ export const handleMapAttribution = (
       mapValue.addControl(attributionControl, 'bottom-right');
     }
   });
+};
+
+/**
+ * Calculates the bounding box of a GeoJSON LineString or MultiLineString geometry.
+ *
+ * @param geometry The GeoJSON geometry object.
+ * @returns A LngLatBounds object or null if the geometry is invalid.
+ */
+export const getGeoJsonBounds = (
+  geometry: LineString | MultiLineString
+): LngLatBounds | null => {
+  const coords = geometry.coordinates;
+  if (!coords || coords.length === 0) {
+    return null;
+  }
+
+  // Flatten the coordinates array to handle both LineString and MultiLineString
+  const flattenedCoords: LngLatLike[] = (
+    geometry.type === 'LineString' ? coords : coords.flat()
+  ) as LngLatLike[];
+
+  if (flattenedCoords.length === 0) {
+    return null;
+  }
+
+  // Create the initial bounds from the first coordinate
+  const initialBounds = new LngLatBounds(
+    flattenedCoords[0],
+    flattenedCoords[0]
+  );
+
+  // Extend the bounds to include all other coordinates
+  return flattenedCoords.reduce((bounds, coord) => {
+    return bounds.extend(coord);
+  }, initialBounds);
 };

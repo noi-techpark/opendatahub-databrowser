@@ -74,10 +74,10 @@ const computeApiFullUrlForMobilityDomain = (
       ? // Station type mobility uses the scode property as id
         'scode'
       : path.at(1) === 'flat,event'
-      ? // Event origin mobility uses the evuuid property as id
-        'evuuid'
-      : // Unknown mobility type, no id property
-        null;
+        ? // Event origin mobility uses the evuuid property as id
+          'evuuid'
+        : // Unknown mobility type, no id property
+          null;
 
   // The URL for event origin details nodes uses all path params except the last one
   // All other mobility nodes use all path params

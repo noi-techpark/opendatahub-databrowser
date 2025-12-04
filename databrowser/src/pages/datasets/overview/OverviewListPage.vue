@@ -281,17 +281,25 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Accordion from '../../../components/accordion/Accordion.vue';
 import ButtonCustom from '../../../components/button/ButtonCustom.vue';
+import ButtonExternalLink from '../../../components/button/ButtonExternalLink.vue';
 import { Size, Variant } from '../../../components/button/types';
 import CardDivider from '../../../components/card/CardDivider.vue';
+import CheckboxCustomHomePage from '../../../components/checkbox/CheckboxCustomHomePage.vue';
 import PageGridContent from '../../../components/content/PageGridContent.vue';
 import PartnersAndContributors from '../../../components/partners/PartnersAndContributors.vue';
 import InfoPopover from '../../../components/popover/InfoPopover.vue';
 import PopoverContent from '../../../components/popover/PopoverContent.vue';
+import PopoverContentHeader from '../../../components/popover/PopoverContentHeader.vue';
 import PopoverCustomPanel from '../../../components/popover/PopoverCustomPanel.vue';
 import IconClose from '../../../components/svg/IconClose.vue';
 import IconFilter from '../../../components/svg/IconFilter.vue';
 import IconLocationOn from '../../../components/svg/IconLocationOn.vue';
+import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePage.vue';
 import { embeddedDatasetConfigs } from '../../../config/config';
+import {
+  getFilterAndSearchQuery,
+  setFilterAndSearchQuery,
+} from '../../../domain/contentpage/utils.ts';
 import { DatasetConfig } from '../../../domain/datasets/config/types';
 import MapViewAsDialog from '../../../domain/datasets/ui/mapView/MapViewAsDialog.vue';
 import ResetAllFilters from '../../../domain/datasets/ui/tableView/filter/ResetAllFilters.vue';
@@ -299,16 +307,8 @@ import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
 import AppLayout from '../../../layouts/AppLayout.vue';
 import OverviewCardItem from './OverviewCardItem.vue';
 import OverviewListPageHero from './OverviewListPageHero.vue';
-import ButtonExternalLink from '../../../components/button/ButtonExternalLink.vue';
-import PopoverContentHeader from '../../../components/popover/PopoverContentHeader.vue';
 import OverviewListSearch from './OverviewListSearch.vue';
 import { useMetaDataForAllDatasets } from './useDatasets';
-import {
-  getStartedQuery,
-  useUpdateURL,
-} from '../../../domain/homepage/utils.ts';
-import CheckboxCustomHomePage from '../../../components/checkbox/CheckboxCustomHomePage.vue';
-import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePage.vue';
 
 const { t } = useI18n();
 
@@ -433,7 +433,7 @@ const hideFilters = () => {
 const filterSelectedForComponent = ref<{ key: string; value: string }[]>([]);
 
 const initializeFiltersAndSearch = () => {
-  const { filterQuery, searchQuery } = getStartedQuery();
+  const { filterQuery, searchQuery } = getFilterAndSearchQuery();
   if (
     !searchQuery &&
     searchQuery !== '' &&
@@ -445,7 +445,7 @@ const initializeFiltersAndSearch = () => {
   if (searchQuery) {
     filters.value.searchVal = searchQuery;
     if (!filterQuery && filterQuery.length === 0)
-      useUpdateURL(router, [], searchQuery);
+      setFilterAndSearchQuery(router, [], searchQuery);
   }
   if (filterQuery && filterQuery.length > 0) {
     filterSelectedForComponent.value = decodeURIComponent(filterQuery)
@@ -467,7 +467,7 @@ onBeforeMount(() => {
 });
 
 const resetFilters = () => {
-  useUpdateURL(router, [], '');
+  setFilterAndSearchQuery(router, [], '');
 
   filters.value = structuredClone(defaultFilters);
   filterSelectedForComponent.value = [];
@@ -516,7 +516,11 @@ const toggleFilter = (key: string, value?: string) => {
     setFilter(key, value);
   }
 
-  useUpdateURL(router, updatedFilters.value, filters.value.searchVal);
+  setFilterAndSearchQuery(
+    router,
+    updatedFilters.value,
+    filters.value.searchVal
+  );
 };
 
 const setFilter = (key: string, value?: string) => {
@@ -666,22 +670,17 @@ const visibleDatasets = computed(() => {
   let datasets = [...metaData.value];
 
   if (filters.value.searchVal) {
-  const searchTerm = filters.value.searchVal.toLowerCase(); // Pre-calculate lowercase search term
-  datasets = datasets.filter((dataset) =>
-    // Check if shortname includes the search term
-    (dataset.shortname
-    .toLowerCase()
-    .includes(searchTerm)
-    ) ||
-    // Check if description exists AND includes the search term
-    (dataset.description &&
-    dataset.description
-      .toLowerCase()
-      .includes(searchTerm)
-    )
-  );
+    const searchTerm = filters.value.searchVal.toLowerCase(); // Pre-calculate lowercase search term
+    datasets = datasets.filter(
+      (dataset) =>
+        // Check if shortname includes the search term
+        dataset.shortname.toLowerCase().includes(searchTerm) ||
+        // Check if description exists AND includes the search term
+        (dataset.description &&
+          dataset.description.toLowerCase().includes(searchTerm))
+    );
   }
-  
+
   // Group filters by key
   const filterGroups: Record<string, (string | boolean)[]> = {};
   for (const filter of Object.values(filters.value.applied)) {

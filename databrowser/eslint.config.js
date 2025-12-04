@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: CC0-1.0
 
-import pluginVue from 'eslint-plugin-vue'
-import vueTsEslintConfig from '@vue/eslint-config-typescript'
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
+import pluginVue from 'eslint-plugin-vue';
+import vueTsEslintConfig from '@vue/eslint-config-typescript';
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 
 export default [
   {
@@ -21,4 +21,4 @@ export default [
   ...vueTsEslintConfig(),
 
   skipFormatting,
-]
+];

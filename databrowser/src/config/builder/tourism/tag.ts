@@ -23,7 +23,12 @@ export const tagCell = (mainentity?: string): PropertyConfig => {
       targetPropertyName: 'items',
       pathToParent: 'TagIds',
     },
-    params: { url, keySelector: 'Id', labelSelector: 'TagName.{language}' },
+    params: { 
+      url, 
+      keySelector: 'Id', 
+      labelSelector: 'TagName.{language}',
+      showAdditionalData: 'true',
+    },
   };
 };
 

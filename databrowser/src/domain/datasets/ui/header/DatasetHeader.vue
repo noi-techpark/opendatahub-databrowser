@@ -64,6 +64,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <LanguagePicker
         v-if="showLanguagePicker"
         :current-language="currentLanguage"
+        @language-changed="changeLanguage"
       />
     </div>
   </header>
@@ -76,6 +77,7 @@ import { useI18n } from 'vue-i18n';
 import InputSearch from '../../../../components/input/InputSearch.vue';
 import LanguagePicker from '../../../../components/language/LanguagePicker.vue';
 import TagCustom from '../../../../components/tag/TagCustom.vue';
+import { useUserSettings } from '../../../user/userSettings';
 import { useDatasetBaseInfoStore } from '../../config/store/datasetBaseInfoStore';
 import { DatasetConfigSource } from '../../config/types';
 import { useDatasetQueryStore } from '../../location/store/datasetQueryStore';
@@ -115,7 +117,13 @@ const currentLanguage = useDatasetQueryStore().handle('language');
 
 const showLanguagePicker = computed(() => datasetDomain.value === 'tourism');
 
+const userSettings = useUserSettings();
+
 const changeSource = (value: DatasetConfigSource) => {
-  source.value = value;
+  userSettings.updateUserSetting('preferredDatasetSource', value);
+};
+
+const changeLanguage = (value: string) => {
+  userSettings.updateUserSetting('preferredDatasetLanguage', value);
 };
 </script>
