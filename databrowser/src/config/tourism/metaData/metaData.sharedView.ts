@@ -70,6 +70,19 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
               },
             },
             {
+              title: 'Licenses used',
+              component: CellComponent.CustomDataArrayCell,
+              arrayMapping: {
+                targetPropertyName: 'listItems',
+                pathToParent: 'DatasetLicenses',
+              },
+              params: {
+                url: withOdhBaseUrl(
+                  '/v1/Distinct?odhtype=odhmetadata&fields=DatasetLicenses.[*]&rawsort=DatasetLicenses.[*]&getasarray=true'
+                ),
+              },
+            },
+            {
               title: 'Deprecated',
               component: CellComponent.ToggleTriStateCell,
               objectMapping: { enabled: 'Deprecated' },
