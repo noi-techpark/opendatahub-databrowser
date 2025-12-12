@@ -109,7 +109,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @input="updateItem(index, { validTo: $event.value })"
             />
           </SubCategoryItem>
-          <SubCategoryItem title="Tags">            
+          <SubCategoryItem title="Tags"><!-- TODO ADD the EditNestedArrayCell when available -->
             <ArrayEditableCell 
             :items="item.imageTags"  
             :editable="editable"            
