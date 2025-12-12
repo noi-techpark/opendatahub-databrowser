@@ -36,9 +36,9 @@ jobs:
       VITE_APP_KEYCLOAK_REALM: "noi"
       VITE_APP_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.databrowser"
       VITE_APP_KEYCLOAK_REDIRECT_URI: "https://databrowser.opendatahub.testingmachine.eu/silent-check-sso.html"
-      VITE_APP_IMAGE_UPLOAD_URL: "https://api.tourism.testingmachine.eu/v1/FileUpload/Image"
-      VITE_APP_FILE_UPLOAD_URL: "https://api.tourism.testingmachine.eu/v1/FileUpload/"
-      VITE_APP_ODH_LOOKUP_BASE_URL: "https://api.tourism.testingmachine.eu"
+      VITE_APP_IMAGE_UPLOAD_URL: "https://tourism.api.opendatahub.testingmachine.eu/v1/FileUpload/Image"
+      VITE_APP_FILE_UPLOAD_URL: "https://tourism.api.opendatahub.testingmachine.eu/v1/FileUpload/"
+      VITE_APP_ODH_LOOKUP_BASE_URL: "https://tourism.api.opendatahub.testingmachine.eu"
       VITE_APP_ENV_BADGE: "TESTING"
       VITE_APP_META_ROBOTS: "<meta name=\"robots\" content=\"noindex, nofollow\" />"
     steps:
@@ -135,9 +135,9 @@ jobs:
       VITE_APP_KEYCLOAK_REALM: "noi"
       VITE_APP_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.databrowser"
       VITE_APP_KEYCLOAK_REDIRECT_URI: "https://databrowser.opendatahub.com/silent-check-sso.html"
-      VITE_APP_IMAGE_UPLOAD_URL: "https://tourism.opendatahub.com/v1/FileUpload/Image"
-      VITE_APP_FILE_UPLOAD_URL: "https://tourism.opendatahub.com/v1/FileUpload"
-      VITE_APP_ODH_LOOKUP_BASE_URL: "https://tourism.opendatahub.com"
+      VITE_APP_IMAGE_UPLOAD_URL: "https://tourism.api.opendatahub.com/v1/FileUpload/Image"
+      VITE_APP_FILE_UPLOAD_URL: "https://tourism.api.opendatahub.com/v1/FileUpload"
+      VITE_APP_ODH_LOOKUP_BASE_URL: "https://tourism.api.opendatahub.com"
       VITE_APP_META_ROBOTS: ""
     steps:
       - name: Checkout source code
