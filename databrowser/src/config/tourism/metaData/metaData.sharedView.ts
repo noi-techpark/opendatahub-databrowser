@@ -32,6 +32,16 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
               objectMapping: { text: 'ApiDescription.{language}' },
             },
             {
+              title: 'Meta Title',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'MetaTitle.{language}' },
+            },
+            {
+              title: 'Meta Description',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'MetaDescription.{language}' },
+            },
+            {
               title: 'Dataspace',
               component: CellComponent.SelectWithOptionsCell,
               class: 'w-60',
@@ -185,13 +195,14 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
               title: 'Tags',
               component: CellComponent.TagReferenceCell,
               arrayMapping: {
-                targetPropertyName: 'tags',
-                pathToParent: 'OdhTagIds',
+                targetPropertyName: 'items',
+                pathToParent: 'TagIds',
               },
               params: {
                 keySelector: 'Id',
                 labelSelector: 'TagName.{language}',
-                url: withOdhBaseUrl('/v1/ODHTag'),
+                url: withOdhBaseUrl('/v1/Tag'),
+                showAdditionalData: 'true',
               },
             },
           ],

@@ -51,6 +51,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @input="updateItem(index, { description: $event.target.value })"
             />
           </SubCategoryItem>
+          <SubCategoryItem title="Alt Text">
+            <StringCell
+              :text="item.alt"
+              :editable="editable"
+              @input="updateItem(index, { alt: $event.target.value })"
+            />
+          </SubCategoryItem>
           <SubCategoryItem title="Copyright">
             <StringCell
               :text="item.copyright"
@@ -102,8 +109,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @input="updateItem(index, { validTo: $event.value })"
             />
           </SubCategoryItem>
-          <SubCategoryItem title="Tags">
-            <ArrayEditableCell :items="item.imageTags" :editable="false" />
+          <SubCategoryItem title="Tags">            
+            <ArrayEditableCell 
+            :items="item.imageTags"  
+            :editable="editable"            
+            />
           </SubCategoryItem>
         </div>
         <div class="basis-full md:order-3 md:basis-1/3">
