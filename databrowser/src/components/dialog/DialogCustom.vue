@@ -42,7 +42,7 @@ import {
 
 import DialogOverlay from './DialogOverlay.vue';
 import DialogOverlayContainer from './DialogOverlayContainer.vue';
-import { DialogPanelWidth } from '@/components/dialog/types.ts';
+import { DialogPanelWidth } from '@/components/dialog/types';
 import { computed } from 'vue';
 
 const emit = defineEmits(['close']);

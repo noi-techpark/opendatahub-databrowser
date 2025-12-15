@@ -31,7 +31,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     role="tooltip"
   >
     {{ text }}
-    <div ref="arrow" class="tooltip-arrow" data-placement="arrow" />
+    <div
+      ref="arrow"
+      class="absolute h-2 w-2 rotate-45 bg-gray-700 right-0 -translate-x-1/2"
+      data-placement="arrow"
+    />
   </div>
 </template>
 
@@ -93,43 +97,4 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.tooltip-arrow {
-  --tw-tooltip-bg: #343434;
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-
-[data-placement^='left'] .tooltip-arrow {
-  top: 50%;
-  right: -5px;
-  transform: translateY(-50%);
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 5px solid var(--tw-tooltip-bg);
-}
-[data-placement^='right'] .tooltip-arrow {
-  top: 50%;
-  left: -5px;
-  transform: translateY(-50%);
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-right: 5px solid var(--tw-tooltip-bg);
-}
-[data-placement^='top'] .tooltip-arrow {
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid var(--tw-tooltip-bg);
-}
-[data-placement^='bottom'] .tooltip-arrow {
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid var(--tw-tooltip-bg);
-}
 </style>

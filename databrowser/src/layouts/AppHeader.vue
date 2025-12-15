@@ -67,7 +67,7 @@ import TagCustom from '../components/tag/TagCustom.vue';
 import { useDownloadStore } from '../domain/download/downloadStore';
 import MenuItems from './menu/MenuItems.vue';
 import AlertInfo from '@/components/alert/AlertInfo.vue';
-import { useHeaderAlert } from '@/layouts/useHeaderAlert.ts';
+import { useHeaderAlert } from '@/layouts/useHeaderAlert';
 
 const { currentRoute } = useRouter();
 

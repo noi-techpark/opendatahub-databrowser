@@ -9,16 +9,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <ButtonCustom
         size="xs"
         variant="ghost"
-        :disabled="props.disabled"
-        :active="props.active"
+        :disabled="disabled"
+        :active="active"
         class="h-11 px-2 text-center text-base flex items-center justify-center"
-        @click="props.handler()"
+        @click="emit('click')"
     >
-      <component :is="props.icon" v-if="props.icon" class="text-green-400 mx-1.5 size-4" />
-      <span class="hidden text-gray-950 ml-1 md:flex">{{ props.label }}</span>
+      <component :is="icon" v-if="icon" class="text-green-400 mx-1.5 size-4" />
+      <span class="hidden text-gray-950 ml-1 md:flex">{{ label }}</span>
 
       <span
-          v-if="props.hasBullet"
+          v-if="hasBullet"
           class="absolute right-3 top-2 h-1 w-1 rounded-full bg-green-700"
       ></span>
     </ButtonCustom>
@@ -30,14 +30,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Component } from 'vue';
 import ButtonCustom from '@/components/button/ButtonCustom.vue';
 
-const props = withDefaults(
+withDefaults(
     defineProps<{
       label: string | null;
       active?: boolean;
       disabled?: boolean;
       hasBullet?: boolean;
       icon?: Component | null;
-      handler: () => void;
     }>(),
     {
       active: false,
@@ -45,4 +44,9 @@ const props = withDefaults(
       icon: null
     }
 );
+
+const emit = defineEmits<{
+  (e: 'click'): void;
+}>();
+
 </script>

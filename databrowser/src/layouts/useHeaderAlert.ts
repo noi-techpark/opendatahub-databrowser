@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { UseHeaderAlertOptions } from '@/layouts/types.ts';
+import { UseHeaderAlertOptions } from '@/layouts/types';
 import { Ref, ref } from 'vue';
 
 const isOpen:Ref<boolean> = ref(false);

@@ -8,7 +8,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div>
     <Listbox v-slot="{ open }" v-model="value">
       <div ref="trigger">
+        <SelectIconButton
+          v-if="iconComponent"
+          :id="id"
+          :class="[
+            !open ? 'rounded' : isBottomPlacement ? 'rounded-t' : 'rounded-b',
+            buttonClassNames,
+          ]"
+          :label="label"
+          :iconComponent="iconComponent"
+          :selectedElementLabel="selectedLabel"
+          :data-test="`${id}-select-button`"
+        />
         <SelectButton
+          v-else
           :id="id"
           :class="[
             !open ? 'rounded' : isBottomPlacement ? 'rounded-t' : 'rounded-b',
@@ -18,6 +31,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :label="selectedLabel"
           :data-test="`${id}-select-button`"
         />
+
         <Teleport to="#popper-root">
           <div
             ref="container"
@@ -56,7 +70,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { Listbox } from '@headlessui/vue';
-import { computed, toRefs } from 'vue';
+import { Component, computed, toRefs } from 'vue';
 import { randomId } from '../utils/random';
 import { useFloatingUi } from '../utils/useFloatingUi';
 import SelectButton from './SelectButton.vue';
@@ -75,6 +89,7 @@ import {
   emptyValueOption,
   unknownValueLabel,
 } from './utils';
+import SelectIconButton from '@/components/select/SelectIconButton.vue';
 
 const value = defineModel<SelectValue>();
 
@@ -86,6 +101,8 @@ const props = withDefaults(
     size?: SelectSize;
     id?: string;
     inputButtonClasses?: string;
+    label?: string;
+    iconComponent?: Component;
     // Show the search box if there are at least this amount of options (default 7)
     // - set this number to zero to always show the search
     // - set this number to Infinity to always hide the search
@@ -102,6 +119,7 @@ const props = withDefaults(
     size: SelectSize.md,
     id: randomId(),
     inputButtonClasses: '',
+    label:'',
     showSearchWhenAtLeastCountOptions: 7,
     showEmptyValue: false,
     showAddNewValue: false,

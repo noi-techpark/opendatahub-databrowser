@@ -5,8 +5,8 @@
 import { Variant } from './types';
 
 export const variantClass: Record<Variant,string> = {
-  [Variant.solid]: 'border border-gray-400 bg-white text-black focus-within:border-green-500 focus-within:bg-green-500/10',
-  [Variant.transparent]: 'border border-gray-400 bg-trasparent text-black focus-within:border-green-500 focus-within:bg-green-500/10'
+  [Variant.solid]: 'border border-lightgray rounded-sm-plus bg-white text-black focus-within:border-green-500 focus-within:bg-green-500/10',
+  [Variant.transparent]: 'border border-lightgray rounded-sm-plus bg-trasparent text-black focus-within:border-green-500 focus-within:bg-green-500/10'
 };
 
 

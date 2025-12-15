@@ -2,15 +2,13 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { AxiosError } from 'axios';
 import { axiosWithMaybeAuth } from '../../../../api/apiAuth';
 import { OdhSyncResponse, SyncResponse } from './types';
 import { ref } from 'vue';
+import { getAxiosErrorMessage } from '@/domain/utils/convertError';
 
 export const useSync = () => {
   const isSynced = ref(false);
-
-  // Array of sync results (puoi adattare a ciò che vuoi mostrare in UI)
   const syncResponse = ref<SyncResponse | null>(null);
 
   const sendSync = async (metaType: string, id: string) => {
@@ -18,7 +16,6 @@ export const useSync = () => {
 
     try {
       const res = await sendSyncRequest(metaType, id);
-      console.log('res res is ', res);
 
       syncResponse.value = res;
       isSynced.value = res.response.success;
@@ -35,7 +32,6 @@ export const useSync = () => {
   };
 };
 
-// chiamata di sync per UN item
 export const sendSyncRequest = async (
   metaType: string,
   id: string
@@ -49,7 +45,6 @@ export const sendSyncRequest = async (
       url: `${baseUrl}/${metaType}/Update/${id}`,
       method: 'post',
     });
-    console.log('sync response data:', data);
 
     return {
       response: {
@@ -59,7 +54,7 @@ export const sendSyncRequest = async (
       },
     };
   } catch (error) {
-    const message = getErrorMessage(error);
+    const message = getAxiosErrorMessage(error);
     return {
       response: {
         success: false,
@@ -67,14 +62,4 @@ export const sendSyncRequest = async (
       },
     };
   }
-};
-
-const getErrorMessage = (error: unknown): string => {
-  if (error instanceof AxiosError) {
-    return `(${error.response?.status}) ${error.response?.statusText}`;
-  }
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return error as string;
 };

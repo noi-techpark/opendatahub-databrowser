@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <PopoverCustom>
     <template #trigger>
       <PopoverCustomButton
-        class="flex size-11 items-center justify-center border"
+        class="flex size-11 items-center justify-center border border-lightgray rounded-sm-plus"
         :class="buttonClasses"
       >
         <IconInfo class="stroke-current text-dialog" />

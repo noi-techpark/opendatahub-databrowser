@@ -128,7 +128,7 @@ import ToolBoxSectionLabel from '../ToolBoxSectionLabel.vue';
 import { ReferenceInfoToolBoxFetchUrlInfo } from '../types';
 import DownloadCard from './DownloadCard.vue';
 import ButtonCustom from "@/components/button/ButtonCustom.vue";
-import {Size} from "@/components/button/types.ts";
+import {Size} from "@/components/button/types";
 import IconInfo from "@/components/svg/IconInfo.vue";
 
 const { t } = useI18n();

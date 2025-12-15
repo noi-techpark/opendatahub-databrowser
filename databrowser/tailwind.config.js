@@ -8,6 +8,9 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      borderRadius:{
+        'sm-plus': '4px',
+      },
       boxShadow: {
         'table-static-col': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
       },
@@ -32,6 +35,7 @@ export default {
         disabled: '#dcdde1',
         delete: '#dc2626',
         dialog: '#687182',
+        lightgray: '#EAEBED',
         green: {
           400: '#50742f',
           500: '#476929',

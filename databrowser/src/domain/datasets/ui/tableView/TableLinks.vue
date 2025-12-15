@@ -56,11 +56,11 @@ import { useSingleRecordLocations } from '../../location/datasetViewLocation';
 import DetailsLink from './details/DetailsLink.vue';
 import { useEventDelete } from './useTableDelete';
 import DetailsLinksDropdown from '@/domain/datasets/ui/tableView/details/DetailsLinksDropdown.vue';
-import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad.ts';
-import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore.ts';
-import { usePublisherStore } from '@/domain/publisher/publisherStore.ts';
-import { Publisher } from '@/domain/cellComponents/components/cells/pushDataCell/types.ts';
-import { RecordActionsData } from '@/domain/datasets/ui/tableView/types.ts';
+import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad';
+import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
+import { usePublisherStore } from '@/domain/publisher/publisherStore';
+import { Publisher } from '@/domain/cellComponents/components/cells/pushDataCell/types';
+import { RecordActionsData } from '@/domain/datasets/ui/tableView/types';
 
 const { t } = useI18n();
 

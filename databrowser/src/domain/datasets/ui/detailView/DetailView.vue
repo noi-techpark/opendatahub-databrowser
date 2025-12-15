@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :editable="false"
       />
 
-      <DetailToolBox :url="fullPath" :references-urls="referencesUrls"></DetailToolBox>
+      <DetailViewToolBox :url="fullPath" :references-urls="referencesUrls"></DetailViewToolBox>
     </div>
   </template>
 </template>
@@ -28,8 +28,7 @@ import { computed } from 'vue';
 import LoadingError from '../../../../components/loading/LoadingError.vue';
 import MainAndSubCategories from '../common/MainAndSubCategories.vue';
 import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
-import DetailToolBox from '@/domain/datasets/ui/detailView/toolBox/DetailToolBox.vue';
-// import DetailToolBox from '@/domain/datasets/ui/detailView/toolBox/DetailToolBox.vue';
+import DetailViewToolBox from '@/domain/datasets/ui/detailView/toolBox/DetailViewToolBox.vue';
 
 const {
   isError,

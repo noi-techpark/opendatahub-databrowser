@@ -8,7 +8,7 @@ import { DiffEditMode } from '@/domain/datasets/view/types'
 type Params = {
   diffEditMode: Ref<DiffEditMode>
   isEditEnabled: Ref<boolean>
-  isDiffEditing?: Ref<boolean>
+  isDiffEditing: Ref<boolean>
   onDiffStatsChange?: (added: number, deleted: number) => void
   onDiffStatsReset?: () => void
 }
@@ -72,13 +72,11 @@ export function useJsonEditorConfigurator({
     nextTick(() => diffEditorInstance.value?.layout())
   })
 
-  if (isDiffEditing) {
-    watch(isDiffEditing, (v) => {
-      if (!v) {
-        onDiffStatsReset?.()
-      }
-    })
-  }
+  watch(isDiffEditing, (v) => {
+    if (!v) {
+      onDiffStatsReset?.()
+    }
+  })
 
   onUnmounted(() => {
     diffListener?.dispose()

@@ -7,16 +7,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <ThreeDotsPopover :size="5" :icon-size="5">
     <template #trigger>
-      <ButtonCustom
-        variant="ghost"
-        size="xs"
-        class="flex h-10 w-11 flex-col items-center p-1 text-green-400"
-      >
+      <div
+        class="flex h-10 w-11 flex-col items-center p-1 text-green-400 select-none transition border border-lightgray rounded-sm-plus hover:bg-green-400/10 hover:border-green-400">
         <IconThreeDots class="grow stroke-current" />
         <span class="text-3xs uppercase">
           {{ t('datasets.listView.viewLinks.actions.short') }}
         </span>
-      </ButtonCustom>
+      </div>
     </template>
 
     <PopoverCustomPanel :hasCloseButton="false" v-slot="{ close }" class="w-48">
@@ -26,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @click="emitEvent('refresh', close)"
       >
         <IconReload class="text-green-500" />
-        <div>Refresh</div>
+        <div>{{ t('datasets.listView.viewLinks.refresh.short') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
       <PopoverContent
@@ -35,7 +32,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @click="emitEvent('sync', close)"
       >
         <IconReload class="text-green-500" />
-        <div>Force Sync</div>
+        <div>{{ t('datasets.listView.viewLinks.forceSync.short') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
       <PopoverContent
@@ -44,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @click="emitEvent('push', close)"
       >
         <IconPush class="text-green-500" />
-        <div>Push</div>
+        <div>{{ t('datasets.listView.viewLinks.push.short') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
       <PopoverContent
@@ -53,7 +50,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @click="emitEvent('duplicate', close)"
       >
         <IconCopy class="text-green-500" />
-        <div>Duplicate</div>
+        <div>{{ t('datasets.listView.viewLinks.duplicate.short') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
       <PopoverContent
@@ -62,7 +59,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex items-center gap-2"
         @click="emitEvent('openAnalytics', close)"
       >
-        <div>Open in Analytics</div>
+        <div>{{ t('datasets.listView.viewLinks.openInAnalytics.short') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
       <PopoverContent
@@ -71,7 +68,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex items-center gap-2"
         @click="emitEvent('openQuality', close)"
       >
-        <div>Open in Data Quality</div>
+        <div>{{ t('datasets.listView.viewLinks.openInDataQuality.short') }}</div>
       </PopoverContent>
       <template v-if="showDelete">
         <PopoverContentDivider />
@@ -81,7 +78,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           @click="emitEvent('delete', close)"
         >
           <IconClose class="size-7 text-delete" />
-          <div>Delete</div>
+          <div>{{ t('datasets.listView.viewLinks.delete.short') }}</div>
         </PopoverContent>
       </template>
     </PopoverCustomPanel>
@@ -97,10 +94,9 @@ import IconPush from '@/components/svg/IconPush.vue';
 import ThreeDotsPopover from '@/components/popover/ThreeDotsPopover.vue';
 import IconThreeDots from '@/components/svg/IconThreeDots.vue';
 import { useI18n } from 'vue-i18n';
-import ButtonCustom from '@/components/button/ButtonCustom.vue';
 import IconReload from '@/components/svg/IconReload.vue';
 import IconClose from '@/components/svg/IconClose.vue';
-import { RecordId } from '@/domain/datasets/types.ts';
+import { RecordId } from '@/domain/datasets/types';
 
 const { t } = useI18n();
 

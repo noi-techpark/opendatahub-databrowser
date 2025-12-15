@@ -80,22 +80,34 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
                 <div class="flex grow items-center overflow-hidden">
                   <!-- Download name -->
-                  <span
-                      class="truncate"
-                      :class="download.error ? 'w-1/2' : 'w-full'"
-                      :title="download.name"
+                  <SimpleTooltip
+                    :key="`${download.id}-filename`"
+                    :text="(download.name  ?? '')"
                   >
-                    {{ download.name }}
-                  </span>
+                    <template #trigger>
+                      <span
+                        class="truncate"
+                        :class="download.error ? 'w-1/2' : 'w-full'"
+                      >
+                        {{ download.name }}
+                      </span>
+                    </template>
+                  </SimpleTooltip>
                   <!-- Download error -->
-                  <span
-                      v-if="download.error"
-                      class="ml-2 w-1/2 shrink-0 truncate text-hint-error cursor-copy"
-                      :title="download.error"
-                      @click="copyError(download.error)"
+                  <SimpleTooltip
+                    v-if="download.error"
+                    :key="`${download.id}-error-message`"
+                    :text="(download.error ?? '')"
                   >
-                    {{ download.error }} Ciao sono un errore molto lungo.
-                  </span>
+                    <template #trigger>
+                      <span
+                        class="ml-2 w-1/2 shrink-0 truncate text-hint-error cursor-copy"
+                        @click="copyError(download.error)"
+                      >
+                        {{ download.error }}
+                      </span>
+                    </template>
+                  </SimpleTooltip>
                 </div>
 
                 <!-- Action buttons -->
@@ -143,7 +155,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { PopoverPanel } from '@headlessui/vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useDownloadStore } from '@/domain/download/downloadStore.ts';
+import { useDownloadStore } from '@/domain/download/downloadStore';
 import ButtonRounded from '../button/ButtonRounded.vue';
 import PopoverCustom from '../popover/PopoverCustom.vue';
 import PopoverCustomButton from '../popover/PopoverCustomButton.vue';

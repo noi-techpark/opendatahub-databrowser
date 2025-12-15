@@ -41,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <button
       :id="`${id}-next-page`"
-      class="rounded"
+      class="mr-2 rounded"
       :class="[pagination.hasNext ? 'text-green-400' : 'text-gray-400']"
       :disabled="!pagination.hasNext"
       :data-test="`${id}-next-page`"
@@ -55,8 +55,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { NavigationCallback } from '../../domain/datasets/navigation/types';
-import { Pagination } from '../../domain/datasets/pagination/types';
+import { NavigationCallback } from '@/domain/datasets/navigation/types';
+import { Pagination } from '@/domain/datasets/pagination/types';
 import ButtonCustom from '../button/ButtonCustom.vue';
 import IconStrokedArrowDown from '../svg/IconStrokedArrowDown.vue';
 

@@ -46,45 +46,48 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         />
 
         <div class="ml-auto flex items-center space-x-2">
-          <DiffChanges v-if="isDiffEditing"></DiffChanges>
-          <ButtonsGroup v-if="isDiffEditing && isRawView">
-            <ButtonCustom
-              :variant="diffEditModeHorizontalVariant"
-              @click="setDiffEditMode(DiffEditMode.HORIZONTAL)"
-              size="xs"
-              class="flex h-6 items-center rounded-none px-3 py-1 first:rounded-l-md last:rounded-r-md"
-              :class="{
-                'bg-white text-green-500':
-                  diffEditMode !== DiffEditMode.HORIZONTAL,
-              }"
-            >
-              <OdhJsonDiffVertical class="size-4" />
-            </ButtonCustom>
-            <ButtonCustom
-              :variant="diffEditModeVerticalVariant"
-              @click="setDiffEditMode(DiffEditMode.VERTICAL)"
-              size="xs"
-              class="flex h-6 items-center rounded-none px-3 py-1 first:rounded-l-md last:rounded-r-md"
-              :class="{
-                'bg-white text-green-500':
-                  diffEditMode !== DiffEditMode.VERTICAL,
-              }"
-            >
-              <OdhJsonDiffHorizontal class="size-4" />
-            </ButtonCustom>
-          </ButtonsGroup>
+          <template class="hidden md:flex">
 
-          <ButtonCustom
-            v-if="isEditView || (isRawView && isRawEditing)"
-            :variant="diffEditingVariant"
-            @click="toggleDiffEditingMode"
-            size="xs"
-            class="flex h-6 items-center px-3 py-1"
-            :class="{ 'bg-white text-green-500': !isDiffEditing }"
-          >
-            <OdhJsonDiff class="mr-2 size-3" />
-            {{ t('datasets.navigation.actions.diff') }}
-          </ButtonCustom>
+            <DiffChanges v-if="isDiffEditing && (isEditView || (isRawView && isRawEditing))"></DiffChanges>
+            <ButtonsGroup v-if="isDiffEditing && isRawView && isRawEditing">
+              <ButtonCustom
+                :variant="diffEditModeHorizontalVariant"
+                @click="setDiffEditMode(DiffEditMode.HORIZONTAL)"
+                size="xs"
+                class="flex h-6 items-center rounded-none px-3 py-1 first:rounded-l-md last:rounded-r-md"
+                :class="{
+                  'bg-white text-green-500':
+                    diffEditMode !== DiffEditMode.HORIZONTAL,
+                }"
+              >
+                <OdhJsonDiffVertical class="size-4" />
+              </ButtonCustom>
+              <ButtonCustom
+                :variant="diffEditModeVerticalVariant"
+                @click="setDiffEditMode(DiffEditMode.VERTICAL)"
+                size="xs"
+                class="flex h-6 items-center rounded-none px-3 py-1 first:rounded-l-md last:rounded-r-md"
+                :class="{
+                  'bg-white text-green-500':
+                    diffEditMode !== DiffEditMode.VERTICAL,
+                }"
+              >
+                <OdhJsonDiffHorizontal class="size-4" />
+              </ButtonCustom>
+            </ButtonsGroup>
+
+            <ButtonCustom
+              v-if="isEditView || (isRawView && isRawEditing)"
+              :variant="diffEditingVariant"
+              @click="toggleDiffEditingMode"
+              size="xs"
+              class="flex h-6 items-center px-3 py-1"
+              :class="{ 'bg-white text-green-500': !isDiffEditing }"
+            >
+              <OdhJsonDiff class="mr-2 size-3" />
+              {{ t('datasets.navigation.actions.diff') }}
+            </ButtonCustom>
+          </template>
 
           <ButtonCustom
             :disabled="!hasEditView || !editRecordSupported"
@@ -106,14 +109,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed,watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { Tone, Variant } from '@/components/button/types';
-import ButtonLink from '../../../../components/button/ButtonLink.vue';
-import ContentAlignmentX from '../../../../components/content/ContentAlignmentX.vue';
-import IconStrokedArrowDown from '../../../../components/svg/IconStrokedArrowDown.vue';
-import TabLink from '../../../../components/tab/TabLink.vue';
+import ButtonLink from '@/components/button/ButtonLink.vue';
+import ContentAlignmentX from '@/components/content/ContentAlignmentX.vue';
+import IconStrokedArrowDown from '@/components/svg/IconStrokedArrowDown.vue';
+import TabLink from '@/components/tab/TabLink.vue';
 import { useDatasetLocationStore } from '../../location/store/useDatasetLocationStore';
 import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
 import { useDatasetViewStore } from '../../view/store/datasetViewStore';
@@ -125,7 +128,8 @@ import DiffChanges from '@/domain/datasets/ui/common/editor/DiffChanges.vue';
 import ButtonsGroup from '@/components/button/ButtonsGroup.vue';
 import OdhJsonDiffHorizontal from '@/components/svg/odh/OdhJsonDiffHorizontal.vue';
 import OdhJsonDiffVertical from '@/components/svg/odh/OdhJsonDiffVertical.vue';
-import { DiffEditMode } from '@/domain/datasets/view/types.ts';
+import { DiffEditMode } from '@/domain/datasets/view/types';
+import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 
 const { t } = useI18n();
 
@@ -143,6 +147,7 @@ const {
   isNewView,
   diffEditMode,
 } = storeToRefs(datasetViewStore);
+
 
 const isRawView = computed(() => {
   return !isDetailView.value && !isEditView.value && !isNewView.value;
@@ -166,6 +171,27 @@ const handleEditToggle = () => {
     }
   }
 };
+
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const mdAndSmaller = breakpoints.smaller('lg');
+watch(
+  [isRawEditing, mdAndSmaller],
+  ([edit, isSmall], [wasEdit]) => {
+    console.log('edit:', edit, 'wasEdit:', wasEdit, 'isSmall:', isSmall);
+    if (!isSmall) { return;}
+    if (edit && wasEdit !== true) {
+      datasetViewStore.setDiffEditMode(DiffEditMode.VERTICAL);
+
+      if (!isDiffEditing.value) {
+        datasetViewStore.toggleDiffEditing();
+      }
+    }
+  },
+  { immediate: true }
+);
+
+
 const goToEditView = () => {
   if (hasEditView.value && editRecordSupported.value) {
     router.push({ ...editLocation.value, hash: hash.value });

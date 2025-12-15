@@ -16,9 +16,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useDatasetViewStore } from '@/domain/datasets/view/store/datasetViewStore.ts';
+import { useDatasetViewStore } from '@/domain/datasets/view/store/datasetViewStore';
 import { storeToRefs } from 'pinia';
-import { useSingleRecordLoad } from '@/domain/datasets/ui/common/load/useSingleRecordLoad.ts';
+import { useSingleRecordLoad } from '@/domain/datasets/ui/common/load/useSingleRecordLoad';
 import DiffChangesSquare from '@/domain/datasets/ui/common/editor/DiffChangesSquare.vue';
 
 const { data } = useSingleRecordLoad();
@@ -26,7 +26,7 @@ const { data } = useSingleRecordLoad();
 const datasetViewStore = useDatasetViewStore();
 const { diffAdds, diffDels } = storeToRefs(datasetViewStore);
 
-const modifiedLineCount = computed(() => {
+const jsonLineCount = computed(() => {
   const rows: number =
     (data.value ? JSON.stringify(data.value, null, 2) : '').split('\n')
       .length || 1;
@@ -37,7 +37,7 @@ const diffSquares = computed(() => {
   const adds = diffAdds.value;
   const dels = diffDels.value;
   const total = adds + dels;
-  const lines = modifiedLineCount.value || 1;
+  const lines = jsonLineCount.value || 1;
 
   if (total === 0) return Array(5).fill('gray');
 
@@ -56,8 +56,4 @@ const diffSquares = computed(() => {
 });
 </script>
 <style scoped>
-/*noinspection CssUnusedSymbol*/
-.diff-square {
-  margin: 0 1px;
-}
 </style>

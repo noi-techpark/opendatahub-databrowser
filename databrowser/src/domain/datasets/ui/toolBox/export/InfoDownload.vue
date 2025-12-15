@@ -44,12 +44,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import ButtonExternalLink from '../../../../../components/button/ButtonExternalLink.vue';
-import { Size, Variant } from '@/components/button/types.ts';
-import InfoPopover from '../../../../../components/popover/InfoPopover.vue';
-import PopoverContent from '../../../../../components/popover/PopoverContent.vue';
-import PopoverContentHeader from '../../../../../components/popover/PopoverContentHeader.vue';
-import PopoverCustomPanel from '../../../../../components/popover/PopoverCustomPanel.vue';
+import ButtonExternalLink from '@/components/button/ButtonExternalLink.vue';
+import { Size, Variant } from '@/components/button/types';
+import InfoPopover from '@/components/popover/InfoPopover.vue';
+import PopoverContent from '@/components/popover/PopoverContent.vue';
+import PopoverContentHeader from '@/components/popover/PopoverContentHeader.vue';
+import PopoverCustomPanel from '@/components/popover/PopoverCustomPanel.vue';
 
 const { t } = useI18n();
 </script>

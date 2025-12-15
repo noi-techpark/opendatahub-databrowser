@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { useI18n } from 'vue-i18n';
 import IconSearch from '../svg/IconSearch.vue';
 import InputWithButton from './InputWithButton.vue';
-import { Variant } from '@/components/input/types.ts';
+import { Variant } from '@/components/input/types';
 
 const { t } = useI18n();
 

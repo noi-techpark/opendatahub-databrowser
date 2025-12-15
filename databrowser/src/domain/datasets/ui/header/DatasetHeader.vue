@@ -44,7 +44,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <!-- filters button -->
         <DatasetHeaderButton
           :disabled="!isTableView"
-          :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.FILTERS) }"
+          @click="openToolBoxHandler(ToolBoxSectionKey.FILTERS)"
           :label="t('datasets.header.filters')"
           :icon="OdhFilter"
           :active="isToolBoxActive(ToolBoxSectionKey.FILTERS)"
@@ -67,10 +67,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <!-- attributes button -->
         <DatasetHeaderButton
-            :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.ATTRIBUTES) }"
-            :label="t('datasets.header.attributes')"
-            :icon="OdhAttributes"
-            :active="isToolBoxActive(ToolBoxSectionKey.ATTRIBUTES)"
+          @click="openToolBoxHandler(ToolBoxSectionKey.ATTRIBUTES)"
+          :label="t('datasets.header.attributes')"
+          :icon="OdhAttributes"
+          :active="isToolBoxActive(ToolBoxSectionKey.ATTRIBUTES)"
         />
 
 
@@ -94,11 +94,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <!-- export button -->
         <DatasetHeaderButton
-            :handler="()=>{ openToolBoxHandler(ToolBoxSectionKey.EXPORTS) }"
-            label="Export"
-            class="md:flex"
-            :icon="OdhExport"
-            :active="isToolBoxActive(ToolBoxSectionKey.EXPORTS)"
+          @click="openToolBoxHandler(ToolBoxSectionKey.EXPORTS)"
+          label="Export"
+          class="md:flex"
+          :icon="OdhExport"
+          :active="isToolBoxActive(ToolBoxSectionKey.EXPORTS)"
         />
 
         <!-- actions button -->
@@ -136,14 +136,14 @@ import DatasetHeaderSearch from './DatasetHeaderSearch.vue';
 import DatasetHeaderSelectDataset from './DatasetHeaderSelectDataset.vue';
 import DatasetHeaderButton from './DatasetHeaderButton.vue';
 import { useToolBoxStore } from '../toolBox/toolBoxStore';
-import {ToolBoxSectionKey} from "@/domain/datasets/ui/toolBox/types.ts";
+import {ToolBoxSectionKey} from "@/domain/datasets/ui/toolBox/types";
 import ViewPicker from "@/components/view/ViewPicker.vue";
-import {useTableFilterStore} from "@/domain/datasets/ui/tableView/filter/tableFilterStore.ts";
+import {useTableFilterStore} from "@/domain/datasets/ui/tableView/filter/tableFilterStore";
 import OdhFilter from "@/components/svg/odh/OdhFilter.vue";
 import OdhAttributes from "@/components/svg/odh/OdhAttributes.vue";
 import OdhExport from "@/components/svg/odh/OdhExport.vue";
 import ActionsLinksDropdown from '@/domain/datasets/ui/common/ActionsLinksDropdown.vue';
-import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad.ts';
+import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad';
 
 const toolBoxStore = useToolBoxStore();
 const tableFilterStore = useTableFilterStore();

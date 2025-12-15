@@ -20,7 +20,7 @@ This is the repository for the Open Data Hub Data Browser.
 ## Getting started
 
 These instructions will get you a copy of this repository and prepare it for development of the Data Browser.
-\
+
 ### Prerequisites
 
 To build the projects in the repository, the following prerequisites must be met:

@@ -7,8 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <ThreeDotsPopover :size="5" :icon-size="5">
     <template #trigger="{ open }">
-      <DatasetHeaderButton
-        :handler="()=>{ }"
+      <DatasetHeaderLink
         :label="t('datasets.header.actions')"
         :icon="OdhActions"
         :active="open"
@@ -34,14 +33,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div>Force Sync</div>
       </PopoverContent>
       <PopoverContentDivider />
-      <PopoverContent
-        with-hover
-        class="flex items-center gap-2"
-        @click="openAnalytics"
+      <a
+        href="https://analytics.opendatahub.com/"
+        target="_blank"
+        class="flex items-center gap-2 p-4 no-underline hover:bg-gray-50"
       >
         <IconExternal class="h-4 text-green-500"/>
-        <div>Open in Analytics</div>
-      </PopoverContent>
+        Open in Analytics
+      </a>
     </PopoverCustomPanel>
   </ThreeDotsPopover>
 </template>
@@ -54,7 +53,7 @@ import ThreeDotsPopover from '@/components/popover/ThreeDotsPopover.vue';
 import {useI18n} from "vue-i18n";
 import IconReload from '@/components/svg/IconReload.vue';
 import OdhActions from '@/components/svg/odh/OdhActions.vue';
-import DatasetHeaderButton from '@/domain/datasets/ui/header/DatasetHeaderButton.vue';
+import DatasetHeaderLink from '@/domain/datasets/ui/header/DatasetHeaderLink.vue';
 import IconExternal from '@/components/svg/IconExternal.vue';
 
 const { t } = useI18n();
@@ -69,7 +68,4 @@ const emitEvent = (
   closePopup();
 };
 
-const openAnalytics = () => {
-  window.open('https://analytics.opendatahub.com/', '_blank');
-}
 </script>

@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { useI18n } from 'vue-i18n';
 import IconEyeWithLid from '../../../../components/svg/IconEyeWithLid.vue';
 import { useToolBoxStore } from '../toolBox/toolBoxStore';
-import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types.ts';
+import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types';
 
 const { t } = useI18n();
 

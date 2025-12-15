@@ -11,9 +11,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Component } from 'vue';
 
 defineProps<{
-  sectionKey: string; // meglio evitare `key` perché è una parola speciale di Vue
+  sectionKey: string;
   title: string;
   iconComponent?: Component;
+  infoComponent?: Component;
   info?: string;
 }>();
 </script>

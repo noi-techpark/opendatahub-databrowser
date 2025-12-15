@@ -4,12 +4,14 @@
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia';
 import { Ref, computed, ref, watch } from 'vue';
-import { SelectOption } from '../../../../../components/select/types';
+import { SelectOption } from '@/components/select/types';
 import { PropertyPath } from '../../../config/types';
 import { useTableViewColsStore } from '../tableViewColsStore';
 import { useDatasetFilterStore } from './datasetFilterStore';
 import { Filter, FilterOperator, FilterValue } from './types';
-import { useDatasetBaseInfoStore } from '../../../config/store/datasetBaseInfoStore.ts';
+import { useDatasetBaseInfoStore } from '../../../config/store/datasetBaseInfoStore';
+import { useToolBoxStore } from '@/domain/datasets/ui/toolBox/toolBoxStore';
+import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types';
 
 export const useTableFilterStore = defineStore('tableFilterStore', () => {
   const tableFilters = ref<Filter[]>([]);
@@ -35,15 +37,14 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
   );
 
   // Update filters if datasetFilters or cols change
-  const handleDatasetFiltersChange = () => {
+  watch([datasetFilters, cols], () => {
     tableFilters.value = datasetFilters.value.map((filter) => {
       const title =
-          cols.value.find((col) => col.firstPropertyPath === filter.propertyPath)
-              ?.title ?? filter.propertyPath;
+        cols.value.find((col) => col.firstPropertyPath === filter.propertyPath)
+          ?.title ?? filter.propertyPath;
       return { ...filter, title };
     });
-  }
-  watch([datasetFilters, cols], handleDatasetFiltersChange);
+  });
 
   // Add empty filter
   const addEmptyFilter = () => {
@@ -72,6 +73,9 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
           value: '',
         },
       ];
+
+      // Show toolbox
+      useToolBoxStore().setToolBoxSectionKey(ToolBoxSectionKey.FILTERS);
     }
   };
 
@@ -95,7 +99,6 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
   // Remove all filters
   const removeAllFilters = () => {
     datasetFilters.value = []
-    handleDatasetFiltersChange()
   };
 
   // Remove filter for a given propertyPath
@@ -111,7 +114,6 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
   const removeFilterByIndex = (index?: number) => {
     if (index != null) {
       datasetFilters.value = tableFilters.value.filter((_, i) => i !== index);
-      handleDatasetFiltersChange()
     }
   };
 

@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { format as formatFn, formatDistanceToNow } from 'date-fns';
-import {Size, Variant} from "@/components/button/types.ts";
+import {Size, Variant} from "@/components/button/types";
 import ButtonCustom from "@/components/button/ButtonCustom.vue";
 import IconReload from "@/components/svg/IconReload.vue";
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';

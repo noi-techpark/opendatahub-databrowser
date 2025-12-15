@@ -97,7 +97,7 @@ import { Size, Tone, Variant } from '@/components/button/types';
 import InputCustom from '@/components/input/InputCustom.vue';
 import InputSuggest from '@/components/input/InputSuggest.vue';
 import IconDelete from '@/components/svg/IconDelete.vue';
-import { useOpenApiPathSuggestion } from '@/domain/openApi/autocomplete/useOpenApiPathSuggestion.ts';
+import { useOpenApiPathSuggestion } from '@/domain/openApi/autocomplete/useOpenApiPathSuggestion';
 import KeySelector from './KeySelector.vue';
 import IconAdd from '@/components/svg/IconAdd.vue';
 

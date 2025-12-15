@@ -91,7 +91,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import AlertError from '../../../../components/alert/AlertError.vue';
 import LoadingError from '../../../../components/loading/LoadingError.vue';
-import { DatasetPage } from '@/routes.ts';
+import { DatasetPage } from '@/routes';
 import { useAuth } from '../../../auth/store/auth';
 import {
   useEventDiscardChanges,
@@ -112,10 +112,10 @@ import { useApplyError } from './useApplyError';
 import { useEditStoreSync } from './useEditStoreSync';
 import { useToolBoxStore } from '../toolBox/toolBoxStore';
 import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
-import { useJsonEditorConfigurator } from '@/domain/datasets/ui/common/editor/useJsonEditorConfigurator.ts';
+import { useJsonEditorConfigurator } from '@/domain/datasets/ui/common/editor/useJsonEditorConfigurator';
 import { DiffEditor } from 'monaco-editor-vue3';
-import { useDatasetViewStore } from '@/domain/datasets/view/store/datasetViewStore.ts';
-import { DiffEditMode } from '@/domain/datasets/view/types.ts';
+import { useDatasetViewStore } from '@/domain/datasets/view/store/datasetViewStore';
+import { DiffEditMode } from '@/domain/datasets/view/types';
 
 const { t } = useI18n();
 

@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <ListboxButton
       v-slot="{ open }"
-      class="relative flex w-full items-center justify-between truncate border border-gray-300 px-2 md:px-3 py-2 text-left leading-tight rounded-md"
+      class="relative flex w-full items-center justify-between truncate border border-lightgray rounded-sm-plus px-2 md:px-3 py-2 text-left leading-tight hover:bg-green-400/10 hover:border-green-400"
   >
     <!-- Parte sinistra: icona + testi -->
     <div class="flex items-center gap-1 md:gap-2">

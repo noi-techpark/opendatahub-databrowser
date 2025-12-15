@@ -75,7 +75,7 @@ import { storeToRefs } from 'pinia';
 import {computed, ref, toRefs} from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '@/components/button/ButtonCustom.vue';
-import { Size } from '@/components/button/types.ts';
+import { Size } from '@/components/button/types';
 import IconDownload from '@/components/svg/IconDownload.vue';
 import ToggleCustom from '@/components/toggle/ToggleCustom.vue';
 import { useDownloadStore } from '../../../../download/downloadStore';

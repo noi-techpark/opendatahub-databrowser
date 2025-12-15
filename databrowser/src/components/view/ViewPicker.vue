@@ -6,19 +6,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="relative flex items-center">
-    <SelectWithIconButton
-      id="mobile-language-picker"
+    <SelectCustom
+      id="mobile-view-picker"
       extra-button-classes="h-11"
       :options="views"
-      :value="internalPicked"
+      v-model="internalPicked"
       :size="SelectSize.xs"
       :show-search-when-at-least-count-options="Infinity"
-      :z-index="999"
+      :z-index="10"
       label="View"
       :iconComponent="OdhView"
       extra-height
-      @change="changePicked"
     />
+
   </div>
 </template>
 
@@ -26,9 +26,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { ref, toRefs, watch } from 'vue';
 import { SelectSize } from '../select/types';
 import OdhView from '@/components/svg/odh/OdhView.vue';
-import SelectWithIconButton from '@/components/select/SelectWithIconButton.vue';
+import SelectCustom from '@/components/select/SelectCustom.vue';
 import { useI18n } from 'vue-i18n';
-import { DatasetConfigSource } from '@/domain/datasets/config/types.ts';
+import { DatasetConfigSource } from '@/domain/datasets/config/types';
 
 const { t } = useI18n();
 
@@ -56,10 +56,12 @@ const views = [
 ];
 
 const internalPicked = ref(picked.value);
+
 watch(picked, () => (internalPicked.value = picked.value));
 
-const changePicked = (value: DatasetConfigSource) => {
-  internalPicked.value = value;
-  emit('pickedChange', value);
-};
+watch(internalPicked, (v) => {
+  if (v !== picked.value) {
+    emit('pickedChange', v);
+  }
+});
 </script>

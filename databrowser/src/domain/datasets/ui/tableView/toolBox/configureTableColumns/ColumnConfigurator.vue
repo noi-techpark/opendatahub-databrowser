@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="flex h-full flex-col">
+  <div class="flex h-full flex-col m-3">
     <ColumnsList
       v-if="mode === 'tableColumns'"
       v-model:columns="columns"
@@ -170,8 +170,8 @@ import IconCheckCircle from '@/components/svg/IconCheckCircle.vue';
 import IconDelete from '@/components/svg/IconDelete.vue';
 import IconDownload from '@/components/svg/IconDownload.vue';
 import IconImport from '@/components/svg/IconImport.vue';
-import { CellComponent } from '@/domain/cellComponents/types.ts';
-import { useUserSettings } from '@/domain/user/userSettings.ts';
+import { CellComponent } from '@/domain/cellComponents/types';
+import { useUserSettings } from '@/domain/user/userSettings';
 import { injectColumnConfiguration } from './columnConfiguration';
 import { useColumnConfigurationDatasetChangeGuard } from './columnConfigurationDatasetChangeGuard';
 import ColumnConfigurationDeleteDialog from './ColumnConfigurationDeleteDialog.vue';
@@ -188,7 +188,7 @@ import {
 import ShowDeprecatedFields from '@/domain/datasets/ui/common/showDeprecatedFields/ShowDeprecatedFields.vue';
 import ToolBoxCardBody from '@/domain/datasets/ui/toolBox/ToolBoxCardBody.vue';
 import ToolBoxCard from '@/domain/datasets/ui/toolBox/ToolBoxCard.vue';
-import { useHeaderAlert } from '@/layouts/useHeaderAlert.ts';
+import { useHeaderAlert } from '@/layouts/useHeaderAlert';
 
 const { t } = useI18n();
 

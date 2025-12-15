@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '@/domain/cellComponents/types.ts';
+import { CellComponent } from '@/domain/cellComponents/types';
 import {
   DetailElements,
   PropertyConfig,
-} from '@/domain/datasets/config/types.ts';
-import {DEFAULT_DATE_TIME_FORMAT} from "@/config/utils.ts";
+} from '@/domain/datasets/config/types';
+import {DEFAULT_DATE_TIME_FORMAT} from "@/config/utils";
 
 export const syncdataconfigCell = (): PropertyConfig => ({
   title: '',

@@ -64,7 +64,7 @@ import { useToolBoxStore } from './toolBoxStore';
 import {
   ToolBoxSection,
   ToolBoxSectionKey,
-} from '@/domain/datasets/ui/toolBox/types.ts';
+} from '@/domain/datasets/ui/toolBox/types';
 import ToolBoxSectionHeader from "@/domain/datasets/ui/toolBox/ToolBoxSectionHeader.vue";
 
 withDefaults(

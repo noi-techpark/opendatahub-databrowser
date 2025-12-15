@@ -23,8 +23,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <span
         v-if="labelButton"
         :class="{ 'hidden md:inline': !showButtonTextMobile }"
-        >{{ labelButton }}</span
       >
+        {{ labelButton }}
+      </span>
     </ButtonCustom>
     <input
       :id="id"
@@ -74,8 +75,8 @@ import ButtonCustom from '../button/ButtonCustom.vue';
 import { Size } from '../button/types';
 import IconClose from '../svg/IconClose.vue';
 import { randomId } from '../utils/random';
-import { Variant } from '@/components/input/types.ts';
-import { computeInputWrapperClasses } from '@/components/input/styles.ts';
+import { Variant } from '@/components/input/types';
+import { computeInputWrapperClasses } from '@/components/input/styles';
 
 const emit = defineEmits(['confirmedValue', 'update:modelValue']);
 

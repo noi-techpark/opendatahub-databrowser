@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   >
     <div v-if="hasConfig" class="w-full font-bold text-black">
       <SelectCustom
-        extra-button-classes="h-11"
+        extra-button-classes="h-11 border-lightgray rounded-sm-plus"
         :model-value="currentDatasetName"
         :grouped-options="selectOptions"
         :show-search-when-at-least-count-options="1"

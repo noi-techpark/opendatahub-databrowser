@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :iconComponent="OdhAttributes"
       info="Personalizza la visualizzazione degli attributi"
     >
-      <UserTableSettingsToolBoxPanel />
+      <ColumnConfigurator />
     </ToolBoxSection>
   </ToolBox>
 
@@ -49,15 +49,14 @@ import ToolBox from '../../toolBox/ToolBox.vue';
 import { provideColumnConfiguration } from './configureTableColumns/columnConfiguration';
 import ColumnConfigurationNavigationGuardHandler from './configureTableColumns/ColumnConfigurationNavigationGuardHandler.vue';
 import SearchAndFilterToolBoxPanel from './SearchAndFilterToolBoxPanel.vue';
-// import UserTableSettingsToolBoxPanel from './UserTableSettingsToolBoxPanel.vue';
-import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types.ts';
+import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types';
 import ToolBoxSection from "@/domain/datasets/ui/toolBox/ToolBoxSection.vue";
 import IconFilter from "@/components/svg/IconFilter.vue";
 import InfoFilter from "@/domain/datasets/ui/tableView/toolBox/InfoFilter.vue";
-import {Pagination} from "@/domain/datasets/pagination/types.ts";
+import {Pagination} from "@/domain/datasets/pagination/types";
 import IconDownload from "@/components/svg/IconDownload.vue";
 import OdhAttributes from '@/components/svg/odh/OdhAttributes.vue';
-import UserTableSettingsToolBoxPanel from '@/domain/datasets/ui/tableView/toolBox/UserTableSettingsToolBoxPanel.vue';
+import ColumnConfigurator from '@/domain/datasets/ui/tableView/toolBox/configureTableColumns/ColumnConfigurator.vue';
 
 const { t } = useI18n();
 

@@ -86,7 +86,7 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
-import { Size, Variant } from '@/components/button/types.ts';
+import { Size, Variant } from '@/components/button/types';
 import InputFilter from '../../../../../components/input/InputFilter.vue';
 import SelectCustom from '../../../../../components/select/SelectCustom.vue';
 import IconDelete from '../../../../../components/svg/IconDelete.vue';
@@ -102,7 +102,7 @@ import { useTableFilterStore } from '../filter/tableFilterStore';
 import { Filter, FilterOperator, FilterValue } from '../filter/types';
 import IconAdd from '../../../../../components/svg/IconAdd.vue';
 import IconFilter from '../../../../../components/svg/IconFilter.vue';
-import {Pagination} from "@/domain/datasets/pagination/types.ts";
+import {Pagination} from "@/domain/datasets/pagination/types";
 import ToolBoxSectionLabel from "@/domain/datasets/ui/toolBox/ToolBoxSectionLabel.vue";
 
 const { t } = useI18n();

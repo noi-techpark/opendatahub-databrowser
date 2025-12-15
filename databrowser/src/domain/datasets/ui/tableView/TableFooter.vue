@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :size="SelectSize.sm"
       @update:model-value="navigation.changePageSize(Number($event))"
     />
-    <span class="mr-3 block hidden md:inline">{{ t('datasets.listView.perPage') }}</span>
+    <span class="mr-3 hidden md:inline">{{ t('datasets.listView.perPage') }}</span>
     <span class="mr-3 block md:hidden">{{ t('datasets.listView.pp') }}</span>
     <Paginator
       v-if="pagination.hasPagination"
@@ -38,10 +38,10 @@ import { computed, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Paginator from '@/components/paginator/Paginator.vue';
 import SelectCustom from '@/components/select/SelectCustom.vue';
-import { SelectSize } from '@/components/select/types.ts';
-import { useNavigationStore } from '../../navigation/useNavigationStore.ts';
-import { Pagination } from '../../pagination/types.ts';
-import { pageSizeOptions } from '../tableView/defaultValues.ts';
+import { SelectSize } from '@/components/select/types';
+import { useNavigationStore } from '../../navigation/useNavigationStore';
+import { Pagination } from '../../pagination/types';
+import { pageSizeOptions } from './defaultValues';
 
 const { t } = useI18n();
 

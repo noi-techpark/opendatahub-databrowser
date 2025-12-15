@@ -43,13 +43,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed, ref, toRefs, useAttrs, watch } from 'vue';
-import SelectCustom from '../../../../../components/select/SelectCustom.vue';
+import SelectCustom from '@/components/select/SelectCustom.vue';
 import {
   SelectOption,
   SelectValue,
-} from '../../../../../components/select/types';
-import { selectAddNewValue } from '../../../../../components/select/utils';
-import IconDelete from '../../../../../components/svg/IconDelete.vue';
+} from '@/components/select/types';
+import { selectAddNewValue } from '@/components/select/utils';
+import IconDelete from '@/components/svg/IconDelete.vue';
 import { useEditStore } from '../../../../datasets/ui/editView/store/editStore';
 import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 import {
@@ -64,7 +64,6 @@ const emit = defineEmits(['update', 'addNewValue']);
 
 const props = withDefaults(
   defineProps<{
-    // If options is set, they will be used, otherwise the options from the attributes will be used
     options?: SelectOption[];
     value?: SelectValue;
     url?: string;

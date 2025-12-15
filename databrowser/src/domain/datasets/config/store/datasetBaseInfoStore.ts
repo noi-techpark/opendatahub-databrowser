@@ -7,7 +7,7 @@ import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useComputeRouteLocation } from '../../location/routeLocation';
 import { useDatasetBaseInfo } from './datasetBaseInfo';
-import { useDatasetUserSettings } from './datasetUserSettings.ts';
+import { useDatasetUserSettings } from './datasetUserSettings';
 import { useQueryParamsCleanUp } from './utils';
 
 export const useDatasetBaseInfoStore = defineStore(

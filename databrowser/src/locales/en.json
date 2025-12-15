@@ -341,6 +341,30 @@
         "actions": {
           "short": "Actions",
           "title": "Actions"
+        },
+        "refresh": {
+          "short": "Refresh",
+          "title": "Refresh"
+        },
+        "forceSync": {
+          "short": "Force Sync",
+          "title": "Force Sync"
+        },
+        "push": {
+          "short": "Push",
+          "title": "Push"
+        },
+        "duplicate": {
+          "short": "Duplicate",
+          "title": "Duplicate"
+        },
+        "openInAnalytics": {
+          "short": "Open in Analytics",
+          "title": "Open in Analytics"
+        },
+        "openInDataQuality": {
+          "short": "Open in Data Quality",
+          "title": "Open in Data Quality"
         }
       }
     },
@@ -422,6 +446,7 @@
           "header": "Download",
           "button": "Download",
           "buttonAlt": "Download the currently displayed data",
+          "iconAlt": "Download the currently displayed data",
           "infoPopup": {
             "header": "Information on how to download records.",
             "body": "Access our wiki to get all information on how to download our records.",

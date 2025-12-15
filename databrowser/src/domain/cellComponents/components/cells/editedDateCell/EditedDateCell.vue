@@ -16,14 +16,14 @@ import { computed, toRefs } from 'vue';
 import { format as formatFn, formatDistanceToNow } from 'date-fns';
 
 const props = withDefaults(
-    defineProps<{
-      date?: string;
-      format?: string;
-    }>(),
-    {
-      date: undefined,
-      format: undefined,
-    }
+  defineProps<{
+    date?: string;
+    format?: string;
+  }>(),
+  {
+    date: undefined,
+    format: undefined,
+  }
 );
 const { date, format } = toRefs(props);
 const formattedDate = computed(() => {

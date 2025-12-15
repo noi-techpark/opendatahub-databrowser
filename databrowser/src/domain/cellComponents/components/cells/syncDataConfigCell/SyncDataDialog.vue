@@ -38,7 +38,7 @@ import DialogCustom from '@/components/dialog/DialogCustom.vue';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { SyncDialogPayload } from '@/domain/datasets/ui/tableView/types';
 import LastSyncInfo from './LastSyncInfo.vue';
-import { useSync } from '@/domain/cellComponents/components/cells/syncDataConfigCell/useSync.ts';
+import { useSync } from '@/domain/cellComponents/components/cells/syncDataConfigCell/useSync';
 
 const { closeSyncDialog } = useTableViewStore();
 const { t } = useI18n();

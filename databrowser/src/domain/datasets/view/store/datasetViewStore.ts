@@ -6,7 +6,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref, toRefs } from 'vue';
 import { useDatasetBaseInfoStore } from '../../config/store/datasetBaseInfoStore';
 import { useDatasetView } from './datasetView';
-import { DiffEditMode } from '@/domain/datasets/view/types.ts';
+import { DiffEditMode } from '@/domain/datasets/view/types';
 
 export const useDatasetViewStore = defineStore('datasetViewStore', () => {
   // Note: using toRefs here instead of storeToRefs because storeToRefs

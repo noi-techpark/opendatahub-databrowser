@@ -49,7 +49,7 @@ import { Tone, Variant } from '@/components/button/types';
 import DialogCustom from '@/components/dialog/DialogCustom.vue';
 import { useEditStore } from '../store/editStore';
 import { useDialogsStore } from './dialogsStore';
-import { DialogPanelWidth } from '@/components/dialog/types.ts';
+import { DialogPanelWidth } from '@/components/dialog/types';
 
 const { t } = useI18n();
 

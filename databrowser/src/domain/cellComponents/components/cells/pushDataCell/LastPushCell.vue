@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { format as formatFn, formatDistanceToNow } from 'date-fns';
-import {Size, Variant} from "@/components/button/types.ts";
+import {Size, Variant} from "@/components/button/types";
 import ButtonCustom from "@/components/button/ButtonCustom.vue";
 import IconPush from "@/components/svg/IconPush.vue";
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
@@ -99,7 +99,6 @@ const publishersWithUrl = computed(() => {
 
 
 const doAction = () => {
-  console.log('Push action triggered');
   openPushDialog({
     id: props.id,
     title: props.title ?? '',

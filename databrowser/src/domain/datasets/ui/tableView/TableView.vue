@@ -26,7 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableViewToolBox :url="fullPath" :pagination="pagination" />
     </div>
 
-    <DatasetFooter :pagination="pagination" />
+    <TableFooter :pagination="pagination" />
 
   </section>
 
@@ -66,9 +66,9 @@ import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'
-import LoadingError from '../../../../components/loading/LoadingError.vue';
+import LoadingError from '@/components/loading/LoadingError.vue';
 import TableContent from './TableContent.vue';
-import DatasetFooter from '../common/DatasetFooter.vue';
+import TableFooter from './TableFooter.vue';
 import TableFilterHint from './filter/TableFilterHint.vue';
 import { useTableLoad } from './load/useTableLoad';
 import { useTableViewRouteQueryStore } from './tableViewRouteQueryStore';
