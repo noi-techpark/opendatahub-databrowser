@@ -81,7 +81,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { toRefs, toRaw } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
 import { Size } from '../../../../../components/button/types';
@@ -149,8 +149,8 @@ useRecordSupportForTable<Mapping>({
   items: mappings,
   duplication: (items, index) => {
     const { value } = items[index];
-    // Deep clone the child entries
-    const childEntries = structuredClone(value);
+    // Deep clone the child entries (unwrap Vue proxy first)
+    const childEntries = structuredClone(toRaw(value));
 
     // Set the key to an empty string, so that the user can enter a new one
     return {

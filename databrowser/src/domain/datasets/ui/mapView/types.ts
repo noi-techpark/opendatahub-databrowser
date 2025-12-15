@@ -8,11 +8,10 @@ import {
   FeatureCollection,
   GeoJsonProperties,
   Geometry,
-  Point,
   Polygon,
 } from 'geojson';
 import { GeoJSONSourceSpecification } from 'maplibre-gl';
-import { TourismMetaData } from '../../../metaDataConfig/tourism/types';
+import { CoordinateSource, TourismMetaData } from '../../../metaDataConfig/tourism/types';
 import { KnownApiType } from '../../../metaDataConfig/types';
 
 export type DatasetId = string;
@@ -55,11 +54,12 @@ export interface MapDatasetMetaData {
   datasetAbbreviation: string;
   datasetColor: string;
   datasetParentId?: DatasetId;
+  coordinateSource?: CoordinateSource;
 }
 
 export interface MapSourceSpecification extends GeoJSONSourceSpecification {
   data: FeatureCollection<
-    Point,
+    Geometry,
     {
       recordId: RecordId;
       recordName: string;
@@ -67,12 +67,23 @@ export interface MapSourceSpecification extends GeoJSONSourceSpecification {
   >;
 }
 
+/**
+ * Separate sources for different geometry types
+ * Points can be clustered, while LineStrings and Polygons cannot
+ */
+export interface MapSourcesByGeometryType {
+  points?: MapSourceSpecification & { cluster: true };
+  lines?: MapSourceSpecification & { cluster: false };
+  polygons?: MapSourceSpecification & { cluster: false };
+}
+
 export interface DatasetRecords {
   fetching: boolean;
   fetched: boolean;
   error: string | null;
   count: number;
-  source: MapSourceSpecification;
+  // Source can be either a single source (legacy) or multiple sources by geometry type (GeoData)
+  source: MapSourceSpecification | MapSourcesByGeometryType;
 }
 
 export interface MapDataset {

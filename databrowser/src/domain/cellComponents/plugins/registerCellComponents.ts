@@ -22,6 +22,8 @@ import EditGpsTrackCell from '../components/cells/editGpsTrackCell/EditGpsTrackC
 import EditedDateCell from '../components/cells/editedDateCell/EditedDateCell.vue';
 import EditImageGalleryCell from '../components/cells/editImageGalleryCell/EditImageGalleryCell.vue';
 import EditGpsInfoCell from '../components/cells/editGpsInfoCell/EditGpsInfoCell.vue';
+import EditGeoDataCell from '../components/cells/editGeoDataCell/EditGeoDataCell.vue';
+import EditNestedArrayCell from '../components/cells/editNestedArrayCell/EditNestedArrayCell.vue';
 import EditRoomBookedCell from '../components/cells/editRoomBookedCell/EditRoomBookedCell.vue';
 import EditRoomVenueCell from '../components/cells/editRoomVenueCell/EditRoomVenueCell.vue';
 import EditVideoItemsCell from '../components/cells/editVideoItemsCell/EditVideoItemsCell.vue';
@@ -31,7 +33,9 @@ import EditEventDateCell from '../components/cells/editEventDateCell/EditEventDa
 import EditEventVariantCell from '../components/cells/editEventVariantCell/EditEventVariantCell.vue';
 import EventDocumentCell from '../components/cells/eventDocumentCell/EventDocumentCell.vue';
 import GpsPointMap from '../components/cells/editGpsInfoCell/GpsPointMap.vue';
+import GeoDataMap from '../components/cells/editGeoDataCell/GeoDataMap.vue';
 import GpsPointsCell from '../components/cells/gpsPointsCell/GpsPointsCell.vue';
+import GeoDataCell from '../components/cells/geoDataCell/GeoDataCell.vue';
 import HtmlCell from '../components/cells/htmlCell/HtmlCell.vue';
 import InputReferenceCell from '../components/cells/inputReferenceCell/InputReferenceCell.vue';
 import ImageCell from '../components/cells/imageCell/ImageCell.vue';
@@ -100,6 +104,8 @@ export default {
     app.component(CellComponent.EditedDateCell, EditedDateCell);
     app.component(CellComponent.EditImageGalleryCell, EditImageGalleryCell);
     app.component(CellComponent.EditGpsInfoCell, EditGpsInfoCell);
+    app.component(CellComponent.EditGeoDataCell, EditGeoDataCell);
+    app.component(CellComponent.EditNestedArrayCell, EditNestedArrayCell);
     app.component(CellComponent.EditRoomBookedCell, EditRoomBookedCell);
     app.component(CellComponent.EditRoomVenueCell, EditRoomVenueCell);
     app.component(CellComponent.EditVideoItemsCell, EditVideoItemsCell);
@@ -109,7 +115,9 @@ export default {
     app.component(CellComponent.EditEventVariantCell, EditEventVariantCell);
     app.component(CellComponent.EventDocumentCell, EventDocumentCell);
     app.component(CellComponent.GpsPointMap, GpsPointMap);
+    app.component(CellComponent.GeoDataMap, GeoDataMap);
     app.component(CellComponent.GpsPointsCell, GpsPointsCell);
+    app.component(CellComponent.GeoDataCell, GeoDataCell);
     app.component(CellComponent.HtmlCell, HtmlCell);
     app.component(CellComponent.InputReferenceCell, InputReferenceCell);
     app.component(CellComponent.ImageCell, ImageCell);
