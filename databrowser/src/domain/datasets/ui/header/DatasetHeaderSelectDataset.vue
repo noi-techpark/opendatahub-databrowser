@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   >
     <div v-if="hasConfig" class="w-full font-bold text-black">
       <SelectCustom
-        extra-button-classes="h-11 border-lightgray rounded-sm-plus"
+        extra-button-classes="h-11 border-lightgray rounded"
         :model-value="currentDatasetName"
         :grouped-options="selectOptions"
         :show-search-when-at-least-count-options="1"
@@ -32,13 +32,13 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import SelectCustom from '../../../../components/select/SelectCustom.vue';
+import SelectCustom from '@/components/select/SelectCustom.vue';
 import {
   GroupSelectOption,
   SelectSize,
   SelectValue,
-} from '../../../../components/select/types';
-import { useMetaDataForAllDatasets } from '../../../../pages/datasets/overview/useDatasets';
+} from '@/components/select/types';
+import { useMetaDataForAllDatasets } from '@/pages/datasets/overview/useDatasets';
 import { useMetaDataStore } from '../../../metaDataConfig/tourism/metaDataStore';
 import { TourismMetaData } from '../../../metaDataConfig/tourism/types';
 import { getApiDomainFromMetaData } from '../../../metaDataConfig/utils';

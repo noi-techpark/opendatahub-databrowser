@@ -54,7 +54,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               :show-edit-hint="true"
               :editable="true"
             />
-            <EditToolBox />
           </div>
 
           <div v-if="isDiffEditing" class="w-full md:w-1/2">
@@ -107,7 +106,6 @@ import DiscardChangesDialog from './dialogs/DiscardChangesDialog.vue';
 import LeaveSectionDialog from './dialogs/LeaveSectionDialog.vue';
 import { useDialogsStore } from './dialogs/dialogsStore';
 import { useEditStore } from './store/editStore';
-import EditToolBox from './toolBox/EditToolBox.vue';
 import { useApplyError } from './useApplyError';
 import { useEditStoreSync } from './useEditStoreSync';
 import { useToolBoxStore } from '../toolBox/toolBoxStore';

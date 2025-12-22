@@ -57,8 +57,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :tag-name="col.component"
             :attributes="values[colIndex]"
           />
-          <!-- :object-mapping="col.objectMapping" -->
-          <!-- :array-mapping="col.arrayMapping" -->
         </TableCell>
         <TableCell
           v-if="showLinkColumn"

@@ -10,19 +10,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :sectionKey="ToolBoxSectionKey.EXPORTS"
       :title="t('datasets.toolBox.exportDatasets.panelName')"
       :iconComponent="IconDownload"
-      info="Scarica i dati in diversi formati"
     >
       <ExportDatasetsToolBoxPanel
         :url="url"
         :references-urls="referencesUrls"
-        :withBgColor="false"
       />
     </ToolBoxSection>
     <ToolBoxSection
       :sectionKey="ToolBoxSectionKey.ATTRIBUTES"
       :title="t('datasets.toolBox.attributes.panelName')"
       :iconComponent="IconDownload"
-      info="Personalizza la visualizzazione degli attributi"
     >
       <SettingsToolBoxPanel />
     </ToolBoxSection>

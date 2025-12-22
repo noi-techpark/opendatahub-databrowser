@@ -95,6 +95,3 @@ onBeforeUnmount(() => {
   if (closeTimer) clearTimeout(closeTimer);
 });
 </script>
-
-<style scoped>
-</style>

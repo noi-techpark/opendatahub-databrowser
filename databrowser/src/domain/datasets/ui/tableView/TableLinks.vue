@@ -6,33 +6,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="grid grid-cols-2 gap-2 text-green-400">
-    <!--    <DetailsLink-->
-    <!--      :to="detailLocation"-->
-    <!--      :title="t('datasets.listView.viewLinks.detail.title')"-->
-    <!--      data-test="dataset-detail-link"-->
-    <!--    >-->
-    <!--      <IconEye class="grow stroke-current" />-->
-    <!--      <span class="text-3xs uppercase">-->
-    <!--        {{ t('datasets.listView.viewLinks.detail.short') }}-->
-    <!--      </span>-->
-    <!--    </DetailsLink>-->
+
     <DetailsLink
-      v-if="showEdit"
-      :to="editLocation"
-      :title="t('datasets.listView.viewLinks.edit.title')"
-      data-test="dataset-edit-link"
+      :to="detailLocation"
+      :title="t('datasets.listView.viewLinks.detail.title')"
+      data-test="dataset-detail-link"
     >
-      <IconEdit class="grow stroke-current" />
+      <IconEye class="grow stroke-current" />
       <span class="text-3xs uppercase">
-        {{ t('datasets.listView.viewLinks.edit.short') }}
+        {{ t('datasets.listView.viewLinks.detail.short') }}
       </span>
     </DetailsLink>
     <DetailsLinksDropdown
       :id="recordId"
-      :to="editLocation"
       :showDelete="showDelete"
+      :showEdit="showEdit"
+      :showDuplicate="addRecordSupported"
       :title="t('datasets.listView.viewLinks.edit.title')"
       data-test="dataset-edit-link"
+      @edit="onEdit"
       @delete="onDelete"
       @refresh="onRefresh"
       @duplicate="onDuplicate"
@@ -49,7 +41,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { storeToRefs } from 'pinia';
 import { computed, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import IconEdit from '@/components/svg/IconEdit.vue';
 import { RecordId } from '@/domain/datasets/types';
 import { useDatasetBaseInfoStore } from '../../config/store/datasetBaseInfoStore';
 import { useSingleRecordLocations } from '../../location/datasetViewLocation';
@@ -61,8 +52,16 @@ import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore
 import { usePublisherStore } from '@/domain/publisher/publisherStore';
 import { Publisher } from '@/domain/cellComponents/components/cells/pushDataCell/types';
 import { RecordActionsData } from '@/domain/datasets/ui/tableView/types';
+import { useRouter } from 'vue-router';
+import IconEye from '@/components/svg/IconEye.vue';
+import { useDatasetPermissionStore } from '@/domain/datasets/permission/store/datasetPermissionStore.ts';
+import { usePathsForCurrentRoute } from '@/domain/datasets/ui/header/usePaths.ts';
+import { useEditStore } from '@/domain/datasets/ui/editView/store/editStore.ts';
 
 const { t } = useI18n();
+const router = useRouter();
+const { currentRoute } = router;
+const hash = computed(() => currentRoute.value.hash);
 
 const props = defineProps<{
   recordId: RecordId;
@@ -71,13 +70,15 @@ const props = defineProps<{
   showDelete: boolean;
 }>();
 
-const { recordId } = toRefs(props);
+const { recordId,data } = toRefs(props);
+
+const { addRecordSupported } = storeToRefs(useDatasetPermissionStore());
 
 const { datasetDomain, datasetPath, datasetQuery } = storeToRefs(
   useDatasetBaseInfoStore()
 );
 
-const { editLocation } = useSingleRecordLocations(
+const { detailLocation, editLocation } = useSingleRecordLocations(
   datasetDomain,
   datasetPath,
   datasetQuery,
@@ -91,49 +92,57 @@ const onRefresh = () => {
 const onDelete = () => {
   useEventDelete.emit(recordId.value);
 };
-
-const onDuplicate = () => {
-  //TODO: implement it
+const onEdit = () => {
+  if (props.showEdit && editLocation) {
+    router.push({ ...editLocation.value, hash: hash.value });
+  }
 };
 
+const { newViewPath } = usePathsForCurrentRoute();
+const editStore = useEditStore();
+const onDuplicate = () => {
+  precompileNewViewData(data.value);
+  router.push(newViewPath.value);
+};
+const precompileNewViewData = (data: RecordActionsData) => {
+  //copy the data
+  const newData = JSON.parse(JSON.stringify(data));
+
+  // set fields to new data
+  delete newData.id;
+  delete newData._Meta;
+
+  // init edit store
+  editStore.setCurrent(newData);
+};
 
 const { publishers } = storeToRefs(usePublisherStore());
-const metaId = props.data._Meta?.Id ?? undefined;
-const metaType = props.data._Meta?.Type ?? undefined;
-const publishedOn = props.data.PublishedOn as string[] | null | undefined;
+const metaId = computed(() => data.value._Meta?.Id);
+const metaType = computed(() => data.value._Meta?.Type);
+const publishedOn = computed(() => data.value.PublishedOn as string[] | null | undefined);
 const publishersWithUrl = computed(() => {
-  if (publishedOn == null || publishedOn.length === 0) {
-    return [];
-  }
+  const po = publishedOn.value;
+  if (!po?.length) return [];
 
-  return (
-    publishers.value
-      // Use only publishers that are in the publishedOn list
-      .filter(
-        (publisher) =>
-          publishedOn?.find((pon) => pon === publisher.id) != null
-      )
-      .map<Publisher>((publisher) => ({
-        id: publisher.id,
-        name: publisher.name,
-        url: publisher.buildUrl(metaId, metaType),
-      }))
-  );
+  return publishers.value
+    .filter((publisher) => po.includes(publisher.id))
+    .map<Publisher>((publisher) => ({
+      id: publisher.id,
+      name: publisher.name,
+      url: publisher.buildUrl(metaId.value, metaType.value),
+    }));
 });
+
 
 const { openPushDialog } = useTableViewStore();
 const onPush = () => {
   openPushDialog({
-    id: metaId,
+    id: metaId.value,
     title: 'Push data',
     publishers: publishersWithUrl.value,
   });
 };
 
-//
-// const onPush = () => {
-//   //TODO: implement it
-// };
 const onSync = () => {
   //TODO: implement it
 };

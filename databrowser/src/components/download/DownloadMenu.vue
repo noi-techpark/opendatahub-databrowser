@@ -101,10 +101,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   >
                     <template #trigger>
                       <span
-                        class="ml-2 w-1/2 shrink-0 truncate text-hint-error cursor-copy"
-                        @click="copyError(download.error)"
+                        class="ml-2 w-1/2 shrink-0 truncate cursor-copy"
+                        :class="copiedErrorId === download.id ? 'text-green-400' : 'text-hint-error'"
+                        @click="copyError(download.id, download.error)"
                       >
-                        {{ download.error }}
+                        {{ copiedErrorId === download.id ? t('components.downloadMenu.copied') : download.error }}
                       </span>
                     </template>
                   </SimpleTooltip>
@@ -117,19 +118,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 >
                   <IconDownload class="size-5" />
                 </ButtonRounded>
-                <SimpleTooltip
-                    v-else-if="download.status === 'failed'"
-                    :key="`${download.id}-failed`"
-                    :text="(download.error ?? '')"
+                <ButtonRounded
+                  v-else-if="download.status === 'failed'"
+                  @click="downloadStore.retryDownload(download.id)"
                 >
-                  <template #trigger>
-                    <ButtonRounded
-                        @click="downloadStore.retryDownload(download.id)"
-                    >
-                      <IconReload class="size-5" />
-                    </ButtonRounded>
-                  </template>
-                </SimpleTooltip>
+                  <IconReload class="size-5" />
+                </ButtonRounded>
                 <ButtonRounded
                   v-else-if="download.status === 'in-progress'"
                   @click="downloadStore.abortDownload(download.id)"
@@ -190,9 +184,17 @@ const countCompleted = computed(() => downloadStore.completedDownloads.length);
 const countFailed = computed(() => downloadStore.failedDownloads.length);
 
 const isDiscardDialogOpen = ref(false);
+const copiedErrorId = ref<string | null>(null);
 
-const copyError = (error:string) => {
-  clipboard.copy(error)
+const copyError = (downloadId: string, error:string) => {
+  clipboard.copy(error);
+  copiedErrorId.value = downloadId;
+
+  setTimeout(() => {
+    if (copiedErrorId.value === downloadId) {
+      copiedErrorId.value = null;
+    }
+  }, 3000);
 }
 
 const openDiscardDialog = (event: Event) => {

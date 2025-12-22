@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
   <!-- ToolBox content -->
   <div
-    class="absolute top-0 z-[10] flex h-full flex-col overflow-x-auto bg-gray-50 transition-all md:relative"
+    class="absolute top-0 z-10 flex h-full flex-col overflow-x-auto bg-gray-50 transition-all md:relative"
     :class="{
       'w-full md:w-1/3': activeSection,
       'w-0': !activeSection,
@@ -26,7 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @before-leave="(el: Element) => (el.classList.value = 'hidden')"
       >
         <div v-if="activeSection" :class="{ hidden: !mdAndLarger }">
-          <ContentAlignmentX class="h-full" :noPadding="true" >
+          <div class="mx-auto w-full h-full">
             <div class="flex flex-col justify-between">
               <div
                 class="sticky top-0 z-10 flex flex-col justify-end bg-gray-50"
@@ -34,7 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   'bg-white': isWhite,
                 }"
               >
-                <ToolBoxSectionHeader
+                <ToolBoxHeader
                   :title="activeSection.title"
                   :iconComponent="activeSection.iconComponent"
                   :infoComponent="activeSection.infoComponent"
@@ -49,7 +49,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 />
               </div>
             </div>
-          </ContentAlignmentX>
+          </div>
         </div>
       </Transition>
     </div>
@@ -59,13 +59,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import {computed, watch, useSlots, VNode} from 'vue';
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
-import ContentAlignmentX from '../../../../components/content/ContentAlignmentX.vue';
 import { useToolBoxStore } from './toolBoxStore';
 import {
   ToolBoxSection,
   ToolBoxSectionKey,
 } from '@/domain/datasets/ui/toolBox/types';
-import ToolBoxSectionHeader from "@/domain/datasets/ui/toolBox/ToolBoxSectionHeader.vue";
+import ToolBoxHeader from "@/domain/datasets/ui/toolBox/ToolBoxHeader.vue";
 
 withDefaults(
   defineProps<{
@@ -90,15 +89,15 @@ const mdAndLarger = breakpoints.greater('md');
 const sections = computed(() => {
   const vnodes = (slots.default?.() ?? []) as VNode[];
   return vnodes
-      .map((vnode) => {
-        if (!vnode.props) return undefined;
-        return {
-          ...(vnode.props as ToolBoxSection),
-          vnode, // salvi il vnode intero
-        };
-      })
-      .filter(Boolean) as (ToolBoxSection & { vnode: VNode })[];
+    .filter(vnode => vnode.props != null)
+    .map((vnode) => {
+      return {
+        ...(vnode.props as ToolBoxSection),
+        vnode
+      };
+    })
 });
+
 
 const activeSection = computed(() =>
     sections.value.find((s) => s.sectionKey === toolBoxStore.activeSectionKey)
@@ -110,14 +109,3 @@ watch(mdAndLarger, (newVal) => {
   toolBoxStore.toggleToolBoxSectionKey(ToolBoxSectionKey.NONE);
 });
 </script>
-
-<style scoped>
-.v-enter-active {
-  transition: all 0.2s ease;
-}
-
-.expand-bt-text {
-  writing-mode: vertical-lr;
-  text-orientation: mixed;
-}
-</style>

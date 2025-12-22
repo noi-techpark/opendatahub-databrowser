@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="z-9 relative flex h-11 items-center border rounded-sm-plus
+    class="z-9 relative flex h-11 items-center border rounded
            px-2 text-base transition
            hover:border-green-400 hover:bg-green-400/10"
     :class="computedClasses"

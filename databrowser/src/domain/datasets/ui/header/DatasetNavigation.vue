@@ -46,7 +46,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         />
 
         <div class="ml-auto flex items-center space-x-2">
-          <template class="hidden md:flex">
+          <template class="hidden md:flex space-x-2">
 
             <DiffChanges v-if="isDiffEditing && (isEditView || (isRawView && isRawEditing))"></DiffChanges>
             <ButtonsGroup v-if="isDiffEditing && isRawView && isRawEditing">
@@ -178,7 +178,6 @@ const mdAndSmaller = breakpoints.smaller('lg');
 watch(
   [isRawEditing, mdAndSmaller],
   ([edit, isSmall], [wasEdit]) => {
-    console.log('edit:', edit, 'wasEdit:', wasEdit, 'isSmall:', isSmall);
     if (!isSmall) { return;}
     if (edit && wasEdit !== true) {
       datasetViewStore.setDiffEditMode(DiffEditMode.VERTICAL);

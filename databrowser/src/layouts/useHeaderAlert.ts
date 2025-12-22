@@ -11,13 +11,12 @@ const options:Ref<UseHeaderAlertOptions | null> = ref(null);
 export const useHeaderAlert = () => {
 
   const fire = (opts:UseHeaderAlertOptions) => {
-    console.log("firing alert", opts);
     options.value = opts;
     isOpen.value = true;
 
     setTimeout(() => {
       close()
-    }, (opts && opts.timeout) ? opts.timeout : 3000);
+    }, opts.timeout ?? 3000);
 
   };
 

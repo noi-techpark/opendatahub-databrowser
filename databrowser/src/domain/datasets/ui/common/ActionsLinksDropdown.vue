@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <ThreeDotsPopover :size="5" :icon-size="5">
     <template #trigger="{ open }">
       <DatasetHeaderLink
-        :label="t('datasets.header.actions')"
+        :label="t('datasets.header.actions.title')"
         :icon="OdhActions"
         :active="open"
       />
@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @click="emitEvent('refresh', close)"
       >
         <IconReload class="text-green-500" />
-        <div>Refresh</div>
+        <div>{{ t('datasets.header.actions.refresh') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
       <PopoverContent
@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @click="emitEvent('sync', close)"
       >
         <IconReload class="text-green-500" />
-        <div>Force Sync</div>
+        <div>{{ t('datasets.header.actions.sync') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
       <a
@@ -39,7 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex items-center gap-2 p-4 no-underline hover:bg-gray-50"
       >
         <IconExternal class="h-4 text-green-500"/>
-        Open in Analytics
+        {{ t('datasets.header.actions.analytics') }}
       </a>
     </PopoverCustomPanel>
   </ThreeDotsPopover>

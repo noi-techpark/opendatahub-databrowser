@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
   <ToolBoxSectionLabel>
       <span class="mr-4">
-        <span class="text-black">{{props.pagination.pageCount}}</span> <span class="text-dialog">{{ t('datasets.listView.recordsOutOf') }}</span> <span class="text-black">{{ props.pagination.totalItems }}</span>
+        <span class="text-black">{{pagination.pageCount}}</span> <span class="text-dialog">{{ t('datasets.listView.recordsOutOf') }}</span> <span class="text-black">{{ pagination.totalItems }}</span>
       </span>
     <ResetAllFilters @reset-all-filters="removeAllFilters" />
   </ToolBoxSectionLabel>
@@ -107,7 +107,7 @@ import ToolBoxSectionLabel from "@/domain/datasets/ui/toolBox/ToolBoxSectionLabe
 
 const { t } = useI18n();
 
-const props = defineProps<{
+defineProps<{
   pagination: Pagination
 }>();
 

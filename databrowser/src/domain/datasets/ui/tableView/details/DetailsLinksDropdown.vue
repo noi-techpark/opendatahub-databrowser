@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <ThreeDotsPopover :size="5" :icon-size="5">
     <template #trigger>
       <div
-        class="flex h-10 w-11 flex-col items-center p-1 text-green-400 select-none transition border border-lightgray rounded-sm-plus hover:bg-green-400/10 hover:border-green-400">
+        class="flex h-10 w-11 flex-col items-center p-1 text-green-400 select-none transition border border-lightgray rounded hover:bg-green-400/10 hover:border-green-400">
         <IconThreeDots class="grow stroke-current" />
         <span class="text-3xs uppercase">
           {{ t('datasets.listView.viewLinks.actions.short') }}
@@ -17,6 +17,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <PopoverCustomPanel :hasCloseButton="false" v-slot="{ close }" class="w-48">
+      <PopoverContent
+        v-if="showEdit"
+        with-hover
+        class="flex items-center gap-2"
+        @click="emitEvent('edit', close)"
+      >
+        <IconEdit class="text-green-500" />
+        <div>{{ t('datasets.listView.viewLinks.edit.short') }}</div>
+      </PopoverContent>
+      <PopoverContentDivider />
       <PopoverContent
         with-hover
         class="flex items-center gap-2"
@@ -44,15 +54,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div>{{ t('datasets.listView.viewLinks.push.short') }}</div>
       </PopoverContent>
       <PopoverContentDivider />
-      <PopoverContent
-        with-hover
-        class="flex items-center gap-2"
-        @click="emitEvent('duplicate', close)"
-      >
-        <IconCopy class="text-green-500" />
-        <div>{{ t('datasets.listView.viewLinks.duplicate.short') }}</div>
-      </PopoverContent>
-      <PopoverContentDivider />
+      <template v-if="showDuplicate">
+        <PopoverContent
+          with-hover
+          class="flex items-center gap-2"
+          @click="emitEvent('duplicate', close)"
+        >
+          <IconCopy class="text-green-500" />
+          <div>{{ t('datasets.listView.viewLinks.duplicate.short') }}</div>
+        </PopoverContent>
+        <PopoverContentDivider />
+      </template>
       <PopoverContent
         :disabled="true"
         with-hover
@@ -97,20 +109,27 @@ import { useI18n } from 'vue-i18n';
 import IconReload from '@/components/svg/IconReload.vue';
 import IconClose from '@/components/svg/IconClose.vue';
 import { RecordId } from '@/domain/datasets/types';
+import IconEdit from '@/components/svg/IconEdit.vue';
 
 const { t } = useI18n();
+
 
 withDefaults(
   defineProps<{
     id: RecordId;
     showDelete?: boolean;
+    showEdit?: boolean;
+    showDuplicate?: boolean;
   }>(),
   {
-    showDelete: true
+    showDelete: false,
+    showEdit: false,
+    showDuplicate: false
   }
 );
 
 const emit = defineEmits([
+  'edit',
   'duplicate',
   'refresh',
   'sync',
@@ -122,6 +141,7 @@ const emit = defineEmits([
 
 const emitEvent = (
   event:
+    | 'edit'
     | 'duplicate'
     | 'refresh'
     | 'sync'

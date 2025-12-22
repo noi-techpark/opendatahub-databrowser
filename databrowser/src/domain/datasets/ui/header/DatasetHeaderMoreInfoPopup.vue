@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <PopoverCustom>
     <template #trigger>
       <PopoverCustomButton
-        class="flex size-11 items-center justify-center border border-lightgray rounded-sm-plus"
+        class="flex size-11 items-center justify-center border border-lightgray rounded"
         :class="buttonClasses"
       >
         <IconInfo class="stroke-current text-dialog" />
@@ -47,16 +47,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
-import ButtonLink from '../../../../components/button/ButtonLink.vue';
-import { computeButtonClasses } from '../../../../components/button/styles';
-import { Size, Variant } from '../../../../components/button/types';
-import PopoverContent from '../../../../components/popover/PopoverContent.vue';
-import PopoverCustom from '../../../../components/popover/PopoverCustom.vue';
-import PopoverCustomButton from '../../../../components/popover/PopoverCustomButton.vue';
-import PopoverCustomPanel from '../../../../components/popover/PopoverCustomPanel.vue';
-import IconInfo from '../../../../components/svg/IconInfo.vue';
-import OverviewInfoDataAvailability from '../../../../pages/datasets/overview/OverviewInfoDataAvailability.vue';
-import OverviewInfoRecordCount from '../../../../pages/datasets/overview/OverviewInfoRecordCount.vue';
+import ButtonLink from '@/components/button/ButtonLink.vue';
+import { computeButtonClasses } from '@/components/button/styles';
+import { Size, Variant } from '@/components/button/types';
+import PopoverContent from '@/components/popover/PopoverContent.vue';
+import PopoverCustom from '@/components/popover/PopoverCustom.vue';
+import PopoverCustomButton from '@/components/popover/PopoverCustomButton.vue';
+import PopoverCustomPanel from '@/components/popover/PopoverCustomPanel.vue';
+import IconInfo from '@/components/svg/IconInfo.vue';
+import OverviewInfoDataAvailability from '@/pages/datasets/overview/OverviewInfoDataAvailability.vue';
+import OverviewInfoRecordCount from '@/pages/datasets/overview/OverviewInfoRecordCount.vue';
 import { useMetaDataStore } from '../../../metaDataConfig/tourism/metaDataStore';
 import DatasetHeaderTitle from './DatasetHeaderTitle.vue';
 import { usePaths } from './usePaths';

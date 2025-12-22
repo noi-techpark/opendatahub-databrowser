@@ -23,11 +23,11 @@ export const variantClass: Record<Variant, Record<Tone, string>> = {
   },
   [Variant.ghost]: {
     [Tone.primary]:
-      'border border-lightgray rounded-sm-plus text-green-500 hover:bg-green-400/10 hover:border-green-400 focus-visible:bg-green-400/10 focus-visible:text-green-500 focus-visible:border-green-400 focus-visible:outline-none',
+      'border border-lightgray rounded text-green-500 hover:bg-green-400/10 hover:border-green-400 focus-visible:bg-green-400/10 focus-visible:text-green-500 focus-visible:border-green-400 focus-visible:outline-none',
     [Tone.danger]:
-      'border border-lightgray rounded-sm-plus text-red-500 hover:bg-red-500/10 hover:border-red-500 focus-visible:bg-red-500/10 focus-visible:text-red-500 focus-visible:border-red-500 focus-visible:outline-none',
+      'border border-lightgray rounded text-red-500 hover:bg-red-500/10 hover:border-red-500 focus-visible:bg-red-500/10 focus-visible:text-red-500 focus-visible:border-red-500 focus-visible:outline-none',
     [Tone.white]:
-      'border border-lightgray rounded-sm-plus text-green-500 hover:bg-white/10 hover:border-green-500 focus-visible:bg-white/10 focus-visible:text-green-500 focus-visible:border-green-500 focus-visible:outline-none',
+      'border border-lightgray rounded text-green-500 hover:bg-white/10 hover:border-green-500 focus-visible:bg-white/10 focus-visible:text-green-500 focus-visible:border-green-500 focus-visible:outline-none',
   },
   [Variant.transparent]: {
     [Tone.primary]:

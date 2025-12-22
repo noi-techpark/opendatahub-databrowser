@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     :to="newViewPath"
     size="xs"
     variant="ghost"
-    class="h-11 items-center gap-2 px-4 py-[0.35rem] text-base border-lightgray rounded-sm-plus"
+    class="h-11 items-center gap-2 px-4 py-[0.35rem] text-base border-lightgray rounded"
   >
     <IconAdd class="h-3 size-4 w-auto fill-current text-green-400" />
     <span class="hidden md:flex text-gray-950">{{ t('datasets.header.addRecord') }}</span>

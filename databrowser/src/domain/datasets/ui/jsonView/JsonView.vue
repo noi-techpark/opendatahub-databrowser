@@ -27,6 +27,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <CodeEditor
               v-if="!isDiffEditing"
               v-model:value="currentJsonText"
+              @change="onEditorChange"
               language="json"
               theme="vs"
               height="100%"
@@ -190,5 +191,3 @@ const resetAndCleanup = () => {
   syncEditorFromStore();
 };
 </script>
-
-<style scoped></style>

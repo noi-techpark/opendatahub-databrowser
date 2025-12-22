@@ -41,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
         <div class="flex items-center gap-2">
           <ToggleCustom v-model="isDownloadMedia" :disabled="true"></ToggleCustom>
-          <div class="flex flex-col text-xs disabled">
+          <div class="flex flex-col text-xs opacity-50">
             <span class="font-bold">
               {{ t('datasets.toolBox.exportDatasets.download.media.header') }}
             </span>
@@ -64,7 +64,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <IconDownload class="size-4" />
           {{ t('datasets.toolBox.exportDatasets.download.button') }}
         </ButtonCustom>
-        <span v-if="isDownloadInProgress" class="text-xs font-semibold text-dialog ml-6 mt-4">Download preparation in progress...</span>
+        <span v-if="isDownloadInProgress" class="text-xs font-semibold text-dialog ml-6 mt-4">
+          {{ t('datasets.toolBox.exportDatasets.download.inProgress') }}
+        </span>
       </div>
     </ToolBoxCardBody>
   </ToolBoxCard>
@@ -152,9 +154,3 @@ const download = () => {
   }
 };
 </script>
-
-<style scoped>
-.disabled{
-  opacity: 0.5;
-}
-</style>

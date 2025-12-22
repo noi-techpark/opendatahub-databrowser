@@ -180,7 +180,12 @@
       "addRecord": "Add a record",
       "attributes": "Attributes",
       "filters": "Filters",
-      "actions": "Actions",
+      "actions": {
+        "title": "Actions",
+        "refresh": "Refresh",
+        "sync": "Force Sync",
+        "analytics": "Open in Analytics"
+      },
       "columnSizeSmall": "small",
       "columnSizeMedium": "medium",
       "columnSizeLarge": "large",
@@ -199,7 +204,7 @@
       "showDeprecatedFields": "Show deprecated fields",
       "viewUserConfig": "User view config",
       "tableSettings": "Table settings",
-      "alert":{
+      "alert": {
         "cancel": "Cancel"
       }
     },
@@ -443,6 +448,7 @@
           "button": "More info"
         },
         "download": {
+          "inProgress": "Download preparation in progress...",
           "header": "Download",
           "button": "Download",
           "buttonAlt": "Download the currently displayed data",
@@ -497,7 +503,8 @@
     },
     "downloadMenu": {
       "title": "{countActive} export in progress",
-      "subtitle": "{countFailed} failed, {countCompleted} completed"
+      "subtitle": "{countFailed} failed, {countCompleted} completed",
+      "copied": "Copied!"
     },
     "mappingTable": {
       "addKeyValue": "Add key and value",

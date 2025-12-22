@@ -55,5 +55,3 @@ const diffSquares = computed(() => {
   return cells;
 });
 </script>
-<style scoped>
-</style>

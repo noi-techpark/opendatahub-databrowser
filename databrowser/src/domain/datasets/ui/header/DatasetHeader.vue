@@ -103,7 +103,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <!-- actions button -->
         <ActionsLinksDropdown
-          :title="t('datasets.header.actions')"
           data-test="dataset-edit-link"
           @refresh="onRefresh"
           @sync="onSync"
