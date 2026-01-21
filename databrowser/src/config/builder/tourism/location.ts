@@ -117,7 +117,7 @@ export const locationCategoryDistrict = (): DetailElements => ({
           objectMapping: { value: 'Region.Id' },
           params: {
             url: withOdhBaseUrl('/v1/Location?type=reg&showall=true'),
-            labelSelector: 'name.{language}.',
+            labelSelector: 'name.{language}',
             keySelector: 'id',
           },
         },
