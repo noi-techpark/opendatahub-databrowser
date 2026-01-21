@@ -7,6 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="flex h-full flex-col overflow-y-auto">
     <div class="flex items-center justify-between">
+
       <ButtonCustom
         variant="ghost"
         size="xs"
@@ -23,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <span class="mr-2 text-dialog"># {{ colIndex }}</span>
     </div>
 
-    <div class="flex flex-col gap-6 divide-y divide-gray-250 px-1">
+    <div class="flex flex-col gap-6 divide-y divide-gray-250">
       <div class="flex flex-col gap-4 pt-4">
         <div class="flex flex-col">
           <label class="font-semibold text-dialog">{{

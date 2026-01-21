@@ -36,7 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </ButtonCustom>
     </div>
 
-    <ToolBoxCard class="mx-0 my-0 bg-white">
+    <ToolBoxCard class="my-0 bg-white" inner-class="mx-0">
       <ToolBoxCardBody class="p-0">
         <ul class="h-full max-h-[380px] overflow-y-auto px-5 py-4">
           <VueDraggableNext

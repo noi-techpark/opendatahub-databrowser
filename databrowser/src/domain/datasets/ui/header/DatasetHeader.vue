@@ -20,27 +20,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex md:hidden"
         @open="handleInputSearchOpen"
       />
-      <DatasetHeaderOverlay
-        :active="inputSearchOpen"
-        padded
-        @overlay-click="handleInputSearchOpen(false)"
-      >
-        <InputSearch
-          :disabled="!isTableView"
-          id="search-dataset"
-          class="md:w-80"
-          :show-confirm-button="true"
-          :class="[inputSearchOpen ? 'flex' : 'hidden md:flex']"
-          :model-value="searchfilter"
-          @search="search"
-        />
-      </DatasetHeaderOverlay>
     </div>
-
-
+    <DatasetHeaderOverlay
+      :active="inputSearchOpen"
+      padded
+      @overlay-click="handleInputSearchOpen(false)"
+    >
+      <InputSearch
+        :disabled="!isTableView"
+        id="search-dataset"
+        class="md:w-80"
+        :show-confirm-button="true"
+        :class="[inputSearchOpen ? 'flex' : 'hidden md:flex']"
+        :model-value="searchfilter"
+        @search="search"
+      />
+    </DatasetHeaderOverlay>
 
     <div class="flex items-center gap-2 w-full md:flex-1 md:justify-between">
-      <div class="flex items-center w-auto gap-2 justify-between">
+      <div class="flex items-center w-full md:w-auto gap-2">
         <!-- filters button -->
         <DatasetHeaderButton
           :disabled="!isTableView"

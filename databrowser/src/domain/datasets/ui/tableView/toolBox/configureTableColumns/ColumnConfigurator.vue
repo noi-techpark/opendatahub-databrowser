@@ -27,7 +27,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
 
 
-    <ToolBoxCard class="mx-0">
+    <ToolBoxCard innerClass="mx-0">
       <ToolBoxCardBody class="bg-white py-3 mx-0">
         <ShowDeprecatedFields
           custom-wrapper-classes="flex justify-between"
