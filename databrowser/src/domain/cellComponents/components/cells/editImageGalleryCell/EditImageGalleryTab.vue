@@ -51,6 +51,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @input="updateItem(index, { description: $event.target.value })"
             />
           </SubCategoryItem>
+          <SubCategoryItem title="Alt Text">
+            <StringCell
+              :text="item.alt"
+              :editable="editable"
+              @input="updateItem(index, { alt: $event.target.value })"
+            />
+          </SubCategoryItem>
           <SubCategoryItem title="Copyright">
             <StringCell
               :text="item.copyright"
@@ -102,8 +109,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @input="updateItem(index, { validTo: $event.value })"
             />
           </SubCategoryItem>
-          <SubCategoryItem title="Tags">
-            <ArrayEditableCell :items="item.imageTags" :editable="false" />
+          <SubCategoryItem title="Tags"><!-- TODO ADD the EditNestedArrayCell when available -->
+            <ArrayEditableCell
+            :items="item.imageTags"
+            :editable="editable"
+            />
           </SubCategoryItem>
         </div>
         <div class="basis-full md:order-3 md:basis-1/3">
@@ -193,14 +203,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { useFullscreen } from '@vueuse/core';
 import { ref, toRefs, watch } from 'vue';
-import IconCopy from '../../../../../components/svg/IconCopy.vue';
-import IconDelete from '../../../../../components/svg/IconDelete.vue';
-import IconDownload from '../../../../../components/svg/IconDownload.vue';
-import IconExpanded from '../../../../../components/svg/IconExpanded.vue';
-import IconUpload from '../../../../../components/svg/IconUpload.vue';
+import IconCopy from '@/components/svg/IconCopy.vue';
+import IconDelete from '@/components/svg/IconDelete.vue';
+import IconDownload from '@/components/svg/IconDownload.vue';
+import IconExpanded from '@/components/svg/IconExpanded.vue';
+import IconUpload from '@/components/svg/IconUpload.vue';
 import { useImageUpload } from '../../../../api/useUpload';
 import SubCategoryItem from '../../../../datasets/ui/category/SubCategoryItem.vue';
-import { getImageSrc, getResolutionAsText } from '../../../../image';
+import { getImageSrc, getResolutionAsText } from '@/domain/image';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';

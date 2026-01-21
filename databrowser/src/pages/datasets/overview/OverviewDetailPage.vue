@@ -39,8 +39,8 @@ import PageGridContent from '@/components/content/PageGridContent.vue';
 import OverviewCardSuggestion from './OverviewCardSuggestion.vue';
 import { useMetaDataQuery } from '@/domain/metaDataConfig/tourism/useMetaDataQuery.ts';
 import { TourismMetaData } from '@/domain/metaDataConfig/tourism/types.ts';
+import { useJsonLdHeadForDataset } from '@/domain/contentpage/head/jsonLdHead';
 import OverviewToListLink from './OverviewToListLink.vue';
-import { useHead } from '@unhead/vue';
 
 const route = useRoute();
 
@@ -52,33 +52,10 @@ const dataset = computed<TourismMetaData | undefined>(() => {
   );
 });
 
+// Head injection: create a JSON-LD script
+useJsonLdHeadForDataset(dataset);
+
 const randomDatasets = ref<TourismMetaData[]>([]);
-
-//Head injection: Created a JSON-LD script
-useHead({
-  script: computed(() => {
-    if (!dataset.value) return [];
-    return [
-      {
-        type: 'application/ld+json',
-        textContent: JSON.stringify({
-          '@context': 'https://schema.org/',
-          '@type': 'Dataset',
-          name: dataset.value.shortname,
-          description: dataset.value.description,
-          url: window.location.href,
-          creator: {
-            '@type': 'Organization',
-            name: 'Open Data Hub',
-            url: 'https://opendatahub.com/',
-          },
-          license: dataset.value.licenseInfo?.license,
-        }),
-      },
-    ];
-  }),
-});
-
 watch(
   () => dataset.value,
   () => {

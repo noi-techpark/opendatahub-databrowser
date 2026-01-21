@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../domain/cellComponents/types';
+import { CellComponent } from '@/domain/cellComponents/types';
 import {
   DetailViewConfig,
   EditViewConfig,
-} from '../../../domain/datasets/config/types';
+} from '@/domain/datasets/config/types';
 import {
   idReadOnlyCell,
   shortnameCell,
@@ -30,6 +30,16 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
               title: 'Description',
               component: CellComponent.StringCell,
               objectMapping: { text: 'ApiDescription.{language}' },
+            },
+            {
+              title: 'Meta Title',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'MetaTitle.{language}' },
+            },
+            {
+              title: 'Meta Description',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'MetaDescription.{language}' },
             },
             {
               title: 'Dataspace',
@@ -56,6 +66,19 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
               params: {
                 url: withOdhBaseUrl(
                   '/v1/Distinct?odhtype=odhmetadata&fields=DataProvider.[*]&rawsort=DataProvider.[*]&getasarray=true'
+                ),
+              },
+            },
+            {
+              title: 'Licenses used',
+              component: CellComponent.CustomDataArrayCell,
+              arrayMapping: {
+                targetPropertyName: 'listItems',
+                pathToParent: 'DatasetLicenses',
+              },
+              params: {
+                url: withOdhBaseUrl(
+                  '/v1/Distinct?odhtype=odhmetadata&fields=DatasetLicenses.[*]&rawsort=DatasetLicenses.[*]&getasarray=true'
                 ),
               },
             },
@@ -185,13 +208,14 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
               title: 'Tags',
               component: CellComponent.TagReferenceCell,
               arrayMapping: {
-                targetPropertyName: 'tags',
-                pathToParent: 'OdhTagIds',
+                targetPropertyName: 'items',
+                pathToParent: 'TagIds',
               },
               params: {
                 keySelector: 'Id',
                 labelSelector: 'TagName.{language}',
-                url: withOdhBaseUrl('/v1/ODHTag'),
+                url: withOdhBaseUrl('/v1/Tag'),
+                showAdditionalData: 'true',
               },
             },
           ],

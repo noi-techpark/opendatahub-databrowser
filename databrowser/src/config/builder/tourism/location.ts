@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../domain/cellComponents/types';
+import { CellComponent } from '@/domain/cellComponents/types';
 import {
   DetailElements,
   PropertyConfig,
-} from '../../../domain/datasets/config/types';
+} from '@/domain/datasets/config/types';
 import { withOdhBaseUrl } from '../../utils';
 
 export const locationCategory = (): DetailElements => ({
@@ -117,7 +117,7 @@ export const locationCategoryDistrict = (): DetailElements => ({
           objectMapping: { value: 'Region.Id' },
           params: {
             url: withOdhBaseUrl('/v1/Location?type=reg&showall=true'),
-            labelSelector: 'name.{language}.',
+            labelSelector: 'name.{language}',
             keySelector: 'id',
           },
         },
