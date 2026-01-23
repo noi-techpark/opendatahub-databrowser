@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../../domain/cellComponents/types';
-import { DetailElements } from '../../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types';
+import { DetailElements } from '@/domain/datasets/config/types';
 
 export const roadincidentsataCategory = (
   options = { visible: false }
@@ -14,7 +14,7 @@ export const roadincidentsataCategory = (
   subcategories: [
     {
       name: '',
-      properties: [       
+      properties: [
         {
           title: 'ExpectedDelayMinutes',
           component: CellComponent.StringCell,
@@ -31,6 +31,6 @@ export const roadincidentsataCategory = (
           },
         },
       ],
-    },   
+    },
   ],
 });

@@ -25,21 +25,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
+import AppLayout from '@/layouts/AppLayout.vue';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import CardDivider from '../../../components/card/CardDivider.vue';
-import PageGridContent from '../../../components/content/PageGridContent.vue';
-import PartnersAndContributors from '../../../components/partners/PartnersAndContributors.vue';
-import { getRandomElementsFromArray } from '../../../components/utils/array';
-import { useJsonLdHeadForDataset } from '../../../domain/contentpage/head/jsonLdHead';
-import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
-import { useMetaDataQuery } from '../../../domain/metaDataConfig/tourism/useMetaDataQuery';
-import AppLayout from '../../../layouts/AppLayout.vue';
-import OverviewCardAccess from './OverviewCardAccess.vue';
-import OverviewCardDescription from './OverviewCardDescription.vue';
-import OverviewCardSuggestion from './OverviewCardSuggestion.vue';
 import OverviewCardTabs from './OverviewCardTabs.vue';
+import OverviewCardDescription from './OverviewCardDescription.vue';
+import OverviewCardAccess from './OverviewCardAccess.vue';
+import { getRandomElementsFromArray } from '@/components/utils/array';
 import OverviewDetailHero from './OverviewDetailHero.vue';
+import PartnersAndContributors from '@/components/partners/PartnersAndContributors.vue';
+import CardDivider from '@/components/card/CardDivider.vue';
+import PageGridContent from '@/components/content/PageGridContent.vue';
+import OverviewCardSuggestion from './OverviewCardSuggestion.vue';
+import { useMetaDataQuery } from '@/domain/metaDataConfig/tourism/useMetaDataQuery.ts';
+import { TourismMetaData } from '@/domain/metaDataConfig/tourism/types.ts';
+import { useJsonLdHeadForDataset } from '@/domain/contentpage/head/jsonLdHead';
 import OverviewToListLink from './OverviewToListLink.vue';
 
 const route = useRoute();

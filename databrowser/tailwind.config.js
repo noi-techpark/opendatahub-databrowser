@@ -32,6 +32,7 @@ export default {
         disabled: '#dcdde1',
         delete: '#dc2626',
         dialog: '#687182',
+        lightgray: '#EAEBED',
         green: {
           400: '#50742f',
           500: '#476929',

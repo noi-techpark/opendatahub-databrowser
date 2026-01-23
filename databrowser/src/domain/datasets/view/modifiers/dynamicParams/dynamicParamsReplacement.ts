@@ -37,7 +37,11 @@ export const computeDynamicParamsReplacement = (
 
   switch (view.type) {
     case 'table': {
-      return applyReplacementsToTableView(view, objectValueReplacer);
+      return applyReplacementsToTableView(
+        view,
+        stringReplacer,
+        objectValueReplacer
+      );
     }
     case 'detail':
       return applyReplacementsToSingleRecordView(
@@ -79,16 +83,28 @@ export const useDynamicParamsReplacement = (
 
 const applyReplacementsToTableView = (
   view: ListViewConfigWithType,
+  stringReplacer: StringReplacer,
   objectValueReplacer: ObjectValueReplacer
 ): ListViewConfigWithType | undefined => ({
   ...view,
   elements: view.elements.map<ListElements>((element) => {
-    const objectMapping = objectValueReplacer(element.objectMapping);
-    return {
-      ...element,
-      objectMapping,
-      arrayMapping: undefined,
-    };
+    if (element.objectMapping != null) {
+      const objectMapping = objectValueReplacer(element.objectMapping);
+      return {
+        ...element,
+        objectMapping,
+      };
+    } else {
+      const arrayMapping = {
+        ...element.arrayMapping,
+        pathToParent: stringReplacer(element.arrayMapping.pathToParent),
+        objectMapping: objectValueReplacer(element.arrayMapping.objectMapping),
+      };
+      return {
+        ...element,
+        arrayMapping,
+      };
+    }
   }),
 });
 

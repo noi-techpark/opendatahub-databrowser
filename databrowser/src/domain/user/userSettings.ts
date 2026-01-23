@@ -4,27 +4,23 @@
 
 import { useLocalStorage } from '@vueuse/core';
 import { computed } from 'vue';
+import { UserSettings, UserSettingsKeys } from './types';
+import { getUserSettingsGuards } from './userSettingsGuard';
 
-type SettingKey =
-  | 'preferredDatasetSource'
-  | 'preferredDatasetLanguage'
-  | 'showEditHint'
-  | 'showHero'
-  | 'showToolbox'
-  | 'showMapViewNote';
-
-type SettingValue = string | number | boolean | null | undefined;
-
-const initialSettings: Record<SettingKey, SettingValue> = {
+const initialSettings: UserSettings = {
   preferredDatasetSource: 'embedded',
   preferredDatasetLanguage: 'en',
   showEditHint: true,
   showHero: true,
   showToolbox: true,
   showMapViewNote: true,
+  showSaveColumnConfigurationDialog: true,
+  views: {
+    tableView: {},
+  },
 };
 
-const userSettings = useLocalStorage<Record<SettingKey, SettingValue>>(
+const userSettings = useLocalStorage<UserSettings>(
   'userSettings',
   initialSettings
 );
@@ -37,33 +33,49 @@ userSettings.value = {
 
 export const useUserSettings = () => {
   // This hook can be used to manage user settings stored in local storage.
-  const getUserSettings = () => {
+  const getUserSettings = (): UserSettings => {
     return userSettings.value;
   };
 
-  const getUserSetting = <T = SettingValue>(key: SettingKey) => {
-    return userSettings.value[key] as T;
+  const getUserSetting = <K extends UserSettingsKeys>(key: K) => {
+    return userSettings.value[key];
   };
 
-  const getUserSettingRef = <T = SettingValue>(key: SettingKey) => {
-    return computed(() => userSettings.value[key] as T);
+  const getUserSettingRef = <K extends UserSettingsKeys>(key: K) => {
+    return computed(() => userSettings.value[key]);
   };
 
-  const setUserSettings = (settings: Record<SettingKey, SettingValue>) => {
-    userSettings.value = settings || {};
-  };
+  const updateUserSetting = async <K extends UserSettingsKeys>(
+    key: K,
+    value: UserSettings[K],
+    { skipGuards } = { skipGuards: false }
+  ): Promise<boolean> => {
+    if (!skipGuards) {
+      // Check all registered guards before updating the setting
+      for (const { key: guardKey, fn } of getUserSettingsGuards()) {
+        if (guardKey !== 'ALL' && guardKey !== key) {
+          continue;
+        }
 
-  const updateUserSetting = (key: SettingKey, value: SettingValue) => {
-    const settings = getUserSettings();
-    settings[key] = value;
-    setUserSettings(settings);
+        const nextSettings = { ...userSettings.value, [key]: value };
+        const canProceed = await fn(nextSettings, userSettings.value);
+        if (!canProceed) {
+          console.warn('User settings update blocked by guard');
+          return false;
+        }
+      }
+    }
+
+    const nextSettings = { ...userSettings.value, [key]: value };
+    userSettings.value = nextSettings;
+
+    return true;
   };
 
   return {
     getUserSettings,
     getUserSetting,
     getUserSettingRef,
-    setUserSettings,
     updateUserSetting,
   };
 };

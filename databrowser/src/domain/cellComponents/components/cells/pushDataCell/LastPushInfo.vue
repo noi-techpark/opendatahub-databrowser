@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div v-if="id != null" class="mt-2 flex flex-col gap-2">
     <div class="flex flex-col rounded bg-dialog p-2 text-white">
       <div class="flex items-center gap-1">
-        <IconExclamationMark class="w-7" />
+        <IconInfo class="w-7" />
         <div class="font-semibold">
           {{ t('components.pushData.lastPushInfo.title') }}
         </div>
@@ -50,7 +50,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import LoadingIndicator from '../../../../../components/loading/LoadingIndicator.vue';
-import IconExclamationMark from '../../../../../components/svg/IconExclamationMark.vue';
+import IconInfo from '../../../../../components/svg/IconInfo.vue';
 import { useLastPushResponse } from './lastPush';
 import { PublisherWithPushResponse } from './types';
 import { watch } from 'vue';

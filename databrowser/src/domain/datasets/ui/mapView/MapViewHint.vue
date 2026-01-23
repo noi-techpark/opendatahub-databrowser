@@ -24,8 +24,7 @@ const { t } = useI18n();
 
 const userSettings = useUserSettings();
 
-const showMapViewNote =
-  userSettings.getUserSettingRef<boolean>('showMapViewNote');
+const showMapViewNote = userSettings.getUserSettingRef('showMapViewNote');
 
 const hideHint = () => userSettings.updateUserSetting('showMapViewNote', false);
 </script>

@@ -77,6 +77,10 @@
       },
       "save": {
         "title": "Error while saving data"
+      },
+      "json": {
+        "title": "JSON not valid",
+        "text": "Check the below JSON and fix the errors to proceed."
       }
     },
     "detailView": {
@@ -86,7 +90,12 @@
       "showEmptyFieldsDesc": "Show fields without a value",
       "showDeprecatedFields": "Show deprecated fields",
       "showDeprecatedFieldsDesc": "Deprecated attributes are not available in the long run and will be removed from the database.",
-      "thisIsAReferenceOfDataset": "This field is a reference of the dataset: {url}"
+      "thisIsAReferenceOfDataset": "This field is a reference of the dataset: {url}",
+      "toolBox": {
+        "settings": {
+          "defineViewPreferences": "Define preferences for your view."
+        }
+      }
     },
     "editView": {
       "authorizationChecking": "Please wait for authorization check",
@@ -139,7 +148,7 @@
       "footer": {
         "cancel": "Cancel (ESC)",
         "cancelMobile": "Cancel",
-        "save": "Save (ALT + S)",
+        "save": "Save changes (ALT + S)",
         "saveMobile": "Save",
         "saving": "Saving your changes ..."
       },
@@ -156,6 +165,9 @@
           },
           "panelName": "General"
         },
+        "settings": {
+          "defineViewPreferences": "Define preferences for your view."
+        },
         "jsonDiff": {
           "panelName": "JSON diff"
         }
@@ -166,6 +178,14 @@
     },
     "header": {
       "addRecord": "Add a record",
+      "attributes": "Attributes",
+      "filters": "Filters",
+      "actions": {
+        "title": "Actions",
+        "refresh": "Refresh",
+        "sync": "Force Sync",
+        "analytics": "Open in Analytics"
+      },
       "columnSizeSmall": "small",
       "columnSizeMedium": "medium",
       "columnSizeLarge": "large",
@@ -178,8 +198,15 @@
       "switchViews": "Switch between views",
       "viewEmbeddedConfig": "Embedded view config",
       "viewGeneratedConfig": "Generated view config",
+      "viewUserShortLabel": "Custom",
+      "viewEmbeddedShortLabel": "Default",
+      "viewGeneratedShortLabel": "Raw",
+      "showDeprecatedFields": "Show deprecated fields",
+      "viewUserConfig": "User view config",
       "tableSettings": "Table settings",
-      "showDeprecatedFields": "Show deprecated fields"
+      "alert": {
+        "cancel": "Cancel"
+      }
     },
     "info": {
       "loadingConfig": "Loading config"
@@ -187,16 +214,80 @@
     "listView": {
       "colDetail": "Detail",
       "go": "GO",
-      "linesPerPage": "Lines per page",
+      "perPage": "per page",
+      "pp": "p.p.",
       "loadingData": "Loading data",
       "noData": {
         "dataDoesNotExist": "You were looking for data that does not exist!",
         "suggestion": "Please rethink your request"
       },
       "of": "of {pageCount}",
+      "areShown": "are shown",
+      "recordsOutOf": "records out of",
+      "outOf": "out of",
       "ofUnknown": "of unknown",
+      "showDeprecatedFields": "Show deprecated fields",
       "tableFilterHint": "Filters have been applied to this view",
       "toolBox": {
+        "columnConfiguration": {
+          "saveSuccessTitle": "Configuration saved",
+          "saveSuccessText": "The custom configuration has been saved successfully.",
+          "addColumn": "Add new",
+          "columnDefaultName": "New column",
+          "columnsVisible": "columns visible out of",
+          "deleteConfig": "Delete config",
+          "exportConfig": "Export config",
+          "importConfig": "Import config",
+          "redo": "Redo",
+          "reset": "Reset",
+          "save": "Save config",
+          "undo": "Undo",
+          "columnSettings": {
+            "addParams": "Add new",
+            "addObjectMapping": "Add new",
+            "back": "Attributes",
+            "class": "Class",
+            "component": "Component",
+            "objectMapping": "Object mapping",
+            "params": "Parameters",
+            "styling": "Style",
+            "title": "Title",
+            "widthInPx": "Width in px"
+          },
+          "configIssue": {
+            "errorTitle": "Configuration errors",
+            "warningTitle": "Configuration warnings"
+          },
+          "dialog": {
+            "delete": {
+              "buttonNo": "No (n)",
+              "buttonYes": "Yes (y)",
+              "description1": "You are about to permanently delete this saved configuration. This action will remove all associated settings and cannot be undone.",
+              "description2": "Would you like to proceed?",
+              "title": "Delete configuration [{title}]?"
+            },
+            "discard": {
+              "buttonNo": "No (n)",
+              "buttonYes": "Yes (y)",
+              "description": "Are you sure you want to discard unsaved data?",
+              "title": "Discard unsaved data?"
+            },
+            "navigationGuard": {
+              "buttonCancel": "Cancel (c)",
+              "buttonDontSave": "Don't save changes (n)",
+              "buttonSave": "Save changes (s)",
+              "description": "The changes you made have not been saved. By switching to another section your changes will be lost!",
+              "title": "Unsaved Data!"
+            },
+            "save": {
+              "buttonNo": "No (n)",
+              "buttonYes": "Save as default (y)",
+              "description1": "You are about to overwrite your current default configuration for this dataset.  This new setup will be used as your personal default view from now on.",
+              "description2": "Would you like to proceed?",
+              "title": "Save as your default configuration [{title}]?"
+            }
+          }
+        },
         "searchAndFilter": {
           "basicSearch": {
             "header": "Basic search",
@@ -220,17 +311,19 @@
             "filterInputButton": "Filter",
             "resetAllFilters": "Reset all filters"
           },
-          "panelName": "Filter"
-        },
-        "deprecatedInfoTooltip": {
-          "deprecatedInfo": {
+          "deprecated": {
             "infoPopup": {
               "header": "Attribute is deprecated",
               "body": "A deprecated attribute is one that is phasing out and will not be available anymore in the future. It is not recommended to use it.",
               "linkHref": "https://github.com/noi-techpark/odh-docs/wiki/What-does-%22deprecated%22-mean%3F",
               "linkText": "More info"
             }
-          }
+          },
+          "panelName": "Filters"
+        },
+        "userTableAttributes": {
+          "panelName": "Attributes",
+          "header": "Attributes"
         }
       },
       "viewLinks": {
@@ -249,6 +342,34 @@
         "delete": {
           "short": "Delete",
           "title": "Delete view"
+        },
+        "actions": {
+          "short": "Actions",
+          "title": "Actions"
+        },
+        "refresh": {
+          "short": "Refresh",
+          "title": "Refresh"
+        },
+        "forceSync": {
+          "short": "Force Sync",
+          "title": "Force Sync"
+        },
+        "push": {
+          "short": "Push",
+          "title": "Push"
+        },
+        "duplicate": {
+          "short": "Duplicate",
+          "title": "Duplicate"
+        },
+        "openInAnalytics": {
+          "short": "Open in Analytics",
+          "title": "Open in Analytics"
+        },
+        "openInDataQuality": {
+          "short": "Open in Data Quality",
+          "title": "Open in Data Quality"
         }
       }
     },
@@ -276,11 +397,15 @@
       }
     },
     "navigation": {
-      "detailView": "Detail View",
+      "detailView": "Detail",
       "editView": "Edit View",
       "newView": "New Record",
-      "rawView": "Raw View",
-      "tableView": "Table View"
+      "rawView": "Json",
+      "tableView": "Table View",
+      "actions": {
+        "diff": "Diff",
+        "edit": "Edit"
+      }
     },
     "download": {
       "info": "Retrieve data based on table settings",
@@ -289,6 +414,12 @@
       "downloadJSON": "Download dataset as JSON",
       "downloadCSV": "Download dataset as CSV",
       "dialog": {
+        "discardExports": {
+          "buttonNo": "No",
+          "buttonYes": "Yes",
+          "description": "If you confirm, the process will stop and the exported data won't be downloaded.",
+          "title": "Cancel export?"
+        },
         "discardChanges": {
           "title": "Discard unsaved data?",
           "description": "Are you sure you want to discard unsaved data?",
@@ -298,26 +429,36 @@
       }
     },
     "toolBox": {
-      "settings": {
-        "defineViewPreferences": "Define preferences for your view."
+      "attributes": {
+        "panelName": "Attributes"
       },
       "exportDatasets": {
         "apiDatasets": {
           "header": "API datasets",
-          "iconAlt": "Copy the URL for the currently displayed data"
+          "iconAlt": "Copy the URL for the currently displayed data",
+          "button": "Copy"
         },
         "references": {
           "iconAlt": "Shoe/hide the URL for the currently referenced data"
         },
         "documentation": {
-          "header": "documentation",
+          "header": "Documentation",
           "body": "Check documentation for full details",
-          "iconAlt": "Link to documentation"
+          "iconAlt": "Link to documentation",
+          "button": "More info"
         },
         "download": {
+          "inProgress": "Download preparation in progress...",
           "header": "Download",
           "button": "Download",
           "buttonAlt": "Download the currently displayed data",
+          "iconAlt": "Download the currently displayed data",
+          "infoPopup": {
+            "header": "Information on how to download records.",
+            "body": "Access our wiki to get all information on how to download our records.",
+            "linkHref": "https://github.com/noi-techpark/it.bz.opendatahub.databrowser/wiki/How-To-Filter-and-Search#filter",
+            "linkText": "Open wiki"
+          },
           "csv": {
             "header": "CSV FILE",
             "body": "Export of all filtered records (including media links)."
@@ -325,6 +466,10 @@
           "json": {
             "header": "JSON",
             "body": "Export of all filtered records (including media links)."
+          },
+          "media": {
+            "header": "MEDIA FILES",
+            "body": "Zip archive of media filtered records only."
           }
         },
         "settings": "Settings",
@@ -353,9 +498,13 @@
       "labelButton": "Search",
       "labelPlaceholder": "Insert search value ..."
     },
+    "inputSuggest": {
+      "notFound": "No results found"
+    },
     "downloadMenu": {
       "title": "{countActive} export in progress",
-      "subtitle": "{countCompleted} completed, {countFailed} failed"
+      "subtitle": "{countFailed} failed, {countCompleted} completed",
+      "copied": "Copied!"
     },
     "mappingTable": {
       "addKeyValue": "Add key and value",
@@ -403,6 +552,20 @@
         "settings": "Settings"
       }
     },
+    "syncData": {
+      "lastSyncInfo": {
+        "title": "Information on last sync.",
+        "sentAt": "Last Sync: {date}",
+        "error": "Error: {error}"
+      },
+      "dialog": {
+        "buttonCancel": "No (n)",
+        "buttonAfterSend": "Push-Notifications sent",
+        "buttonBeforeSend": "Yes (y)",
+        "description": "If you confirm, the synchronization of {title} will start.",
+        "title": "Sync {title}"
+      }
+    },
     "pushData": {
       "lastPushInfo": {
         "title": "Information on last push.",
@@ -419,6 +582,17 @@
         "pushSendImmediately": "Push-Notification is immediately sent out",
         "selectChannel": "Stay connected! Select the channel you want to send the push notification to:",
         "title": "Push-Notification"
+      },
+      "dialog": {
+        "buttonCancel": "Cancel",
+        "buttonAfterSend": "Push-Notifications sent",
+        "buttonBeforeSend": "Send out the Push-Notifications",
+        "contactSupport1": "If you think this is an error, please contact the",
+        "contactSupport2": "support",
+        "noPublishersAvailable": "For this entry, there are no publishers available to send push.",
+        "pushSendImmediately": "Push-Notification is immediately sent out",
+        "selectChannel": "Stay connected! Select the channel you want to send the push notification to:",
+        "title": "Push-Notification for {title}"
       },
       "result": {
         "errorTitle": "Couldn't send push notification to {name}",
@@ -516,7 +690,15 @@
       "filtered": "(filtered)",
       "resetFilters": "Reset Filters",
       "noMetadataAvailable": "No metadata available",
-      "deprecated": "Deprecated",
+      "deprecated": {
+        "name": "Deprecated",
+        "infoPopup": {
+          "header": "Attribute is deprecated",
+          "body": "A deprecated attribute is one that is phasing out and will not be available anymore in the future. It is not recommended to use it.",
+          "linkHref": "https://github.com/noi-techpark/odh-docs/wiki/What-does-%22deprecated%22-mean%3F",
+          "linkText": "More info"
+        }
+      },
       "searchDataset": "Search Dataset",
       "dataSpace": "Dataspace",
       "showFilters": "Show filters",

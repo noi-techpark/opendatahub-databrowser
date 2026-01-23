@@ -15,8 +15,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { useAttrs } from 'vue';
 import EditListCell from '../../utils/editList/EditListCell.vue';
-import { useAttributeMapper } from '../tagCell/useAttributeMapper';
 import ArrayEditableTable from './ArrayEditableTable.vue';
+import { useAttributeMapper } from './useAttributeMapper';
 
 withDefaults(
   defineProps<{

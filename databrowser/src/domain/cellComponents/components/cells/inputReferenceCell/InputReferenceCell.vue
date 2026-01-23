@@ -9,10 +9,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <LoadingState :is-loading="isLoading" :is-error="isError" :error="error" />
     <SelectCustom
       v-if="isWriteable && isSuccess"
+      :model-value="value"
       :options="options"
-      :value="value"
       :show-empty-value="showEmptyValue"
-      @change="change"
+      @update:model-value="change"
     />
     <span v-if="!isWriteable && !isLoading">
       {{ options.find((option) => option.value === value)?.label ?? value }}
@@ -79,5 +79,6 @@ const { isLoading, isSuccess, isError, error, options } =
     withSelectors(keySelector, labelSelector)
   );
 
-const change = (value: string) => emit('update', { prop: 'value', value });
+const change = (value: SelectValue | undefined) =>
+  emit('update', { prop: 'value', value });
 </script>

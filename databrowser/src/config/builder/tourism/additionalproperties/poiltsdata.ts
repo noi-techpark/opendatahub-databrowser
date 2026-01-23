@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../../domain/cellComponents/types';
-import { DetailElements } from '../../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types';
+import { DetailElements } from '@/domain/datasets/config/types';
 
 export const poiltsdataCategory = (
   options = { visible: false }
@@ -14,22 +14,22 @@ export const poiltsdataCategory = (
   subcategories: [
     {
       name: '',
-      properties: [       
+      properties: [
         {
           title: 'Is Open',
-          component: CellComponent.ToggleTriStateCell,            
+          component: CellComponent.ToggleTriStateCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsOpen',
           },
         },
         {
           title: 'Has FreeEntrance',
-          component: CellComponent.ToggleTriStateCell,            
+          component: CellComponent.ToggleTriStateCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasFreeEntrance',
           },
         },
       ],
-    },   
+    },
   ],
 });

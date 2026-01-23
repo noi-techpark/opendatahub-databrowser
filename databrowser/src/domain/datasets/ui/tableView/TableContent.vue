@@ -7,7 +7,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <TableWithStickyHeader id="dataset-table">
     <template #colgroup-cols>
-      <col v-for="col in cols" :key="col.title" :class="col.class" />
+      <col
+        v-for="col in cols"
+        :key="col.title"
+        :class="col.class"
+        :style="col.style?.widthInPx ? `width:${col.style?.widthInPx}px` : null"
+      />
       <col v-if="showLinkColumn" class="w-28 md:w-32" />
     </template>
 
@@ -36,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </TableCell>
       </tr>
       <tr
-        v-for="({ recordId, values }, rowIndex) in rows"
+        v-for="({ recordId, data, values }, rowIndex) in rows"
         :key="recordId ?? rowIndex"
         class="hover:bg-green-400/10"
         :class="{ 'bg-green-400/10': rowIndex === selectedRowIndex }"
@@ -51,7 +56,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <ComponentRenderer
             :tag-name="col.component"
             :attributes="values[colIndex]"
-            :object-mapping="col.objectMapping"
           />
         </TableCell>
         <TableCell
@@ -59,6 +63,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           class="sticky right-0 bg-white shadow-table-static-col"
         >
           <TableLinks
+            :data="data as RecordActionsData"
             :record-id="recordId"
             :show-edit="showEdit"
             :show-delete="showDelete"
@@ -81,7 +86,7 @@ import SortAndFilterHeader from './SortAndFilterHeader.vue';
 import TableDataEmpty from './TableDataEmpty.vue';
 import TableLinks from './TableLinks.vue';
 import { RecordValues } from './load/types';
-import { Column } from './types';
+import { Column, RecordActionsData } from './types';
 import { useTableRowSelection } from './useTableRowSelection';
 
 const { t } = useI18n();

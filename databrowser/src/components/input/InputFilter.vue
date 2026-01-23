@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import InputCustom from './InputCustom.vue';
+import InputCustom from "@/components/input/InputCustom.vue";
 
 const { t } = useI18n();
 

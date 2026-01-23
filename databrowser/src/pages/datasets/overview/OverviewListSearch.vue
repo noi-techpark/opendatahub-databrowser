@@ -19,10 +19,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           : ''
       }}
     </span>
-    <InputCustom
+    <InputSearch
+      id="search-datasets"
       v-model="searchTerm"
       :placeholder="t('overview.listPage.searchDataset')"
       type="search"
+      :show-confirm-button="false"
       input-classes="w-full md:w-64"
       @input="setFilterAndSearchQuery(router, updatedFilters, searchTerm)"
     />
@@ -32,9 +34,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import InputCustom from '../../../components/input/InputCustom.vue';
-import { setFilterAndSearchQuery } from '../../../domain/contentpage/utils.ts';
-import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
+import InputSearch from '@/components/input/InputSearch.vue';
+import { setFilterAndSearchQuery } from '@/domain/contentpage/utils.ts';
+import { TourismMetaData } from '@/domain/metaDataConfig/tourism/types';
 
 const { t } = useI18n();
 const router = useRouter();

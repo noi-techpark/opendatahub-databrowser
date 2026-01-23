@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../domain/cellComponents/types';
-import { EditElements } from '../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types.ts';
+import { EditElements } from '@/domain/datasets/config/types.ts';
 import { echargingdataCategory } from './additionalproperties/echargingdata';
 import { poiagedataCategory } from './additionalproperties/poiagedata';
 import { activityltsdataCategory } from './additionalproperties/activityltsdata';

@@ -279,32 +279,32 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { computed, onBeforeMount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import Accordion from '../../../components/accordion/Accordion.vue';
-import ButtonCustom from '../../../components/button/ButtonCustom.vue';
-import ButtonExternalLink from '../../../components/button/ButtonExternalLink.vue';
-import { Size, Variant } from '../../../components/button/types';
-import CardDivider from '../../../components/card/CardDivider.vue';
-import CheckboxCustomHomePage from '../../../components/checkbox/CheckboxCustomHomePage.vue';
-import PageGridContent from '../../../components/content/PageGridContent.vue';
-import PartnersAndContributors from '../../../components/partners/PartnersAndContributors.vue';
-import InfoPopover from '../../../components/popover/InfoPopover.vue';
-import PopoverContent from '../../../components/popover/PopoverContent.vue';
-import PopoverContentHeader from '../../../components/popover/PopoverContentHeader.vue';
-import PopoverCustomPanel from '../../../components/popover/PopoverCustomPanel.vue';
-import IconClose from '../../../components/svg/IconClose.vue';
-import IconFilter from '../../../components/svg/IconFilter.vue';
-import IconLocationOn from '../../../components/svg/IconLocationOn.vue';
-import ToggleCustomHomePage from '../../../components/toggle/ToggleCustomHomePage.vue';
-import { embeddedDatasetConfigs } from '../../../config/config';
+import Accordion from '@/components/accordion/Accordion.vue';
+import ButtonCustom from '@/components/button/ButtonCustom.vue';
+import ButtonExternalLink from '@/components/button/ButtonExternalLink.vue';
+import { Size, Variant } from '@/components/button/types';
+import CardDivider from '@/components/card/CardDivider.vue';
+import CheckboxCustomHomePage from '@/components/checkbox/CheckboxCustomHomePage.vue';
+import PageGridContent from '@/components/content/PageGridContent.vue';
+import PartnersAndContributors from '@/components/partners/PartnersAndContributors.vue';
+import InfoPopover from '@/components/popover/InfoPopover.vue';
+import PopoverContent from '@/components/popover/PopoverContent.vue';
+import PopoverContentHeader from '@/components/popover/PopoverContentHeader.vue';
+import PopoverCustomPanel from '@/components/popover/PopoverCustomPanel.vue';
+import IconClose from '@/components/svg/IconClose.vue';
+import IconFilter from '@/components/svg/IconFilter.vue';
+import IconLocationOn from '@/components/svg/IconLocationOn.vue';
+import ToggleCustomHomePage from '@/components/toggle/ToggleCustomHomePage.vue';
+import { embeddedDatasetConfigs } from '@/config/config';
 import {
   getFilterAndSearchQuery,
   setFilterAndSearchQuery,
-} from '../../../domain/contentpage/utils.ts';
-import { DatasetConfig } from '../../../domain/datasets/config/types';
-import MapViewAsDialog from '../../../domain/datasets/ui/mapView/MapViewAsDialog.vue';
-import ResetAllFilters from '../../../domain/datasets/ui/tableView/filter/ResetAllFilters.vue';
-import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
-import AppLayout from '../../../layouts/AppLayout.vue';
+} from '@/domain/contentpage/utils.ts';
+import { DatasetConfig } from '@/domain/datasets/config/types';
+import MapViewAsDialog from '@/domain/datasets/ui/mapView/MapViewAsDialog.vue';
+import ResetAllFilters from '@/domain/datasets/ui/tableView/filter/ResetAllFilters.vue';
+import { TourismMetaData } from '@/domain/metaDataConfig/tourism/types';
+import AppLayout from '@/layouts/AppLayout.vue';
 import OverviewCardItem from './OverviewCardItem.vue';
 import OverviewListPageHero from './OverviewListPageHero.vue';
 import OverviewListSearch from './OverviewListSearch.vue';
@@ -718,7 +718,7 @@ const visibleDatasets = computed(() => {
         datasets = datasets.filter((dataset) => {
           const filtrableValues = dataset[
             key as TourismMetaDataIndexes
-          ]! as string[];
+            ]! as string[];
           if (filtrableValues?.length) {
             return filtrableValues.find((value) =>
               parsedAcceptedValues.includes(value)

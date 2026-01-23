@@ -19,12 +19,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="id"
       ref="inputRef"
       v-model="text"
-      class="rounded border border-gray-400 p-2 text-black focus:border-green-500"
+      class="rounded border border-gray-400 p-2 text-black focus:border-green-500 focus:ring-transparent"
       :class="[inputClasses, deletable ? 'pr-10' : '']"
       :placeholder="placeholder"
       :disabled="disabled"
       :type="type"
+      :min="min"
+      :max="max"
     />
+
     <span v-if="label != null" class="ml-3 font-semibold"></span>
     <div
       v-if="type === 'search' && !text"
@@ -36,23 +39,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       v-if="deletable"
       class="absolute right-0 flex h-full w-10 items-center justify-center"
     >
-      <div
-        class="cursor-pointer rounded-full border border-red-500"
-        @click="onDelete()"
+      <button
+        class="rounded p-1 text-green-500"
+        :class="{ hidden: String(text).length === 0 }"
+        @click="onDelete"
       >
-        <IconClose class="size-5 text-red-500" />
-      </div>
+        <IconClose class="size-4" />
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { randomId } from '../utils/random';
-import IconSearch from '../svg/IconSearch.vue';
 import IconClose from '../svg/IconClose.vue';
-
-import { useEventDelete } from './utils';
+import IconSearch from '../svg/IconSearch.vue';
+import { randomId } from '../utils/random';
 import { InputType } from './types';
 
 const id = randomId();
@@ -69,6 +71,8 @@ const props = defineProps<{
   hasLabelTop?: boolean;
   disabled?: boolean;
   type?: InputType;
+  min?: number;
+  max?: number;
 }>();
 
 const inputRef = ref();
@@ -87,7 +91,7 @@ const text = computed({
 
 const onDelete = () => {
   text.value = '';
-  useEventDelete.emit(true);
+  inputRef.value.focus();
 };
 </script>
 

@@ -10,11 +10,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <DialogOverlay />
       <DialogOverlayContainer>
         <DialogPanel
-          class="w-full max-w-md overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all"
+          class="w-full overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all"
+          :class="widthClass"
         >
           <DialogTitle
             as="h3"
-            class="text-center text-xl font-semibold leading-6 text-dialog"
+            class="text-center text-xl font-bold leading-6 text-black"
           >
             <slot name="title"></slot>
           </DialogTitle>
@@ -41,8 +42,22 @@ import {
 
 import DialogOverlay from './DialogOverlay.vue';
 import DialogOverlayContainer from './DialogOverlayContainer.vue';
+import { DialogPanelWidth } from '@/components/dialog/types';
+import { computed } from 'vue';
 
 const emit = defineEmits(['close']);
 
-defineProps<{ isOpen: boolean }>();
+const props = withDefaults(
+  defineProps<{
+    isOpen: boolean;
+    width?: DialogPanelWidth;
+  }>(),
+  {
+    width: DialogPanelWidth.md,
+  }
+);
+
+const widthClass = computed(() => {
+  return 'max-w-' + props.width;
+})
 </script>

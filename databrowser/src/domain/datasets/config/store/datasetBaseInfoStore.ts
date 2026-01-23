@@ -5,10 +5,9 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUserSettings } from '../../../user/userSettings';
 import { useComputeRouteLocation } from '../../location/routeLocation';
-import { DatasetConfigSource } from '../types';
 import { useDatasetBaseInfo } from './datasetBaseInfo';
+import { useDatasetUserSettings } from './datasetUserSettings';
 import { useQueryParamsCleanUp } from './utils';
 
 export const useDatasetBaseInfoStore = defineStore(
@@ -18,28 +17,10 @@ export const useDatasetBaseInfoStore = defineStore(
     const { currentRoute } = router;
     const routeLocation = useComputeRouteLocation(currentRoute);
 
-    // Current source
-    const source = ref<DatasetConfigSource>('embedded');
-
-    // User preferred source, which is stored in local storage
-    // This allows the user to select a preferred source for datasets
-    // and have it persist across sessions.
-    const preferredSource =
-      useUserSettings().getUserSettingRef<DatasetConfigSource>(
-        'preferredDatasetSource'
-      );
+    const userSettings = useDatasetUserSettings();
 
     // Compute reactive dataset base info
-    const baseInfo = useDatasetBaseInfo(routeLocation, preferredSource);
-
-    // Update source state
-    watch(
-      baseInfo.source,
-      (newSource) => {
-        source.value = newSource ?? 'embedded';
-      },
-      { immediate: true }
-    );
+    const baseInfo = useDatasetBaseInfo(routeLocation, userSettings);
 
     // Watch datasetQuery changes and update route if:
     // - search or filters changed => jump to first page
@@ -50,7 +31,25 @@ export const useDatasetBaseInfoStore = defineStore(
       baseInfo.datasetQuery
     );
 
-    return { ...baseInfo, source };
+    // Current source
+    const source = ref(userSettings.preferredDatasetSource.value);
+
+    // Update source state
+    watch(
+      baseInfo.source,
+      (newSource) => {
+        source.value = newSource ?? 'embedded';
+      },
+      { immediate: true }
+    );
+
+    return {
+      ...baseInfo,
+      // TODO: change code to use the source from userSettings below
+      // such that "source" can be removed from the return statement
+      // source: userSettings.preferredSource,
+      source,
+    };
   }
 );
 
