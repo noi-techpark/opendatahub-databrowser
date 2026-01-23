@@ -15,6 +15,7 @@ import {
   locationCategoryDistrict,
   odhTagCategory,
   shortnameCell,
+  regionIdCell,
   sourceSubCategoryWithDistinct,
   textInfoCategory,
   webcamCategory,
@@ -47,6 +48,13 @@ export const districtSharedView = (): DetailViewConfig | EditViewConfig => ({
               component: CellComponent.StringCell,
               objectMapping: { text: 'hgv.id' },
             },
+            {
+              title: 'Tourismverein Id',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'TourismvereinId' },
+              class: 'break-all',
+            },
+            regionIdCell('RegionId'),
           ],
         },
         {
