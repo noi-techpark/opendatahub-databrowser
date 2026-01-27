@@ -229,7 +229,6 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
               objectMapping: { value: 'CoordinateSource.Type' },
               params: {
                 showValueAsLabelFallback: 'true',
-                value: 'GpsInfo',
                 value_001: 'Geo',
                 label_001: 'Geo',
                 value_002: 'GeoShapeReference',

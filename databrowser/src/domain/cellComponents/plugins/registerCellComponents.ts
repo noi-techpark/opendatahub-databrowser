@@ -269,11 +269,6 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     { supportsTableView: false },
   ],
   [
-    CellComponent.GpsPointMap,
-    GpsPointMap,
-    { supportsTableView: false },
-  ],
-  [
     CellComponent.GeoDataCell,
     GeoDataCell,
     { supportsTableView: true },
