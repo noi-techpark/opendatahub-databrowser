@@ -220,6 +220,36 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
             },
           ],
         },
+        {
+          name: 'Coordinate Source Configuration',
+          properties: [
+            {
+              title: 'Coordinate Source Type',
+              component: CellComponent.SelectWithOptionsCell,
+              objectMapping: { value: 'CoordinateSource.Type' },
+              params: {
+                showValueAsLabelFallback: 'true',
+                value: 'GpsInfo',
+                value_001: 'Geo',
+                label_001: 'Geo',
+                value_002: 'GeoShapeReference',
+                label_002: 'GeoShape Reference',
+                value_003: 'GpsInfo',
+                label_003: 'GpsInfo',
+              },
+            },
+            {
+              title: 'Coordinate Source Field',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'CoordinateSource.Field' },
+            },
+            {
+              title: 'Use default Coordinate Entry',
+              component: CellComponent.ToggleCell,
+              objectMapping: { enabled: 'CoordinateSource.UseDefault' },
+            },
+          ],
+        },
       ],
     },
     imageGalleryCategory(),
