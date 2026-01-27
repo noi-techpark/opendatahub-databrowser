@@ -79,19 +79,19 @@ export const computeMapSource = async (
   coordinateSource?: CoordinateSource
 ): Promise<MapSourceSpecification | MapSourcesByGeometryType> => {
   // Route to appropriate extraction method based on coordinate source type
-  if (coordinateSource?.type === 'geoData') {
+  if (coordinateSource?.type === 'Geo') {
     return computeMapSourceFromGeoData(
       records as GeoDataRecord[],
-      coordinateSource.field,
-      coordinateSource.useDefault
+      coordinateSource.field!,
+      coordinateSource.useDefault!
     );
   }
 
-  if (coordinateSource?.type === 'geoShapeReference') {
+  if (coordinateSource?.type === 'GeoShapeReference') {
     return await computeMapSourceFromGeoShapeReference(
       records as GeoDataRecord[],
-      coordinateSource.field,
-      coordinateSource.useFirst
+      coordinateSource.field!,
+      coordinateSource.useDefault!
     );
   }
 

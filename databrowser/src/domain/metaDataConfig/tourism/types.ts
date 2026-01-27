@@ -7,31 +7,11 @@ import { ApiType } from '../types';
 /**
  * Configuration for extracting coordinates from dataset records
  */
-export type CoordinateSourceType = 'legacy' | 'geoData';
-
-export interface LegacyCoordinateSource {
-  type: 'legacy';
-  // Uses default extraction based on apiType:
-  // - content: GpsInfo[0].Longitude, GpsInfo[0].Latitude
-  // - timeseries: scoordinate.x, scoordinate.y
+export interface CoordinateSource {
+  type?: 'Geo' | 'GeoShapeReference' | 'GpsInfo';
+  field?: string;
+  useDefault?: boolean
 }
-
-export interface GeoDataCoordinateSource {
-  type: 'geoData';
-  field: string;        // Field name containing GeoData (e.g., 'GeoData')
-  useDefault: boolean;  // If true, uses entry where Default === true
-}
-
-export interface GeoShapeReferenceCoordinateSource {
-  type: 'geoShapeReference';
-  field: string;        // Field name containing GeoShape references (e.g., 'GpsTrack')
-  useFirst: boolean;    // If true, uses first element of array
-}
-
-export type CoordinateSource =
-  | LegacyCoordinateSource
-  | GeoDataCoordinateSource
-  | GeoShapeReferenceCoordinateSource;
 
 export interface TourismMetaData {
   id: string;
