@@ -50,9 +50,19 @@ export const useUpdate = (
 
   const computeArrayValueUpdates = (
     updates: PropertyValue[],
-    { pathToParent, objectMapping }: ArrayMapping
+    { pathToParent, objectMapping, properties }: ArrayMapping
   ) => {
-    // If object mappings is undefined or empty, then the data consists
+    // NEW: If properties are defined, EditNestedArrayCell handles all update logic
+    // The component already merges updates into array items preserving other fields
+    // Just pass through the value directly
+    if (properties != null && properties.length > 0) {
+      return {
+        prop: pathToParent,
+        value: updates[0].value,
+      };
+    }
+
+    // LEGACY: If object mappings is undefined or empty, then the data consists
     // of an array of simple types (strings, number or booleans). We can
     // return it as it is
     if (isObjectMappingEmpty(objectMapping)) {
@@ -62,7 +72,7 @@ export const useUpdate = (
       };
     }
 
-    // Compute path to parent as array for later on usage
+    // LEGACY: Compute path to parent as array for later on usage
     const pathToParentAsArray = pathToParent.split('.');
 
     // Get array of entries to update from input data

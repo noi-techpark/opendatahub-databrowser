@@ -70,10 +70,17 @@ export interface ArrayMapping {
   targetPropertyName: string;
   // Path to the parent object
   pathToParent: PropertyPath;
+  // LEGACY: Flat object mapping for simple array items
   // If objectMapping is undefined or empty, then the object defined by parentPath
   // is passed to the component as it is. This is useful e.g. for an array
   // of simple types (strings, number or booleans)
+  // NOTE: objectMapping and properties are mutually exclusive
   objectMapping?: ObjectMapping;
+  // NEW: Nested property configurations for complex array items
+  // Allows defining how each field within array items should be rendered
+  // NOTE: objectMapping and properties are mutually exclusive
+  // If properties is defined, objectMapping must be undefined
+  properties?: PropertyConfig[];
 }
 
 export interface ArrayPropertyConfig {
