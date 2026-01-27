@@ -64,6 +64,7 @@ const buildMapDataset = (dataset: RestrictedMetaData): MapDataset => ({
     datasetAbbreviation: dataset.shortname.substring(0, 1).toUpperCase(),
     datasetColor: stringToColor(dataset.id),
     datasetParentId: dataset.parent?.id,
+    coordinateSource: dataset.coordinateSource
   },
   selected: false,
   records: {
