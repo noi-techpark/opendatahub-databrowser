@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="flex flex-wrap gap-3 lg:flex-nowrap">
     <div class="flex basis-full flex-col gap-3 lg:basis-1/3">
-      <SubCategoryItem :title="t('datasets.editView.map.gpsType')">
+      <SubCategoryItem :title="t('datasets.editView.map.geoDataType')">
         <SelectWithOptionsCell
           id="select-gps-type"
           :value="position.Type"
