@@ -46,9 +46,8 @@ interface OdhTourismMetaData {
     LicenseHolder?: string;
   };
   CoordinateSource?: {
-    Type?: 'Geo' | 'GeoShapeReference' | 'GpsInfo',
+    Type?: 'GeoData' | 'GpsInfo',
     Field?: string,
-    UseDefault?: boolean
   }
 }
 
@@ -105,7 +104,6 @@ const mapResponse = (datasets: OdhTourismMetaData[]): TourismMetaData[] =>
       coordinateSource: {
         type: dataset.CoordinateSource?.Type,
         field: dataset.CoordinateSource?.Field,
-        useDefault: dataset.CoordinateSource?.UseDefault,
       }
     }))
     .sort((a, b) => a?.shortname?.localeCompare(b?.shortname));

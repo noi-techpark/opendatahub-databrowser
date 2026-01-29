@@ -16,7 +16,6 @@ import {
 } from '../utils/geometryUtils';
 import { getGeometryVisibilityConfig } from '../config/geometryVisibility';
 import type { GeoDataEntry } from '../../../../cellComponents/components/cells/editGeoDataCell/types';
-import axios from 'axios';
 
 interface ContentApiMarkerCollection {
   Id?: string;
@@ -34,21 +33,6 @@ interface GeoDataRecord {
   Id?: string;
   Shortname?: string;
   [key: string]: unknown; // Fields accessed dynamically
-}
-
-interface GeoShapeReference {
-  Id?: string;
-  Type?: string;
-  Format?: string;
-  GpxTrackUrl?: string;
-  GpxTrackDesc?: string | null;
-}
-
-interface GeoShapeResponse {
-  Id?: string;
-  Name?: string;
-  Type?: string;
-  Geometry?: Geometry; // Already in GeoJSON format
 }
 
 type MapFeature = Feature<Point, MapRecord & { geometryType: string; minZoom: number }>;
@@ -79,19 +63,10 @@ export const computeMapSource = async (
   coordinateSource?: CoordinateSource
 ): Promise<MapSourceSpecification | MapSourcesByGeometryType> => {
   // Route to appropriate extraction method based on coordinate source type
-  if (coordinateSource?.type === 'Geo') {
+  if (coordinateSource?.type === 'GeoData') {
     return computeMapSourceFromGeoData(
       records as GeoDataRecord[],
       coordinateSource.field!,
-      coordinateSource.useDefault!
-    );
-  }
-
-  if (coordinateSource?.type === 'GeoShapeReference') {
-    return await computeMapSourceFromGeoShapeReference(
-      records as GeoDataRecord[],
-      coordinateSource.field!,
-      coordinateSource.useDefault!
     );
   }
 
@@ -152,8 +127,7 @@ const computeGpsMapSource = (
  */
 const computeMapSourceFromGeoData = (
   records: GeoDataRecord[],
-  geoDataField: string,
-  useDefault: boolean
+  geoDataField: string
 ): MapSourcesByGeometryType => {
   // Extract geometries from records
   const geometryRecords = records
@@ -168,14 +142,7 @@ const computeMapSourceFromGeoData = (
       if (!geoData) return null;
 
       // Find the appropriate entry
-      let geoEntry: GeoDataEntry | undefined;
-      if (useDefault) {
-        // Find entry where Default === true
-        geoEntry = Object.values(geoData).find((entry) => entry.Default === true);
-      } else {
-        // Use first entry
-        geoEntry = Object.values(geoData)[0];
-      }
+      const geoEntry = Object.values(geoData).find((entry) => entry.Default === true);
 
       if (!geoEntry?.Geometry) return null;
 
@@ -193,63 +160,6 @@ const computeMapSourceFromGeoData = (
       }
     })
     .filter((p): p is GeometryRecord => p !== null);
-
-  // Use shared logic to create sources
-  return createMultiGeometrySources(geometryRecords);
-};
-
-/**
- * Map source computation for GeoShape references (external GeoJSON)
- * Fetches geometry from external URLs and creates multi-geometry sources
- */
-const computeMapSourceFromGeoShapeReference = async (
-  records: GeoDataRecord[],
-  geoShapeField: string,
-  useFirst: boolean
-): Promise<MapSourcesByGeometryType> => {
-  // Extract geometry promises from records
-  const geometryPromises = records.map(
-    async (record): Promise<GeometryRecord | null> => {
-      const recordId = record.Id;
-      const recordName = record.Shortname;
-
-      if (!recordId || !recordName) return null;
-
-      // Access GeoShape reference field dynamically
-      const geoShapeRefs = record[geoShapeField] as GeoShapeReference[] | undefined;
-      if (!geoShapeRefs || geoShapeRefs.length === 0) return null;
-
-      // Get the appropriate reference
-      const geoShapeRef = useFirst ? geoShapeRefs[0] : geoShapeRefs[geoShapeRefs.length - 1];
-      if (!geoShapeRef?.GpxTrackUrl) return null;
-
-      // Fetch the GeoShape from the URL
-      try {
-        const response = await axios.get<GeoShapeResponse>(geoShapeRef.GpxTrackUrl);
-        const geoShape = response.data;
-
-        if (!geoShape.Geometry) {
-          console.warn(`No geometry in GeoShape for record ${recordId}`);
-          return null;
-        }
-
-        // Geometry is already in GeoJSON format
-        return {
-          geometry: geoShape.Geometry,
-          recordId,
-          recordName,
-        };
-      } catch (error) {
-        console.warn(`Failed to fetch GeoShape for record ${recordId}:`, error);
-        return null;
-      }
-    }
-  );
-
-  // Wait for all fetches to complete
-  const geometryRecords = (await Promise.all(geometryPromises)).filter(
-    (p): p is GeometryRecord => p !== null
-  );
 
   // Use shared logic to create sources
   return createMultiGeometrySources(geometryRecords);

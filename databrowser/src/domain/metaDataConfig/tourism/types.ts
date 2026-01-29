@@ -8,9 +8,8 @@ import { ApiType } from '../types';
  * Configuration for extracting coordinates from dataset records
  */
 export interface CoordinateSource {
-  type?: 'Geo' | 'GeoShapeReference' | 'GpsInfo';
+  type?: 'GeoData' | 'GpsInfo';
   field?: string;
-  useDefault?: boolean
 }
 
 export interface TourismMetaData {
