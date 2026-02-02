@@ -40,7 +40,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </TableCell>
       <TableCell>{{ item.Type }}</TableCell>
       <TableCell>{{ item.Geometry }}</TableCell>
-      <TableCell><ToggleButtonCell :enabled="item.Default" :readonly="false" :text="item.Default"/></TableCell>
+      <TableCell><ToggleButtonCell :enabled="item.Default" :readonly="false" :text="(item.Default || false).toString()"/></TableCell>
       <TableCell>{{ item.Latitude }}</TableCell>
       <TableCell>{{ item.Longitude }}</TableCell>
       <TableCell>{{ item.Altitude }}</TableCell>
