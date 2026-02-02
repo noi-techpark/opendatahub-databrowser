@@ -20,7 +20,9 @@ import MapViewBody from './MapViewBody.vue';
 import MapViewHeader from './MapViewHeader.vue';
 import { useMapViewStore } from './store/useMapViewStore';
 import { useMapViewUiStore } from './store/useMapViewUiStore';
-import { MarkerFeature } from './types';
+import { MapSourcesByGeometryType, MapSourceSpecification, MarkerFeature, RecordId } from './types';
+import { isMultiGeometrySource } from "./cluster/useMapViewLayerHandler.ts"
+import { Feature, Geometry } from 'geojson';
 
 const emit = defineEmits<{ (e: 'close'): void }>();
 
@@ -32,6 +34,27 @@ const { datasetIds, activeMarker, activeRecord, showMarkerDetail } =
 const mapViewStore = useMapViewStore();
 
 const { datasets } = storeToRefs(mapViewStore);
+
+const validateActiveRecord = (source: MapSourceSpecification | MapSourcesByGeometryType, markerRecordId: string | undefined): 
+Feature<Geometry, {
+    recordId: RecordId;
+    recordName: string;
+}> | null | undefined => {
+  if (!isMultiGeometrySource(source)) {
+    return (source as MapSourceSpecification).data.features.find(
+      (feature) => feature.properties.recordId === markerRecordId
+    )
+  }
+  const allSources = Object.values(source as MapSourcesByGeometryType).filter(
+    (s): s is MapSourceSpecification => s != null
+  );
+
+  const allFeatures = allSources.flatMap((source) => source.data.features);
+
+  return allFeatures.find(
+    (feature) => feature.properties.recordId === markerRecordId
+  );
+}
 
 mapViewStore.fetchDatasets().then(() => {
   if (datasetIds.value == null) {
@@ -52,9 +75,7 @@ mapViewStore.fetchDatasets().then(() => {
           const { datasetId: markerDatasetId, recordId: markerRecordId } =
             activeRecord.value;
 
-          const record = records.source.data.features.find(
-            (feature) => feature.properties.recordId === markerRecordId
-          );
+          const record = validateActiveRecord(records.source, markerRecordId);
           if (record != null) {
             mapViewStore
               .fetchRecordDetails(markerDatasetId, markerRecordId)

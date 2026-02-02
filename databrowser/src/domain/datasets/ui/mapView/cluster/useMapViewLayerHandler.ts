@@ -28,7 +28,7 @@ const buildPolygonStrokeLayerId = (source: string) => `geometry-polygon-stroke-$
 /**
  * Type guard to check if source is multi-geometry
  */
-const isMultiGeometrySource = (
+export const isMultiGeometrySource = (
   source: MapSourceSpecification | MapSourcesByGeometryType
 ): source is MapSourcesByGeometryType => {
   return 'points' in source || 'lines' in source || 'polygons' in source;
