@@ -109,7 +109,10 @@
         "longitude": "Longitude",
         "altitude": "Altitude",
         "altitudeUnit": "Altitude unit",
-        "gpsType": "GPS Type"
+        "gpsType": "GPS Type",
+        "wkt": "WKT 4236 (Well-Known-Text) String",
+        "default": "This it the primary Geo Data",
+        "geoDataType": "Geo Data entry type"
       },
       "dialog": {
         "discardChanges": {

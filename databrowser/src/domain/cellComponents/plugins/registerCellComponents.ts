@@ -27,11 +27,14 @@ import EditGpsInfoCell from '../components/cells/editGpsInfoCell/EditGpsInfoCell
 import GpsPointMap from '../components/cells/editGpsInfoCell/GpsPointMap.vue';
 import EditGpsTrackCell from '../components/cells/editGpsTrackCell/EditGpsTrackCell.vue';
 import EditImageGalleryCell from '../components/cells/editImageGalleryCell/EditImageGalleryCell.vue';
+import EditGeoDataCell from '../components/cells/editGeoDataCell/EditGeoDataCell.vue';
 import EditRoomBookedCell from '../components/cells/editRoomBookedCell/EditRoomBookedCell.vue';
 import EditRoomVenueCell from '../components/cells/editRoomVenueCell/EditRoomVenueCell.vue';
 import EditVideoItemsCell from '../components/cells/editVideoItemsCell/EditVideoItemsCell.vue';
 import EventDocumentCell from '../components/cells/eventDocumentCell/EventDocumentCell.vue';
+import GeoDataMap from '../components/cells/editGeoDataCell/GeoDataMap.vue';
 import GpsPointsCell from '../components/cells/gpsPointsCell/GpsPointsCell.vue';
+import GeoDataCell from '../components/cells/geoDataCell/GeoDataCell.vue';
 import HtmlCell from '../components/cells/htmlCell/HtmlCell.vue';
 import ImageCell from '../components/cells/imageCell/ImageCell.vue';
 import ImageEditCell from '../components/cells/imageCell/ImageEditCell.vue';
@@ -253,6 +256,21 @@ export const registeredComponents: readonly RegisteredComponent[] = [
   [
     CellComponent.LastSyncCell,
     LastSyncCell,
+    { supportsTableView: true },
+  ],
+  [
+    CellComponent.EditGeoDataCell,
+    EditGeoDataCell,
+    { supportsTableView: false },
+  ],
+  [
+    CellComponent.GeoDataMap,
+    GeoDataMap,
+    { supportsTableView: false },
+  ],
+  [
+    CellComponent.GeoDataCell,
+    GeoDataCell,
     { supportsTableView: true },
   ],
 ];
