@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { MaybeRef, computed, toValue } from 'vue';
+import { MaybeRef, computed, toValue, MaybeRefOrGetter } from 'vue';
 
 export const handleDataLoading = (
   isLoading: boolean,
@@ -26,6 +26,6 @@ export const handleDataLoading = (
 };
 
 export const useHandleDataLoading = (
-  isLoading: MaybeRef<boolean>,
+  isLoading: MaybeRefOrGetter<boolean>,
   data: MaybeRef<unknown[] | null>
 ) => computed(() => handleDataLoading(toValue(isLoading), toValue(data)));

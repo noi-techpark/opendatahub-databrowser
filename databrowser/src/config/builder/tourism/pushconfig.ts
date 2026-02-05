@@ -42,7 +42,7 @@ export const lastPushTableCell = (hasAction:boolean = true) : PropertyConfig => 
     id: '_Meta.Id',
     type: '_Meta.Type',
     publishedOn: 'PublishedOn',
-    date: 'LastChange',
+    date: '_PushResponseData.Date',
   },
   params: {
     format: DEFAULT_DATE_TIME_FORMAT,

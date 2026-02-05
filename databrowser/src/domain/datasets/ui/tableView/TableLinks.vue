@@ -57,6 +57,7 @@ import IconEye from '@/components/svg/IconEye.vue';
 import { useDatasetPermissionStore } from '@/domain/datasets/permission/store/datasetPermissionStore.ts';
 import { usePathsForCurrentRoute } from '@/domain/datasets/ui/header/usePaths.ts';
 import { useEditStore } from '@/domain/datasets/ui/editView/store/editStore.ts';
+import { useSync } from '@/domain/cellComponents/components/cells/syncDataConfigCell/useSync.ts';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -113,6 +114,8 @@ const precompileNewViewData = (data: RecordActionsData) => {
   delete newData._Meta;
 
   // init edit store
+  editStore.setAction('duplicate');
+  editStore.setInitial({});
   editStore.setCurrent(newData);
 };
 
@@ -143,9 +146,13 @@ const onPush = () => {
   });
 };
 
+const { sendSync } = useSync();
 const onSync = () => {
-  //TODO: implement it
+  if(metaType.value && metaId.value){
+    sendSync(metaType.value, metaId.value);
+  }
 };
+
 const onOpenAnalytics = () => {
   //TODO: implement it
 };

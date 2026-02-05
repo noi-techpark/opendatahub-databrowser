@@ -23,15 +23,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <IconReload class="text-green-500" />
         <div>{{ t('datasets.header.actions.refresh') }}</div>
       </PopoverContent>
-      <PopoverContentDivider />
-      <PopoverContent
-        with-hover
-        class="flex items-center gap-2"
-        @click="emitEvent('sync', close)"
-      >
-        <IconReload class="text-green-500" />
-        <div>{{ t('datasets.header.actions.sync') }}</div>
-      </PopoverContent>
+<!--      <PopoverContentDivider />-->
+<!--      <PopoverContent-->
+<!--        with-hover-->
+<!--        class="flex items-center gap-2"-->
+<!--        @click="emitEvent('sync', close)"-->
+<!--      >-->
+<!--        <IconReload class="text-green-500" />-->
+<!--        <div>{{ t('datasets.header.actions.sync') }}</div>-->
+<!--      </PopoverContent>-->
       <PopoverContentDivider />
       <a
         href="https://analytics.opendatahub.com/"

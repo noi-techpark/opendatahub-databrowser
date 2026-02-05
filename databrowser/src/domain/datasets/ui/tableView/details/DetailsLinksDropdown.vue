@@ -65,23 +65,23 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </PopoverContent>
         <PopoverContentDivider />
       </template>
-      <PopoverContent
-        :disabled="true"
-        with-hover
-        class="flex items-center gap-2"
-        @click="emitEvent('openAnalytics', close)"
-      >
-        <div>{{ t('datasets.listView.viewLinks.openInAnalytics.short') }}</div>
-      </PopoverContent>
-      <PopoverContentDivider />
-      <PopoverContent
-        :disabled="true"
-        with-hover
-        class="flex items-center gap-2"
-        @click="emitEvent('openQuality', close)"
-      >
-        <div>{{ t('datasets.listView.viewLinks.openInDataQuality.short') }}</div>
-      </PopoverContent>
+<!--      <PopoverContent-->
+<!--        :disabled="true"-->
+<!--        with-hover-->
+<!--        class="flex items-center gap-2"-->
+<!--        @click="emitEvent('openAnalytics', close)"-->
+<!--      >-->
+<!--        <div>{{ t('datasets.listView.viewLinks.openInAnalytics.short') }}</div>-->
+<!--      </PopoverContent>-->
+<!--      <PopoverContentDivider />-->
+<!--      <PopoverContent-->
+<!--        :disabled="true"-->
+<!--        with-hover-->
+<!--        class="flex items-center gap-2"-->
+<!--        @click="emitEvent('openQuality', close)"-->
+<!--      >-->
+<!--        <div>{{ t('datasets.listView.viewLinks.openInDataQuality.short') }}</div>-->
+<!--      </PopoverContent>-->
       <template v-if="showDelete">
         <PopoverContentDivider />
         <PopoverContent
