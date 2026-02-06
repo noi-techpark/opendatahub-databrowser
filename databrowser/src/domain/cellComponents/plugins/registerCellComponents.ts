@@ -120,6 +120,11 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     CustomDataArrayCell,
     { supportsTableView: false },
   ],
+  [
+    CellComponent.EditNestedArrayCell,
+    EditNestedArrayCell,
+    { supportsTableView: false },
+  ],
   [CellComponent.DictionaryCell, DictionaryCell, { supportsTableView: true }],
   [CellComponent.EditedDateCell, EditedDateCell, { supportsTableView: true }],
   [

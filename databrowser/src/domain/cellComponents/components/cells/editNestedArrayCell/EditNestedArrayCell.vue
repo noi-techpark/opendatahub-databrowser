@@ -13,7 +13,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :properties="properties"
         :path-to-parent="pathToParent"
         :editable="editable"
-        :debug="debug"
         :parent-deprecation-info="parentDeprecationInfo"
         @update="handleUpdate"
       />
@@ -26,7 +25,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :properties="properties"
         :path-to-parent="pathToParent"
         :editable="editable"
-        :debug="debug"
         :parent-deprecation-info="parentDeprecationInfo"
         @update="handleUpdate"
       />
@@ -55,7 +53,6 @@ const props = withDefaults(
     properties?: PropertyConfig[];
     pathToParent?: string;
     editable?: boolean;
-    debug?: boolean;
     // Deprecation info from parent - propagated to nested properties
     parentDeprecationInfo?: DeprecationInfo[];
   }>(),
@@ -64,7 +61,6 @@ const props = withDefaults(
     properties: () => [],
     pathToParent: '',
     editable: false,
-    debug: false,
     parentDeprecationInfo: () => [],
   }
 );

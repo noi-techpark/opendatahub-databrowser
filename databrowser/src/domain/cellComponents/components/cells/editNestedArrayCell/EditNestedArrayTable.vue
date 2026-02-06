@@ -85,7 +85,6 @@ const props = withDefaults(
     properties?: PropertyConfig[];
     pathToParent?: string;
     editable?: boolean;
-    debug?: boolean;
     // Deprecation info from parent - merged with nested property deprecation
     parentDeprecationInfo?: DeprecationInfo[];
   }>(),
@@ -94,7 +93,6 @@ const props = withDefaults(
     properties: () => [],
     pathToParent: '',
     editable: false,
-    debug: false,
     parentDeprecationInfo: () => [],
   }
 );
@@ -103,7 +101,7 @@ const emit = defineEmits<{
   update: [value: { prop: string; value: unknown[] }];
 }>();
 
-const debugMode = computed(() => props.debug || import.meta.env.DEV);
+const debugMode = computed(() => import.meta.env.DEV);
 
 const toolboxStore = useToolBoxStore();
 const { computeProperties } = usePropertyComputation();
