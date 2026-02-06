@@ -12,36 +12,6 @@ export const roadIncidentdataCategory = (
   slug: 'roadIncidentdata',
   visible: options.visible,
   subcategories: [
-    // {
-    //   name: 'Roads involved',
-    //   properties: [
-    //      {
-    //        title: 'Road code',
-    //        component: CellComponent.DictionaryCell,
-    //        objectMapping: {
-    //          dictitems: 'AdditionalProperties.RoadIncidentProperties.RoadsInvolved',
-    //         }
-    //       },
-    //     ],
-    // },
-    // {
-    //   name: 'Delay information',
-    //   properties: [
-    //     {
-    //       title: 'Expected Delay (Sring)',
-    //       component: CellComponent.StringCell,
-    //       objectMapping: {
-    //         text: 'AdditionalProperties.RoadIncidentProperties.ExpectedDelayString',
-    //       },
-    //     },
-    //     {
-    //       title: 'Expected Delay (Minutes)',
-    //       component: CellComponent.StringCell,
-    //       objectMapping: {
-    //         text: 'AdditionalProperties.RoadIncidentProperties.ExpectedDelayMinutes',
-    //       },
-    //     },
-    //   ],
-    // },
+   
   ],
 });
