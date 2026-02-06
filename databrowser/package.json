@@ -8,14 +8,13 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "test": "vitest run",
+    "test": "run-p build && vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint --cache --max-warnings 0 src",
     "lint:fix": "eslint --cache --max-warnings 0 --fix src",
-    "prepare": "cd .. && husky",
-    "test": "run-p build"
+    "prepare": "cd .. && husky"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
