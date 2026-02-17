@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts" generic="T">
-import { computed } from 'vue';
+import { computed, toRaw } from 'vue';
 import { useProvideActions } from './actions/useActions';
 import { useProvideNavigation } from './actions/useNavigation';
 import { useProvideEditMode } from './actions/useEditMode';
@@ -81,11 +81,12 @@ onDeleteAllItems(() => {
 });
 
 onDuplicateItem((index: number) => {
-  const duplicatedEntry = isObject(itemsInternal.value[index])
-    ? // If item to duplicate is an object, create a new object with the same properties
-      structuredClone(itemsInternal.value[index])
+  const itemToClone = itemsInternal.value[index];
+  const duplicatedEntry = isObject(itemToClone)
+    ? // If item to duplicate is an object, unwrap Vue proxy and clone
+      structuredClone(toRaw(itemToClone))
     : // Otherwise return the original value
-      itemsInternal.value[index];
+      itemToClone;
 
   const newItems = [
     ...itemsInternal.value.slice(0, index + 1),

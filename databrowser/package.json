@@ -8,10 +8,13 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
+    "test": "run-p build && vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint --cache --max-warnings 0 src",
     "lint:fix": "eslint --cache --max-warnings 0 --fix src",
-    "prepare": "cd .. && husky",
-    "test": "run-p build"
+    "prepare": "cd .. && husky"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
@@ -52,17 +55,22 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.0.13",
     "@types/ramda": "^0.30.2",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-vue": "^6.0.0",
+    "@vitest/ui": "^2.1.8",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.6.0",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.30.1",
     "eslint-plugin-vue": "^10.3.0",
+    "happy-dom": "^15.11.7",
     "husky": "^9.1.7",
+    "js-yaml": "^4.1.0",
     "npm-run-all2": "^8.0.4",
     "openapi-types": "^12.1.3",
     "postcss": "^8.4.49",
@@ -71,6 +79,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "vite": "^7.0.4",
+    "vitest": "^2.1.8",
     "vue-tsc": "^3.0.1"
   }
 }
