@@ -83,7 +83,12 @@ export const useEnrichWithPushResponse = (
         undefined
       );
       const responseData = await axiosInstance
-        .post(url, body.value)
+        .post(url, body.value, {
+          params: {
+            latest: true,
+            pagesize: objectIds.value.length
+          }
+        })
         .then((r) => r.data);
       pushData.value = responseData?.Items ?? responseData?.data ?? responseData;
     } catch (e) {

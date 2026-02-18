@@ -29,7 +29,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <!--        class="flex items-center gap-2"-->
 <!--        @click="emitEvent('sync', close)"-->
 <!--      >-->
-<!--        <IconReload class="text-green-500" />-->
+<!--        <OdhLoading class="text-green-500" />-->
 <!--        <div>{{ t('datasets.header.actions.sync') }}</div>-->
 <!--      </PopoverContent>-->
       <PopoverContentDivider />

@@ -52,7 +52,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               class="flex items-center justify-center gap-2 md:justify-start"
               @click="emitEvent('sync', close)"
             >
-              <IconReload class="text-green-500" />
+              <OdhLoading class="text-green-500" />
               <div class="hidden md:block">{{ t('datasets.listView.viewLinks.forceSync.short') }}</div>
             </PopoverContent>
             <PopoverContentDivider class="hidden md:block" />
@@ -127,6 +127,7 @@ import IconReload from '@/components/svg/IconReload.vue';
 import IconClose from '@/components/svg/IconClose.vue';
 import { RecordId } from '@/domain/datasets/types';
 import IconEdit from '@/components/svg/IconEdit.vue';
+import OdhLoading from '@/components/svg/odh/OdhLoading.vue';
 
 const { t } = useI18n();
 
