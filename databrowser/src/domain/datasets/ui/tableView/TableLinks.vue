@@ -21,6 +21,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="recordId"
       :showDelete="showDelete"
       :showEdit="showEdit"
+      :showForceSync="showForceSync"
+      :showPush="showPush"
       :showDuplicate="addRecordSupported"
       :title="t('datasets.listView.viewLinks.edit.title')"
       data-test="dataset-edit-link"
@@ -69,6 +71,8 @@ const props = defineProps<{
   data: RecordActionsData;
   showEdit: boolean;
   showDelete: boolean;
+  showForceSync: boolean;
+  showPush: boolean;
 }>();
 
 const { recordId,data } = toRefs(props);

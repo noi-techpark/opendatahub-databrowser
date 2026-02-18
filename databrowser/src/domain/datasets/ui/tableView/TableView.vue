@@ -14,12 +14,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
       <div v-else class="flex flex-1 flex-col overflow-y-auto">
         <TableContent
-            :cols="cols"
-            :rows="rows"
-            :show-detail="hasDetailView"
-            :show-edit="editRecordSupported"
-            :show-delete="deleteRecordSupported"
-            :dataset-domain="datasetDomain"
+          :cols="cols"
+          :rows="rows"
+          :show-detail="hasDetailView"
+          :show-edit="editRecordSupported"
+          :show-delete="deleteRecordSupported"
+          :show-force-sync="isAuthenticated"
+          :show-push="isAuthenticated"
+          :dataset-domain="datasetDomain"
         />
       </div>
 
@@ -27,7 +29,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </div>
 
     <TableFooter :pagination="pagination" />
-
   </section>
 
   <EditListDeleteDialog
@@ -62,10 +63,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia';
 import LoadingError from '@/components/loading/LoadingError.vue';
 import TableContent from './TableContent.vue';
 import TableFooter from './TableFooter.vue';
@@ -79,6 +80,7 @@ import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttribu
 import PushDataDialog from '@/domain/cellComponents/components/cells/pushDataCell/PushDataDialog.vue';
 import SyncDataDialog from '@/domain/cellComponents/components/cells/syncDataConfigCell/SyncDataDialog.vue';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
+import { useAuth } from '@/domain/auth/store/auth.ts';
 
 const { t } = useI18n();
 
@@ -97,8 +99,17 @@ const {
 } = useTableLoad();
 
 const tableViewStore = useTableViewStore();
-const { isPushDialogOpen,pushDialogPayload, isSyncDialogOpen, syncDialogPayload } = storeToRefs(tableViewStore);
+const {
+  isPushDialogOpen,
+  pushDialogPayload,
+  isSyncDialogOpen,
+  syncDialogPayload,
+} = storeToRefs(tableViewStore);
 
+const auth = useAuth();
+const isAuthenticated = computed(
+  () => auth.isAuthenticated
+);
 
 const { deleteDialog, onDelete, isDeleting, closeDeleteConfirmation } =
   useTableDelete(fullPath, refetch);
@@ -108,5 +119,4 @@ const { deleteDialog, onDelete, isDeleting, closeDeleteConfirmation } =
 const { currentRoute } = useRouter();
 const { setRouteQuery } = useTableViewRouteQueryStore();
 watch(currentRoute, ({ query }) => setRouteQuery(query), { immediate: true });
-
 </script>

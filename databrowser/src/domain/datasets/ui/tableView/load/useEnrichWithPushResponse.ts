@@ -78,17 +78,13 @@ export const useEnrichWithPushResponse = (
         pushData.value = undefined;
         return;
       }
-
       const axiosInstance = await axiosWithMaybeAuth(
         true,
         undefined
       );
-
       const responseData = await axiosInstance
         .post(url, body.value)
         .then((r) => r.data);
-
-      // normalizza wrapper Items/data
       pushData.value = responseData?.Items ?? responseData?.data ?? responseData;
     } catch (e) {
       isError.value = true;
@@ -108,30 +104,15 @@ export const useEnrichWithPushResponse = (
       if (!pushObject || !pushObject.Id) continue;
       const key = String(pushObject.Id).trim();
       if (!key) continue;
-      const prev = dataMap.get(key);
-      if (!prev) {
-        dataMap.set(key, row);
-        continue;
-      }
 
-      const prevDate = (prev as AnyRow | undefined)?.Date;
-      const curDate  = (row as AnyRow | undefined)?.Date;
-      const prevT = Date.parse(typeof prevDate === 'string' ? prevDate : '');
-      const curT  = Date.parse(typeof curDate === 'string' ? curDate : '');
-      if (!Number.isFinite(prevT) && Number.isFinite(curT)) {
-        dataMap.set(key, row);
-        continue;
-      }
-      if (Number.isFinite(prevT) && !Number.isFinite(curT)) {
-        continue;
-      }
-      if (curT >= prevT) {
+      if (!dataMap.has(key)) {
         dataMap.set(key, row);
       }
     }
 
     return dataMap;
   });
+
 
   const mergedData = computed(() => {
     const base = asArray(toValue(baseRows));
@@ -153,6 +134,6 @@ export const useEnrichWithPushResponse = (
     isError,
     error,
     refetch: doFetch,
-    pushData, // raw data
+    pushData, // raw data if needed
   };
 };
