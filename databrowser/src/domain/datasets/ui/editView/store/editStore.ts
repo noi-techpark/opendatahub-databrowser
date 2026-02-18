@@ -4,7 +4,7 @@
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import * as R from 'ramda';
-import { markRaw, toRaw } from 'vue';
+import { markRaw } from 'vue';
 import { EditData, initialState } from './initialState';
 import { PropertyUpdate,EditStoreAction } from './types';
 
@@ -33,7 +33,6 @@ export const useEditStore = defineStore('editStore', {
     },
     setCurrent(next: EditData) {
       this.current = markRaw(next);
-      console.log("current has been set to:", toRaw(this.current));
     },
     updateProperties(update: PropertyUpdate) {
       const updates = Array.isArray(update) ? update : [update];
