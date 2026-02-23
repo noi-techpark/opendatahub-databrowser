@@ -228,6 +228,12 @@ const mapConfig = computed<{
 
     if ('coordinates' in geometry) {
       addCoordsToBounds(geometry.coordinates);
+    } else if (geometry.type === 'GeometryCollection' && 'geometries' in geometry) {
+      for (const subGeometry of geometry.geometries) {
+        if ('coordinates' in subGeometry) {
+          addCoordsToBounds(subGeometry.coordinates);
+        }
+      }
     }
 
     if (!bounds.isEmpty()) {

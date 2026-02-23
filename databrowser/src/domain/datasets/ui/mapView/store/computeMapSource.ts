@@ -129,37 +129,42 @@ const computeMapSourceFromGeoData = (
   records: GeoDataRecord[],
   geoDataField: string
 ): MapSourcesByGeometryType => {
-  // Extract geometries from records
+  // Extract geometries from records, decomposing GeometryCollections
   const geometryRecords = records
-    .map((record): GeometryRecord | null => {
+    .flatMap((record): GeometryRecord[] => {
       const recordId = record.Id;
       const recordName = record.Shortname;
 
-      if (!recordId || !recordName) return null;
+      if (!recordId || !recordName) return [];
 
       // Access GeoData field dynamically
       const geoData = record[geoDataField] as Record<string, GeoDataEntry> | undefined;
-      if (!geoData) return null;
+      if (!geoData) return [];
 
       // Find the appropriate entry
       const geoEntry = Object.values(geoData).find((entry) => entry.Default === true);
 
-      if (!geoEntry?.Geometry) return null;
+      if (!geoEntry?.Geometry) return [];
 
       // Parse WKT to GeoJSON
       try {
         const geometry = parseWKT(geoEntry.Geometry);
-        return {
-          geometry,
-          recordId,
-          recordName,
-        };
+
+        // Decompose GeometryCollections so each sub-geometry renders in its own layer
+        if (geometry.type === 'GeometryCollection') {
+          return geometry.geometries.map((subGeometry) => ({
+            geometry: subGeometry,
+            recordId,
+            recordName,
+          }));
+        }
+
+        return [{ geometry, recordId, recordName }];
       } catch (error) {
         console.warn(`Failed to parse WKT for record ${recordId}:`, error);
-        return null;
+        return [];
       }
-    })
-    .filter((p): p is GeometryRecord => p !== null);
+    });
 
   // Use shared logic to create sources
   return createMultiGeometrySources(geometryRecords);

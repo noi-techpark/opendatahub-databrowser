@@ -57,6 +57,7 @@ Feature<Geometry, {
 }
 
 mapViewStore.fetchDatasets().then(() => {
+  console.log(datasetIds.value)
   if (datasetIds.value == null) {
     return;
   }
