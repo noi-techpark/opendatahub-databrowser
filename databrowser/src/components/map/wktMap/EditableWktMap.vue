@@ -232,15 +232,28 @@ const displayWktGeometry = (wktString: string) => {
       // For other geometries, add to draw in static mode
       if (draw.value) {
         draw.value.deleteAll();
-        const feature: Feature = {
-          type: 'Feature',
-          geometry,
-          properties: {},
-        };
-        draw.value.add(feature);
-        draw.value.changeMode('simple_select');
 
-        // Map is already initialized with correct center/zoom from wrapper
+        // MapboxDraw doesn't support GeometryCollection — decompose into individual features
+        const geometries = geometry.type === 'GeometryCollection'
+          ? geometry.geometries
+          : [geometry];
+
+        for (const geom of geometries) {
+          // Points inside a collection get markers, others go to draw
+          if (geom.type === 'Point') {
+            const coords = geom.coordinates as [number, number];
+            new Marker().setLngLat([coords[0], coords[1]]).addTo(map.value!);
+          } else {
+            const feature: Feature = {
+              type: 'Feature',
+              geometry: geom,
+              properties: {},
+            };
+            draw.value.add(feature);
+          }
+        }
+
+        draw.value.changeMode('simple_select');
       }
     }
   } catch (error) {

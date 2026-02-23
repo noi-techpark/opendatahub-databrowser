@@ -123,7 +123,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                       :filter-selected="filterSelectedForComponent"
                       class="mr-2"
                     />
-                    {{ t('overview.listPage.deprecated') }}
+                    {{ t('overview.listPage.deprecated.name') }}
                   </div>
                   <div>
                     <InfoPopover>

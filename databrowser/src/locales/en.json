@@ -408,6 +408,9 @@
       "actions": {
         "diff": "Diff",
         "edit": "Edit"
+      },
+      "map": {
+        "clickOnTheMapToDrawGeometry": "Click to draw"
       }
     },
     "download": {
