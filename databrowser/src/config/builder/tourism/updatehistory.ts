@@ -15,6 +15,7 @@ export const updatehistoryCategory = (): DetailElements => ({
     {
       name: 'Last Update',
       properties: [
+        updatehistoryRevisionCell(),
         updatehistoryLastUpdateCell(),
         updatehistoryUpdateSourceCell(),
         updatehistoryUpdatedByCell(),
@@ -27,6 +28,11 @@ export const updatehistoryCategory = (): DetailElements => ({
   ],
 });
 
+export const updatehistoryRevisionCell = (): PropertyConfig => ({
+  title: 'revision',
+  component: CellComponent.StringCell,
+  objectMapping: { text: '_Meta.UpdateInfo.Revision', readonly: 'true' },
+});
 export const updatehistoryLastUpdateCell = (): PropertyConfig => ({
   title: 'date',
   component: CellComponent.EditedDateCell,
