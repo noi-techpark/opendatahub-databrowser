@@ -6,13 +6,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <!-- Nested array table container with visual border for clarity -->
-  <EditListTable :items="items" :editable="editable">
+  <EditListTable :items="items" :editable="editable" :hide-settings-column="hideSettingsColumn">
     <!-- Define column widths to distribute space evenly -->
     <template #colGroup>
       <col
         v-for="(property, index) in filteredProperties"
         :key="index"
-        :class="getColumnWidthClass()"
+        :class="property.class || getColumnWidthClass()"
       />
     </template>
 
@@ -87,6 +87,8 @@ const props = withDefaults(
     editable?: boolean;
     // Deprecation info from parent - merged with nested property deprecation
     parentDeprecationInfo?: DeprecationInfo[];
+    // Hide settings column (delete, duplicate, navigate actions)
+    hideSettingsColumn?: boolean;
   }>(),
   {
     items: () => [],
@@ -94,6 +96,7 @@ const props = withDefaults(
     pathToParent: '',
     editable: false,
     parentDeprecationInfo: () => [],
+    hideSettingsColumn: false,
   }
 );
 

@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :path-to-parent="pathToParent"
         :editable="editable"
         :parent-deprecation-info="parentDeprecationInfo"
+        :hide-settings-column="hideSettings"
         @update="handleUpdate"
       />
     </template>
@@ -42,7 +43,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { DeprecationInfo, PropertyConfig } from '../../../../datasets/config/types';
+import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 import EditListCell from '../../utils/editList/EditListCell.vue';
 import EditNestedArrayTable from './EditNestedArrayTable.vue';
 import EditNestedArrayTab from './EditNestedArrayTab.vue';
@@ -55,6 +58,8 @@ const props = withDefaults(
     editable?: boolean;
     // Deprecation info from parent - propagated to nested properties
     parentDeprecationInfo?: DeprecationInfo[];
+    // Hide settings column (delete, duplicate, navigate actions)
+    hideSettingsColumn?: boolean | string;
   }>(),
   {
     items: () => [],
@@ -62,8 +67,11 @@ const props = withDefaults(
     pathToParent: '',
     editable: false,
     parentDeprecationInfo: () => [],
+    hideSettingsColumn: false,
   }
 );
+
+const hideSettings = computed(() => booleanOrStringToBoolean(props.hideSettingsColumn));
 
 const emit = defineEmits<{
   update: [value: { prop: string; value: unknown[] }];
