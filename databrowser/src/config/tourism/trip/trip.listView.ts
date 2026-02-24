@@ -30,6 +30,14 @@ export const tripListView: ListViewConfig = {
       },
     },
     {
+      title: 'Agency',
+      component: CellComponent.StringCell,
+      class: 'w-40',
+      objectMapping: {
+        text: 'Agency.Shortname',
+      },
+    },
+    {
       title: 'Tags',
       component: CellComponent.ArrayCell,
       class: 'w-48',
@@ -54,6 +62,35 @@ export const tripListView: ListViewConfig = {
       class: 'w-48',
       objectMapping: {
         date: 'Route.Calendar.OperationSchedule.Stop',
+      },
+    },
+    {
+      title: 'Stops',
+      component: CellComponent.EditNestedArrayCell,
+      class: 'w-[40rem]',
+      params: {
+        hideSettingsColumn: 'true',
+      },
+      arrayMapping: {
+        targetPropertyName: 'stopTimes',
+        pathToParent: 'StopTimes',
+        properties: [
+          {
+            title: 'Shortname',
+            component: CellComponent.StringCell,
+            objectMapping: { text: 'Shortname' },
+          },
+          {
+            title: 'Arrival',
+            component: CellComponent.EditedDateCell,
+            objectMapping: { date: 'ArrivalTime' },
+          },
+          {
+            title: 'Departure',
+            component: CellComponent.EditedDateCell,
+            objectMapping: { date: 'DepartureTime' },
+          },
+        ],
       },
     },
     geoDataTableCell(),

@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #colGroup>
       <col class="w-32 md:w-40" />
       <col class="w-44 md:w-48" />
-      <col class="w-40 md:w-44" />
+      <col class="w-64 md:w-80" />
       <col class="w-24 md:w-24" />
       <col class="w-40 md:w-44" />
       <col class="w-32 md:w-40" />
@@ -39,7 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div v-else>Missing coordinates</div>
       </TableCell>
       <TableCell>{{ item.Type }}</TableCell>
-      <TableCell>{{ item.Geometry }}</TableCell>
+      <TableCell class="break-all">{{ item.Geometry }}</TableCell>
       <TableCell><ToggleButtonCell :enabled="item.Default" :readonly="false" :text="(item.Default || false).toString()"/></TableCell>
       <TableCell>{{ item.Latitude }}</TableCell>
       <TableCell>{{ item.Longitude }}</TableCell>
