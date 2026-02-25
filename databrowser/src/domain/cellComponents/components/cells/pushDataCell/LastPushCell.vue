@@ -5,9 +5,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div v-if="date != null">
-    <span class="block">{{ formattedDistance }}</span>
-    <span class="block text-gray-600">{{ formattedDate }}</span>
+  <div>
+    <span  v-if="date != null"  class="block">{{ formattedDistance }}</span>
+    <span  v-if="date != null" class="block text-gray-600">{{ formattedDate }}</span>
 
     <ButtonCustom
       :disabled="disabled"

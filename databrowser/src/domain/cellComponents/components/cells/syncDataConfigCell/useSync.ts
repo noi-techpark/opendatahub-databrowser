@@ -40,9 +40,8 @@ export const sendSyncRequest = async (
 
   const baseUrl = import.meta.env.VITE_APP_SYNC_URL;
   try {
-    // https://tourism.importer.opendatahub.com/Raven/{metaType}/Update/{id}
     const { data } = await axios<OdhSyncResponse>({
-      url: `${baseUrl}/${metaType}/Update/${id}`,
+      url: `${baseUrl}/${metaType}/${id}`,
       method: 'post',
     });
 

@@ -44,7 +44,7 @@ export const useDatasetBaseInfo = (
   );
 
   // Compute dataset location info
-  const { datasetDomain, datasetPath, datasetQuery, datasetId, fullPath } =
+  const { datasetDomain, datasetPath, datasetQuery, datasetId, fullPath, pushResponseFullPath } =
     useComputeDatasetLocation({
       datasetConfig,
       viewKey,
@@ -92,6 +92,7 @@ export const useDatasetBaseInfo = (
     datasetQuery,
     datasetId,
     fullPath,
+    pushResponseFullPath,
     viewKey,
     hasConfig: computed(() => datasetConfigWithUserSettings.value != null),
     baseViews,

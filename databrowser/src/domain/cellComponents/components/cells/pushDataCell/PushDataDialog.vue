@@ -23,6 +23,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               {{ t('components.pushData.dialog.contactSupport2') }}
             </a>
           </div>
+
+          <ButtonCustom
+            :variant="Variant.ghost"
+            :size="Size.sm"
+            class="mt-6 w-full font-semibold"
+            @click="close"
+          >
+            {{ t('components.pushData.dialog.buttonCancel') }}
+          </ButtonCustom>
+
         </div>
 
         <div v-else>
@@ -55,10 +65,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 : t('components.pushData.dialog.buttonBeforeSend')
             }}
           </ButtonCustom>
-          <ButtonCustom 
-            :variant="Variant.ghost" 
+          <ButtonCustom
+            :variant="Variant.ghost"
             :size="Size.sm"
-            class="mb-6 w-full font-semibold" 
+            class="mb-6 w-full font-semibold"
             @click="close"
           >
             {{ t('components.pushData.dialog.buttonCancel') }}
@@ -94,8 +104,8 @@ import { Publisher } from './types';
 const { closePushDialog } = useTableViewStore();
 const { t } = useI18n();
 
-defineProps<{ 
-  isOpen: boolean;  
+defineProps<{
+  isOpen: boolean;
   payload: PushDialogPayload
 }>();
 

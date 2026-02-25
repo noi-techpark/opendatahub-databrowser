@@ -21,6 +21,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="recordId"
       :showDelete="showDelete"
       :showEdit="showEdit"
+      :showForceSync="showForceSync"
+      :showPush="showPush"
       :showDuplicate="addRecordSupported"
       :title="t('datasets.listView.viewLinks.edit.title')"
       data-test="dataset-edit-link"
@@ -57,6 +59,7 @@ import IconEye from '@/components/svg/IconEye.vue';
 import { useDatasetPermissionStore } from '@/domain/datasets/permission/store/datasetPermissionStore.ts';
 import { usePathsForCurrentRoute } from '@/domain/datasets/ui/header/usePaths.ts';
 import { useEditStore } from '@/domain/datasets/ui/editView/store/editStore.ts';
+import { useSync } from '@/domain/cellComponents/components/cells/syncDataConfigCell/useSync.ts';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -68,6 +71,8 @@ const props = defineProps<{
   data: RecordActionsData;
   showEdit: boolean;
   showDelete: boolean;
+  showForceSync: boolean;
+  showPush: boolean;
 }>();
 
 const { recordId,data } = toRefs(props);
@@ -113,6 +118,8 @@ const precompileNewViewData = (data: RecordActionsData) => {
   delete newData._Meta;
 
   // init edit store
+  editStore.setAction('duplicate');
+  editStore.setInitial({});
   editStore.setCurrent(newData);
 };
 
@@ -143,9 +150,13 @@ const onPush = () => {
   });
 };
 
+const { sendSync } = useSync();
 const onSync = () => {
-  //TODO: implement it
+  if(metaType.value && metaId.value){
+    sendSync(metaType.value, metaId.value);
+  }
 };
+
 const onOpenAnalytics = () => {
   //TODO: implement it
 };

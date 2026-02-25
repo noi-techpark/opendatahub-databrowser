@@ -6,11 +6,14 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 import * as R from 'ramda';
 import { markRaw } from 'vue';
 import { EditData, initialState } from './initialState';
-import { PropertyUpdate } from './types';
+import { PropertyUpdate,EditStoreAction } from './types';
 
 export const useEditStore = defineStore('editStore', {
   state: () => initialState,
   getters: {
+    isDuplicateAction(state) {
+      return (state.action === 'duplicate');
+    },
     initialAsJson(state) {
       return JSON.stringify(state.initial, null, 2);
     },
@@ -22,6 +25,9 @@ export const useEditStore = defineStore('editStore', {
     },
   },
   actions: {
+    setAction(action: EditStoreAction | null) {
+      this.action = action;
+    },
     setInitial(initial: EditData) {
       this.initial = markRaw(initial);
     },

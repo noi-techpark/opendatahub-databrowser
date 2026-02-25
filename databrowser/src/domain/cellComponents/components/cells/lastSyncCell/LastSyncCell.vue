@@ -34,7 +34,7 @@ import { useAuth } from '@/domain/auth/store/auth';
 const props = withDefaults(
     defineProps<{
       id: string;
-      text: string;
+      text?: string;
       type:string;
       hasAction?: string;
       date?: string;
@@ -72,7 +72,7 @@ const formattedDistance = computed(() => {
 const doAction = () => {
   openSyncDialog({
     id: props.id,
-    title: props.text,
+    title: props.text ?? "",
     type: props.type
   });
 }
