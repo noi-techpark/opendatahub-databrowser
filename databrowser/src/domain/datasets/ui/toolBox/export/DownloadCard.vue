@@ -107,10 +107,12 @@ const isDownloadInProgress = computed(()=>{
 })
 
 const isDownloadButtonDisabled = computed(() => {
-  return (!isDownloadJson.value && !isDownloadCSV.value) || isDownloadInProgress.value;
+  const canDownloadCsv = isDownloadCSV.value && datasetDomain.value === 'tourism';
+  const canDownloadJson = isDownloadJson.value;
+  return (!canDownloadCsv && !canDownloadJson) || isDownloadInProgress.value;
 });
 
-const { datasetDomain, datasetPath, datasetQuery } = storeToRefs(
+const { datasetDomain, datasetPath, datasetQuery, datasetId } = storeToRefs(
   useDatasetBaseInfoStore()
 );
 const { currentMetaData } = useMetaDataForRoute(datasetPath, datasetQuery);
@@ -122,6 +124,14 @@ const download = () => {
   if (downloadUrl == null) {
     console.error('Invalid URL:', url.value);
     return;
+  }
+
+
+  if (datasetId.value != null) {
+    downloadUrl.pathname = downloadUrl.pathname.replace(
+      new RegExp(`/${datasetId.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`),
+      ''
+    );
   }
 
   // Set request parameters based on API and download type
@@ -146,10 +156,8 @@ const download = () => {
   if (isDownloadJson.value) {
     startDownload(`${downloadUrl}`, filename, 'json');
   }
-  if (isDownloadCSV.value) {
-    if (datasetDomain.value === 'tourism') {
-      downloadUrl.searchParams.set('format', 'csv');
-    }
+  if (isDownloadCSV.value && datasetDomain.value === 'tourism') {
+    downloadUrl.searchParams.set('format', 'csv');
     startDownload(`${downloadUrl}`, filename, 'csv');
   }
 };

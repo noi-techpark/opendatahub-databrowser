@@ -183,7 +183,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 :src="
                   getImageSrc(item.src, {
                     resize: shouldResize(isFullscreen, resizeImages),
-                    preferredWidth: 30,
+                    preferredWidth: 800,
                   })
                 "
                 :alt="item.alt"
