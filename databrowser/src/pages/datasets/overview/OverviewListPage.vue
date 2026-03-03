@@ -733,13 +733,13 @@ const visibleDatasets = computed(() => {
           !parsedAcceptedValues.includes('single')
         ) {
           datasets = datasets.filter((dataset) => {
-            let matchPref = true;
+            // A "single" dataset has API filters applied (non-empty apiFilter).
+            // An "aggregated" dataset has no API filters (empty apiFilter).
+            const isSingle = Object.keys(dataset.apiFilter).length > 0;
             if (parsedAcceptedValues.includes('aggregated')) {
-              matchPref = false;
+              return !isSingle;
             }
-            return (
-              (dataset[key as TourismMetaDataIndexes]! as boolean) === matchPref
-            );
+            return isSingle;
           });
         }
         break;

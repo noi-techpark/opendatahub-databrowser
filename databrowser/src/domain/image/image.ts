@@ -16,7 +16,8 @@ export const getImageSrc = (
   const { resize = false, preferredWidth } = options || {};
 
   if (resize && preferredWidth != null) {
-    return `${src}&width=${preferredWidth}`;
+    const separator = src.includes('?') ? '&' : '?';
+    return `${src}${separator}width=${preferredWidth}`;
   }
 
   return src;

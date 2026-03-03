@@ -7,7 +7,7 @@ import { readonly, ref } from 'vue';
 import { toError } from '../utils/convertError';
 import { wrapAxiosFetchWithAuth } from './apiAuth';
 
-export const useDownload = (url: string) => {
+export const useDownload = (url: string, acceptHeader?: string) => {
   const downloading = ref(false);
   const downloadAbortController = ref(new AbortController());
   const downloadProgress = ref(0);
@@ -35,6 +35,7 @@ export const useDownload = (url: string) => {
         responseType: 'blob',
         signal: downloadAbortController.value.signal,
         onDownloadProgress,
+        headers: acceptHeader != null ? { Accept: acceptHeader } : undefined,
       });
 
       console.debug('Download success', response.status);

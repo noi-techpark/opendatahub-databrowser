@@ -373,13 +373,16 @@ const useFilteredMetadata = (
           return false;
         }
 
-        // If a singleDataset filter is active, the item must match the filter value
-        if (key === 'singleDataset' && filterMappings.value[key].length === 1) {
-          if (value === 'aggregated' && item.parent != null) {
-            return false;
-          }
-          if (value === 'single' && item.parent == null) {
-            return false;
+        if (key === 'singleDataset') {
+          const selectedValues = filterMappings.value[key];
+          if (selectedValues.length > 0) {
+            const itemIsSingle = Object.keys(item.apiFilter).length > 0;
+            const matches = selectedValues.some((selectedValue) => {
+              if (selectedValue === 'aggregated') return !itemIsSingle;
+              if (selectedValue === 'single') return itemIsSingle;
+              return true;
+            });
+            if (!matches) return false;
           }
         }
       }

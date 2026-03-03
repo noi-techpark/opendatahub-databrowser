@@ -117,7 +117,10 @@ export const useDownloadStore = defineStore('downloadStore', {
           downloadResponse,
           downloadAbortController,
           startDownload,
-        } = useDownload(download.url);
+        } = useDownload(
+          download.url,
+          download.format === 'csv' ? 'text/csv' : 'application/json'
+        );
 
         // Assign the abort controller for this download to be able to abort it later
         download.abortController = downloadAbortController.value;
@@ -149,11 +152,33 @@ export const useDownloadStore = defineStore('downloadStore', {
           (error.name === 'CanceledError' || error.code === 'ERR_CANCELED');
 
         // Extract error message
-        const errorMessage = isAbortError
-          ? // If the download was aborted, use the abort reason or a default message
-            download.abortController?.signal.reason || 'Download aborted'
-          : // Otherwise, convert the error to a standard Error object
-            toError(error).message;
+        let errorMessage: string;
+        if (isAbortError) {
+          errorMessage =
+            download.abortController?.signal.reason || 'Download aborted';
+        } else if (
+          error instanceof AxiosError &&
+          error.response?.data instanceof Blob
+        ) {
+          try {
+            const text = await error.response.data.text();
+            try {
+              const json = JSON.parse(text);
+              errorMessage =
+                json.message ||
+                json.error ||
+                json.detail ||
+                `(${error.response.status}) ${text.slice(0, 300)}`;
+            } catch {
+              errorMessage = `(${error.response?.status}) ${text.slice(0, 300)}`;
+            }
+          } catch {
+            errorMessage = toError(error).message;
+          }
+        } else {
+          // Otherwise, convert the error to a standard Error object
+          errorMessage = toError(error).message;
+        }
 
         this.updateDownload(download.id, 'failed', 0, errorMessage, null);
       }
