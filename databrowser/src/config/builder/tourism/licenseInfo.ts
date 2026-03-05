@@ -17,12 +17,21 @@ export const licenseInfoCategory = (): DetailElements => ({
           component: CellComponent.SelectWithOptionsCell,
           objectMapping: { value: 'LicenseInfo.License' },
           params: {
-            value_001: 'CC0',
-            label_001: 'CC0',
-            value_002: 'CC-BY',
-            label_002: 'CC-BY',
-            value_003: 'Closed',
-            label_003: 'Closed',
+              value_001: 'CC0',
+              label_001: 'CC0',
+              value_002: 'CC BY',
+              label_002: 'CC BY',
+              value_003: 'LTS',
+              label_003: 'Proprietary LTS',
+              value_004: 'CC BY-SA',
+              label_004: 'CC BY-SA',
+              value_005: 'CC BY-NC-SA',
+              label_005: 'CC BY-NC-SA',
+              value_006: 'CC BY-ND-SA',
+              label_006: 'CC BY-ND-SA',
+              value_007: 'Closed',
+              label_007: 'Closed'
+
           },
         },
         {

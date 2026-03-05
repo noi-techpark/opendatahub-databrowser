@@ -83,7 +83,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               value_006="CC BY-ND-SA"
               label_006="CC BY-ND-SA"
               value_007="Closed"
-              label_007="Proprietary"
+              label_007="Closed"
               @update="updateItem(index, { license: $event.value })"
             />
           </SubCategoryItem>
