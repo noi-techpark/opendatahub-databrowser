@@ -14,3 +14,8 @@ export type InputType =
   | 'time'
   | 'url'
   | 'week';
+
+export enum Variant {
+  solid = 'solid',
+  transparent = 'transparent',
+}

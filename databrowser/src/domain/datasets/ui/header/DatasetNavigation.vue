@@ -34,15 +34,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           v-if="!isNewView && hasDetailView"
           :label="t('datasets.navigation.detailView')"
           :to="{ ...detailLocation, hash }"
-          :active="isDetailView"
+          :active="isDetailView || isEditView"
           data-test="detail-view-link"
-        />
-        <TabLink
-          v-if="!isNewView && hasEditView && editRecordSupported"
-          :label="t('datasets.navigation.editView')"
-          :to="{ ...editLocation, hash }"
-          :active="isEditView"
-          data-test="edit-view-link"
         />
         <TabLink
           v-if="!isNewView"
@@ -51,6 +44,64 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :active="isRawView"
           data-test="raw-view-link"
         />
+
+        <div class="ml-auto flex items-center space-x-2">
+          <template class="hidden md:flex space-x-2">
+
+            <DiffChanges v-if="isDiffEditing && (isEditView || (isRawView && isRawEditing))"></DiffChanges>
+            <ButtonsGroup v-if="isDiffEditing && isRawView && isRawEditing">
+              <ButtonCustom
+                :variant="diffEditModeHorizontalVariant"
+                @click="setDiffEditMode(DiffEditMode.HORIZONTAL)"
+                size="xs"
+                class="flex h-6 items-center rounded-none px-3 py-1 first:rounded-l-md last:rounded-r-md"
+                :class="{
+                  'bg-white text-green-500':
+                    diffEditMode !== DiffEditMode.HORIZONTAL,
+                }"
+              >
+                <OdhJsonDiffVertical class="size-4" />
+              </ButtonCustom>
+              <ButtonCustom
+                :variant="diffEditModeVerticalVariant"
+                @click="setDiffEditMode(DiffEditMode.VERTICAL)"
+                size="xs"
+                class="flex h-6 items-center rounded-none px-3 py-1 first:rounded-l-md last:rounded-r-md"
+                :class="{
+                  'bg-white text-green-500':
+                    diffEditMode !== DiffEditMode.VERTICAL,
+                }"
+              >
+                <OdhJsonDiffHorizontal class="size-4" />
+              </ButtonCustom>
+            </ButtonsGroup>
+
+            <ButtonCustom
+              v-if="isEditView || (isRawView && isRawEditing)"
+              :variant="diffEditingVariant"
+              @click="toggleDiffEditingMode"
+              size="xs"
+              class="flex h-6 items-center px-3 py-1"
+              :class="{ 'bg-white text-green-500': !isDiffEditing }"
+            >
+              <OdhJsonDiff class="mr-2 size-3" />
+              {{ t('datasets.navigation.actions.diff') }}
+            </ButtonCustom>
+          </template>
+
+          <ButtonCustom
+            :disabled="!hasEditView || !editRecordSupported"
+            :variant="editingVariant"
+            :tone="Tone.primary"
+            @click="handleEditToggle"
+            size="xs"
+            class="flex h-6 items-center px-3 py-1"
+            :class="{ 'bg-white text-green-500': !isEditing }"
+          >
+            <IconPencil class="mr-2 size-3" />
+            {{ t('datasets.navigation.actions.edit') }}
+          </ButtonCustom>
+        </div>
       </ContentAlignmentX>
     </div>
   </div>
@@ -58,28 +109,98 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed,watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import ButtonLink from '../../../../components/button/ButtonLink.vue';
-import ContentAlignmentX from '../../../../components/content/ContentAlignmentX.vue';
-import IconStrokedArrowDown from '../../../../components/svg/IconStrokedArrowDown.vue';
-import TabLink from '../../../../components/tab/TabLink.vue';
+import { Tone, Variant } from '@/components/button/types';
+import ButtonLink from '@/components/button/ButtonLink.vue';
+import ContentAlignmentX from '@/components/content/ContentAlignmentX.vue';
+import IconStrokedArrowDown from '@/components/svg/IconStrokedArrowDown.vue';
+import TabLink from '@/components/tab/TabLink.vue';
 import { useDatasetLocationStore } from '../../location/store/useDatasetLocationStore';
 import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
 import { useDatasetViewStore } from '../../view/store/datasetViewStore';
 import { useTableViewRouteQueryStore } from '../tableView/tableViewRouteQueryStore';
+import ButtonCustom from '@/components/button/ButtonCustom.vue';
+import IconPencil from '@/components/svg/IconPencil.vue';
+import OdhJsonDiff from '@/components/svg/odh/OdhJsonDiff.vue';
+import DiffChanges from '@/domain/datasets/ui/common/editor/DiffChanges.vue';
+import ButtonsGroup from '@/components/button/ButtonsGroup.vue';
+import OdhJsonDiffHorizontal from '@/components/svg/odh/OdhJsonDiffHorizontal.vue';
+import OdhJsonDiffVertical from '@/components/svg/odh/OdhJsonDiffVertical.vue';
+import { DiffEditMode } from '@/domain/datasets/view/types';
+import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 
 const { t } = useI18n();
+
+const datasetViewStore = useDatasetViewStore();
+const router = useRouter();
+const { currentRoute } = router;
 
 const {
   hasDetailView,
   hasEditView,
   isDetailView,
   isEditView,
+  isDiffEditing,
+  isRawEditing,
   isNewView,
-  isRawView,
-} = storeToRefs(useDatasetViewStore());
+  diffEditMode,
+} = storeToRefs(datasetViewStore);
+
+
+const isRawView = computed(() => {
+  return !isDetailView.value && !isEditView.value && !isNewView.value;
+});
+
+const toggleDiffEditingMode = () => {
+  datasetViewStore.toggleDiffEditing();
+};
+const handleEditToggle = () => {
+  if(isNewView.value){
+    return;
+  }
+
+  if (isRawView.value) {
+    datasetViewStore.toggleRawEditing();
+  } else {
+    if (isEditView.value) {
+      goToDetailView();
+    } else {
+      goToEditView();
+    }
+  }
+};
+
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const mdAndSmaller = breakpoints.smaller('lg');
+watch(
+  [isRawEditing, mdAndSmaller],
+  ([edit, isSmall], [wasEdit]) => {
+    if (!isSmall) { return;}
+    if (edit && wasEdit !== true) {
+      datasetViewStore.setDiffEditMode(DiffEditMode.VERTICAL);
+
+      if (!isDiffEditing.value) {
+        datasetViewStore.toggleDiffEditing();
+      }
+    }
+  },
+  { immediate: true }
+);
+
+
+const goToEditView = () => {
+  if (hasEditView.value && editRecordSupported.value) {
+    router.push({ ...editLocation.value, hash: hash.value });
+  }
+};
+const goToDetailView = () => {
+  if (hasDetailView.value) {
+    router.push({ ...detailLocation.value, hash: hash.value });
+  }
+};
 
 const { editRecordSupported } = storeToRefs(useDatasetPermissionStore());
 
@@ -91,9 +212,25 @@ const {
   rawLocation,
 } = storeToRefs(useDatasetLocationStore());
 
-const { currentRoute } = useRouter();
-
 const hash = computed(() => currentRoute.value.hash);
+const isEditing = computed(() => {
+  return isEditView.value || (isRawView.value && isRawEditing.value) || isNewView.value;
+});
+const editingVariant = computed(() => {
+  return isEditing.value ? Variant.solid : Variant.ghost;
+});
+const diffEditingVariant = computed(() => {
+  return isDiffEditing.value ? Variant.soft : Variant.ghost;
+});
+const diffEditModeHorizontalVariant = computed(() => {
+  return diffEditMode.value === DiffEditMode.HORIZONTAL ? Variant.soft : Variant.ghost;
+});
+const diffEditModeVerticalVariant = computed(() => {
+  return diffEditMode.value === DiffEditMode.VERTICAL ? Variant.soft : Variant.ghost;
+});
+const setDiffEditMode = (mode: DiffEditMode) => {
+  datasetViewStore.setDiffEditMode(mode);
+};
 
 // Combine query params from TableView with ones from the current route.
 // This is needed to keep the query params when switching between DetailView

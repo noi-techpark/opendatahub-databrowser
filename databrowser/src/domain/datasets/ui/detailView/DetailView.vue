@@ -17,11 +17,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :show-edit-hint="false"
         :editable="false"
       />
-      <ExportDatasetsAndSettingsToolBox
-        :url="fullPath"
-        :references-urls="referencesUrls"
-      />
-      <GoToReferenceAttributeDialog />
+
+      <DetailViewToolBox :url="fullPath" :references-urls="referencesUrls"></DetailViewToolBox>
     </div>
   </template>
 </template>
@@ -31,8 +28,7 @@ import { computed } from 'vue';
 import LoadingError from '../../../../components/loading/LoadingError.vue';
 import MainAndSubCategories from '../common/MainAndSubCategories.vue';
 import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
-import ExportDatasetsAndSettingsToolBox from '../toolBox/export/ExportDatasetsAndSettingsToolBox.vue';
-import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
+import DetailViewToolBox from '@/domain/datasets/ui/detailView/toolBox/DetailViewToolBox.vue';
 
 const {
   isError,

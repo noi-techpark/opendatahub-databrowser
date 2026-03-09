@@ -5,18 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <ToolBoxAlignment :class="{ 'bg-gray-50': withBgColor }">
+  <div class="overflow-y-hidden p-4 rounded border">
     <slot></slot>
-  </ToolBoxAlignment>
+  </div>
 </template>
-
-<script setup lang="ts">
-import ToolBoxAlignment from './ToolBoxAlignment.vue';
-
-withDefaults(
-  defineProps<{
-    withBgColor?: boolean;
-  }>(),
-  { withBgColor: false }
-);
-</script>

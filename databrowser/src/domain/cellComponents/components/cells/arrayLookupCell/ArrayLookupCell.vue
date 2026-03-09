@@ -34,9 +34,9 @@ import ArrayLookupTable from './ArrayLookupTable.vue';
 
 const props = withDefaults(
   defineProps<{
-    lookupUrl: string;
-    keySelector: string;
-    labelSelector: string;
+    lookupUrl?: string;
+    keySelector?: string;
+    labelSelector?: string;
     items?: string[] | null;
     unique?: boolean | string;
   }>(),
@@ -53,14 +53,24 @@ const enableUniqueValue = computed(() =>
 const { lookupUrl, keySelector, labelSelector } = toRefs(props);
 
 const optionMapper =
-  (keySelector: MaybeRef<string>, labelSelector: MaybeRef<string>) =>
+  (
+    keySelector: MaybeRef<string | undefined>,
+    labelSelector: MaybeRef<string | undefined>
+  ) =>
   (items: unknown[]) => {
+    const keySelectorValue = toValue(keySelector);
+    const labelSelectorValue = toValue(labelSelector);
+
+    if (keySelectorValue == null || labelSelectorValue == null) {
+      return [];
+    }
+
     const { extractValueByPath } = useDatasetBaseInfoStore();
 
     return items.map((item) => {
-      const value = extractValueByPath(item, toValue(keySelector)) as string;
+      const value = extractValueByPath(item, keySelectorValue) as string;
       const label =
-        (extractValueByPath(item, toValue(labelSelector)) as string) ?? value;
+        (extractValueByPath(item, labelSelectorValue) as string) ?? value;
       const url = extractValueByPath(item, 'Url') as string;
       return { value, label, url };
     });

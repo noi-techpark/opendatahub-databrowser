@@ -6,17 +6,32 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div>
-    <Listbox v-slot="{ open }" v-model="valueInternal">
+    <Listbox v-slot="{ open }" v-model="value">
       <div ref="trigger">
-        <SelectButton
+        <SelectIconButton
+          v-if="iconComponent"
           :id="id"
           :class="[
             !open ? 'rounded' : isBottomPlacement ? 'rounded-t' : 'rounded-b',
             buttonClassNames,
           ]"
+          :label="label"
+          :iconComponent="iconComponent"
+          :selectedElementLabel="selectedLabel"
+          :data-test="`${id}-select-button`"
+        />
+        <SelectButton
+          v-else
+          :id="id"
+          :class="[
+            !open ? 'rounded' : isBottomPlacement ? 'rounded-t' : 'rounded-b',
+            buttonClassNames,
+          ]"
+          :inputButtonClasses="inputButtonClasses"
           :label="selectedLabel"
           :data-test="`${id}-select-button`"
         />
+
         <Teleport to="#popper-root">
           <div
             ref="container"
@@ -55,7 +70,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { Listbox } from '@headlessui/vue';
-import { computed, ref, toRefs, watch } from 'vue';
+import { Component, computed, toRefs } from 'vue';
 import { randomId } from '../utils/random';
 import { useFloatingUi } from '../utils/useFloatingUi';
 import SelectButton from './SelectButton.vue';
@@ -74,17 +89,20 @@ import {
   emptyValueOption,
   unknownValueLabel,
 } from './utils';
+import SelectIconButton from '@/components/select/SelectIconButton.vue';
 
-const emit = defineEmits(['change', 'open']);
+const value = defineModel<SelectValue>();
 
 // Handle input props
 const props = withDefaults(
   defineProps<{
     options?: SelectOption[];
     groupedOptions?: GroupSelectOption[];
-    value?: SelectValue;
     size?: SelectSize;
     id?: string;
+    inputButtonClasses?: string;
+    label?: string;
+    iconComponent?: Component;
     // Show the search box if there are at least this amount of options (default 7)
     // - set this number to zero to always show the search
     // - set this number to Infinity to always hide the search
@@ -98,9 +116,10 @@ const props = withDefaults(
   {
     options: () => [],
     groupedOptions: undefined,
-    value: undefined,
     size: SelectSize.md,
     id: randomId(),
+    inputButtonClasses: '',
+    label:'',
     showSearchWhenAtLeastCountOptions: 7,
     showEmptyValue: false,
     showAddNewValue: false,
@@ -112,23 +131,12 @@ const props = withDefaults(
 const {
   options,
   groupedOptions,
-  value,
   size,
   showEmptyValue,
   showAddNewValue,
   showValueAsLabelFallback,
   showSearchWhenAtLeastCountOptions,
 } = toRefs(props);
-
-const valueInternal = ref(value.value);
-
-watch(value, (v) => (valueInternal.value = v));
-watch(valueInternal, (v) => {
-  // Emit change event only if value has changed internally, but not if input prop has change
-  if (v !== value.value) {
-    emit('change', v);
-  }
-});
 
 // Compute internal options array. If showEmptyValue is set,
 // then a "no value" option is added to the front of the list
@@ -176,8 +184,8 @@ const searchResultsGroupedOptions = computed(() => {
 const selectedLabel = computed(() => {
   const selectedOption = optionsInternal.value.find(
     (option) =>
-      option.value === valueInternal.value ||
-      (option.value == null && valueInternal.value == null)
+      option.value === value.value ||
+      (option.value == null && value.value == null)
   );
 
   if (selectedOption != null) {
@@ -185,10 +193,10 @@ const selectedLabel = computed(() => {
   }
 
   if (showValueAsLabelFallback.value) {
-    return (valueInternal.value as string) ?? '';
+    return (value.value as string) ?? '';
   }
 
-  return unknownValueLabel(valueInternal.value);
+  return unknownValueLabel(value.value);
 });
 
 // Handle options placement

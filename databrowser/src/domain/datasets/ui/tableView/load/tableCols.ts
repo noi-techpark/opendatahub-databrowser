@@ -6,9 +6,9 @@ import { MaybeRef, computed, toValue } from 'vue';
 import { CellComponent } from '../../../../cellComponents/types';
 import { ObjectMapping } from '../../../config/types';
 import { ViewConfigWithType, isTableViewConfig } from '../../../view/types';
-import { Column } from '../types';
-import { useTableViewColsStore } from '../tableViewColsStore';
 import { useToolBoxStore } from '../../toolBox/toolBoxStore';
+import { useTableViewColsStore } from '../tableViewColsStore';
+import { Column } from '../types';
 
 const firstPropertyName = (objectMapping?: ObjectMapping) => {
   const values = Object.values(objectMapping ?? {});
@@ -28,15 +28,20 @@ export const computeTableCols = (
     ? view.elements
     : view.elements.filter((element) => !element.deprecationInfo?.length);
 
-  return elements.map<Column>((element) => {
-    const firstPropertyPath = firstPropertyName(element.objectMapping);
+  return (
+    elements
+      // Remove hidden elements from result
+      .filter((element) => !element.hidden)
+      .map<Column>((element) => {
+        const firstPropertyPath = firstPropertyName(element.objectMapping);
 
-    return {
-      ...element,
-      firstPropertyPath,
-      component: isLoading ? CellComponent.LoadingCell : element.component,
-    };
-  });
+        return {
+          ...element,
+          firstPropertyPath,
+          component: isLoading ? CellComponent.LoadingCell : element.component,
+        };
+      })
+  );
 };
 
 export const useTableCols = (

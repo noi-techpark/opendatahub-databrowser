@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <ButtonCustom
-    class="flex items-center gap-2 p-2 py-1"
+    class="flex items-center gap-2 p-2 py-1 text-green-400 font-normal text-base"
     :size="Size.xs"
     :variant="Variant.ghost"
     @click="emit('resetAllFilters')"

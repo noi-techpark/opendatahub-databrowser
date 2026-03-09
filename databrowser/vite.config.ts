@@ -5,6 +5,7 @@
 import vue from '@vitejs/plugin-vue';
 import dns from 'dns';
 import { defineConfig } from 'vite';
+import path from 'path';
 
 dns.setDefaultResultOrder('verbatim');
 
@@ -17,6 +18,11 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   plugins: [
     vue(),
@@ -32,4 +38,7 @@ export default defineConfig({
     //   },
     // }),
   ],
+  worker: {
+    format: 'es'
+  },
 });

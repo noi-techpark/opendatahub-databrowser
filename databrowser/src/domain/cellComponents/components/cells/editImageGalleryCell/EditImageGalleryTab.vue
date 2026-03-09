@@ -72,10 +72,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               :show-empty-value="true"
               value_001="CC0"
               label_001="CC0"
-              value_002="Proprietary"
-              label_002="Proprietary"
+              value_002="CC BY"
+              label_002="CC BY"
               value_003="LTS"
               label_003="Proprietary LTS"
+              value_004="CC BY-SA"
+              label_004="CC BY-SA"
+              value_005="CC BY-NC-SA"
+              label_005="CC BY-NC-SA"
+              value_006="CC BY-ND-SA"
+              label_006="CC BY-ND-SA"
+              value_007="Closed"
+              label_007="Closed"
               @update="updateItem(index, { license: $event.value })"
             />
           </SubCategoryItem>
@@ -110,9 +118,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             />
           </SubCategoryItem>
           <SubCategoryItem title="Tags"><!-- TODO ADD the EditNestedArrayCell when available -->
-            <ArrayEditableCell 
-            :items="item.imageTags"  
-            :editable="editable"            
+            <ArrayEditableCell
+            :items="item.imageTags"
+            :editable="editable"
             />
           </SubCategoryItem>
         </div>
@@ -183,7 +191,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 :src="
                   getImageSrc(item.src, {
                     resize: shouldResize(isFullscreen, resizeImages),
-                    preferredWidth: 30,
+                    preferredWidth: 800,
                   })
                 "
                 :alt="item.alt"
@@ -203,14 +211,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { useFullscreen } from '@vueuse/core';
 import { ref, toRefs, watch } from 'vue';
-import IconCopy from '../../../../../components/svg/IconCopy.vue';
-import IconDelete from '../../../../../components/svg/IconDelete.vue';
-import IconDownload from '../../../../../components/svg/IconDownload.vue';
-import IconExpanded from '../../../../../components/svg/IconExpanded.vue';
-import IconUpload from '../../../../../components/svg/IconUpload.vue';
+import IconCopy from '@/components/svg/IconCopy.vue';
+import IconDelete from '@/components/svg/IconDelete.vue';
+import IconDownload from '@/components/svg/IconDownload.vue';
+import IconExpanded from '@/components/svg/IconExpanded.vue';
+import IconUpload from '@/components/svg/IconUpload.vue';
 import { useImageUpload } from '../../../../api/useUpload';
 import SubCategoryItem from '../../../../datasets/ui/category/SubCategoryItem.vue';
-import { getImageSrc, getResolutionAsText } from '../../../../image';
+import { getImageSrc, getResolutionAsText } from '@/domain/image';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';

@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { SelectOption } from '../../../../../components/select/types';
-import { echargingdataCategory } from '../../../../../config/builder/tourism/additionalproperties/echargingdata';
-import { poiagedataCategory } from '../../../../../config/builder/tourism/additionalproperties/poiagedata';
-import { poiltsdataCategory } from '../../../../../config/builder/tourism/additionalproperties/poiltsdata';
-import { activityltsdataCategory } from '../../../../../config/builder/tourism/additionalproperties/activityltsdata';
-import { gastronomyltsdataCategory } from '../../../../../config/builder/tourism/additionalproperties/gastronomyltsdata';
-import { suedtirolweincompanydataCategory } from '../../../../../config/builder/tourism/additionalproperties/suedtirolweincompanydata';
-import { siagmuseumdataCategory } from '../../../../../config/builder/tourism/additionalproperties/siagmuseumdata';
+import { SelectOption } from '@/components/select/types';
+import { echargingdataCategory } from '@/config/builder/tourism/additionalproperties/echargingdata';
+import { poiagedataCategory } from '@/config/builder/tourism/additionalproperties/poiagedata';
+import { poiltsdataCategory } from '@/config/builder/tourism/additionalproperties/poiltsdata';
+import { activityltsdataCategory } from '@/config/builder/tourism/additionalproperties/activityltsdata';
+import { gastronomyltsdataCategory } from '@/config/builder/tourism/additionalproperties/gastronomyltsdata';
+import { suedtirolweincompanydataCategory } from '@/config/builder/tourism/additionalproperties/suedtirolweincompanydata';
+import { siagmuseumdataCategory } from '@/config/builder/tourism/additionalproperties/siagmuseumdata';
 import { AdditionalProperty } from './types';
 
 // Add here new additional properties

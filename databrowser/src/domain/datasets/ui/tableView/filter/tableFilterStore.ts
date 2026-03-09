@@ -4,13 +4,14 @@
 
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia';
 import { Ref, computed, ref, watch } from 'vue';
-import { SelectOption } from '../../../../../components/select/types';
+import { SelectOption } from '@/components/select/types';
 import { PropertyPath } from '../../../config/types';
-import { useToolBoxStore } from '../../toolBox/toolBoxStore';
 import { useTableViewColsStore } from '../tableViewColsStore';
 import { useDatasetFilterStore } from './datasetFilterStore';
 import { Filter, FilterOperator, FilterValue } from './types';
-import { useDatasetBaseInfoStore } from '../../../config/store/datasetBaseInfoStore.ts';
+import { useDatasetBaseInfoStore } from '../../../config/store/datasetBaseInfoStore';
+import { useToolBoxStore } from '@/domain/datasets/ui/toolBox/toolBoxStore';
+import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types';
 
 export const useTableFilterStore = defineStore('tableFilterStore', () => {
   const tableFilters = ref<Filter[]>([]);
@@ -72,8 +73,9 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
           value: '',
         },
       ];
+
       // Show toolbox
-      useToolBoxStore().visible = true;
+      useToolBoxStore().setToolBoxSectionKey(ToolBoxSectionKey.FILTERS);
     }
   };
 
@@ -95,7 +97,9 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
     });
 
   // Remove all filters
-  const removeAllFilters = () => (datasetFilters.value = []);
+  const removeAllFilters = () => {
+    datasetFilters.value = []
+  };
 
   // Remove filter for a given propertyPath
   const removeFilterByPropertyPath = (propertyPath?: string) => {

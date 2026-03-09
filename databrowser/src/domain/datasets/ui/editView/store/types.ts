@@ -7,4 +7,6 @@ export interface PropertyValue {
   value: unknown;
 }
 
+export type EditStoreAction = 'new' | 'duplicate';
+
 export type PropertyUpdate = PropertyValue | PropertyValue[];

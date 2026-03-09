@@ -38,21 +38,41 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           class="flex grow md:overflow-y-auto"
           :class="[{ 'pointer-events-none opacity-50': isMutateLoading }]"
         >
-          <MainAndSubCategories
-            class="md:border-r"
-            :data="editStore.current"
-            :categories="enhancedMainCategories"
-            :sub-categories="enhancedSubcategories"
-            :current-category="currentCategory"
-            :slug="slug"
-            :show-edit-hint="true"
-            :editable="true"
-          />
-          <EditToolBox />
+          <div
+            :class="[
+              'flex md:overflow-y-auto',
+              isDiffEditing ? 'w-full pr-0 md:w-1/2 md:pr-4' : 'w-full',
+            ]"
+          >
+            <MainAndSubCategories
+              class="md:border-r"
+              :data="editStore.current"
+              :categories="enhancedMainCategories"
+              :sub-categories="enhancedSubcategories"
+              :current-category="currentCategory"
+              :slug="slug"
+              :show-edit-hint="true"
+              :editable="true"
+            />
+          </div>
+
+          <div v-if="isDiffEditing" class="w-full md:w-1/2">
+            <DiffEditor
+              v-model:value="editStore.currentAsJson"
+              :original="editStore.initialAsJson"
+              language="json"
+              theme="vs"
+              height="100%"
+              :options="diffEditorOptions"
+              class="code-editor-container h-full rounded-md border border-gray-300"
+              @editorDidMount="onDiffMounted"
+            />
+          </div>
         </div>
         <EditFooter
           class="fixed bottom-0 transition-all md:static"
           :is-saving="isMutateLoading"
+          :is-save-disabled="false"
           :class="{ hidden: editStore.isEqual }"
           @cancel="tryToDiscardChanges"
           @save="saveChanges"
@@ -65,12 +85,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script lang="ts" setup>
 import { useEventListener } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import AlertError from '../../../../components/alert/AlertError.vue';
 import LoadingError from '../../../../components/loading/LoadingError.vue';
-import { DatasetPage } from '../../../../routes';
+import { DatasetPage } from '@/routes';
 import { useAuth } from '../../../auth/store/auth';
 import {
   useEventDiscardChanges,
@@ -81,16 +101,19 @@ import MainAndSubCategories from '../common/MainAndSubCategories.vue';
 import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
 import { useSingleRecordLoad } from '../common/load/useSingleRecordLoad';
 import { useSingleRecordMutateData } from '../common/load/useSingleRecordMutateData';
+import EditFooter from '../common/editor/EditFooter.vue';
 import { useToolBoxStore } from '../toolBox/toolBoxStore';
-import EditFooter from './EditFooter.vue';
 import EditSaveError from './EditSaveError.vue';
 import DiscardChangesDialog from './dialogs/DiscardChangesDialog.vue';
 import LeaveSectionDialog from './dialogs/LeaveSectionDialog.vue';
 import { useDialogsStore } from './dialogs/dialogsStore';
 import { useEditStore } from './store/editStore';
-import EditToolBox from './toolBox/EditToolBox.vue';
 import { useApplyError } from './useApplyError';
 import { useEditStoreSync } from './useEditStoreSync';
+import { useJsonEditorConfigurator } from '@/domain/datasets/ui/common/editor/useJsonEditorConfigurator';
+import { DiffEditor } from 'monaco-editor-vue3';
+import { useDatasetViewStore } from '@/domain/datasets/view/store/datasetViewStore';
+import { DiffEditMode } from '@/domain/datasets/view/types';
 
 const { t } = useI18n();
 
@@ -137,6 +160,20 @@ const {
   isMutateError,
   mutate,
 } = useSingleRecordMutateData(fullPath, isNewView);
+
+const viewStore = useDatasetViewStore();
+const { isDiffEditing } = storeToRefs(viewStore);
+
+const diffEditMode = ref(DiffEditMode.VERTICAL);
+const isEditEnabled = ref(false);
+const { diffEditorOptions, onDiffMounted } =
+  useJsonEditorConfigurator({
+    diffEditMode,
+    isEditEnabled,
+    isDiffEditing,
+    onDiffStatsChange: (a, d) => viewStore.setDiffStats(a, d),
+    onDiffStatsReset: () => viewStore.resetDiffStats(),
+  });
 
 // Enhance categories and subcategories with any errors
 const {

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../domain/cellComponents/types';
+import { CellComponent } from '@/domain/cellComponents/types';
 import {
   DetailViewConfig,
   EditViewConfig,
-} from '../../../domain/datasets/config/types';
+} from '@/domain/datasets/config/types';
 import {
   idReadOnlyCell,
   shortnameCell,
@@ -217,6 +217,30 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
                 url: withOdhBaseUrl('/v1/Tag'),
                 showAdditionalData: 'true',
               },
+            },
+          ],
+        },
+        {
+          name: 'Coordinate Source Configuration',
+          properties: [
+            {
+              title: 'Coordinate Source Type',
+              component: CellComponent.SelectWithOptionsCell,
+              objectMapping: { value: 'CoordinateSource.Type' },
+              params: {
+                showValueAsLabelFallback: 'true',
+                value_001: '',
+                label_001: 'None',
+                value_002: 'GeoData',
+                label_002: 'GeoData',
+                value_003: 'GpsInfo',
+                label_003: 'GpsInfo',
+              },
+            },
+            {
+              title: 'Coordinate Source Field',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'CoordinateSource.Field' },
             },
           ],
         },

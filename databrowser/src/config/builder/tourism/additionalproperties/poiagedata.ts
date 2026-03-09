@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../../domain/cellComponents/types';
-import { DetailElements } from '../../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types';
+import { DetailElements } from '@/domain/datasets/config/types';
 
 export const poiagedataCategory = (
   options = { visible: false }
@@ -14,7 +14,7 @@ export const poiagedataCategory = (
   subcategories: [
     {
       name: '',
-      properties: [       
+      properties: [
         {
           title: 'Age From',
           component: CellComponent.StringCell,
@@ -32,6 +32,6 @@ export const poiagedataCategory = (
           params: { type: 'number' },
         },
       ],
-    },   
+    },
   ],
 });

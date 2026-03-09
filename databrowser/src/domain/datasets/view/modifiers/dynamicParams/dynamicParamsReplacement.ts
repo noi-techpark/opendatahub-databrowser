@@ -37,7 +37,11 @@ export const computeDynamicParamsReplacement = (
 
   switch (view.type) {
     case 'table': {
-      return applyReplacementsToTableView(view, objectValueReplacer);
+      return applyReplacementsToTableView(
+        view,
+        stringReplacer,
+        objectValueReplacer
+      );
     }
     case 'detail':
       return applyReplacementsToSingleRecordView(
@@ -79,16 +83,28 @@ export const useDynamicParamsReplacement = (
 
 const applyReplacementsToTableView = (
   view: ListViewConfigWithType,
+  stringReplacer: StringReplacer,
   objectValueReplacer: ObjectValueReplacer
 ): ListViewConfigWithType | undefined => ({
   ...view,
   elements: view.elements.map<ListElements>((element) => {
-    const objectMapping = objectValueReplacer(element.objectMapping);
-    return {
-      ...element,
-      objectMapping,
-      arrayMapping: undefined,
-    };
+    if (element.objectMapping != null) {
+      const objectMapping = objectValueReplacer(element.objectMapping);
+      return {
+        ...element,
+        objectMapping,
+      };
+    } else {
+      const arrayMapping = {
+        ...element.arrayMapping,
+        pathToParent: stringReplacer(element.arrayMapping.pathToParent),
+        objectMapping: objectValueReplacer(element.arrayMapping.objectMapping),
+      };
+      return {
+        ...element,
+        arrayMapping,
+      };
+    }
   }),
 });
 
@@ -169,7 +185,7 @@ const replaceMappings = (
   property: PropertyConfig,
   stringReplacer: StringReplacer,
   objectValueReplacer: ObjectValueReplacer
-) => {
+): PropertyConfig => {
   if (property.objectMapping != null) {
     return {
       ...property,
@@ -183,7 +199,14 @@ const replaceMappings = (
       arrayMapping: {
         ...property.arrayMapping,
         pathToParent: stringReplacer(property.arrayMapping.pathToParent),
-        objectMapping: objectValueReplacer(property.arrayMapping.objectMapping),
+        // Only set objectMapping if it exists (for backward compatibility)
+        objectMapping: property.arrayMapping.objectMapping
+          ? objectValueReplacer(property.arrayMapping.objectMapping)
+          : undefined,
+        // NEW: Recursively apply replacements to nested properties
+        properties: property.arrayMapping.properties?.map((nestedProp) =>
+          replaceMappings(nestedProp, stringReplacer, objectValueReplacer)
+        ),
       },
     };
   }

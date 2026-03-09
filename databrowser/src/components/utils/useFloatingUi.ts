@@ -47,7 +47,7 @@ export const useFloatingUi = (
 
       const cleanup = autoUpdate(referenceEl, tooltipEl, () => {
         computePosition(referenceEl, tooltipEl, {
-          placement: 'bottom-start',
+          placement: options.placement ?? 'bottom-start',
           middleware,
         }).then(({ x, y, placement: currentPlacement, middlewareData }) => {
           // Position tooltip

@@ -78,7 +78,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <TableCell class="relative" v-if="showSelectCheckbox">
               <CheckboxCustom
                 :model-value="itemsSelected[index]"
-                @change="toggleSingleItemSelection(index)"
+                @update:model-value="toggleSingleItemSelection(index)"
               />
             </TableCell>
           </template>
@@ -117,20 +117,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts" generic="T">
 import { computed, ref } from 'vue';
-import TableHeaderCell from '../../../../../../components/table/TableHeaderCell.vue';
-import TableCell from '../../../../../../components/table/TableCell.vue';
+import { VueDraggableNext } from 'vue-draggable-next';
 import CheckboxCustom from '../../../../../../components/checkbox/CheckboxCustom.vue';
 import IconDragAndDrop from '../../../../../../components/svg/IconDragAndDrop.vue';
-import { VueDraggableNext } from 'vue-draggable-next';
+import TableCell from '../../../../../../components/table/TableCell.vue';
 import TableCustom from '../../../../../../components/table/TableCustom.vue';
 import TableHeader from '../../../../../../components/table/TableHeader.vue';
-import { useItemSelection } from './useItemSelection';
-import ConfirmDeleteSingle from './ConfirmDeleteSingle.vue';
-import ItemActions from './ItemActions.vue';
-import EditListActionHeader from '../header/EditListActionHeader.vue';
-import { useInjectNavigation } from '../actions/useNavigation';
+import TableHeaderCell from '../../../../../../components/table/TableHeaderCell.vue';
 import { useInjectActionTriggers } from '../actions/useActions';
 import { useInjectEditMode } from '../actions/useEditMode';
+import { useInjectNavigation } from '../actions/useNavigation';
+import EditListActionHeader from '../header/EditListActionHeader.vue';
+import ConfirmDeleteSingle from './ConfirmDeleteSingle.vue';
+import ItemActions from './ItemActions.vue';
+import { useItemSelection } from './useItemSelection';
 
 const props = defineProps<{
   items: T[] | null;

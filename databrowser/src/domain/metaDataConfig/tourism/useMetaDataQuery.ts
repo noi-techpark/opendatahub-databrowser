@@ -45,6 +45,10 @@ interface OdhTourismMetaData {
     ClosedData?: boolean;
     LicenseHolder?: string;
   };
+  CoordinateSource?: {
+    Type?: 'GeoData' | 'GpsInfo',
+    Field?: string,
+  }
 }
 
 const metaDataUrl = withOdhBaseUrl('/v1/MetaData?pagesize=1000');
@@ -97,6 +101,10 @@ const mapResponse = (datasets: OdhTourismMetaData[]): TourismMetaData[] =>
       datasetConfigurations: [],
       apiType: parseApiType(dataset.ApiType, dataset.ApiUrl),
       licenseInfo: parseLicenseInfo(dataset.LicenseInfo),
+      coordinateSource: {
+        type: dataset.CoordinateSource?.Type,
+        field: dataset.CoordinateSource?.Field,
+      }
     }))
     .sort((a, b) => a?.shortname?.localeCompare(b?.shortname));
 
@@ -158,7 +166,14 @@ const parseLastUpdated = (lastUpdated?: string) => {
   if (lastUpdated == null) {
     return undefined;
   }
-  return parse(lastUpdated, 'dd.MM.yyyy HH:mm', new Date());
+
+  let parsedDate = parse(lastUpdated, 'dd.MM.yyyy HH:mm', new Date());
+
+  if (isNaN(parsedDate.getTime())) {
+    parsedDate = new Date(lastUpdated);
+  }
+  
+  return parsedDate
 };
 
 const hasApiFilter = (dataset: TourismMetaData) =>

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../../domain/cellComponents/types';
-import { DetailElements } from '../../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types';
+import { DetailElements } from '@/domain/datasets/config/types';
 
 export const gastronomyltsdataCategory = (
   options = { visible: false }
@@ -14,7 +14,7 @@ export const gastronomyltsdataCategory = (
   subcategories: [
     {
       name: '',
-      properties: [       
+      properties: [
         {
           title: 'Max SeatingCapacity',
           component: CellComponent.StringCell,
@@ -22,8 +22,8 @@ export const gastronomyltsdataCategory = (
             text: 'AdditionalProperties.GastronomyLtsDataProperties.MaxSeatingCapacity',
           },
           params: { type: 'number' },
-        },       
+        },
       ],
-    },   
+    },
   ],
 });

@@ -15,7 +15,6 @@ export const extractView = (
   if (viewKeyValue == null || baseViewsValue == null) {
     return undefined;
   }
-
   switch (viewKeyValue) {
     case 'table':
       return (

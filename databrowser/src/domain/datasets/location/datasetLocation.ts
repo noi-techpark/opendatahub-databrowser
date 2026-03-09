@@ -18,7 +18,7 @@ import {
   ToMaybeRefs,
   ViewKey,
 } from '../config/types';
-import { computeApiFullUrl } from './apiLocation';
+import { computeApiFullUrl, computeApiPushResponseUrl } from './apiLocation';
 import { stringifyRouteQuery } from './stringifyQuery';
 
 interface ComputeDatasetLocation {
@@ -27,6 +27,7 @@ interface ComputeDatasetLocation {
   datasetQuery: DatasetQuery | undefined;
   datasetId: DatasetId | undefined;
   fullPath: string | undefined;
+  pushResponseFullPath: string | undefined;
 }
 
 interface ComputeDatasetLocationParams {
@@ -55,6 +56,7 @@ export const computeDatasetLocation = ({
       datasetQuery: undefined,
       datasetId: undefined,
       fullPath: undefined,
+      pushResponseFullPath: undefined,
     };
   }
 
@@ -75,6 +77,7 @@ export const computeDatasetLocation = ({
     routeId,
     datasetQuery
   );
+  const pushResponseFullPath = computeApiPushResponseUrl(datasetDomain);
 
   return {
     datasetDomain,
@@ -82,6 +85,7 @@ export const computeDatasetLocation = ({
     datasetQuery,
     datasetId: routeId,
     fullPath,
+    pushResponseFullPath,
   };
 };
 

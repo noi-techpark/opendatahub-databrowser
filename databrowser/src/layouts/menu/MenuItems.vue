@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     class="z-10 flex flex-col items-start justify-between gap-y-8 md:flex-row md:items-center"
   >
     <div
-      class="flex h-full flex-col items-start gap-x-12 gap-y-4 text-lg text-gray-900 md:h-12 md:flex-row md:items-center"
+      class="flex h-full flex-col items-start gap-x-8 gap-y-4 text-lg text-gray-900 md:h-9 md:flex-row md:items-center"
     >
       <HeaderLink to="/about">
         {{ t('header.menu.about') }}
@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </div>
 
     <div
-      class="flex grow flex-col gap-x-2 gap-y-4 pt-1 md:grow-0 md:flex-row md:items-center"
+      class="flex grow flex-col gap-x-2 gap-y-4 pt-1 md:grow-0 md:flex-row md:items-stretch"
     >
       <DownloadMenu
         v-if="useDownloadStore().downloads.length > 0"
@@ -33,8 +33,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :width-classes="['lg:w-[300px]']"
       />
 
-      <MenuUserSection />
-
+      <MenuUserSection class="mt-1" />
+      <div class="ml-2 w-1 border-l border-black pl-2" />
       <ExternalLink
         href="https://opendatahub.com"
         variant="no-underline"
@@ -42,7 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       >
         <img
           :alt="t('header.logo')"
-          class="mt-2 aspect-square h-8 md:mt-0 md:h-6"
+          class="mt-2 aspect-square h-8 md:mt-0 md:h-10"
           src="/logo-open-data-hub-black.svg"
         />
       </ExternalLink>

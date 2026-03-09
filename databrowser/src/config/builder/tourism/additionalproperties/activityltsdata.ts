@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../../domain/cellComponents/types';
-import { DetailElements } from '../../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types';
+import { DetailElements } from '@/domain/datasets/config/types';
 
 export const activityltsdataCategory = (
   options = { visible: false }
@@ -14,7 +14,7 @@ export const activityltsdataCategory = (
   subcategories: [
     {
       name: '',
-      properties: [       
+      properties: [
         {
           title: 'Altitude Difference',
           component: CellComponent.StringCell,
@@ -22,8 +22,8 @@ export const activityltsdataCategory = (
             text: 'AdditionalProperties.ActivityLtsDataProperties.AltitudeDifference',
           },
           params: { type: 'number' },
-        },        
+        },
       ],
-    },   
+    },
   ],
 });

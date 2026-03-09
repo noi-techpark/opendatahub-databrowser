@@ -7,7 +7,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <section class="flex flex-1 flex-col justify-start overflow-y-auto">
     <TableFilterHint />
-    <div class="flex h-full overflow-y-auto">
+
+    <div class="flex flex-1 overflow-y-auto">
       <div v-if="isError" class="grow">
         <LoadingError>{{ error }}</LoadingError>
       </div>
@@ -18,13 +19,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :show-detail="hasDetailView"
           :show-edit="editRecordSupported"
           :show-delete="deleteRecordSupported"
+          :show-force-sync="isAuthenticated"
+          :show-push="isAuthenticated"
           :dataset-domain="datasetDomain"
         />
-        <TableFooter :pagination="pagination" />
       </div>
-      <TableToolBox :url="fullPath" />
+
+      <TableViewToolBox :url="fullPath" :pagination="pagination" />
     </div>
+
+    <TableFooter :pagination="pagination" />
   </section>
+
   <EditListDeleteDialog
     :show-dialog="deleteDialog.isVisible"
     :title="
@@ -43,23 +49,38 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     @close="closeDeleteConfirmation()"
   />
   <GoToReferenceAttributeDialog />
+
+  <PushDataDialog
+    v-if="pushDialogPayload"
+    :is-open="isPushDialogOpen"
+    :payload="pushDialogPayload"
+  />
+  <SyncDataDialog
+    v-if="syncDialogPayload"
+    :is-open="isSyncDialogOpen"
+    :payload="syncDialogPayload"
+  />
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
-import { useRouter } from 'vue-router';
-import LoadingError from '../../../../components/loading/LoadingError.vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import LoadingError from '@/components/loading/LoadingError.vue';
 import TableContent from './TableContent.vue';
 import TableFooter from './TableFooter.vue';
 import TableFilterHint from './filter/TableFilterHint.vue';
 import { useTableLoad } from './load/useTableLoad';
 import { useTableViewRouteQueryStore } from './tableViewRouteQueryStore';
-import TableToolBox from './toolBox/TableToolBox.vue';
 import EditListDeleteDialog from '../../../cellComponents/components/utils/editList/dialogs/EditListDeleteDialog.vue';
-
+import TableViewToolBox from './toolBox/TableViewToolBox.vue';
 import { useTableDelete } from './useTableDelete';
 import GoToReferenceAttributeDialog from '../common/dialogs/goToReferenceAttributeDialog/GoToReferenceAttributeDialog.vue';
+import PushDataDialog from '@/domain/cellComponents/components/cells/pushDataCell/PushDataDialog.vue';
+import SyncDataDialog from '@/domain/cellComponents/components/cells/syncDataConfigCell/SyncDataDialog.vue';
+import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
+import { useAuth } from '@/domain/auth/store/auth.ts';
 
 const { t } = useI18n();
 
@@ -76,6 +97,19 @@ const {
   datasetDomain,
   refetch,
 } = useTableLoad();
+
+const tableViewStore = useTableViewStore();
+const {
+  isPushDialogOpen,
+  pushDialogPayload,
+  isSyncDialogOpen,
+  syncDialogPayload,
+} = storeToRefs(tableViewStore);
+
+const auth = useAuth();
+const isAuthenticated = computed(
+  () => auth.isAuthenticated
+);
 
 const { deleteDialog, onDelete, isDeleting, closeDeleteConfirmation } =
   useTableDelete(fullPath, refetch);

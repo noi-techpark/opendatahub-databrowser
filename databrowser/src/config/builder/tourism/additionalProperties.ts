@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CellComponent } from '../../../domain/cellComponents/types';
-import { EditElements } from '../../../domain/datasets/config/types';
+import { CellComponent } from '@/domain/cellComponents/types.ts';
+import { EditElements } from '@/domain/datasets/config/types.ts';
 import { echargingdataCategory } from './additionalproperties/echargingdata';
 import { poiagedataCategory } from './additionalproperties/poiagedata';
 import { activityltsdataCategory } from './additionalproperties/activityltsdata';
@@ -11,6 +11,7 @@ import { poiltsdataCategory } from './additionalproperties/poiltsdata';
 import { gastronomyltsdataCategory } from './additionalproperties/gastronomyltsdata';
 import { suedtirolweincompanydataCategory } from './additionalproperties/suedtirolweincompanydata';
 import { siagmuseumdataCategory } from './additionalproperties/siagmuseumdata';
+import { roadIncidentdataCategory } from './roadIncident';
 
 export const additionalPropertiesCategory = (): EditElements => ({
   name: 'Additional properties',
@@ -57,6 +58,10 @@ export const additionalPropertiesCategory = (): EditElements => ({
     {
       objectPath: 'AdditionalProperties.SiagMuseumDataProperties',
       elements: siagmuseumdataCategory(),
+    },
+    {
+      objectPath: 'AdditionalProperties.RoadIncidentProperties',
+      elements: roadIncidentdataCategory(),
     },
   ],
 });

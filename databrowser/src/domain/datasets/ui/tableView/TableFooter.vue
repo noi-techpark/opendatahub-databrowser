@@ -6,18 +6,23 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="flex items-center justify-end bg-gray-50 py-2 text-xs">
-    <span class="mr-3 block">
-      {{ t('datasets.listView.linesPerPage') }}
+    <span class="mx-3 block font-semibold text-gray-950">
+      {{ props.pagination.pageSize }}
+      <span class="text-gray-500">{{ t('datasets.listView.outOf') }}</span>
+      {{ props.pagination.totalItems }}
+      <span class="text-gray-500 hidden md:inline">{{ t('datasets.listView.areShown') }}</span>
     </span>
     <SelectCustom
       id="dataset-table-page-size"
-      class="mr-6 w-16"
+      class="mr-2 w-16"
       :options="options"
-      :value="pagination.pageSize.toString()"
+      :model-value="pagination.pageSize.toString()"
       :show-value-as-label-fallback="true"
       :size="SelectSize.sm"
-      @change="navigation.changePageSize($event)"
+      @update:model-value="navigation.changePageSize(Number($event))"
     />
+    <span class="mr-3 hidden md:inline">{{ t('datasets.listView.perPage') }}</span>
+    <span class="mr-3 block md:hidden">{{ t('datasets.listView.pp') }}</span>
     <Paginator
       v-if="pagination.hasPagination"
       id="dataset-table-paginator"
@@ -31,11 +36,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { storeToRefs } from 'pinia';
 import { computed, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Paginator from '../../../../components/paginator/Paginator.vue';
-import SelectCustom from '../../../../components/select/SelectCustom.vue';
-import { SelectSize } from '../../../../components/select/types';
-import { useNavigationStore } from '../../../datasets/navigation/useNavigationStore';
-import { Pagination } from '../../../datasets/pagination/types';
+import Paginator from '@/components/paginator/Paginator.vue';
+import SelectCustom from '@/components/select/SelectCustom.vue';
+import { SelectSize } from '@/components/select/types';
+import { useNavigationStore } from '../../navigation/useNavigationStore';
+import { Pagination } from '../../pagination/types';
 import { pageSizeOptions } from './defaultValues';
 
 const { t } = useI18n();

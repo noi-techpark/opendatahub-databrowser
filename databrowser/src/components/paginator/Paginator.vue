@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <button
       :id="`${id}-previous-page`"
       class="mr-4 rounded"
-      :class="[pagination.hasPrevious ? 'text-green-500' : 'text-gray-400']"
+      :class="[pagination.hasPrevious ? 'text-green-400' : 'text-gray-400']"
       :disabled="!pagination.hasPrevious"
       :data-test="`${id}-previous-page`"
       @click="navigation.goToPage(pagination.currentPage - 1)"
@@ -41,8 +41,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <button
       :id="`${id}-next-page`"
-      class="rounded"
-      :class="[pagination.hasNext ? 'text-green-500' : 'text-gray-400']"
+      class="mr-2 rounded"
+      :class="[pagination.hasNext ? 'text-green-400' : 'text-gray-400']"
       :disabled="!pagination.hasNext"
       :data-test="`${id}-next-page`"
       @click="navigation.goToPage(pagination.currentPage + 1)"
@@ -55,8 +55,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { NavigationCallback } from '../../domain/datasets/navigation/types';
-import { Pagination } from '../../domain/datasets/pagination/types';
+import { NavigationCallback } from '@/domain/datasets/navigation/types';
+import { Pagination } from '@/domain/datasets/pagination/types';
 import ButtonCustom from '../button/ButtonCustom.vue';
 import IconStrokedArrowDown from '../svg/IconStrokedArrowDown.vue';
 

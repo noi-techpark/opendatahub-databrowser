@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="border border-gray-300 ring-gray-400">
+  <div class="border border-gray-300 ring-gray-400 w-fit md:w-auto">
     <SelectOptionsList
       :search-results="searchResults"
       :search-results-grouped-options="searchResultsGroupedOptions"

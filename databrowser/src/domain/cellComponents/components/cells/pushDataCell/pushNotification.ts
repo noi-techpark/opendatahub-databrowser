@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { axiosWithMaybeAuth } from '../../../../api/apiAuth';
 import {
   OdhPushResponseMany,
@@ -10,6 +10,7 @@ import {
   PublisherWithPushResponse,
 } from './types';
 import { MaybeRef, ref, toValue } from 'vue';
+import { getAxiosErrorMessage } from '@/domain/utils/convertError';
 
 type PushNotificationResponse = AxiosResponse<OdhPushResponseMany>;
 
@@ -73,7 +74,7 @@ const buildPushResult = (
 ): PublisherWithPushResponse => {
   // Handle request errors
   if (promiseResult.status === 'rejected') {
-    const error = getErrorMessage(promiseResult.reason);
+    const error = getAxiosErrorMessage(promiseResult.reason);
     return {
       ...publisher,
       pushResponse: {
@@ -94,14 +95,4 @@ const buildPushResult = (
       error: result.Result.Success ? undefined : result.Result.Response,
     },
   };
-};
-
-const getErrorMessage = (error: unknown): string => {
-  if (error instanceof AxiosError) {
-    return `(${error.response?.status}) ${error.response?.statusText}`;
-  }
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return error as string;
 };

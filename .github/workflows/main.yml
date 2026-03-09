@@ -22,7 +22,6 @@ jobs:
         with:
           working-directory: databrowser
           node-version: ${{ env.NODE_VERSION }}
-          test-enabled: false
 
   deploy-test:
     runs-on: ubuntu-22.04
