@@ -11,7 +11,7 @@ import {
   Polygon,
 } from 'geojson';
 import { GeoJSONSourceSpecification } from 'maplibre-gl';
-import { CoordinateSource, TourismMetaData } from '../../../metaDataConfig/tourism/types';
+import { TourismMetaData } from '../../../metaDataConfig/tourism/types';
 import { KnownApiType } from '../../../metaDataConfig/types';
 
 export type DatasetId = string;
@@ -54,7 +54,6 @@ export interface MapDatasetMetaData {
   datasetAbbreviation: string;
   datasetColor: string;
   datasetParentId?: DatasetId;
-  coordinateSource?: CoordinateSource;
 }
 
 export interface MapSourceSpecification extends GeoJSONSourceSpecification {
