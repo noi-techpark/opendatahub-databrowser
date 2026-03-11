@@ -4,14 +4,6 @@
 
 import { ApiType } from '../types';
 
-/**
- * Configuration for extracting coordinates from dataset records
- */
-export interface CoordinateSource {
-  type?: 'GeoData' | 'GpsInfo';
-  field?: string;
-}
-
 export interface TourismMetaData {
   id: string;
   baseUrl: string;
@@ -37,7 +29,4 @@ export interface TourismMetaData {
   singleDataset?: boolean;
   datasetConfigurations: string[];
   licenseInfo?: { author?: string; license?: string; closedData?: boolean; licenseHolder?: string   }
-  // Configuration for extracting coordinates/geometry from records
-  // If not specified, uses legacy extraction based on apiType
-  coordinateSource?: CoordinateSource;
 }

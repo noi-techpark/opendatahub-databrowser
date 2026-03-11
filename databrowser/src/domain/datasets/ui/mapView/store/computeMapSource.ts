@@ -4,7 +4,6 @@
 
 import { Feature, Geometry, Point } from 'geojson';
 import { KnownApiType } from '../../../../metaDataConfig/types';
-import { CoordinateSource } from '../../../../metaDataConfig/tourism/types';
 import { MapRecord, MapSourceSpecification, MapSourcesByGeometryType } from '../types';
 import { mapClusterMaxZoom, mapClusterRadius } from '../consts';
 import { parseWKT } from '../../../../../components/map/utils/wktParser';
@@ -59,15 +58,22 @@ interface GeometryRecord {
  */
 export const computeMapSource = async (
   apiType: KnownApiType,
-  records: unknown[],
-  coordinateSource?: CoordinateSource
+  records: unknown[]
 ): Promise<MapSourceSpecification | MapSourcesByGeometryType> => {
-  // Route to appropriate extraction method based on coordinate source type
-  if (coordinateSource?.type === 'GeoData') {
-    return computeMapSourceFromGeoData(
-      records as GeoDataRecord[],
-      coordinateSource.field!,
-    );
+  // Route to appropriate extraction method making best-effort to detect new "Geo" standard
+  // The logic is simple: foreach record try get computeMapSourceFromGeoData, fallback to old computeGpsMapSource
+  // Detect by checking if any record has a "Geo" field with the new GeoData structure
+  const hasGeoData = records.some(
+    (record) =>
+      record != null &&
+      typeof record === 'object' &&
+      'Geo' in record &&
+      record.Geo != null &&
+      typeof record.Geo === 'object'
+  );
+
+  if (hasGeoData) {
+    return computeMapSourceFromGeoData(records as GeoDataRecord[], 'Geo');
   }
 
   // Otherwise, use legacy extraction (current behavior)
