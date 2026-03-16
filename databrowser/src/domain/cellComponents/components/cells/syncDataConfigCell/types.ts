@@ -25,11 +25,17 @@ export interface SyncResponse {
 
 
 export interface OdhSyncResponse {
-  Result: {
-    Response: string;
-    HttpStatusCode: string;
-    Service: string;
-    Success: boolean;
-  };
-  UpdateInfo: SyncPayload;
+  operation: string;
+  updatetype: string;
+  otherinfo: string;
+  message: string;
+  success: boolean;
+  recordsmodified: number | null;
+  updated: string | null;
+  created: string | null;
+  deleted: string | null;
+  error: string | null;
+  id: string;
+  exception: string | null;
+  source: string;
 }

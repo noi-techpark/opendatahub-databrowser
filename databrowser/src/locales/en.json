@@ -560,10 +560,14 @@
       },
       "dialog": {
         "buttonCancel": "No (n)",
-        "buttonAfterSend": "Push-Notifications sent",
+        "buttonAfterSend": "Sync completed",
         "buttonBeforeSend": "Yes (y)",
         "description": "If you confirm, the synchronization of {title} will start.",
         "title": "Sync {title}"
+      },
+      "result": {
+        "successTitle": "Sync completed successfully",
+        "errorTitle": "Sync failed"
       }
     },
     "pushData": {
