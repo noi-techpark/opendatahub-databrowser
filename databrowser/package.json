@@ -33,7 +33,7 @@
     "@vueuse/core": "^13.5.0",
     "@vueuse/integrations": "^13.5.0",
     "@vueuse/router": "^13.5.0",
-    "axios": "^1.10.0",
+    "axios": "^1.13.5",
     "date-fns": "^4.1.0",
     "fuse.js": "^7.0.0",
     "geojson": "^0.5.0",
@@ -41,7 +41,7 @@
     "keycloak-js": "^26.2.0",
     "maplibre-gl": "^5.6.1",
     "maplibre-gl-draw": "^1.6.9",
-    "monaco-editor": "^0.54.0",
+    "monaco-editor": "^0.55.1",
     "monaco-editor-vue3": "^1.0.4",
     "pinia": "^3.0.3",
     "ramda": "^0.30.1",
@@ -50,7 +50,7 @@
     "vue": "^3.5.17",
     "vue-cookieconsent": "^0.0.11",
     "vue-draggable-next": "^2.1.1",
-    "vue-i18n": "^11.1.9",
+    "vue-i18n": "^11.2.8",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "@types/ramda": "^0.30.2",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-vue": "^6.0.0",
-    "@vitest/ui": "^2.1.8",
+    "@vitest/ui": "^4.0.18",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
@@ -68,7 +68,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.30.1",
     "eslint-plugin-vue": "^10.3.0",
-    "happy-dom": "^15.11.7",
+    "happy-dom": "^20.6.3",
     "husky": "^9.1.7",
     "js-yaml": "^4.1.0",
     "npm-run-all2": "^8.0.4",
@@ -78,8 +78,8 @@
     "prettier-plugin-tailwindcss": "^0.6.10",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
-    "vite": "^7.0.4",
-    "vitest": "^2.1.8",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18",
     "vue-tsc": "^3.0.1"
   }
 }
