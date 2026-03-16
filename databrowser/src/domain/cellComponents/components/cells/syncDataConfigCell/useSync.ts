@@ -47,9 +47,8 @@ export const sendSyncRequest = async (
 
     return {
       response: {
-        UpdateInfo: data.UpdateInfo,
-        success: data.Result.Success,
-        error: data.Result.Success ? undefined : data.Result.Response,
+        success: data.success,
+        error: data.success ? undefined : (data.exception ?? data.message),
       },
     };
   } catch (error) {

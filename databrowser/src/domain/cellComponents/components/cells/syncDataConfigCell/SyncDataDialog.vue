@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <DialogCustom :is-open="isOpen">
+  <DialogCustom :is-open="isOpen" @close="close">
     <template #title>
       <div class="mr-1 text-sm font-bold text-black md:w-auto md:text-xl">
         {{ t('components.syncData.dialog.title', { title: payload.title ?? '' }) }}
@@ -15,29 +15,46 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <div class="mb-5">
         {{ t('components.syncData.dialog.description', { title: payload.title ?? '' }) }}
       </div>
-      <ButtonCustom @click="confirm">
-        {{ t('components.syncData.dialog.buttonBeforeSend') }}
+      <ButtonCustom
+        :tone="Tone.primary"
+        :size="Size.sm"
+        :disabled="isSynced"
+        class="mb-2 w-full font-semibold"
+        @click="confirm"
+      >
+        {{
+          isSynced
+            ? t('components.syncData.dialog.buttonAfterSend')
+            : t('components.syncData.dialog.buttonBeforeSend')
+        }}
       </ButtonCustom>
-      <ButtonCustom :variant="Variant.ghost" @click="close">
+      <ButtonCustom
+        :variant="Variant.ghost"
+        :size="Size.sm"
+        class="mb-6 w-full font-semibold"
+        @click="close"
+      >
         {{ t('components.syncData.dialog.buttonCancel') }}
       </ButtonCustom>
 
-      <LastSyncInfo
-        :id="payload.id"
-      />
+      <SyncResult v-if="syncResponse" :sync-response="syncResponse" />
+
+      <LastSyncInfo :id="payload.id" />
     </template>
   </DialogCustom>
 </template>
 
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core';
+import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '@/components/button/ButtonCustom.vue';
-import { Variant } from '@/components/button/types';
+import { Size, Tone, Variant } from '@/components/button/types';
 import DialogCustom from '@/components/dialog/DialogCustom.vue';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { SyncDialogPayload } from '@/domain/datasets/ui/tableView/types';
 import LastSyncInfo from './LastSyncInfo.vue';
+import SyncResult from './SyncResult.vue';
 import { useSync } from '@/domain/cellComponents/components/cells/syncDataConfigCell/useSync';
 
 const { closeSyncDialog } = useTableViewStore();
@@ -53,14 +70,22 @@ const close = () => {
 };
 const confirm = () => {
   sendSync(props.payload.type, props.payload.id);
-  close();
 };
 
-// Handle push sending
-const { sendSync } = useSync();
+// Handle sync sending
+const { isSynced, syncResponse, sendSync } = useSync();
+
+// Auto-close dialog after 2 seconds on success
+watch(syncResponse, (res) => {
+  if (res?.response.success) {
+    setTimeout(close, 2000);
+  }
+});
 
 onKeyStroke('y', () => {
-  confirm();
+  if (!isSynced.value) {
+    confirm();
+  }
 });
 
 onKeyStroke('n', () => {
