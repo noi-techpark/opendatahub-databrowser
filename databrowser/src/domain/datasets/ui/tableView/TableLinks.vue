@@ -49,7 +49,6 @@ import { useSingleRecordLocations } from '../../location/datasetViewLocation';
 import DetailsLink from './details/DetailsLink.vue';
 import { useEventDelete } from './useTableDelete';
 import DetailsLinksDropdown from '@/domain/datasets/ui/tableView/details/DetailsLinksDropdown.vue';
-import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { usePublisherStore } from '@/domain/publisher/publisherStore';
 import { Publisher } from '@/domain/cellComponents/components/cells/pushDataCell/types';
@@ -73,6 +72,7 @@ const props = defineProps<{
   showDelete: boolean;
   showForceSync: boolean;
   showPush: boolean;
+  refetch: () => Promise<void>;
 }>();
 
 const { recordId,data } = toRefs(props);
@@ -90,9 +90,8 @@ const { detailLocation, editLocation } = useSingleRecordLocations(
   recordId
 );
 
-const { refetch } = useTableLoad();
 const onRefresh = () => {
-  refetch();
+  props.refetch();
 };
 const onDelete = () => {
   useEventDelete.emit(recordId.value);

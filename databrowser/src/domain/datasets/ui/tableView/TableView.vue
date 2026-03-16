@@ -22,6 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :show-force-sync="isAuthenticated"
           :show-push="isAuthenticated"
           :dataset-domain="datasetDomain"
+          :refetch="refetch"
         />
       </div>
 
