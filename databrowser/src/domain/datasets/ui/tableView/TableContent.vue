@@ -69,6 +69,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :show-delete="showDelete"
             :show-force-sync="showForceSync"
             :show-push="showPush"
+            :refetch="refetch"
           />
         </TableCell>
       </tr>
@@ -103,6 +104,7 @@ const props = withDefaults(
     showForceSync: boolean;
     showPush: boolean;
     datasetDomain: DatasetDomain | undefined;
+    refetch: () => Promise<void>;
   }>(),
   {}
 );
