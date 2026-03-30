@@ -23,14 +23,7 @@ export const suedtirolweincompanydataCategory = (
           },
         },
         {
-          title: 'Has Visits',
-          component: CellComponent.ToggleTriStateCell,
-          objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasVisits',
-          },
-        },
-        {
-          title: 'Has Visits',
+          title: 'Has Overnights',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasOvernights',
