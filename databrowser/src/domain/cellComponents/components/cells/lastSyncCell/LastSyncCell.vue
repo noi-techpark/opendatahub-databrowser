@@ -10,6 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <span class="block text-gray-600">{{ formattedDate }}</span>
 
     <ButtonCustom
+      v-if="canSync"
       :disabled="disabled"
       class="flex items-center py-1 px-2 text-green-500 mt-3 text-sm"
       :size="Size.xs"
@@ -30,17 +31,20 @@ import ButtonCustom from "@/components/button/ButtonCustom.vue";
 import IconReload from "@/components/svg/IconReload.vue";
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { useAuth } from '@/domain/auth/store/auth';
+import { useSyncSourceStore } from '@/domain/syncData/syncSourceStore';
 
 const props = withDefaults(
     defineProps<{
       id: string;
       text?: string;
-      type:string;
+      type: string;
+      source?: string;
       hasAction?: string;
       date?: string;
       format?: string;
     }>(),
     {
+      source: undefined,
       hasAction: "1",
       date: undefined,
       format: undefined
@@ -48,6 +52,7 @@ const props = withDefaults(
 );
 const { date, format } = toRefs(props);
 const { openSyncDialog } = useTableViewStore();
+const syncSourceStore = useSyncSourceStore();
 
 const formattedDate = computed(() => {
   if (format.value == null) {
@@ -70,14 +75,26 @@ const formattedDistance = computed(() => {
 
 
 const doAction = () => {
+  if (!props.source || !props.type) return;
+  const syncUrl = syncSourceStore.buildSyncUrl(
+    props.source,
+    props.type,
+    props.id
+  );
+  if (!syncUrl) return;
   openSyncDialog({
     id: props.id,
-    title: props.text ?? "",
-    type: props.type
+    title: props.text ?? '',
+    type: props.type,
+    syncUrl,
   });
-}
+};
 
 
+
+const canSync = computed(
+  () => !!props.source && !!props.type && syncSourceStore.hasSyncConfig(props.source)
+);
 
 const auth = useAuth();
 const disabled = computed(

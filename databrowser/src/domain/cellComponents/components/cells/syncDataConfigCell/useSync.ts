@@ -11,11 +11,11 @@ export const useSync = () => {
   const isSynced = ref(false);
   const syncResponse = ref<SyncResponse | null>(null);
 
-  const sendSync = async (metaType: string, id: string) => {
+  const sendSync = async (syncUrl: string) => {
     isSynced.value = false;
 
     try {
-      const res = await sendSyncRequest(metaType, id);
+      const res = await sendSyncRequest(syncUrl);
 
       syncResponse.value = res;
       isSynced.value = res.response.success;
@@ -33,15 +33,13 @@ export const useSync = () => {
 };
 
 export const sendSyncRequest = async (
-  metaType: string,
-  id: string
+  syncUrl: string
 ): Promise<SyncResponse> => {
   const axios = await axiosWithMaybeAuth(true);
 
-  const baseUrl = import.meta.env.VITE_APP_SYNC_URL;
   try {
     const { data } = await axios<OdhSyncResponse>({
-      url: `${baseUrl}/${metaType}/${id}`,
+      url: syncUrl,
       method: 'post',
     });
 
