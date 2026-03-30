@@ -69,7 +69,7 @@ const close = () => {
   closeSyncDialog();
 };
 const confirm = () => {
-  sendSync(props.payload.type, props.payload.id);
+  sendSync(props.payload.syncUrl);
 };
 
 // Handle sync sending

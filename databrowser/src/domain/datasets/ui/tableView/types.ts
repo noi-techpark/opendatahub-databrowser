@@ -16,16 +16,18 @@ export interface PushDialogPayload {
 export interface SyncDialogPayload {
   id: string;
   title: string;
-  type:string;
+  type: string;
+  syncUrl: string;
 }
 
 
 export interface RecordActionsData {
-  _Meta?:{
+  _Meta?: {
     Id?: string;
     Type?: string;
     [key: string]: unknown;
-  },
+  };
   PublishedOn?: string;
+  Source?: string;
   [key: string]: unknown;
 }
