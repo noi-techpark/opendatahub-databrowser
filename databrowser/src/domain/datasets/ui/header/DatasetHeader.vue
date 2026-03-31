@@ -161,6 +161,7 @@ import { usePathsForCurrentRoute } from './usePaths';
 import { useSingleRecordLoadData } from '../common/load/useSingleRecordLoadData';
 import { Publisher } from '@/domain/cellComponents/components/cells/pushDataCell/types';
 import { useEventDelete } from '../tableView/useTableDelete';
+import { RecordActionsData } from '../tableView/types';
 
 const toolBoxStore = useToolBoxStore();
 const tableFilterStore = useTableFilterStore();
@@ -230,8 +231,8 @@ const isRecordView = computed(() => isDetailView.value || isEditView.value);
 const auth = useAuth();
 const isAuthenticated = computed(() => auth.isAuthenticated);
 
-// Load single record data
-const { data: recordData } = useSingleRecordLoadData(datasetDomain, fullPath, isNewView);
+const { data: rawRecordData } = useSingleRecordLoadData(datasetDomain, fullPath, isNewView);
+const recordData = computed(() => rawRecordData.value as RecordActionsData | undefined);
 
 const metaId = computed(() => recordData.value?._Meta?.Id);
 const metaType = computed(() => recordData.value?._Meta?.Type);

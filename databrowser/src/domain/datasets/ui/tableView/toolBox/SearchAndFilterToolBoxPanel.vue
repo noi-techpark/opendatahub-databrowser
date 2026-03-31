@@ -121,7 +121,7 @@ const { currentMetaData } = useMetaDataForRoute(datasetPath, datasetQuery);
 
 const metaDataTotalCount = computed(() => {
   const rc = currentMetaData.value?.recordCount;
-  return Math.max(props.pagination.totalItems,rc.Total ?? 0);
+  return Math.max(props.pagination.totalItems, rc?.Total ?? 0);
 });
 const filterTypeSelectOptions = computed(() => {
   if (datasetDomain.value === 'tourism') {
