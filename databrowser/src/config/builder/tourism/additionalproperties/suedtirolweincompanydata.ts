@@ -17,28 +17,28 @@ export const suedtirolweincompanydataCategory = (
       properties: [
         {
           title: 'Opening times Wineshop',
-          component: CellComponent.DateCell,
+          component: CellComponent.StringCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesWineshop',
           },
         },
         {
           title: 'Opening times Guides',
-          component: CellComponent.DictionaryCell,
+          component: CellComponent.StringCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGuides',
           },
         },
         {
           title: 'Opening times Gastronomie',
-          component: CellComponent.DateCell,
+          component: CellComponent.StringCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGastronomie',
           },
         },
         {
           title: 'Company Holiday',
-          component: CellComponent.DictionaryCell,
+          component: CellComponent.StringCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.CompanyHoliday',
           },
@@ -213,7 +213,7 @@ export const suedtirolweincompanydataCategory = (
         },
         {
           title: 'Image Sparkling Wine producer',
-          component: CellComponent.ImageCell,
+          component: CellComponent.StringCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.ImageSparklingWineproducer',
           },
