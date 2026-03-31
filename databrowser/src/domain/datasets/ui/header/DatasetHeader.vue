@@ -102,8 +102,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <!-- actions button -->
         <ActionsLinksDropdown
           data-test="dataset-edit-link"
+          :show-edit="showRecordEdit"
+          :show-delete="showRecordDelete"
+          :show-duplicate="showRecordDuplicate"
+          :show-force-sync="showRecordForceSync"
+          :show-push="showRecordPush"
+          @edit="onEdit"
           @refresh="onRefresh"
-          @sync="onSync"
+          @sync="handleSync"
+          @push="onPush"
+          @duplicate="onDuplicate"
+          @delete="onDelete"
         />
       </div>
 
@@ -117,6 +126,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import InputSearch from '../../../../components/input/InputSearch.vue';
 import LanguagePicker from '../../../../components/language/LanguagePicker.vue';
 import TagCustom from '../../../../components/tag/TagCustom.vue';
@@ -126,6 +136,7 @@ import { DatasetConfigSource } from '../../config/types';
 import { useDatasetQueryStore } from '../../location/store/datasetQueryStore';
 import { useDatasetPermissionStore } from '../../permission/store/datasetPermissionStore';
 import { useDatasetViewStore } from '../../view/store/datasetViewStore';
+import { useDatasetLocationStore } from '../../location/store/useDatasetLocationStore';
 import AddRecordButton from './AddRecordButton.vue';
 import DatasetHeaderMoreInfoPopup from './DatasetHeaderMoreInfoPopup.vue';
 import DatasetHeaderOverlay from './DatasetHeaderOverlay.vue';
@@ -141,15 +152,30 @@ import OdhAttributes from "@/components/svg/odh/OdhAttributes.vue";
 import OdhExport from "@/components/svg/odh/OdhExport.vue";
 import ActionsLinksDropdown from '@/domain/datasets/ui/common/ActionsLinksDropdown.vue';
 import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad';
+import { useAuth } from '@/domain/auth/store/auth';
+import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
+import { usePublisherStore } from '@/domain/publisher/publisherStore';
+import { useSyncSourceStore } from '@/domain/syncData/syncSourceStore';
+import { useEditStore } from '@/domain/datasets/ui/editView/store/editStore';
+import { usePathsForCurrentRoute } from './usePaths';
+import { useSingleRecordLoadData } from '../common/load/useSingleRecordLoadData';
+import { Publisher } from '@/domain/cellComponents/components/cells/pushDataCell/types';
+import { useEventDelete } from '../tableView/useTableDelete';
 
 const toolBoxStore = useToolBoxStore();
 const tableFilterStore = useTableFilterStore();
 
-const { isTableView } = storeToRefs(useDatasetViewStore());
+const router = useRouter();
+const { currentRoute } = router;
+const hash = computed(() => currentRoute.value.hash);
+
+const datasetViewStore = useDatasetViewStore();
+const { isTableView, isDetailView, isEditView, hasEditView, isNewView } = storeToRefs(datasetViewStore);
 
 const { t } = useI18n();
 
-const { datasetDomain, hasConfig } = storeToRefs(useDatasetBaseInfoStore());
+const datasetBaseInfoStore = useDatasetBaseInfoStore();
+const { datasetDomain, hasConfig, fullPath } = storeToRefs(datasetBaseInfoStore);
 
 const inputSearchOpen = ref<boolean>();
 
@@ -163,7 +189,7 @@ const search = (term: string) => {
   handleInputSearchOpen(false);
 };
 
-const { addRecordSupported } = storeToRefs(useDatasetPermissionStore());
+const { addRecordSupported, editRecordSupported, deleteRecordSupported } = storeToRefs(useDatasetPermissionStore());
 
 const currentLanguage = useDatasetQueryStore().handle('language');
 
@@ -194,10 +220,114 @@ const changeSource = async (value: DatasetConfigSource) => {
 const { refetch } = useTableLoad();
 const onRefresh = () => {
   refetch();
-}
+};
 const onSync = () => {
   //TODO: implement sync all dataset
-}
+};
+
+const isRecordView = computed(() => isDetailView.value || isEditView.value);
+
+const auth = useAuth();
+const isAuthenticated = computed(() => auth.isAuthenticated);
+
+// Load single record data
+const { data: recordData } = useSingleRecordLoadData(datasetDomain, fullPath, isNewView);
+
+const metaId = computed(() => recordData.value?._Meta?.Id);
+const metaType = computed(() => recordData.value?._Meta?.Type);
+const recordSource = computed(() => recordData.value?.Source as string | undefined);
+
+const syncSourceStore = useSyncSourceStore();
+
+const showRecordEdit = computed(
+  () => isRecordView.value && editRecordSupported.value && hasEditView.value
+);
+const showRecordDelete = computed(
+  () => isRecordView.value && deleteRecordSupported.value
+);
+const showRecordDuplicate = computed(
+  () => isRecordView.value && addRecordSupported.value
+);
+const showRecordForceSync = computed(
+  () => isRecordView.value && isAuthenticated.value && syncSourceStore.hasSyncConfig(recordSource.value)
+);
+const showRecordPush = computed(
+  () => isRecordView.value && isAuthenticated.value
+);
+
+const { editLocation } = storeToRefs(useDatasetLocationStore());
+const onEdit = () => {
+  if (showRecordEdit.value && editLocation.value) {
+    router.push({ ...editLocation.value, hash: hash.value });
+  }
+};
+
+const onDelete = () => {
+  if (metaId.value) {
+    useEventDelete.emit(metaId.value);
+  }
+};
+
+const { newViewPath } = usePathsForCurrentRoute();
+const editStore = useEditStore();
+const onDuplicate = () => {
+  if (!recordData.value) return;
+  const newData = JSON.parse(JSON.stringify(recordData.value));
+  delete newData.id;
+  delete newData._Meta;
+  editStore.setAction('duplicate');
+  editStore.setInitial({});
+  editStore.setCurrent(newData);
+  router.push(newViewPath.value);
+};
+
+const { publishers } = storeToRefs(usePublisherStore());
+const publishedOn = computed(() => recordData.value?.PublishedOn as string[] | null | undefined);
+const publishersWithUrl = computed(() => {
+  const po = publishedOn.value;
+  if (!po?.length) return [];
+  return publishers.value
+    .filter((publisher) => po.includes(publisher.id))
+    .map<Publisher>((publisher) => ({
+      id: publisher.id,
+      name: publisher.name,
+      url: publisher.buildUrl(metaId.value, metaType.value),
+    }));
+});
+
+const { openPushDialog, openSyncDialog } = useTableViewStore();
+const onPush = () => {
+  openPushDialog({
+    id: metaId.value,
+    title: 'Push data',
+    publishers: publishersWithUrl.value,
+  });
+};
+
+const onRecordSync = () => {
+  const source = recordSource.value;
+  if (source && metaType.value && metaId.value) {
+    const syncUrl = syncSourceStore.buildSyncUrl(source, metaType.value, metaId.value);
+    if (syncUrl) {
+      openSyncDialog({
+        id: metaId.value,
+        title: 'Sync data',
+        type: metaType.value,
+        syncUrl,
+      });
+    }
+  }
+};
+
+// In record view, the sync action should sync the current record
+// In table view, it's a dataset-level sync
+const handleSync = () => {
+  if (isRecordView.value) {
+    onRecordSync();
+  } else {
+    onSync();
+  }
+};
 
 const changeLanguage = (value: string) => {
   updateUserSetting('preferredDatasetLanguage', value);
