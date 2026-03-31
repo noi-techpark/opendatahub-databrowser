@@ -17,7 +17,7 @@ export interface TourismMetaData {
   sources: string[];
   lastUpdated?: Date;
   apiFilter: Record<string, string>;
-  recordCount: { open?: number; closed?: number; reduced?: number };
+  recordCount: { open?: number; closed?: number; reduced?: number; Total?: number };
   deprecated?: boolean;
   parent?: TourismMetaData;
   tags: string[];

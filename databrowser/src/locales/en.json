@@ -185,9 +185,12 @@
       "filters": "Filters",
       "actions": {
         "title": "Actions",
+        "edit": "Edit",
         "refresh": "Refresh",
-        "sync": "Force Sync",
-        "analytics": "Open in Analytics"
+        "forceSync": "Force Sync",
+        "push": "Push",
+        "duplicate": "Duplicate",
+        "delete": "Delete"
       },
       "columnSizeSmall": "small",
       "columnSizeMedium": "medium",
