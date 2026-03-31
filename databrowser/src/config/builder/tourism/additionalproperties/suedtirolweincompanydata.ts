@@ -16,10 +16,31 @@ export const suedtirolweincompanydataCategory = (
       name: '',
       properties: [
         {
-          title: 'Has Visits',
-          component: CellComponent.ToggleTriStateCell,
+          title: 'Opening times Wineshop',
+          component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasVisits',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesWineshop',
+          },
+        },
+        {
+          title: 'Opening times Guides',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGuides.{language}',
+          },
+        },
+        {
+          title: 'Opening times Gastronomie',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGastronomie.{language}',
+          },
+        },
+        {
+          title: 'Company Holiday',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.CompanyHoliday.{language}',
           },
         },
         {
@@ -30,7 +51,7 @@ export const suedtirolweincompanydataCategory = (
           },
         },
         {
-          title: 'Has Visits',
+          title: 'Has Overnights',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasOvernights',
@@ -118,6 +139,132 @@ export const suedtirolweincompanydataCategory = (
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
             enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsSkyalpsPartner',
+          },
+        },
+        {
+          title: 'Wines',
+          component: CellComponent.ArrayCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.Wines',
+          },
+        },
+        {
+          title: 'Online Shop url',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OnlineShopurl',
+          },
+        },
+        {
+          title: 'Delivery Service Url',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.DeliveryServiceUrl',
+          },
+        },
+        {
+          title: 'H1',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H1.{language}',
+          },
+        },
+         {
+          title: 'H2',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H2.{language}',
+          },
+        },
+         {
+          title: 'Quote',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.Quote.{language}',
+          },
+        },
+        {
+          title: 'Quote Author',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.QuoteAuthor',
+          },
+        },
+        {
+          title: 'Description Sparkling Wine producer',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.DescriptionSparklingWineproducer.{language}',
+          },
+        },
+        {
+          title: 'H1 Sparkling Wine producer',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H1SparklingWineproducer.{language}',
+          },
+        },
+        {
+          title: 'H2 Sparkling Wine producer',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H2SparklingWineproducer.{language}',
+          },
+        },
+        {
+          title: 'Image Sparkling Wine producer',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.ImageSparklingWineproducer',
+          },
+        },
+        {
+          title: 'Facebook',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.SocialsFacebook',
+          },
+        },
+        {
+          title: 'Instagram',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.SocialsInstagram',
+          },
+        },
+        {
+          title: 'LinkedIn',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.SocialsLinkedIn',
+          },
+        },
+        {
+          title: 'Pinterest',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.SocialsPinterest',
+          },
+        },
+        {
+          title: 'Tiktok',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.SocialsTiktok',
+          },
+        },
+        {
+          title: 'Youtube',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.SocialsYoutube',
+          },
+        },
+        {
+          title: 'Twitter',
+          component: CellComponent.UrlCell,
+          objectMapping: {
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.SocialsTwitter',
           },
         },
       ],
