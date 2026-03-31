@@ -26,21 +26,21 @@ export const suedtirolweincompanydataCategory = (
           title: 'Opening times Guides',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGuides',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGuides.{language}',
           },
         },
         {
           title: 'Opening times Gastronomie',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGastronomie',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesGastronomie.{language}',
           },
         },
         {
           title: 'Company Holiday',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.CompanyHoliday',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.CompanyHoliday.{language}',
           },
         },
         {
@@ -166,21 +166,21 @@ export const suedtirolweincompanydataCategory = (
           title: 'H1',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H1',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H1.{language}',
           },
         },
          {
           title: 'H2',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H2',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H2.{language}',
           },
         },
          {
           title: 'Quote',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.Quote',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.Quote.{language}',
           },
         },
         {
@@ -194,21 +194,21 @@ export const suedtirolweincompanydataCategory = (
           title: 'Description Sparkling Wine producer',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.DescriptionSparklingWineproducer',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.DescriptionSparklingWineproducer.{language}',
           },
         },
         {
           title: 'H1 Sparkling Wine producer',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H1SparklingWineproducer',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H1SparklingWineproducer.{language}',
           },
         },
         {
           title: 'H2 Sparkling Wine producer',
           component: CellComponent.StringCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H2SparklingWineproducer',
+            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H2SparklingWineproducer.{language}',
           },
         },
         {
