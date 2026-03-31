@@ -8,7 +8,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
   <ToolBoxSectionLabel>
       <span class="mr-4">
-        <span class="text-black">{{pagination.pageCount}}</span> <span class="text-dialog">{{ t('datasets.listView.recordsOutOf') }}</span> <span class="text-black">{{ pagination.totalItems }}</span>
+        <span class="text-black">{{pagination.totalItems ?? '-' }}</span>
+        <span class="text-dialog">&nbsp;{{ t('datasets.listView.recordsOutOf') }}&nbsp;</span>
+        <span class="text-black">{{ metaDataTotalCount ?? '-' }}</span>
       </span>
     <ResetAllFilters @reset-all-filters="removeAllFilters" />
   </ToolBoxSectionLabel>
@@ -104,15 +106,23 @@ import IconAdd from '../../../../../components/svg/IconAdd.vue';
 import IconFilter from '../../../../../components/svg/IconFilter.vue';
 import {Pagination} from "@/domain/datasets/pagination/types";
 import ToolBoxSectionLabel from "@/domain/datasets/ui/toolBox/ToolBoxSectionLabel.vue";
+import { useMetaDataForRoute } from '@/domain/metaDataConfig/tourism/useMetaData';
 
 const { t } = useI18n();
 
-defineProps<{
+const props = defineProps<{
   pagination: Pagination
 }>();
 
 
-const { datasetDomain } = storeToRefs(useDatasetBaseInfoStore());
+const { datasetDomain, datasetPath, datasetQuery } = storeToRefs(useDatasetBaseInfoStore());
+
+const { currentMetaData } = useMetaDataForRoute(datasetPath, datasetQuery);
+
+const metaDataTotalCount = computed(() => {
+  const rc = currentMetaData.value?.recordCount;
+  return Math.max(props.pagination.totalItems,rc.Total ?? 0);
+});
 const filterTypeSelectOptions = computed(() => {
   if (datasetDomain.value === 'tourism') {
     return tourismFilterTypeSelectOptions;
