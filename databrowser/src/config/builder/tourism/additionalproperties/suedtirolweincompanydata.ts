@@ -19,7 +19,7 @@ export const suedtirolweincompanydataCategory = (
           title: 'Opening times Wineshop',
           component: CellComponent.StringCell,
           objectMapping: {
-            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesWineshop',
+            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OpeningtimesWineshop.{language}',
           },
         },
         {
@@ -156,14 +156,14 @@ export const suedtirolweincompanydataCategory = (
           title: 'Online Shop url',
           component: CellComponent.UrlCell,
           objectMapping: {
-            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OnlineShopurl',
+            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.OnlineShopurl.{language}',
           },
         },
         {
           title: 'Delivery Service Url',
           component: CellComponent.UrlCell,
           objectMapping: {
-            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.DeliveryServiceUrl',
+            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.DeliveryServiceUrl.{language}',
           },
         },
         {
@@ -191,7 +191,7 @@ export const suedtirolweincompanydataCategory = (
           title: 'Quote Author',
           component: CellComponent.StringCell,
           objectMapping: {
-            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.QuoteAuthor',
+            text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.QuoteAuthor.{language}',
           },
         },
         {
