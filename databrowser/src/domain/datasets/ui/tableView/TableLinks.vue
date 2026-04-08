@@ -58,7 +58,7 @@ import IconEye from '@/components/svg/IconEye.vue';
 import { useDatasetPermissionStore } from '@/domain/datasets/permission/store/datasetPermissionStore.ts';
 import { usePathsForCurrentRoute } from '@/domain/datasets/ui/header/usePaths.ts';
 import { useEditStore } from '@/domain/datasets/ui/editView/store/editStore.ts';
-import { useSync } from '@/domain/cellComponents/components/cells/syncDataConfigCell/useSync.ts';
+import { useSyncSourceStore } from '@/domain/syncData/syncSourceStore';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -140,7 +140,7 @@ const publishersWithUrl = computed(() => {
 });
 
 
-const { openPushDialog } = useTableViewStore();
+const { openPushDialog, openSyncDialog } = useTableViewStore();
 const onPush = () => {
   openPushDialog({
     id: metaId.value,
@@ -149,10 +149,23 @@ const onPush = () => {
   });
 };
 
-const { sendSync } = useSync();
+const syncSourceStore = useSyncSourceStore();
 const onSync = () => {
-  if(metaType.value && metaId.value){
-    sendSync(metaType.value, metaId.value);
+  const source = data.value.Source as string | undefined;
+  if (source && metaType.value && metaId.value) {
+    const syncUrl = syncSourceStore.buildSyncUrl(
+      source,
+      metaType.value,
+      metaId.value
+    );
+    if (syncUrl) {
+      openSyncDialog({
+        id: metaId.value,
+        title: 'Sync data',
+        type: metaType.value,
+        syncUrl,
+      });
+    }
   }
 };
 

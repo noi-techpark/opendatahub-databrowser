@@ -67,7 +67,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :record-id="recordId"
             :show-edit="showEdit"
             :show-delete="showDelete"
-            :show-force-sync="showForceSync"
+            :show-force-sync="showForceSync && hasSyncConfig((data as RecordActionsData).Source)"
             :show-push="showPush"
             :refetch="refetch"
           />
@@ -91,8 +91,10 @@ import TableLinks from './TableLinks.vue';
 import { RecordValues } from './load/types';
 import { Column, RecordActionsData } from './types';
 import { useTableRowSelection } from './useTableRowSelection';
+import { useSyncSourceStore } from '@/domain/syncData/syncSourceStore';
 
 const { t } = useI18n();
+const { hasSyncConfig } = useSyncSourceStore();
 
 const props = withDefaults(
   defineProps<{
