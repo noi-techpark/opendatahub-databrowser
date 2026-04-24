@@ -29,4 +29,5 @@ export * from './source';
 export * from './tag';
 export * from './textInfo';
 export * from './title';
+export * from './venue';
 export * from './webcam';

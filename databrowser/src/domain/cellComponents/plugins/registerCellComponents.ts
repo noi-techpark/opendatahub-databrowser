@@ -64,6 +64,7 @@ import UpdateHistoryCell from '../components/cells/updateHistoryCell/UpdateHisto
 import LastPushCell from '../components/cells/pushDataCell/LastPushCell.vue';
 import LastSyncCell from '../components/cells/lastSyncCell/LastSyncCell.vue';
 import UrlCell from '../components/cells/UrlCell/UrlCell.vue';
+import VenueRoomDetailsCell from '../components/cells/venueRoomDetailsCell/VenueRoomDetailsCell.vue';
 import WebcamCell from '../components/cells/webcamCell/WebcamCell.vue';
 
 import { CellComponent } from '../types';
@@ -214,6 +215,11 @@ export const registeredComponents: readonly RegisteredComponent[] = [
   [CellComponent.StateCell, StateCell, { supportsTableView: true }],
   [CellComponent.StringCell, StringCell, { supportsTableView: true }],
   [CellComponent.UrlCell, UrlCell, { supportsTableView: true }],
+  [
+    CellComponent.VenueRoomDetailsCell,
+    VenueRoomDetailsCell,
+    { supportsTableView: false },
+  ],
   [
     CellComponent.StringTemplateCell,
     StringTemplateCell,

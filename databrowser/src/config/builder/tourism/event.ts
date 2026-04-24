@@ -8,6 +8,7 @@ import {
   PropertyConfig,
 } from '../../../domain/datasets/config/types';
 import { DEFAULT_DATE_TIME_FORMAT } from '../../utils';
+import { withOdhBaseUrl } from '../../utils';
 
 export const eventDocumentCell = (): PropertyConfig => ({
   title: 'PDFs',
@@ -246,6 +247,22 @@ export const eventDateCategory = (): DetailElements => ({
   slug: 'Event-details',
   subcategories: [
     {
+      name: 'VENUE',
+      properties: [
+        {
+            title: 'Venue',
+            component: CellComponent.ArrayLookupCell,
+            objectMapping: { items: 'VenueIds' },
+            params: {
+              lookupUrl: withOdhBaseUrl('/v1/Venue?source=noi,nobis,eurac'),
+              labelSelector: 'Detail.{language}.Title',
+              keySelector: 'Id',
+              unique: 'true',
+            },
+        }
+      ],
+    },
+    {
       name: 'Time and date',
       properties: [
         {
@@ -288,6 +305,32 @@ export const eventDateCategory = (): DetailElements => ({
           },
         },
       ],
+    },
+    {
+      name: 'Event Dates 1',
+      properties: [
+        {
+          title: '',
+          component: CellComponent.EditNestedArrayCell,
+          arrayMapping: {
+            targetPropertyName: 'eventdates',
+            pathToParent: 'EventDate',
+            // Nested properties for each road
+            properties: [
+              {
+                title: 'From',
+                component: CellComponent.StringCell,
+                objectMapping: { text: 'From' },
+              },                 
+              {
+                title: 'Venue Room',
+                component: CellComponent.VenueRoomDetailsCell,
+                objectMapping: { items: 'VenueRoomDetailsIds' },
+              }
+            ],
+          },
+        },
+      ]     
     },
     {
       name: 'Event Variants',
