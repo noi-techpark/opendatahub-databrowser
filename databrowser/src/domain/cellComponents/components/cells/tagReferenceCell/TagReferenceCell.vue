@@ -41,6 +41,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :unique="uniqueValue"
         :tags-data="computedTagsData"
         :show-additional-data="showAdditionalDataValue"
+        :header-label="headerLabel ?? 'Tag name'"
+        :hide-header="hideHeader"
       />
     </template>
   </EditListCell>
@@ -70,6 +72,8 @@ const props = withDefaults(
     sortByLabel?: boolean | string;
     editable?: boolean;
     showAdditionalData?: boolean | string;
+    headerLabel?: string;
+    hideHeader?: boolean;
   }>(),
   {
     items: () => [],
@@ -80,6 +84,7 @@ const props = withDefaults(
     sortByLabel: true,
     editable: true,
     showAdditionalData: false,
+    headerLabel: undefined,
   }
 );
 

@@ -7,8 +7,7 @@ import {
   DetailElements,
   PropertyConfig,
 } from '../../../domain/datasets/config/types';
-import { DEFAULT_DATE_TIME_FORMAT } from '../../utils';
-import { withOdhBaseUrl } from '../../utils';
+import { DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT, withOdhBaseUrl } from '../../utils';
 
 export const eventDocumentCell = (): PropertyConfig => ({
   title: 'PDFs',
@@ -151,6 +150,27 @@ export const eventPropertiesCategory = (): DetailElements => ({
         },
       ],
     },
+    {
+      name: 'Event Variants',
+      properties: [
+        {
+          title: 'Event Variant',
+          component: CellComponent.EditEventVariantCell,
+          arrayMapping: {
+            pathToParent: 'EventVariants',
+            objectMapping: {
+              Price: 'Price',
+              VariantId: 'VariantId',
+              VariantCategoryId: 'VariantCategoryId',
+              Name: 'Name.{language}',
+              IsStandard: 'IsStandard',
+              Order: 'Order',
+            },
+            targetPropertyName: 'eventVariant',
+          },
+        },
+      ],
+    },
   ],
 });
 
@@ -243,27 +263,11 @@ export const eventAdditionalCategory = (): DetailElements => ({
 });
 
 export const eventDateCategory = (): DetailElements => ({
-  name: 'Event details',
+  name: 'Event Details',
   slug: 'Event-details',
-  subcategories: [
+  subcategories: [    
     {
-      name: 'VENUE',
-      properties: [
-        {
-            title: 'Venue',
-            component: CellComponent.ArrayLookupCell,
-            objectMapping: { items: 'VenueIds' },
-            params: {
-              lookupUrl: withOdhBaseUrl('/v1/Venue?source=noi,nobis,eurac'),
-              labelSelector: 'Detail.{language}.Title',
-              keySelector: 'Id',
-              unique: 'true',
-            },
-        }
-      ],
-    },
-    {
-      name: 'Time and date',
+      name: 'Time and date of the Event',
       properties: [
         {
           title: 'Date Begin',
@@ -280,34 +284,52 @@ export const eventDateCategory = (): DetailElements => ({
       ],
     },
     {
-      name: 'Event Dates',
+      name: 'Event Venue',
       properties: [
         {
-          title: 'Event Dates',
-          component: CellComponent.EditEventDateCell,
-          arrayMapping: {
-            pathToParent: 'EventDate',
-            objectMapping: {
-              From: 'From',
-              To: 'To',
-              Begin: 'Begin',
-              End: 'End',
-              Entrance: 'Entrance',
-              PriceFrom: 'PriceFrom',
-              Active: 'Active',
-              IsBookable: 'IsBookable',
-              SingleDays: 'SingleDays',
-              IsCancelled: 'IsCancelled',
-              MinPersons: 'MinPersons',
-              MaxPersons: 'MaxPersons',
+            title: '',
+            component: CellComponent.ArrayLookupCell,
+            objectMapping: { items: 'VenueIds' },
+            params: {
+              lookupUrl: withOdhBaseUrl('/v1/Venue?source=noi,nobis,eurac'),
+              labelSelector: 'Detail.{language}.Title',
+              keySelector: 'Id',
+              unique: 'true',
+              addLabel: 'Add new venue',
+              showUrl: 'false',
             },
-            targetPropertyName: 'eventDates',
-          },
-        },
+        }
       ],
     },
+    // {
+    //   name: 'Event Dates',
+    //   properties: [
+    //     {
+    //       title: 'Event Dates',
+    //       component: CellComponent.EditEventDateCell,
+    //       arrayMapping: {
+    //         pathToParent: 'EventDate',
+    //         objectMapping: {
+    //           From: 'From',
+    //           To: 'To',
+    //           Begin: 'Begin',
+    //           End: 'End',
+    //           Entrance: 'Entrance',
+    //           PriceFrom: 'PriceFrom',
+    //           Active: 'Active',
+    //           IsBookable: 'IsBookable',
+    //           SingleDays: 'SingleDays',
+    //           IsCancelled: 'IsCancelled',
+    //           MinPersons: 'MinPersons',
+    //           MaxPersons: 'MaxPersons',
+    //         },
+    //         targetPropertyName: 'eventDates',
+    //       },
+    //     },
+    //   ],
+    // },
     {
-      name: 'Event Dates 1',
+      name: 'Event Dates with Additional Information',
       properties: [
         {
           title: '',
@@ -319,39 +341,48 @@ export const eventDateCategory = (): DetailElements => ({
             properties: [
               {
                 title: 'From',
-                component: CellComponent.StringCell,
-                objectMapping: { text: 'From' },
-              },                 
+                component: CellComponent.DateCell,
+                objectMapping: { date: 'From' },
+                params: { format: DEFAULT_DATE_FORMAT },
+                class: 'w-24 md:w-28',
+              },
+              {
+                title: 'To',
+                component: CellComponent.DateCell,
+                objectMapping: { date: 'To' },
+                params: { format: DEFAULT_DATE_FORMAT },
+                class: 'w-24 md:w-28',
+              },
+              {
+                title: 'Begin',
+                component: CellComponent.DateCell,
+                objectMapping: { date: 'Begin' },
+                params: { type: 'time', format: 'HH:mm' },
+                class: 'w-24 md:w-28',
+              },
+              {
+                title: 'End',
+                component: CellComponent.DateCell,
+                objectMapping: { date: 'End' },
+                params: { type: 'time', format: 'HH:mm' },
+                class: 'w-24 md:w-28',
+              },
+              {
+                title: 'Active',
+                component: CellComponent.ToggleTriStateCell,
+                objectMapping: { enabled: 'Active' },
+                class: 'w-28 md:w-32',
+              },
               {
                 title: 'Venue Room',
                 component: CellComponent.VenueRoomDetailsCell,
                 objectMapping: { items: 'VenueRoomDetailsIds' },
-              }
+                class: 'w-64 md:w-96',
+              },
             ],
           },
         },
       ]     
-    },
-    {
-      name: 'Event Variants',
-      properties: [
-        {
-          title: 'Event Variant',
-          component: CellComponent.EditEventVariantCell,
-          arrayMapping: {
-            pathToParent: 'EventVariants',
-            objectMapping: {
-              Price: 'Price',
-              VariantId: 'VariantId',
-              VariantCategoryId: 'VariantCategoryId',
-              Name: 'Name.{language}',
-              IsStandard: 'IsStandard',
-              Order: 'Order',
-            },
-            targetPropertyName: 'eventVariant',
-          },
-        },
-      ],
-    },
+    },    
   ],
 });

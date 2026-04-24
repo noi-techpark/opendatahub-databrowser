@@ -49,7 +49,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
     eventPropertiesCategory(),
     contactCategory(),
     {
-      name: 'Organizer details',
+      name: 'Organizer',
       slug: 'Organizer-details',
       subcategories: [
         {
