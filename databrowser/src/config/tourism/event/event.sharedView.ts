@@ -26,6 +26,7 @@ import {
   eventDateCategory,
 } from '../../builder/tourism';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
+import { additionalPropertiesCategory } from '../../builder/tourism/additionalProperties';
 
 export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
@@ -39,17 +40,17 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
           properties: [idReadOnlyCell()],
         },
         dataStatesSubCategory(),
-        sourceSubCategoryWithDistinct('event'),
+        sourceSubCategoryWithDistinct('event'),        
       ],
     },
     textInfoCategory(),
     eventAdditionalCategory(),
     imageGalleryCategory(),
-    eventDateCategory(),
+    eventDateCategory(),   
     eventPropertiesCategory(),
     contactCategory(),
     {
-      name: 'Organizer details',
+      name: 'Organizer',
       slug: 'Organizer-details',
       subcategories: [
         {
@@ -119,6 +120,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
         },
       ],
     },
+    additionalPropertiesCategory(),
     locationCategory(),
     gpsDataCategory(),
     tagCategory('event'),

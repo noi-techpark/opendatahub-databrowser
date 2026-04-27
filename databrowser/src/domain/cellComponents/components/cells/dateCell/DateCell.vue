@@ -49,7 +49,11 @@ const formattedDate = computed(() => {
   if (props.date == null) {
     return '';
   }
-  return formatFn(Date.parse(props.date), props.format);
+  let parsed = Date.parse(props.date);
+  if (isNaN(parsed) && props.type === 'time') {
+    parsed = Date.parse(`1970-01-01T${props.date}`);
+  }
+  return isNaN(parsed) ? props.date : formatFn(parsed, props.format);
 });
 
 const inputType = computed(() =>

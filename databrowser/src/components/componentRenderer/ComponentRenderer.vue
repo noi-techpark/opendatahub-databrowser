@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     v-bind="attributes"
     .data="attributes"
     :editable="editable"
-    @update="update"
+    @update="handleUpdate"
   ></component>
 </template>
 
@@ -23,6 +23,7 @@ import {
 import { loadWebComponent } from '../../domain/webComponents/lazyLoadedWebComponent';
 import { isRegisteredWebComponent } from '../../domain/webComponents/webComponentRegistry';
 import { useUpdate } from './useUpdate';
+import { PropertyUpdate } from '../../domain/datasets/ui/editView/store/types';
 
 const props = withDefaults(
   defineProps<{
@@ -31,6 +32,7 @@ const props = withDefaults(
     objectMapping?: ObjectMapping;
     arrayMapping?: ArrayMapping;
     editable?: boolean;
+    emitOnly?: boolean;
   }>(),
   {
     tagName: '',
@@ -38,8 +40,13 @@ const props = withDefaults(
     objectMapping: undefined,
     arrayMapping: undefined,
     editable: false,
+    emitOnly: false,
   }
 );
+
+const emit = defineEmits<{
+  update: [value: PropertyUpdate];
+}>();
 
 const { tagName, attributes, objectMapping, arrayMapping } = toRefs(props);
 
@@ -53,5 +60,13 @@ watch(
   { immediate: true }
 );
 
-const update = useUpdate(tagName, objectMapping, arrayMapping);
+const storeUpdate = useUpdate(tagName, objectMapping, arrayMapping);
+
+const handleUpdate = (update: PropertyUpdate) => {
+  if (props.emitOnly) {
+    emit('update', update);
+  } else {
+    storeUpdate(update);
+  }
+};
 </script>

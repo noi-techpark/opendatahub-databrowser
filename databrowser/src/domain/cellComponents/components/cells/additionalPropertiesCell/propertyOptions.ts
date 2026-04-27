@@ -10,6 +10,7 @@ import { activityltsdataCategory } from '@/config/builder/tourism/additionalprop
 import { gastronomyltsdataCategory } from '@/config/builder/tourism/additionalproperties/gastronomyltsdata';
 import { suedtirolweincompanydataCategory } from '@/config/builder/tourism/additionalproperties/suedtirolweincompanydata';
 import { siagmuseumdataCategory } from '@/config/builder/tourism/additionalproperties/siagmuseumdata';
+import { eventeuracnoidataCategory } from '@/config/builder/tourism/additionalproperties/eventeuracnoidata';
 import { AdditionalProperty } from './types';
 
 // Add here new additional properties
@@ -21,6 +22,8 @@ const { name: activityltsname, slug: activityltsslug } = activityltsdataCategory
 const { name: gastronomyltsname, slug: gastronomyltsslug } = gastronomyltsdataCategory();
 const { name: suedtirolweincompanyname, slug: suedtirolweincompanyslug } = suedtirolweincompanydataCategory();
 const { name: siagmuseumname, slug: siagmuseumslug } = siagmuseumdataCategory();
+
+const { name: eventeuracnoiname, slug: eventeuracnoislug } = eventeuracnoidataCategory();
 
 export type AdditionalPropertiesOptions = SelectOption<string> &
   AdditionalProperty;
@@ -62,5 +65,10 @@ export const availableAdditionalPropertiesOptions: AdditionalPropertiesOptions[]
       label: siagmuseumname,
       value: 'AdditionalProperties.SiagMuseumDataProperties',
       slug: siagmuseumslug,
+    },
+    {
+      label: eventeuracnoiname,
+      value: 'AdditionalProperties.EventEuracNoiDataProperties',
+      slug: eventeuracnoislug,
     },
   ];

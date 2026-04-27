@@ -8,12 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <EditListTable :items="items" :hide-tab-link="true">
     <template #colGroup>
       <col class="w-32 md:w-60" />
-      <col class="w-32 md:w-60" />
+      <col v-if="showUrl" class="w-32 md:w-60" />
     </template>
 
     <template #tableHeader>
       <TableHeaderCell>Name</TableHeaderCell>
-      <TableHeaderCell>Url</TableHeaderCell>
+      <TableHeaderCell v-if="showUrl">Url</TableHeaderCell>
     </template>
 
     <template #tableCols="{ item, index }">
@@ -26,17 +26,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           @update="updateItem(index, $event.value)"
         />
       </TableCell>
-      <TableCell>
+      <TableCell v-if="showUrl">
         <UrlCell
           :editable="false"
           :text="options.find((option) => option.value === item)?.url"
         />
       </TableCell>
     </template>
-    <template #noItems>No publishers have been defined yet</template>
+    <template #noItems>No items have been defined yet</template>
     <template #addItems>
       <EditListAddButton
-        :text="'Add new publisher'"
+        :text="addLabel"
         @click="addItems([options[0].value])"
       />
     </template>
@@ -60,9 +60,13 @@ const props = withDefaults(
     items: string[];
     options: (SelectOption<string> & { url: string })[];
     unique?: boolean;
+    addLabel?: string;
+    showUrl?: boolean;
   }>(),
   {
     unique: false,
+    addLabel: 'Add new item',
+    showUrl: true,
   }
 );
 

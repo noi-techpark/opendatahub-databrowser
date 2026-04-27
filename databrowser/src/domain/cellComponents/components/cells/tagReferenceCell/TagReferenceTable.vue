@@ -5,6 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
+  <div :class="{ '[&_thead]:hidden': hideHeader }">
   <EditListTable :items="tags" :hide-tab-link="true">
     <template #colGroup>
       <col class="w-32 md:w-80" />
@@ -13,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <template #tableHeader>
-      <TableHeaderCell>Tag name</TableHeaderCell>
+      <TableHeaderCell>{{ headerLabel }}</TableHeaderCell>
       <TableHeaderCell v-if="showAdditionalData">Type</TableHeaderCell>
       <TableHeaderCell v-if="showAdditionalData">Source</TableHeaderCell>
     </template>
@@ -43,6 +44,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <EditListAddButton :text="'Add new'" @click="addItems([''])" />
     </template>
   </EditListTable>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -69,6 +71,8 @@ const props = defineProps<{
   unique: boolean;
   tagsData?: TagData[];
   showAdditionalData?: boolean;
+  headerLabel?: string;
+  hideHeader?: boolean;
 }>();
 
 const { tags, unique, tagsData, showAdditionalData } = toRefs(props);

@@ -16,6 +16,7 @@ export const publishedOnCell = (): PropertyConfig => {
       labelSelector: 'Name.{language}',
       keySelector: 'Id',
       unique: 'true',
+      addLabel: 'Add new Publisher',
     },
   };
 };

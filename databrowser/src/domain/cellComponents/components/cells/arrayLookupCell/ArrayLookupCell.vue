@@ -18,6 +18,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :options="options"
         :items="items"
         :unique="enableUniqueValue"
+        :add-label="props.addLabel"
+        :show-url="booleanOrStringToBoolean(props.showUrl, true)"
       />
     </template>
   </EditListCell>
@@ -39,10 +41,14 @@ const props = withDefaults(
     labelSelector?: string;
     items?: string[] | null;
     unique?: boolean | string;
+    addLabel?: string;
+    showUrl?: boolean | string;
   }>(),
   {
     items: () => [],
     unique: false,
+    addLabel: 'Add new item',
+    showUrl: true,
   }
 );
 

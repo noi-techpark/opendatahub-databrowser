@@ -41,6 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :object-mapping="property.objectMapping"
           :array-mapping="property.arrayMapping"
           :editable="false"
+          :emit-only="true"
           @update="(update: any) => handleNestedUpdate(index, update, property)"
         />
       </TableCell>
