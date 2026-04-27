@@ -68,7 +68,7 @@ export const availableAdditionalPropertiesOptions: AdditionalPropertiesOptions[]
     },
     {
       label: eventeuracnoiname,
-      value: 'AdditionalProperties.eventeuracnoidataproperties',
+      value: 'AdditionalProperties.EventEuracNoiDataProperties',
       slug: eventeuracnoislug,
     },
   ];

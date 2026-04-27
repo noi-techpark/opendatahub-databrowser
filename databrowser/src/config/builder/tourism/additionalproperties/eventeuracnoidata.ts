@@ -20,14 +20,14 @@ export const eventeuracnoidataCategory = (
           title: 'Sold out',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.eventeuracnoidataproperties.SoldOut',
+            enabled: 'AdditionalProperties.EventEuracNoiDataProperties.SoldOut',
           },
         },
         {
           title: 'EventLocation',
           component: CellComponent.SelectWithOptionsCell,
           objectMapping: {
-            value: 'AdditionalProperties.eventeuracnoidataproperties.EventLocation',
+            value: 'AdditionalProperties.EventEuracNoiDataProperties.EventLocation',
           },
           params: {
             value_001: 'NOI',
@@ -42,14 +42,14 @@ export const eventeuracnoidataCategory = (
           title: 'TypicalAgeRage',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.eventeuracnoidataproperties.TypicalAgeRange',
+            enabled: 'AdditionalProperties.EventEuracNoiDataProperties.TypicalAgeRange',
           },
         },
         {
           title: 'ExternalOrganizer',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.eventeuracnoidataproperties.ExternalOrganizer',
+            enabled: 'AdditionalProperties.EventEuracNoiDataProperties.ExternalOrganizer',
           },
         },
       ],
