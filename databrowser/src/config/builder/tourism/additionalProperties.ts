@@ -12,6 +12,7 @@ import { gastronomyltsdataCategory } from './additionalproperties/gastronomyltsd
 import { suedtirolweincompanydataCategory } from './additionalproperties/suedtirolweincompanydata';
 import { siagmuseumdataCategory } from './additionalproperties/siagmuseumdata';
 import { roadIncidentdataCategory } from './roadIncident';
+import { eventeuracnoidataCategory } from './additionalproperties/eventeuracnoidata';
 
 export const additionalPropertiesCategory = (): EditElements => ({
   name: 'Additional properties',
@@ -62,6 +63,10 @@ export const additionalPropertiesCategory = (): EditElements => ({
     {
       objectPath: 'AdditionalProperties.RoadIncidentProperties',
       elements: roadIncidentdataCategory(),
+    },
+    {
+     objectPath: 'AdditionalProperties.EventEuracNoidataProperties',
+     elements: eventeuracnoidataCategory(),
     },
   ],
 });

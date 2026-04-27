@@ -26,6 +26,7 @@ import {
   eventDateCategory,
 } from '../../builder/tourism';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
+import { additionalPropertiesCategory } from '../../builder/tourism/additionalProperties';
 
 export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
@@ -119,6 +120,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
         },
       ],
     },
+    additionalPropertiesCategory(),
     locationCategory(),
     gpsDataCategory(),
     tagCategory('event'),
