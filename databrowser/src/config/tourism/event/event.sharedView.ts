@@ -133,6 +133,7 @@ export const eventSharedView = (): DetailViewConfig | EditViewConfig => ({
         wnet: 'wnet,noi,studipink,retealfemminile',
         studiopink: 'wnet,noi,studipink,retealfemminile',
         retealfemminile: 'wnet,noi,studipink,retealfemminile',
+        peer: 'peer,noi',
       },
     }),
     videoItemsCategory(),
