@@ -77,7 +77,7 @@ export const sourceSharedView = (): DetailViewConfig | EditViewConfig => ({
               },
               params: {
                 url: withOdhBaseUrl(
-                  '/v1/Distinct?odhtype=odhmetadata&fields=OdhType&getasarray=true&excludenulloremptyvalues=true'
+                  '/v1/Distinct?odhtype=odhmetadata&fields=Type&getasarray=true&excludenulloremptyvalues=true'
                 ),
               },
             },
