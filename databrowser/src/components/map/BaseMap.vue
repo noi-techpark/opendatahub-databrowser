@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import IconCycle from '../svg/IconCycle.vue';
 import { randomId } from '../utils/random';
 
@@ -42,5 +42,11 @@ onMounted(() => {
       emit('mapReady', map.value);
     }
   });
+});
+
+// Release the WebGL context, browsers only allow a limited number of them
+onUnmounted(() => {
+  map.value?.remove();
+  map.value = undefined;
 });
 </script>

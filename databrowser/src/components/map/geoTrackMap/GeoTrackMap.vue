@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script lang="ts" setup>
 import { Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { onUnmounted, ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import BaseMap from '../BaseMap.vue';
 import { handleMapAttribution, initMap, getGeoJsonBounds } from '../utils';
 import { randomId } from '../../utils/random';
@@ -332,7 +332,7 @@ watch(
   }
 );
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   if (map.value && map.value.getStyle()) {
     if (map.value.getLayer(layerId)) {
       map.value.removeLayer(layerId);

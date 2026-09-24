@@ -17,7 +17,7 @@ export const announcementListView: ListViewConfig = {
     {
       title: 'ID',
       component: CellComponent.StringCell,
-      class: 'w-80',
+      class: 'w-96',
       objectMapping: {
         text: 'Id',
       },
