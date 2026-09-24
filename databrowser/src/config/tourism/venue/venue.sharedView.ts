@@ -58,7 +58,7 @@ export const venueSharedView = (): DetailViewConfig | EditViewConfig => ({
                   Id: 'Id',                  
                   Shortname: 'Shortname',
                   Detail: 'Detail',                  
-                  Capacity: 'MaxCapacity',
+                  MaxCapacity: 'MaxCapacity',
                   Placement: 'Placement',
                   Active: 'Active',
                   TagIds: 'TagIds',
