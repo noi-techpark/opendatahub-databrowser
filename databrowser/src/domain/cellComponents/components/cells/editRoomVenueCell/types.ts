@@ -21,7 +21,7 @@ export interface RoomVenueEntry {
   Id?: string;
   Shortname?: string;
   Detail?: Record<string, DetailEntry | null> | null;
-  MaxCapacity?: string;
+  MaxCapacity?: number | null;
   Placement?: string;
   Active?: boolean;
   VenueRoomProperties?: VenueRoomProperties | null;

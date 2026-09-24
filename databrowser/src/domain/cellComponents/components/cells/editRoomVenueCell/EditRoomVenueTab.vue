@@ -56,9 +56,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </SubCategoryItem>
           <SubCategoryItem title="Capacity">
             <StringCell
-              :text="item.MaxCapacity"
+              :text="item.MaxCapacity ?? undefined"
               :editable="editable"
-              @input="updateItem(index, { MaxCapacity: $event.target.value })"
+              type="number"
+              @input="updateItem(index, { MaxCapacity: toCapacity($event.target.value) })"
             />
           </SubCategoryItem>
           <SubCategoryItem title="Placement">
@@ -131,6 +132,10 @@ const { addItem, deleteItems, duplicateItem, updateItem } =
   useInjectActionTriggers<RoomVenueEntry>();
 
 const { editable } = useInjectEditMode();
+
+// MaxCapacity is an integer in the API, an empty input clears it
+const toCapacity = (value: string): number | null =>
+  value === '' ? null : Number(value);
 
 const language = computed(() => useDatasetQueryStore().handle('language').value ?? 'en');
 </script>
