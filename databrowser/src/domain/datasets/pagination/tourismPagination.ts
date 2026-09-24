@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { stringToNumber } from '../../utils/convertType';
+import { defaultPageSize } from '../ui/tableView/defaultValues';
 import { Pagination, WithTourismPagination } from './types';
 
 export const tourismPagination = <T>(
@@ -16,7 +17,7 @@ export const tourismPagination = <T>(
   const hasNext = data.NextPage != null;
 
   // TODO: use default page size for Tourism API
-  const pageSize = stringToNumber(query?.pagesize, 25);
+  const pageSize = stringToNumber(query?.pagesize, defaultPageSize);
 
   return {
     totalItems,

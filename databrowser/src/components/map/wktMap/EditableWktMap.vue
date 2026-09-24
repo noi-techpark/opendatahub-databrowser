@@ -17,7 +17,7 @@ import { IControl, Map, Marker } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import MapboxDraw from 'maplibre-gl-draw';
 import 'maplibre-gl-draw/dist/mapbox-gl-draw.css';
-import { onUnmounted, ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import BaseMap from '../BaseMap.vue';
 import { handleMapAttribution, initMap } from '../utils';
 import { parseWKT, geoJSONToWKT } from '../utils/wktParser';
@@ -367,7 +367,7 @@ watch(
   }
 );
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   if (map.value && draw.value) {
     map.value.removeControl(draw.value as unknown as IControl);
   }
