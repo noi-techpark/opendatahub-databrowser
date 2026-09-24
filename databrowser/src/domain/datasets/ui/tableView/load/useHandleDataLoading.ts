@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { MaybeRef, computed, toValue, MaybeRefOrGetter } from 'vue';
+import { defaultPageSize } from '../defaultValues';
 
 export const handleDataLoading = (
   isLoading: boolean,
@@ -10,7 +11,7 @@ export const handleDataLoading = (
 ) => {
   // While loading show a table with empty rows
   if (isLoading) {
-    return [...Array(25).keys().map(()=>{
+    return [...Array(defaultPageSize).keys().map(()=>{
       return {}
     })];
   }

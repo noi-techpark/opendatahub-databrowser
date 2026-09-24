@@ -12,14 +12,22 @@ import {
 } from '../../builder/tourism';
 import { geoDataTableCell } from '../../builder/tourism/geoData';
 
-export const announcementListView: ListViewConfig = {
+export const spatialDataListView: ListViewConfig = {
   elements: [
     {
       title: 'ID',
       component: CellComponent.StringCell,
-      class: 'w-96',
+      class: 'w-80',
       objectMapping: {
         text: 'Id',
+      },
+    },
+    {
+      title: 'Shortname',
+      component: CellComponent.StringCell,
+      class: 'w-48',
+      objectMapping: {
+        text: 'Shortname',
       },
     },
     {
@@ -31,14 +39,6 @@ export const announcementListView: ListViewConfig = {
       },
     },
     {
-      title: 'Description',
-      component: CellComponent.StringCell,
-      class: 'w-48',
-      objectMapping: {
-        text: 'Detail.{language}.BaseText',
-      }
-    },
-    {
       title: 'Tags',
       component: CellComponent.ArrayCell,
       class: 'w-48',
@@ -47,22 +47,6 @@ export const announcementListView: ListViewConfig = {
       },
       params: {
         separator: ', ',
-      },
-    },
-    {
-      title: 'Start Time',
-      component: CellComponent.EditedDateCell,
-      class: 'w-48',
-      objectMapping: {
-        date: 'StartTime',
-      },
-    },
-    {
-      title: 'End Time',
-      component: CellComponent.EditedDateCell,
-      class: 'w-48',
-      objectMapping: {
-        date: 'EndTime',
       },
     },
     geoDataTableCell(),

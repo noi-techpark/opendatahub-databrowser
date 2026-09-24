@@ -105,6 +105,7 @@
       "map": {
         "mapPreviewDataInserted": "Map preview of data inserted",
         "clickOnTheMapToSetGPSPoint": "Click on the map to set a GPS Point.",
+        "clickOnTheMapToDrawGeometry": "Click to draw",
         "latitude": "Latitude",
         "longitude": "Longitude",
         "altitude": "Altitude",
@@ -411,9 +412,6 @@
       "actions": {
         "diff": "Diff",
         "edit": "Edit"
-      },
-      "map": {
-        "clickOnTheMapToDrawGeometry": "Click to draw"
       }
     },
     "download": {
