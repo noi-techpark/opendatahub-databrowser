@@ -4,6 +4,15 @@ SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+ 
+<!--
+  Notice shown for datasets that are deprecated and have a known replacement.
+ 
+  Renders nothing unless getReplacement() returns an entry, which requires the
+  dataset to be flagged `deprecated` AND to be listed in datasetReplacements.ts.
+  Other deprecated datasets therefore get no notice.
+ 
+-->
 <template>
   <div
     v-if="replacement"
