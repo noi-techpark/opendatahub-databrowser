@@ -6,3 +6,8 @@ docker01.opendatahub.com ansible_user='noi-techpark-bot' ansible_ssh_common_args
 
 [impact]
 docker04.opendatahub.com ansible_user='noi-techpark-bot' ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+# Scaleway (noi-techpark/infrastructure: terraform/scaleway/digital/docker, prepared by
+# ansible/playbooks/docker-scw.yml there). Reached through the Caddy proxy proxy-test.
+[scwtest]
+docker01-test.scw.opendatahub.testingmachine.eu ansible_user='noi-techpark-bot' ansible_ssh_common_args='-o StrictHostKeyChecking=no'

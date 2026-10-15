@@ -73,6 +73,61 @@ jobs:
           docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           project-name: ${{ env.PROJECT_NAME }}
 
+  # Deploy test on Scaleway (https://databrowser.scw.opendatahub.testingmachine.eu), from the
+  # feat/scw branch. Server: docker01-test in noi-techpark/infrastructure
+  # (terraform/scaleway/digital/docker); the Caddy proxy proxy-test forwards the domain to
+  # SERVER_PORT. Keycloak is the Scaleway test instance, whose client
+  # it.bz.opendatahub.databrowser needs the redirect URI below.
+  deploy-scaleway-test:
+    runs-on: ubuntu-22.04
+    if: github.ref == 'refs/heads/feat/scw'
+    needs: test
+    concurrency: deploy-scaleway-test
+    env:
+      SERVER_PORT: 1005
+      DOCKER_TAG: ${{ github.sha }}-scw-test
+      VITE_APP_KEYCLOAK_URL: "https://auth.scw.opendatahub.testingmachine.eu/auth"
+      VITE_APP_KEYCLOAK_REALM: "noi"
+      VITE_APP_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.databrowser"
+      VITE_APP_KEYCLOAK_REDIRECT_URI: "https://databrowser.scw.opendatahub.testingmachine.eu/silent-check-sso.html"
+      VITE_APP_IMAGE_UPLOAD_URL: "https://tourism.api.opendatahub.testingmachine.eu/v1/FileUpload/Image"
+      VITE_APP_FILE_UPLOAD_URL: "https://tourism.api.opendatahub.testingmachine.eu/v1/FileUpload/"
+      VITE_APP_ODH_LOOKUP_BASE_URL: "https://tourism.api.opendatahub.testingmachine.eu"
+      VITE_APP_ENV_BADGE: "TESTING"
+      VITE_APP_META_ROBOTS: "<meta name=\"robots\" content=\"noindex, nofollow\" />"
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Build code
+        uses: noi-techpark/github-actions/npm-build@v2
+        with:
+          working-directory: databrowser
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        with:
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+        env:
+          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          X_SERVER_PORT: ${{ env.SERVER_PORT }}
+          X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
+      - name: Build and push images
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          working-directory: infrastructure
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy application
+        uses: noi-techpark/github-actions/docker-deploy@v2
+        with:
+          working-directory: infrastructure/ansible
+          hosts: "scwtest"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-username: "noi-techpark-bot"
+          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          project-name: ${{ env.PROJECT_NAME }}
+
   # deploy-beta:
   #   runs-on: ubuntu-22.04
   #   if: github.ref == 'refs/heads/main'
