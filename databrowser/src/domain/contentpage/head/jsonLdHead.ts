@@ -5,6 +5,7 @@
 import { useHead } from '@unhead/vue';
 import { computed, Ref } from 'vue';
 import { TourismMetaData } from '../../metaDataConfig/tourism/types';
+import { canonicalOrigin } from './canonicalOrigin';
 
 export const useJsonLdHeadForDataset = (
   dataset: Ref<TourismMetaData | undefined>
@@ -21,8 +22,11 @@ export const useJsonLdHeadForDataset = (
             '@type': 'Dataset',
             name: dataset.value.shortname,
             description: dataset.value.description,
-            url: window.location.href,
-            dateModified: dataset.value.lastUpdated, 
+            url:
+              canonicalOrigin +
+              window.location.pathname +
+              window.location.search,
+            dateModified: dataset.value.lastUpdated,
             creator: {
               '@type': 'Organization',
               name: 'Open Data Hub',
