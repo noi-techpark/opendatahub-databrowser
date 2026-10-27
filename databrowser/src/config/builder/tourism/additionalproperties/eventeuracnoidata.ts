@@ -37,12 +37,20 @@ export const eventeuracnoidataCategory = (
           },
         },
         {
-          title: 'TypicalAgeRage',
-          component: CellComponent.ToggleTriStateCell,
+          title: 'Typical Age Range From',
+          component: CellComponent.StringCell,
           objectMapping: {
-            enabled:
-              'AdditionalProperties.EventEuracNoiDataProperties.TypicalAgeRange',
+            text: 'AdditionalProperties.EventEuracNoiDataProperties.TypicalAgeRange.AgeFrom',
           },
+          params: { type: 'number' },
+        },
+        {
+          title: 'Typical Age Range To',
+          component: CellComponent.StringCell,
+          objectMapping: {
+            text: 'AdditionalProperties.EventEuracNoiDataProperties.TypicalAgeRange.AgeTo',
+          },
+          params: { type: 'number' },
         },
         {
           title: 'ExternalOrganizer',

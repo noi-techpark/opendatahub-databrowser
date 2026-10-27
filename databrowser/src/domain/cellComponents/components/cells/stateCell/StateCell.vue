@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <TagCustom
     v-if="state != null"
-    :text="state === true ? 'Active' : 'Inactive'"
+    :text="state === true ? 'True' : 'False'"
     :type="state === true ? 'blue' : 'red'"
     has-dot
   />

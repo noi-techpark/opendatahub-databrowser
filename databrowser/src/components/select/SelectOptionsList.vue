@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <template v-if="searchResults != null">
         <SelectOptionsListItem
           v-for="option in searchResults"
-          :key="option.label"
+          :key="option.value"
           :value="option.value"
           :label="option.label"
           :isAction="option.isAction"
@@ -41,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
           <SelectOptionsListItem
             v-for="option in groupOption.options"
-            :key="option.label"
+            :key="option.value"
             :value="option.value"
             :label="option.label"
             :isAction="option.isAction"

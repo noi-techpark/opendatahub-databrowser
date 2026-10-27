@@ -30,7 +30,7 @@ export const municipalityListView: ListViewConfig = {
     lastChangesTableCell(),
     sourceTableCell(),
     {
-      title: 'Source state',
+      title: 'Source Active',
       component: CellComponent.StateCell,
       class: 'w-40',
       objectMapping: {

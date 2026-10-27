@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useEditStore } from '../../../../datasets/ui/editView/store/editStore';
+import { useSourceOverride } from '../../utils/sourceOverride/useSourceOverride';
 import TagReferenceCell from './TagReferenceCell.vue';
 
 const props = defineProps<{
@@ -40,17 +40,13 @@ defineEmits<{
   update: [value: { prop: string; value: unknown }];
 }>();
 
-const editStore = useEditStore();
-
-const source = computed(() => {
-  const current = editStore.current as Record<string, unknown>;
-  return typeof current?.Source === 'string' && current.Source.length > 0
-    ? current.Source
-    : null;
-});
+const { resolvedSource } = useSourceOverride();
 
 const urlWithSource = computed(() => {
-  if (props.url == null || source.value == null) return props.url;
-  return `${props.url}&source=${encodeURIComponent(source.value)}`;
+  if (props.url == null || resolvedSource.value == null) return props.url;
+  const separator = props.url.includes('?') ? '&' : '?';
+  return `${props.url}${separator}source=${encodeURIComponent(
+    resolvedSource.value
+  )}`;
 });
 </script>

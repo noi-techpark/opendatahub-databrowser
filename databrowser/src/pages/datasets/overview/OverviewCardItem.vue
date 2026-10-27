@@ -25,12 +25,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </template>
       </CardTitle>
       <CardText class="mb-4">
-        {{ dataset.description }}
+        {{ getDisplayDescription(dataset) }}
       </CardText>
       <OverviewInfoSources :dataset="dataset" />
       <CardDivider no-bottom />
     </CardLinkContainer>
     <div class="px-3 pb-5 lg:px-5">
+      <DeprecationNotice :dataset="dataset" class="mb-4" />
       <CardActions>
         <OverviewLinkInfo :dataset="dataset" />
         <OverviewLinkApi :dataset="dataset" />
@@ -49,6 +50,8 @@ import CardTitle from '../../../components/card/CardTitle.vue';
 import ArrowLine from '../../../components/svg/ArrowLine.vue';
 import TagCustom from '../../../components/tag/TagCustom.vue';
 import DatasetTitle from '../../../domain/datasets/ui/common/DatasetTitle.vue';
+import DeprecationNotice from '../../../domain/datasets/ui/common/DeprecationNotice.vue';
+import { getDisplayDescription } from '../../../domain/datasets/ui/common/datasetReplacements';
 import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
 import OverviewInfoSources from './OverviewInfoSources.vue';
 import OverviewLinkApi from './OverviewLinkApi.vue';

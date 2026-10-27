@@ -11,7 +11,8 @@ import {
   contactCategory,
   dataStatesSubCategory,
   gpsDataCategory,
-  idAndCustomIdCells,
+  idReadOnlyCell,
+  customIdCell,
   imageGalleryCategory,
   mainImageCell,
   odhTagCategory,
@@ -54,37 +55,25 @@ export const municipalitySharedView = ():
                 text: 'Inhabitants',
               },
             },
-          ],
-        },
-        {
-          name: 'IDs',
-          properties: [
-            ...idAndCustomIdCells(),
-            {
-              title: 'Siag Id',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'SiagId' },
-              class: 'break-all',
-            },
-            {
-              title: 'Tourismverein Id',
-              component: CellComponent.StringCell,
-              objectMapping: { text: 'TourismvereinId' },
-              class: 'break-all',
-            },
             {
               title: 'Istat Number',
               component: CellComponent.StringCell,
               objectMapping: { text: 'IstatNumber' },
               class: 'break-all',
             },
-            regionIdCell('RegionId'),
+          ],
+        },
+        {
+          name: 'IDs',
+          properties: [
+            idReadOnlyCell(),
             {
-              title: 'HGV id',
+              title: 'Tourismverein Id',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'Mapping.hgv.id' },
+              objectMapping: { text: 'TourismvereinId' },
               class: 'break-all',
             },
+            regionIdCell('RegionId'),
           ],
         },
         dataStatesSubCategory({ hasVisibleInSearch: true }),
@@ -99,6 +88,30 @@ export const municipalitySharedView = ():
     odhTagCategory(),
     licenseInfoCategory(),
     mappingCategory(),
+    {
+      name: 'Other',
+      slug: 'other',
+      subcategories: [
+        {
+          name: 'Various Ids',
+          properties: [
+            customIdCell(),
+            {
+              title: 'Siag Id',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'SiagId' },
+              class: 'break-all',
+            },
+            {
+              title: 'HGV id',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'Mapping.hgv.id' },
+              class: 'break-all',
+            },
+          ],
+        },
+      ],
+    },
     updatehistoryCategory(),
   ],
 });

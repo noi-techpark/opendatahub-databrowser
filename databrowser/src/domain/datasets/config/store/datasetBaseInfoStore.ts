@@ -34,7 +34,7 @@ export const useDatasetBaseInfoStore = defineStore(
     // Current source
     const source = ref(userSettings.preferredDatasetSource.value);
 
-    // Update source state
+    // Update Source Active
     watch(
       baseInfo.source,
       (newSource) => {

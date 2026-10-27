@@ -41,7 +41,7 @@ export const sourceSubCategoryWithDistinct = (
 export const sourceTableCell = (): PropertyConfig => ({
   title: 'Source',
   component: CellComponent.StringCell,
-  class: 'w-36',
+  class: 'w-48',
   objectMapping: { text: 'Source' },
 });
 

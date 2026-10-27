@@ -71,7 +71,7 @@ const { navigateToTab } = useInjectNavigation();
 const { addItems } = useInjectActionTriggers<GpsInfoEntry>();
 
 const addNewGpsPoint = () => {
-  addItems([{ unitMeasureAltitude: 'm' }]);
+  addItems([{ gpsType: 'position', unitMeasureAltitude: 'm' }]);
   navigateToTab(props.items.length);
 };
 

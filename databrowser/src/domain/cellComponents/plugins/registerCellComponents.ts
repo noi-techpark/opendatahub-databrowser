@@ -8,6 +8,7 @@ import AdditionalPropertiesCell from '../components/cells/additionalPropertiesCe
 import ArrayCell from '../components/cells/arrayCell/ArrayCell.vue';
 import ArrayEditableCell from '../components/cells/arrayCell/ArrayEditableCell.vue';
 import ArrayLookupCell from '../components/cells/arrayLookupCell/ArrayLookupCell.vue';
+import ArrayLookupCellSourceFiltered from '../components/cells/arrayLookupCell/ArrayLookupCellSourceFiltered.vue';
 import ArrayTagsCell from '../components/cells/arrayTagsCell/ArrayTagsCell.vue';
 import ArticleAdditionalInfoCell from '../components/cells/articleAdditionalInfoCell/ArticleAdditionalInfoCell.vue';
 import ArticleLinkInfoCell from '../components/cells/articleLinkInfoCell/ArticleLinkInfoCell.vue';
@@ -85,6 +86,11 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     { supportsTableView: false },
   ],
   [CellComponent.ArrayLookupCell, ArrayLookupCell, { supportsTableView: true }],
+  [
+    CellComponent.ArrayLookupCellSourceFiltered,
+    ArrayLookupCellSourceFiltered,
+    { supportsTableView: true },
+  ],
   [CellComponent.ArrayTagsCell, ArrayTagsCell, { supportsTableView: true }],
   [
     CellComponent.ArticleAdditionalInfoCell,

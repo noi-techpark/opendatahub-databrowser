@@ -119,6 +119,22 @@ const useResponseErrors = (mutateError: Ref<Error | null>) => {
         };
       }
 
+      // Some backends respond with a plain object holding a single
+      // "error" (singular) string message instead of the "errors" object
+      // handled below, e.g. { error: "some message" }. That case must be
+      // handled as well.
+      const singleErrorMessage = (responseData as Record<string, unknown>)
+        .error;
+      if (typeof singleErrorMessage === 'string') {
+        return {
+          title: singleErrorMessage,
+          errors: {
+            statusCode: [`Response status code: ${err.response.status}`],
+            raw: [singleErrorMessage],
+          },
+        };
+      }
+
       // The Open Data Hub error object values can be either of type string or string[].
       // The string type values contain information like HTTP status code. Only the string[]
       // type fields contain true error messages. Those need to be returned

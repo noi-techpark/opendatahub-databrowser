@@ -17,7 +17,7 @@ export const announcementListView: ListViewConfig = {
     {
       title: 'ID',
       component: CellComponent.StringCell,
-      class: 'w-80',
+      class: 'w-96',
       objectMapping: {
         text: 'Id',
       },
@@ -71,7 +71,7 @@ export const announcementListView: ListViewConfig = {
     lastSyncTableCell(true, 'Id'),
     sourceTableCell(),
     {
-      title: 'Source state',
+      title: 'Source Active',
       component: CellComponent.StateCell,
       class: 'w-40',
       objectMapping: {

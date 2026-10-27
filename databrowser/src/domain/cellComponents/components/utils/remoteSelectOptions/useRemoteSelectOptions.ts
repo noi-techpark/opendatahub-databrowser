@@ -44,7 +44,8 @@ export const useRemoteSelectOptionsWithMapper = <
 >(
   url: MaybeRef<string | undefined>,
   sortByLabel: MaybeRef<string | boolean | undefined>,
-  mapper: MaybeRef<(items: D[]) => T[]>
+  mapper: MaybeRef<(items: D[]) => T[]>,
+  enabled: MaybeRef<boolean> = true
 ): {
   isLoading: Ref<boolean>;
   isSuccess: Ref<boolean>;
@@ -52,8 +53,10 @@ export const useRemoteSelectOptionsWithMapper = <
   error: Ref<unknown>;
   options: Ref<T[]>;
 } => {
-  const { data, isLoading, isSuccess, isError, error } =
-    useApiRead<unknown>(url);
+  const { data, isLoading, isSuccess, isError, error } = useApiRead<unknown>(
+    url,
+    { enabled }
+  );
 
   const options = computed(() => {
     if (data.value == null) {

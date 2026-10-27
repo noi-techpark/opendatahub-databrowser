@@ -15,6 +15,7 @@ interface ImportMetaEnv extends Readonly<
   readonly VITE_APP_FILE_UPLOAD_URL: string;
   readonly VITE_APP_ODH_LOOKUP_BASE_URL: string;
   readonly VITE_APP_ENV_BADGE: string;
+  readonly VITE_APP_MAP_STYLE_URL: string;
 }
 
 interface ImportMeta {

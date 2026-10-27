@@ -8,6 +8,7 @@ export enum CellComponent {
   ConcatCell = 'ConcatCell',
   ArrayEditableCell = 'ArrayEditableCell',
   ArrayLookupCell = 'ArrayLookupCell',
+  ArrayLookupCellSourceFiltered = 'ArrayLookupCellSourceFiltered',
   ArrayTagsCell = 'ArrayTagsCell',
   ArticleAdditionalInfoCell = 'ArticleAdditionalInfoCell',
   ArticleLinkInfoCell = 'ArticleLinkInfoCell',

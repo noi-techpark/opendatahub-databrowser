@@ -13,7 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #addItems>
       <EditListAddButton
         :text="'Add new GPS Point'"
-        @click="addItems([{ unitMeasureAltitude: 'm' }])"
+        @click="addItems([{ gpsType: 'position', unitMeasureAltitude: 'm' }])"
       />
     </template>
 

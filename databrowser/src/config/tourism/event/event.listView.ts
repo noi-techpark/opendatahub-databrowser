@@ -54,7 +54,7 @@ export const eventListView: ListViewConfig = {
     lastSyncTableCell(true, 'Detail.{language}.Title'),
     sourceTableCell(),
     {
-      title: 'Source state',
+      title: 'Source Active',
       component: CellComponent.StateCell,
       class: 'w-40',
       objectMapping: {

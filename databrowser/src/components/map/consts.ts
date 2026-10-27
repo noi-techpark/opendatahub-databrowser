@@ -16,7 +16,21 @@ export const mapDefaultMinZoom = 3;
 export const mapDefaultMaxZoom = 18;
 
 /**
- * @returns The default attribution control with mentions of OpenDataHub, OpenStreetMap and Carto
+ * The MapLibre style used by all maps.
+ *
+ * Defaults to OpenFreeMap's Positron style: it needs no API key, has no request
+ * limits and comes closest to the look of the Carto "light_all" raster tiles
+ * used before. Set VITE_APP_MAP_STYLE_URL to point an environment at another
+ * provider (or at a self-hosted style) without a code change.
+ */
+export const mapStyleUrl =
+  import.meta.env.VITE_APP_MAP_STYLE_URL ||
+  'https://tiles.openfreemap.org/styles/positron';
+
+/**
+ * The attribution shown on every map, in addition to the attribution that
+ * MapLibre derives from the style's own sources (tile provider, OpenMapTiles
+ * and OpenStreetMap).
  */
 export const mapDefaultAttribution =
-  '<a target="_blank" href="https://www.opendatahub.com">OpenDataHub.com</a> | Map tiles by <a href="https://www.openstreetmap.org/about" target="_blank">OpenStreetMap</a> and <a href="https://carto.com/" target="_blank">Carto</a>';
+  '<a target="_blank" href="https://www.opendatahub.com">OpenDataHub.com</a>';
