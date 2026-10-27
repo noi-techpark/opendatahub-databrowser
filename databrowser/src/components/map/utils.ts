@@ -2,7 +2,14 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { AttributionControl, LngLatBounds, LngLatLike, Map } from 'maplibre-gl';
+import {
+  AttributionControl,
+  LngLatBounds,
+  LngLatLike,
+  Map,
+  setWorkerUrl,
+} from 'maplibre-gl';
+import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import { MaybeRef, toValue, watch } from 'vue';
 import { LineString, MultiLineString } from 'geojson';
 import {
@@ -14,6 +21,10 @@ import {
   mapStyleUrl,
 } from './consts';
 import { MapGLOptions } from './types';
+
+// maplibre-gl 6 looks for its worker next to its own module file, which no
+// longer holds once Vite bundles it. Point it to the worker file Vite emits.
+setWorkerUrl(maplibreWorkerUrl);
 
 /**
  * Initialize a new Map object with the given options.
