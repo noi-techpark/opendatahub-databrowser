@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script lang="ts" setup>
-import { Map } from 'maplibre-gl';
+import { GeoJSONSource, Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { onBeforeUnmount, ref, watch } from 'vue';
 import BaseMap from '../BaseMap.vue';
@@ -293,7 +293,7 @@ const addTrackToMap = (mapInstance: Map, coordinates: number[][]) => {
 };
 
 const updateTrackOnMap = (mapInstance: Map, coordinates: number[][]) => {
-  const source = mapInstance.getSource(sourceId) as maplibregl.GeoJSONSource;
+  const source = mapInstance.getSource<GeoJSONSource>(sourceId);
 
   if (source && coordinates.length > 0) {
     const geoJsonData = {

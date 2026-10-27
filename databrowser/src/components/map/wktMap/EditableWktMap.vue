@@ -13,7 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script lang="ts" setup>
-import { IControl, Map, Marker } from 'maplibre-gl';
+import { IControl, Map, MapEventType, Marker } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import MapboxDraw from 'maplibre-gl-draw';
 import 'maplibre-gl-draw/dist/mapbox-gl-draw.css';
@@ -137,10 +137,12 @@ const initializeDraw = (mapInstance: Map) => {
 
   mapInstance.addControl(draw.value as unknown as IControl);
 
-  // Listen to draw events
-  mapInstance.on('draw.create', handleDrawCreate); // Auto-exit on create
-  mapInstance.on('draw.update', handleDrawUpdate);
-  mapInstance.on('draw.delete', handleDrawUpdate);
+  // Listen to draw events. maplibre-gl only types its own event names, so the
+  // custom events fired by maplibre-gl-draw need a cast.
+  const drawEvent = (name: string) => name as keyof MapEventType;
+  mapInstance.on(drawEvent('draw.create'), handleDrawCreate); // Auto-exit on create
+  mapInstance.on(drawEvent('draw.update'), handleDrawUpdate);
+  mapInstance.on(drawEvent('draw.delete'), handleDrawUpdate);
 };
 
 /**
