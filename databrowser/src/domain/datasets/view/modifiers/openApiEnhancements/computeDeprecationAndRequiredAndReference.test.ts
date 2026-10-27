@@ -5,7 +5,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import yaml from 'js-yaml';
+import { load } from 'js-yaml';
 import { OpenAPIV3 } from 'openapi-types';
 import { computeViewWithOpenApiEnhancements } from './computeDeprecationAndRequiredAndReference';
 import { DetailViewConfigWithType } from '../../types';
@@ -16,7 +16,7 @@ const schemaYaml = readFileSync(
   resolve(__dirname, '__fixtures__/testdata-schema.yaml'),
   'utf8'
 );
-const schema = yaml.load(schemaYaml) as OpenAPIV3.SchemaObject & {
+const schema = load(schemaYaml) as OpenAPIV3.SchemaObject & {
   components?: OpenAPIV3.ComponentsObject;
 };
 
