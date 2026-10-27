@@ -4,6 +4,7 @@
 
 import {
   QueryFunction,
+  UseMutationReturnType,
   UseQueryOptions,
   useMutation,
   useQuery,
@@ -11,11 +12,20 @@ import {
 import { MaybeRef, computed, readonly, toValue } from 'vue';
 import { axiosWithMaybeAuth } from './apiAuth';
 
+// Options and query function must share the query key type
+type ApiReadQueryKey = readonly unknown[];
+
 export const useApiRead = <TQueryFnData = unknown, TData = TQueryFnData>(
   url: MaybeRef<string | undefined>,
   options?: MaybeRef<
     Partial<
-      UseQueryOptions<TQueryFnData, Error, TData, TQueryFnData> & {
+      UseQueryOptions<
+        TQueryFnData,
+        Error,
+        TData,
+        TQueryFnData,
+        ApiReadQueryKey
+      > & {
         withAuth?: boolean;
         apiType?: string;
       }
@@ -23,11 +33,9 @@ export const useApiRead = <TQueryFnData = unknown, TData = TQueryFnData>(
   >
 ) => {
   // Compute query key from url
-  const queryKey = readonly(
-    computed<(string | undefined)[]>(() => [toValue(url)])
-  );
+  const queryKey = readonly(computed<unknown[]>(() => [toValue(url)]));
   // Create query function using axios
-  const queryFn: QueryFunction<TQueryFnData, readonly unknown[]> = async ({
+  const queryFn: QueryFunction<TQueryFnData, ApiReadQueryKey> = async ({
     queryKey: [url],
   }) => {
     const axiosInstance = await axiosWithMaybeAuth(
@@ -42,6 +50,15 @@ export const useApiRead = <TQueryFnData = unknown, TData = TQueryFnData>(
   // Run query
   return useQuery({ retry: 1, ...toValue(options), queryKey, queryFn });
 };
+
+// Named alias for useMutation's mutate function, whose own type
+// (MutateSyncFunction) is not exported by @tanstack/vue-query
+export type ApiMutateFunction = UseMutationReturnType<
+  unknown,
+  Error,
+  unknown,
+  unknown
+>['mutate'];
 
 export const useApiMutate = (
   url: MaybeRef<string | undefined>,
