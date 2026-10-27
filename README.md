@@ -25,7 +25,7 @@ These instructions will get you a copy of this repository and prepare it for dev
 
 To build the projects in the repository, the following prerequisites must be met:
 
-- Node.js, at least v14.16 or v16 LTS (see [https://nodejs.org/en/about/releases/](https://nodejs.org/en/about/releases/))
+- Node.js v26 LTS or newer (see [https://nodejs.org/en/about/previous-releases](https://nodejs.org/en/about/previous-releases))
 
 ### Installing
 

@@ -24,7 +24,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 To build the project, the following prerequisites must be met:
 
-- Node.js, at least v14.16 or v16 LTS (see [https://nodejs.org/en/about/releases/](https://nodejs.org/en/about/releases/))
+- Node.js v26 LTS or newer (see [https://nodejs.org/en/about/previous-releases](https://nodejs.org/en/about/previous-releases))
 
 If you want to use Docker instead, take a look at the [Docker environment](#docker-environment) section.
 
