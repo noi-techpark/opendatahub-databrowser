@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script lang="ts" setup>
-import { Map } from 'maplibre-gl';
+import { GeoJSONSource, Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { onBeforeUnmount, ref, watch } from 'vue';
 import BaseMap from '../BaseMap.vue';
@@ -19,15 +19,23 @@ import { randomId } from '../../utils/random';
 /**
  * Validate and format coordinate pair.
  */
-const validateCoordinate = (lat: string | null, lon: string | null): number[] | null => {
+const validateCoordinate = (
+  lat: string | null,
+  lon: string | null
+): number[] | null => {
   if (!lat || !lon) return null;
-  
+
   const latitude = parseFloat(lat);
   const longitude = parseFloat(lon);
-  
-  if (!isNaN(latitude) && !isNaN(longitude) && 
-      latitude >= -90 && latitude <= 90 && 
-      longitude >= -180 && longitude <= 180) {
+
+  if (
+    !isNaN(latitude) &&
+    !isNaN(longitude) &&
+    latitude >= -90 &&
+    latitude <= 90 &&
+    longitude >= -180 &&
+    longitude <= 180
+  ) {
     return [longitude, latitude];
   }
   return null;
@@ -39,15 +47,15 @@ const parseGpxToCoordinates = (gpxData: string): number[][] => {
   try {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(gpxData, 'application/xml');
-    
+
     const parserError = xmlDoc.querySelector('parsererror');
     if (parserError) {
       console.error('GPX parsing error:', parserError.textContent);
       return [];
     }
-    
+
     const coordinates: number[][] = [];
-    
+
     // Get all track points (trkpt elements)
     const trackPoints = xmlDoc.querySelectorAll('trkpt');
     trackPoints.forEach((point) => {
@@ -57,7 +65,7 @@ const parseGpxToCoordinates = (gpxData: string): number[][] => {
       );
       if (coord) coordinates.push(coord);
     });
-    
+
     // Get all route points (rtept elements)
     const routePoints = xmlDoc.querySelectorAll('rtept');
     routePoints.forEach((point) => {
@@ -67,7 +75,7 @@ const parseGpxToCoordinates = (gpxData: string): number[][] => {
       );
       if (coord) coordinates.push(coord);
     });
-    
+
     // If no track or route points found, try waypoints (wpt elements)
     if (coordinates.length === 0) {
       const waypoints = xmlDoc.querySelectorAll('wpt');
@@ -79,7 +87,7 @@ const parseGpxToCoordinates = (gpxData: string): number[][] => {
         if (coord) coordinates.push(coord);
       });
     }
-    
+
     return coordinates;
   } catch (error) {
     console.error('Error parsing GPX data:', error);
@@ -94,23 +102,25 @@ const parseKmlToCoordinates = (kmlData: string): number[][] => {
   try {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(kmlData, 'application/xml');
-    
+
     const parserError = xmlDoc.querySelector('parsererror');
     if (parserError) {
       console.error('KML parsing error:', parserError.textContent);
       return [];
     }
-    
+
     const coordinates: number[][] = [];
-    
+
     // Get coordinates from various KML elements
     const coordElements = xmlDoc.querySelectorAll('coordinates');
     coordElements.forEach((coordElement) => {
       const coordText = coordElement.textContent?.trim();
       if (coordText) {
         // KML coordinates format: longitude,latitude,altitude longitude,latitude,altitude
-        const coordPairs = coordText.split(/\s+/).filter(pair => pair.trim().length > 0);
-        
+        const coordPairs = coordText
+          .split(/\s+/)
+          .filter((pair) => pair.trim().length > 0);
+
         coordPairs.forEach((pair) => {
           const parts = pair.split(',');
           if (parts.length >= 2) {
@@ -120,7 +130,7 @@ const parseKmlToCoordinates = (kmlData: string): number[][] => {
         });
       }
     });
-        
+
     return coordinates;
   } catch (error) {
     console.error('Error parsing KML data:', error);
@@ -135,62 +145,72 @@ const parseTrackData = (trackData: string): number[][] => {
   if (!trackData || typeof trackData !== 'string') {
     return [];
   }
-  
+
   const trimmedData = trackData.trim();
-  
+
   // Try to parse as JSON first
   try {
     const jsonData = JSON.parse(trimmedData);
-    
+
     // Handle API response format with Geometry property
     if (jsonData.Geometry && jsonData.Geometry.coordinates) {
       const geometry = jsonData.Geometry;
-      
-      if (geometry.type === 'LineString' && Array.isArray(geometry.coordinates)) {
+
+      if (
+        geometry.type === 'LineString' &&
+        Array.isArray(geometry.coordinates)
+      ) {
         return geometry.coordinates;
       }
-      
-      if (geometry.type === 'MultiLineString' && Array.isArray(geometry.coordinates)) {
+
+      if (
+        geometry.type === 'MultiLineString' &&
+        Array.isArray(geometry.coordinates)
+      ) {
         return geometry.coordinates.flatMap((line: number[][]) => line);
       }
     }
-    
+
     // Handle direct GeoJSON LineString
     if (jsonData.type === 'LineString' && jsonData.coordinates) {
       return jsonData.coordinates;
     }
-    
+
     // Handle GeoJSON Feature with LineString geometry
-    if (jsonData.type === 'Feature' && 
-        jsonData.geometry?.type === 'LineString' && 
-        jsonData.geometry.coordinates) {
+    if (
+      jsonData.type === 'Feature' &&
+      jsonData.geometry?.type === 'LineString' &&
+      jsonData.geometry.coordinates
+    ) {
       return jsonData.geometry.coordinates;
     }
-    
+
     // Handle MultiLineString
     if (jsonData.type === 'MultiLineString' && jsonData.coordinates) {
       return jsonData.coordinates.flatMap((line: number[][]) => line);
     }
-    
-    if (jsonData.type === 'Feature' && 
-        jsonData.geometry?.type === 'MultiLineString' && 
-        jsonData.geometry.coordinates) {
+
+    if (
+      jsonData.type === 'Feature' &&
+      jsonData.geometry?.type === 'MultiLineString' &&
+      jsonData.geometry.coordinates
+    ) {
       return jsonData.geometry.coordinates.flatMap((line: number[][]) => line);
     }
   } catch {
     // Not valid JSON, continue with XML formats
   }
-  
+
   // Check if it's GPX
   if (trimmedData.includes('<gpx') || trimmedData.includes('<trkpt')) {
     return parseGpxToCoordinates(trimmedData);
   }
-  
+
   // Check if it's KML
   if (trimmedData.includes('<kml') || trimmedData.includes('<LineString')) {
     return parseKmlToCoordinates(trimmedData);
   }
-  
+
   return [];
 };
 
@@ -217,11 +237,12 @@ const addTrackToMap = (mapInstance: Map, coordinates: number[][]) => {
   }
 
   // Validate coordinates structure
-  const validCoordinates = coordinates.filter(coord => 
-    Array.isArray(coord) && 
-    coord.length >= 2 && 
-    typeof coord[0] === 'number' && 
-    typeof coord[1] === 'number'
+  const validCoordinates = coordinates.filter(
+    (coord) =>
+      Array.isArray(coord) &&
+      coord.length >= 2 &&
+      typeof coord[0] === 'number' &&
+      typeof coord[1] === 'number'
   );
 
   if (validCoordinates.length < 2) {
@@ -261,7 +282,7 @@ const addTrackToMap = (mapInstance: Map, coordinates: number[][]) => {
   // Fit map to track bounds
   const bounds = getGeoJsonBounds({
     type: 'LineString',
-    coordinates: validCoordinates
+    coordinates: validCoordinates,
   });
   if (bounds) {
     mapInstance.fitBounds(bounds, {
@@ -272,8 +293,8 @@ const addTrackToMap = (mapInstance: Map, coordinates: number[][]) => {
 };
 
 const updateTrackOnMap = (mapInstance: Map, coordinates: number[][]) => {
-  const source = mapInstance.getSource(sourceId) as maplibregl.GeoJSONSource;
-  
+  const source = mapInstance.getSource<GeoJSONSource>(sourceId);
+
   if (source && coordinates.length > 0) {
     const geoJsonData = {
       type: 'Feature' as const,
@@ -283,13 +304,13 @@ const updateTrackOnMap = (mapInstance: Map, coordinates: number[][]) => {
       },
       properties: {},
     };
-    
+
     source.setData(geoJsonData);
-    
+
     // Fit map to new track bounds
     const bounds = getGeoJsonBounds({
       type: 'LineString',
-      coordinates: coordinates
+      coordinates: coordinates,
     });
     if (bounds) {
       mapInstance.fitBounds(bounds, { padding: 15 });
@@ -301,7 +322,7 @@ const updateTrackOnMap = (mapInstance: Map, coordinates: number[][]) => {
 
 const mapReady = (readyMap: Map) => {
   map.value = readyMap;
-  
+
   if (props.trackData) {
     const coordinates = parseTrackData(props.trackData);
     if (coordinates.length > 0) {

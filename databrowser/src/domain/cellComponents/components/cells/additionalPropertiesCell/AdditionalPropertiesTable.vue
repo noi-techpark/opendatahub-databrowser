@@ -58,7 +58,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <ButtonCustom
           variant="ghost"
           tone="danger"
-          class="!p-2"
+          class="p-2!"
           @click="deleteItems([index])"
           ><IconDelete
         /></ButtonCustom>

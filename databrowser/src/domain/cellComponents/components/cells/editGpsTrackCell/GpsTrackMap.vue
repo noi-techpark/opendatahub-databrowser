@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
       <div
         v-if="isFullscreen"
-        class="absolute right-4 top-4 z-[999] flex items-center gap-3"
+        class="absolute top-4 right-4 z-999 flex items-center gap-3"
       >
         <ButtonCustom
           variant="ghost"
@@ -45,7 +45,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex h-full items-center justify-center p-4 text-center text-sm text-red-500"
         :class="{ 'opacity-50': !isFullscreen && preventInteraction }"
       >
-        Could not load track data from the provided URL: {{ error.message || error }}
+        Could not load track data from the provided URL:
+        {{ error.message || error }}
       </div>
       <div
         v-else-if="!trackData"
@@ -97,7 +98,7 @@ const fetchTrackData = async (url: string): Promise<string> => {
       timeout: 10000,
       responseType: 'text',
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error fetching track data:', error);

@@ -18,7 +18,12 @@ export const gastronomyListView: ListViewConfig = {
   elements: [
     titleTableCell(),
     imageTableCell(),
-    ...locationTableCellsAll({showRegion: false, showTourismAssociation: false, showMunicipality: true, showDistrict: true}),
+    ...locationTableCellsAll({
+      showRegion: false,
+      showTourismAssociation: false,
+      showMunicipality: true,
+      showDistrict: true,
+    }),
     languageTableCell(),
     {
       title: 'Tags',

@@ -28,7 +28,10 @@ const buildSourceOverrideParams = (
 
 export const tagCell = (
   mainentity?: string,
-  options?: { withSourceFilter?: boolean; sourceOverrides?: Record<string, string> }
+  options?: {
+    withSourceFilter?: boolean;
+    sourceOverrides?: Record<string, string>;
+  }
 ): PropertyConfig => {
   const filterParam =
     mainentity == null
@@ -57,7 +60,10 @@ export const tagCell = (
 
 export const tagCategory = (
   mainentity?: string,
-  options?: { withSourceFilter?: boolean; sourceOverrides?: Record<string, string> }
+  options?: {
+    withSourceFilter?: boolean;
+    sourceOverrides?: Record<string, string>;
+  }
 ): DetailElements => {
   return {
     name: 'Tags',

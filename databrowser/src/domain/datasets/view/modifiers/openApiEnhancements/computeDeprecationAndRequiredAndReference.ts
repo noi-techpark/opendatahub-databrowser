@@ -136,7 +136,8 @@ const enhancePropertyWithOpenApi = (
       : property.arrayMapping.pathToParent;
 
     const enhancedNestedProperties = property.arrayMapping.properties.map(
-      (nestedProp) => enhancePropertyWithOpenApi(schema, nestedProp, nestedParentPath)
+      (nestedProp) =>
+        enhancePropertyWithOpenApi(schema, nestedProp, nestedParentPath)
     );
 
     enhancedArrayMapping = {

@@ -31,7 +31,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
         <!-- Mobile filters button -->
         <button
-          class="flex w-full shrink-0 items-center gap-2 rounded border border-gray-300 px-3 py-2 font-semibold text-green-400 md:hidden"
+          class="flex w-full shrink-0 items-center gap-2 rounded-sm border border-gray-300 px-3 py-2 font-semibold text-green-400 md:hidden"
           @click="showFilters"
         >
           <div class="grow">
@@ -39,7 +39,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </div>
           <div
             v-if="appliedFiltersNum"
-            class="rounded bg-gray-200 px-2 text-sm text-gray-900"
+            class="rounded-sm bg-gray-200 px-2 text-sm text-gray-900"
           >
             {{ appliedFiltersNum }}
           </div>
@@ -63,7 +63,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
           <!-- Filters -->
           <div
-            class="fixed inset-0 w-full shrink-0 rounded border border-gray-300 bg-white pb-3 md:relative md:block md:w-64"
+            class="fixed inset-0 w-full shrink-0 rounded-sm border border-gray-300 bg-white pb-3 md:relative md:block md:w-64"
             :class="{
               hidden: !isFiltersModalVisible,
             }"
@@ -78,7 +78,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 {{ t('overview.listPage.filter') }}
                 <div
                   v-if="appliedFiltersNum"
-                  class="rounded bg-gray-200 px-2 text-sm text-gray-900"
+                  class="rounded-sm bg-gray-200 px-2 text-sm text-gray-900"
                 >
                   {{ appliedFiltersNum }}
                 </div>
@@ -89,7 +89,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 @reset-all-filters="resetFilters"
               />
               <button
-                class="mr-3 flex size-6 items-center justify-center rounded border border-gray-300 text-green-400 md:hidden"
+                class="mr-3 flex size-6 items-center justify-center rounded-sm border border-gray-300 text-green-400 md:hidden"
                 @click="hideFilters"
               >
                 <IconClose class="size-4" />
@@ -225,7 +225,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 @reset-all-filters="resetFilters"
               />
               <button
-                class="flex flex-1 cursor-pointer select-none items-center justify-center gap-1 rounded border border-gray-300 bg-green-400 py-1 text-sm text-white md:hidden"
+                class="flex flex-1 cursor-pointer items-center justify-center gap-1 rounded-sm border border-gray-300 bg-green-400 py-1 text-sm text-white select-none md:hidden"
                 @click="hideFilters"
               >
                 {{ t('overview.listPage.applyFilters') }}
@@ -253,11 +253,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 :key="index"
                 :dataset="dataset"
                 :data-test="`dataset-card-${dataset.id}`"
-                class="break-words"
+                class="wrap-break-word"
               />
               <div
                 v-if="!visibleDatasets.length"
-                class="flex items-center justify-center rounded border border-gray-300 p-3"
+                class="flex items-center justify-center rounded-sm border border-gray-300 p-3"
               >
                 {{ t('overview.listPage.noDatasetFoundWithSelectedFilters') }}
               </div>
@@ -718,7 +718,7 @@ const visibleDatasets = computed(() => {
         datasets = datasets.filter((dataset) => {
           const filtrableValues = dataset[
             key as TourismMetaDataIndexes
-            ]! as string[];
+          ]! as string[];
           if (filtrableValues?.length) {
             return filtrableValues.find((value) =>
               parsedAcceptedValues.includes(value)

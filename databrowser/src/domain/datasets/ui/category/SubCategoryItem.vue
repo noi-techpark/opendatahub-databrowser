@@ -48,7 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <div
         v-for="(item, i) in availableInfo"
         :key="i"
-        class="flex flex-wrap items-center justify-between gap-3 rounded px-2 py-3 text-sm"
+        class="flex flex-wrap items-center justify-between gap-3 rounded-sm px-2 py-3 text-sm"
         :class="{
           'bg-deprecated/10 text-deprecated': item.type === 'deprecation',
           'bg-reference/10 text-reference': item.type === 'reference',
@@ -68,7 +68,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :key="refDetail.url"
           >
             <span
-              class="cursor-pointer uppercase text-hint-info underline"
+              class="cursor-pointer text-hint-info uppercase underline"
               @click="
                 onGoToReference(
                   refDetail.url,

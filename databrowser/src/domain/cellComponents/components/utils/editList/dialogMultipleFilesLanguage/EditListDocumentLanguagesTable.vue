@@ -42,7 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 :model-value="item.available"
                 :disabled="item.disableAvailabilityChange"
                 :label="labelKey ? item[labelKey] : undefined"
-                @update:model-value="toggleSingleItemSelection(index)"
+                @update:model-value="toggleSingleItemSelection(Number(index))"
               />
             </TableCell>
           </template>

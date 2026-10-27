@@ -8,9 +8,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div class="flex items-center justify-end bg-gray-50 py-2 text-xs">
     <span class="mx-3 block font-semibold text-gray-950">
       {{ firstRecord }} - {{ lastRecord }}
-      <span class="text-gray-500"> {{ t('datasets.listView.outOf') }}&nbsp;</span>
+      <span class="text-gray-500">
+        {{ t('datasets.listView.outOf') }}&nbsp;</span
+      >
       <span>{{ metaDataTotalCount ?? '-' }}</span>
-      <span class="text-gray-500 hidden md:inline">&nbsp;{{ t('datasets.listView.areShown') }}</span>
+      <span class="hidden text-gray-500 md:inline"
+        >&nbsp;{{ t('datasets.listView.areShown') }}</span
+      >
     </span>
     <SelectCustom
       id="dataset-table-page-size"
@@ -21,7 +25,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :size="SelectSize.sm"
       @update:model-value="navigation.changePageSize(Number($event))"
     />
-    <span class="mr-3 hidden md:inline">{{ t('datasets.listView.perPage') }}</span>
+    <span class="mr-3 hidden md:inline">{{
+      t('datasets.listView.perPage')
+    }}</span>
     <span class="mr-3 block md:hidden">{{ t('datasets.listView.pp') }}</span>
     <Paginator
       v-if="pagination.hasPagination"
@@ -55,7 +61,6 @@ const { navigation } = storeToRefs(useNavigationStore());
 
 const { datasetPath, datasetQuery } = storeToRefs(useDatasetBaseInfoStore());
 const { currentMetaData } = useMetaDataForRoute(datasetPath, datasetQuery);
-
 
 const metaDataTotalCount = computed(() => {
   const rc = currentMetaData.value?.recordCount;

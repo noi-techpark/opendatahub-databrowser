@@ -42,8 +42,13 @@ export const accommodationListView: ListViewConfig = {
       objectMapping: {
         text: 'AccoCategoryId',
       },
-    },   
-    ...locationTableCellsAll({showRegion: false, showTourismAssociation: false, showMunicipality: true, showDistrict: false}),
+    },
+    ...locationTableCellsAll({
+      showRegion: false,
+      showTourismAssociation: false,
+      showMunicipality: true,
+      showDistrict: false,
+    }),
     {
       title: 'Badges',
       component: CellComponent.ArrayCell,

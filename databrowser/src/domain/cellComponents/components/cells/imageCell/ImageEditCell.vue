@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div v-if="isWriteable">
     <div v-if="src != null" class="flex">
-      <div class="flex items-start gap-3 rounded border-2 p-2">
+      <div class="flex items-start gap-3 rounded-sm border-2 p-2">
         <ImageCell :src="src" :alt="alt" />
         <button type="button" title="Delete image" @click="deleteImage">
           <IconDelete class="text-delete" />

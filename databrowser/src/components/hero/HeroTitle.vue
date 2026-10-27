@@ -11,11 +11,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <style scoped>
+@reference '@/index.css';
+
 .title {
   line-height: 1.2;
 }
 
-@screen lg {
+@media (width >= theme(--breakpoint-lg)) {
   .title {
     line-height: 1.15;
   }

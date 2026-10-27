@@ -8,7 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="sticky top-0 w-full">
     <div class="bg-white">
-      <AlertInfo v-if="isOpen && options" :title="options.title" :content="options.content" @close="close()"/>
+      <AlertInfo
+        v-if="isOpen && options"
+        :title="options.title"
+        :content="options.content"
+        @close="close()"
+      />
       <ContentAlignmentX
         class="m-auto flex flex-col gap-x-6 gap-y-2 px-4 pb-2 md:flex-row md:pb-0"
         :class="[isFullWidthNav ? 'w-full' : 'xl:w-default']"
@@ -21,14 +26,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           >
             <div class="flex items-stretch">
               <div
-                class="h-full rounded border border-black px-2 py-0 text-lg font-bold leading-5 text-black"
+                class="h-full rounded-sm border border-black px-2 py-0 text-lg leading-5 font-bold text-black"
                 v-html="t('header.toolBadge')"
               ></div>
               <TagCustom
                 v-if="envBadge"
                 :type="envBadge === 'BETA' ? 'pink' : 'info'"
                 :text="envBadge"
-                class="h-100 ml-4 flex items-center text-sm"
+                class="ml-4 flex items-center text-sm"
               />
             </div>
           </InternalLink>
@@ -38,7 +43,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             @click="toggleMenu"
           />
 
-          <div v-else class="flex items-center gap-2 md:hidden ml-auto">
+          <div v-else class="ml-auto flex items-center gap-2 md:hidden">
             <DownloadMenu v-if="useDownloadStore().downloads.length > 0" />
             <IconMenu @click="toggleMenu" />
           </div>
@@ -73,7 +78,7 @@ const { currentRoute } = useRouter();
 
 const { t } = useI18n();
 
-const {isOpen, options, close} = useHeaderAlert()
+const { isOpen, options, close } = useHeaderAlert();
 
 const props = defineProps<{
   isMenuOpen: boolean;

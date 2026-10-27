@@ -22,7 +22,7 @@ export const useJsonLdHeadForDataset = (
             name: dataset.value.shortname,
             description: dataset.value.description,
             url: window.location.href,
-            dateModified: dataset.value.lastUpdated, 
+            dateModified: dataset.value.lastUpdated,
             creator: {
               '@type': 'Organization',
               name: 'Open Data Hub',

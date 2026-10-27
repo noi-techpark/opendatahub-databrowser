@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     size="xs"
     class="mr-2 flex h-6 items-center bg-white px-3 py-1 md:mr-9"
   >
-    <IconStrokedArrowDown class="-ml-1 mr-1 size-5 rotate-90 stroke-current" />
+    <IconStrokedArrowDown class="mr-1 -ml-1 size-5 rotate-90 stroke-current" />
     <span class="line-height-1">{{ label }}</span>
   </ButtonCustom>
 </template>

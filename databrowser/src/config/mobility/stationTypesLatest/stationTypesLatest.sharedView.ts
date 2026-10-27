@@ -5,7 +5,7 @@
 import { CellComponent } from '../../../domain/cellComponents/types';
 import {
   DetailViewConfig,
-  EditViewConfig
+  EditViewConfig,
 } from '../../../domain/datasets/config/types';
 
 export const stationTypesLatestSharedView = ():

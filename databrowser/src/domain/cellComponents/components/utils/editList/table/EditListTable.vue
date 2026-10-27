@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div>
     <EditListActionHeader
       v-if="editable && hasItems && showTableActionHeader"
-      class="mb-5 mt-2 flex justify-between gap-5 md:justify-end"
+      class="mt-2 mb-5 flex justify-between gap-5 md:justify-end"
       :class="anyItemSelected ? 'text-default' : 'text-disabled'"
       delete-label="Delete"
       :any-item-selected="anyItemSelected"

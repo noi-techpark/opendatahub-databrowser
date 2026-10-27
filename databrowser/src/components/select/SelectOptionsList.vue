@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <ListboxOptions
     role="group"
-    class="bg-white text-base focus-visible:outline-none"
+    class="bg-white text-base focus-visible:outline-hidden"
     as="div"
   >
     <template v-if="slots.header != null">

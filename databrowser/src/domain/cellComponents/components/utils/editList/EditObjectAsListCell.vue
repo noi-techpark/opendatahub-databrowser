@@ -95,7 +95,7 @@ const editable = computed(() => props.editable === true);
 useProvideEditMode(editable);
 
 onAddItems((...items: ItemWithKey[]) => {
-  console.log(items)
+  console.log(items);
   const newItems = [...itemsAsArray.value, ...(items ?? [])];
   updateItems(newItems);
   setActiveTab(newItems.length - 1);
@@ -127,8 +127,8 @@ onDuplicateItem((index: number) => {
 
   duplicatedEntry = {
     ...duplicatedEntry,
-    [props.keyTargetProperty]: ""
-  }
+    [props.keyTargetProperty]: '',
+  };
 
   const newItems = [
     ...itemsAsArray.value.slice(0, index + 1),
@@ -153,7 +153,7 @@ onUpdateItem(({ index, item }) => {
 // This ensures useUpdate receives the data in the same structure it entered ComponentRenderer
 onUpdateItems((...items: ItemWithKey[]) => {
   const itemsAsObject = arrayToObject(items);
-  console.log(itemsAsObject)
+  console.log(itemsAsObject);
   emit('update', { prop: props.parentKey, value: itemsAsObject });
 });
 

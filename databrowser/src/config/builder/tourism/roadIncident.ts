@@ -11,7 +11,5 @@ export const roadIncidentdataCategory = (
   name: 'Road Incident Properties',
   slug: 'roadIncidentdata',
   visible: options.visible,
-  subcategories: [
-   
-  ],
+  subcategories: [],
 });

@@ -9,11 +9,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #trigger>
       <PopoverCustomButton
         :disabled="disabled"
-        :class="'mx-0 my-5 flex items-center gap-2 px-3 py-1' +
+        :class="
+          'mx-0 my-5 flex items-center gap-2 px-3 py-1' +
           computeButtonClasses({
             size: Size.xs,
-            variant:Variant.solid,
-            tone:Tone.white,
+            variant: Variant.solid,
+            tone: Tone.white,
             disabled,
           })
         "

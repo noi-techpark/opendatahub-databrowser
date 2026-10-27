@@ -81,7 +81,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div
               v-for="(time, scheduleTimeIndex) in item.operationScheduleTimes"
               :key="scheduleTimeIndex"
-              class="rounded border p-2"
+              class="rounded-sm border p-2"
             >
               <div v-if="editable" class="flex justify-end text-delete">
                 <button
@@ -205,7 +205,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           />
         </div>
         <div class="basis-full md:order-3 md:basis-1/3">
-          <div v-if="editable" class="rounded border">
+          <div v-if="editable" class="rounded-sm border">
             <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
               <span class="font-semibold">Info &amp; action</span>
             </div>
@@ -232,7 +232,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </div>
         </div>
         <div class="basis-full md:order-2 md:basis-1/3">
-          <div class="mb-3 rounded border">
+          <div class="mb-3 rounded-sm border">
             <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
               <span class="font-semibold">
                 {{ t('components.operationSchedule.tab.season') }}
@@ -260,7 +260,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               scheduleTime, scheduleTimeIndex
             ) in item.operationScheduleTimes ?? []"
             :key="scheduleTimeIndex"
-            class="mb-3 rounded border"
+            class="mb-3 rounded-sm border"
           >
             <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
               <span class="font-semibold">

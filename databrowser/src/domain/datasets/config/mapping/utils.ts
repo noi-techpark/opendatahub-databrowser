@@ -59,7 +59,8 @@ export const buildTargetFromArrayMapping = (
   arrayMapping: ArrayMapping,
   params?: Record<string, unknown>
 ) => {
-  const { pathToParent, objectMapping, properties, targetPropertyName } = arrayMapping;
+  const { pathToParent, objectMapping, properties, targetPropertyName } =
+    arrayMapping;
 
   // Return object has a property whose name is the value of the "targetPropertyName" variable
   // e.g. value of "targetPropertyName" is "abcdefg", then the result object will have a property "abcdefg"
@@ -79,8 +80,8 @@ export const buildTargetFromArrayMapping = (
   if (properties != null && properties.length > 0) {
     return {
       items: dataArray,
-      properties: properties,  // Pass property configs to the component
-      pathToParent: pathToParent,  // Pass pathToParent for update propagation
+      properties: properties, // Pass property configs to the component
+      pathToParent: pathToParent, // Pass pathToParent for update propagation
       // Pass deprecationInfo for the array itself (from arrayMapping's parent property)
       // This is handled by the caller who passes it via params
       ...params,

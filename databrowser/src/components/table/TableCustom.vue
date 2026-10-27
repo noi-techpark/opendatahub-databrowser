@@ -23,6 +23,8 @@ withDefaults(defineProps<{ id?: string }>(), { id: randomId() });
 </script>
 
 <style scoped>
+@reference '@/index.css';
+
 .data-table :deep(th),
 .data-table :deep(td) {
   @apply border;

@@ -20,7 +20,7 @@ const variantClass: Record<Variant, string> = {
 
 export const useClassNames = (tone: Ref<Tone>, variant: Ref<Variant>) =>
   computed(() => [
-    'rounded',
+    'rounded-sm',
     toneClass[tone.value],
     variantClass[variant.value],
   ]);

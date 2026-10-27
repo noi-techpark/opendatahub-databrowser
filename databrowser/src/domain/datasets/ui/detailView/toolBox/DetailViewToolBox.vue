@@ -43,11 +43,8 @@ import {
 } from '@/domain/datasets/ui/toolBox/types';
 import ToolBoxSection from '@/domain/datasets/ui/toolBox/ToolBoxSection.vue';
 import IconDownload from '@/components/svg/IconDownload.vue';
-import ColumnConfigurationNavigationGuardHandler
-  from '@/domain/datasets/ui/tableView/toolBox/configureTableColumns/ColumnConfigurationNavigationGuardHandler.vue';
-import {
-  provideColumnConfiguration
-} from '@/domain/datasets/ui/tableView/toolBox/configureTableColumns/columnConfiguration';
+import ColumnConfigurationNavigationGuardHandler from '@/domain/datasets/ui/tableView/toolBox/configureTableColumns/ColumnConfigurationNavigationGuardHandler.vue';
+import { provideColumnConfiguration } from '@/domain/datasets/ui/tableView/toolBox/configureTableColumns/columnConfiguration';
 import SettingsToolBoxPanel from '@/domain/datasets/ui/detailView/toolBox/SettingsToolBoxPanel.vue';
 
 const { t } = useI18n();

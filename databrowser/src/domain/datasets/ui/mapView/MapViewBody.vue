@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="flex h-full gap-4 overflow-y-auto overflow-x-hidden md:px-6 md:pb-6"
+    class="flex h-full gap-4 overflow-x-hidden overflow-y-auto md:px-6 md:pb-6"
   >
     <DatasetFilter
       :class="[showFilter ? 'basis-11/12 md:basis-1/4' : 'hidden md:basis-1/4']"
@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     >
       <div
         v-if="showMarkerDetail"
-        class="absolute bottom-0 z-30 h-4/5 w-full max-w-[40rem] overflow-y-auto overflow-x-hidden p-2 md:bottom-auto md:w-1/3 md:min-w-[25rem]"
+        class="absolute bottom-0 z-30 h-4/5 w-full max-w-160 overflow-x-hidden overflow-y-auto p-2 md:bottom-auto md:w-1/3 md:min-w-100"
       >
         <RecordDetail
           v-if="showMarkerDetail"

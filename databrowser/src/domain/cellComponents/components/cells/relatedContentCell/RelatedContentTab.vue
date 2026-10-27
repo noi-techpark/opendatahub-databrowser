@@ -38,7 +38,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </SubCategoryItem>
         </div>
         <div class="basis-full md:order-2 md:basis-1/3">
-          <div v-if="editable" class="rounded border">
+          <div v-if="editable" class="rounded-sm border">
             <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
               <span class="font-semibold">Info &amp; action</span>
             </div>

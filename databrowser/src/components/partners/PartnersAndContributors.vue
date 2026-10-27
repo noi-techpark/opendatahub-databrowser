@@ -13,7 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       The Data Browser provides all necessary information and access to Open
       Data from different fields and sources.
     </CardText>
-    <div class="grid grid-cols-2 gap-3 rounded lg:grid-cols-4">
+    <div class="grid grid-cols-2 gap-3 rounded-sm lg:grid-cols-4">
       <ButtonExternalLink
         v-for="(partner, index) in partners"
         :key="index"
@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         target="_blank"
       >
         <img
-          class="h-16 rounded"
+          class="h-16 rounded-sm"
           :alt="partner.imageAlt"
           :src="partner.imageSrc"
         />

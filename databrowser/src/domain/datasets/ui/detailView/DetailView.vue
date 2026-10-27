@@ -18,14 +18,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :editable="false"
       />
 
-      <DetailViewToolBox :url="fullPath" :references-urls="referencesUrls"></DetailViewToolBox>
+      <DetailViewToolBox
+        :url="fullPath"
+        :references-urls="referencesUrls"
+      ></DetailViewToolBox>
     </div>
   </template>
 
   <EditListDeleteDialog
     :show-dialog="deleteDialog.isVisible"
     :title="t('datasets.editView.dialog.deleteDialog.commonTitleSingular')"
-    :description="t('datasets.editView.dialog.deleteDialog.commonDescriptionSingular')"
+    :description="
+      t('datasets.editView.dialog.deleteDialog.commonDescriptionSingular')
+    "
     :confirm-button-disabled="isDeleting"
     :close-button-disabled="isDeleting"
     @confirm-delete="onDeleteConfirm()"

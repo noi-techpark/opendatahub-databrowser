@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       classNames,
     ]"
     :disabled="disabled"
-    class="block border font-semibold no-underline focus:outline-none"
+    class="block border font-semibold no-underline focus:outline-hidden"
   >
     <slot></slot>
   </router-link>
@@ -29,7 +29,7 @@ import { PillVariant } from './types';
 import { RouteLocationRaw } from 'vue-router';
 
 const variantStyles: Record<PillVariant, string> = {
-  [PillVariant.edged]: 'rounded border-transparent',
+  [PillVariant.edged]: 'rounded-sm border-transparent',
 };
 
 const props = withDefaults(

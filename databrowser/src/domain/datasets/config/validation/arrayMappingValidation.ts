@@ -50,7 +50,8 @@ export const validateArrayMapping = (
   // Validate that properties array is not empty if defined
   if (arrayMapping.properties != null && arrayMapping.properties.length === 0) {
     errors.push({
-      message: 'ArrayMapping.properties is defined but empty. Either provide property configurations or use objectMapping instead.',
+      message:
+        'ArrayMapping.properties is defined but empty. Either provide property configurations or use objectMapping instead.',
       path: combinedPath,
       severity: 'warning',
     });

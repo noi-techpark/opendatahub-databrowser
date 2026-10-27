@@ -14,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       {{ t('overview.hero.details') }}
     </HeroSubTitle>
     <div
-      class="mt-4 grid w-full grid-cols-2 gap-4 rounded bg-white p-5 md:grid-cols-4 md:gap-16"
+      class="mt-4 grid w-full grid-cols-2 gap-4 rounded-sm bg-white p-5 md:grid-cols-4 md:gap-16"
     >
       <OverviewInfoSources :dataset="dataset" />
       <OverviewInfoDataAvailability :dataset="dataset" />

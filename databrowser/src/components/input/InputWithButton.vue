@@ -5,13 +5,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div
-    :class="[inputWrapperClasses]"
-  >
+  <div :class="[inputWrapperClasses]">
     <slot v-if="showIcon" name="icon"></slot>
     <ButtonCustom
       v-if="hasConfirmButton && showButtonOnLeft"
-      class="flex h-3 items-center gap-2 rounded p-2"
+      class="flex h-3 items-center gap-2 rounded-sm p-2"
       aria-label="Search"
       :size="Size.xs"
       :disabled="disabled"
@@ -39,7 +37,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
     <div class="flex items-center gap-2">
       <button
-        class="rounded p-1 text-green-500"
+        class="rounded-sm p-1 text-green-500"
         :class="{ hidden: !hasText }"
         :data-test="`${id}-reset-search`"
         :disabled="!hasText || disabled"
@@ -49,7 +47,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </button>
       <ButtonCustom
         v-if="hasConfirmButton && !showButtonOnLeft"
-        class="-m-1 flex items-center gap-2 rounded p-2 md:px-3 md:py-2"
+        class="-m-1 flex items-center gap-2 rounded-sm p-2 md:px-3 md:py-2"
         aria-label="Search"
         :size="Size.xs"
         :disabled="disabled"
@@ -114,7 +112,7 @@ const text = ref(props.modelValue);
 const inputWrapperClasses = computed(() => {
   const variant = props.variant as Variant;
   return computeInputWrapperClasses({
-    variant
+    variant,
   });
 });
 

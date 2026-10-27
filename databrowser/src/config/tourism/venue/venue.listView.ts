@@ -19,8 +19,13 @@ import {
 export const venueListView: ListViewConfig = {
   elements: [
     titleTableCell(),
-    imageTableCell(),    
-    ...locationTableCellsAll({showRegion: false, showTourismAssociation: false, showMunicipality: true, showDistrict: true}),
+    imageTableCell(),
+    ...locationTableCellsAll({
+      showRegion: false,
+      showTourismAssociation: false,
+      showMunicipality: true,
+      showDistrict: true,
+    }),
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

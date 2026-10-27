@@ -29,10 +29,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :variant="Variant.solid"
         :tone="Tone.white"
         @click="emit('add:column')"
-        class="px-3 py-1 font-semibold flex items-center gap-2"
+        class="flex items-center gap-2 px-3 py-1 font-semibold"
       >
         <IconAdd class="flex h-3 w-auto fill-current text-green-400" />
-        <span class="flex">{{ t('datasets.listView.toolBox.columnConfiguration.addColumn') }}</span>
+        <span class="flex">{{
+          t('datasets.listView.toolBox.columnConfiguration.addColumn')
+        }}</span>
       </ButtonCustom>
     </div>
 
@@ -117,7 +119,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :size="Size.sm"
             :variant="Variant.transparent"
             @click="emit('reset:cols')"
-            class="px-0 font-semibold uppercase text-dialog"
+            class="px-0 font-semibold text-dialog uppercase"
           >
             {{ t('datasets.listView.toolBox.columnConfiguration.reset') }}
           </ButtonCustom>

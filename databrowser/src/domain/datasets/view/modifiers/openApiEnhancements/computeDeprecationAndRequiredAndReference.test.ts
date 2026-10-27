@@ -5,7 +5,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import yaml from 'js-yaml';
+import { load } from 'js-yaml';
 import { OpenAPIV3 } from 'openapi-types';
 import { computeViewWithOpenApiEnhancements } from './computeDeprecationAndRequiredAndReference';
 import { DetailViewConfigWithType } from '../../types';
@@ -16,7 +16,7 @@ const schemaYaml = readFileSync(
   resolve(__dirname, '__fixtures__/testdata-schema.yaml'),
   'utf8'
 );
-const schema = yaml.load(schemaYaml) as OpenAPIV3.SchemaObject & {
+const schema = load(schemaYaml) as OpenAPIV3.SchemaObject & {
   components?: OpenAPIV3.ComponentsObject;
 };
 
@@ -81,7 +81,9 @@ describe('computeDeprecationAndRequiredAndReference', () => {
       expect(property.deprecationInfo).toBeDefined();
       expect(property.deprecationInfo).toHaveLength(1);
       expect(property.deprecationInfo![0].deprecations).toHaveLength(1);
-      expect(property.deprecationInfo![0].deprecations[0].description).toContain('Obsolete');
+      expect(
+        property.deprecationInfo![0].deprecations[0].description
+      ).toContain('Obsolete');
     });
 
     it('should not add deprecationInfo for non-deprecated properties', () => {
@@ -114,7 +116,7 @@ describe('computeDeprecationAndRequiredAndReference', () => {
         'tourism',
         ['testdata'],
         view
-      ) as DetailViewConfigWithType;;
+      ) as DetailViewConfigWithType;
 
       const property = result.elements[0].subcategories[0].properties[0];
       expect(property.deprecationInfo || []).toEqual([]);
@@ -134,7 +136,8 @@ describe('computeDeprecationAndRequiredAndReference', () => {
     it('should detect deprecation on nested property in first level array', () => {
       // In the real schema, Foo.Valid.[].DeprecatedLeaf is deprecated
       // Path should be: Foo -> Valid (array) -> items (ValidStruct) -> DeprecatedLeaf (deprecated)
-      const validStruct = schema.components?.schemas?.ValidStruct as OpenAPIV3.SchemaObject;
+      const validStruct = schema.components?.schemas
+        ?.ValidStruct as OpenAPIV3.SchemaObject;
       expect(validStruct.properties?.DeprecatedLeaf).toMatchObject({
         deprecated: true,
       });
@@ -144,17 +147,20 @@ describe('computeDeprecationAndRequiredAndReference', () => {
       // The path should be constructed as: LoreIpsum.[].Valid.[].DeprecatedLeaf
       // This tests the fix where we add `.[]` instead of just `[]`
       // Verify schema structure
-      const firstLevel = schema.properties?.LoreIpsum as OpenAPIV3.ArraySchemaObject;
+      const firstLevel = schema.properties
+        ?.LoreIpsum as OpenAPIV3.ArraySchemaObject;
       expect(firstLevel.type).toBe('array');
 
       const firstLevelNesting = schema.components?.schemas
         ?.FirstLevelNesting as OpenAPIV3.SchemaObject;
       expect(firstLevelNesting.properties?.Valid).toBeDefined();
 
-      const validArray = firstLevelNesting.properties?.Valid as OpenAPIV3.ArraySchemaObject;
+      const validArray = firstLevelNesting.properties
+        ?.Valid as OpenAPIV3.ArraySchemaObject;
       expect(validArray.type).toBe('array');
 
-      const validStruct = schema.components?.schemas?.ValidStruct as OpenAPIV3.SchemaObject;
+      const validStruct = schema.components?.schemas
+        ?.ValidStruct as OpenAPIV3.SchemaObject;
       expect(validStruct.properties?.DeprecatedLeaf).toMatchObject({
         deprecated: true,
       });
@@ -238,7 +244,7 @@ describe('computeDeprecationAndRequiredAndReference', () => {
         'tourism',
         ['testdata'],
         view
-      ) as DetailViewConfigWithType;;
+      ) as DetailViewConfigWithType;
 
       const property = result.elements[0].subcategories[0].properties[0];
       expect(property.referenceInfo).toBeDefined();

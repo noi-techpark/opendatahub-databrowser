@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="mb-4 mt-2">
+  <div class="mt-2 mb-4">
     <div class="mb-3">
       <slot></slot>
     </div>

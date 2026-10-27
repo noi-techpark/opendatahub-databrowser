@@ -12,7 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   >
     <div
       v-if="indicator"
-      class="absolute right-2 top-2 h-1.5 w-1.5 rounded bg-green-500"
+      class="absolute top-2 right-2 h-1.5 w-1.5 rounded-sm bg-green-500"
     ></div>
     <slot></slot>
   </button>

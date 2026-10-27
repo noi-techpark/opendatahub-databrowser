@@ -15,8 +15,7 @@ const resolvePlaceholders = (
   template: string,
   metaType: string,
   id: string
-): string =>
-  template.replace('{_Meta.Type}', metaType).replace('{Id}', id);
+): string => template.replace('{_Meta.Type}', metaType).replace('{Id}', id);
 
 export const useSyncSourceStore = defineStore('syncSourceStore', () => {
   const syncSourceData = useSyncSource();
@@ -54,7 +53,5 @@ export const useSyncSourceStore = defineStore('syncSourceStore', () => {
 
 // Add support for hot-module-reload
 if (import.meta.hot) {
-  import.meta.hot.accept(
-    acceptHMRUpdate(useSyncSourceStore, import.meta.hot)
-  );
+  import.meta.hot.accept(acceptHMRUpdate(useSyncSourceStore, import.meta.hot));
 }

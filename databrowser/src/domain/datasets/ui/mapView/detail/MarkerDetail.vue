@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="flex flex-col gap-2 break-words">
+  <div class="flex flex-col gap-2 wrap-break-word">
     <div>
       <span class="text-sm font-semibold">ID: </span>
       {{ activeMarker.recordId }}

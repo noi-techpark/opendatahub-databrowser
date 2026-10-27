@@ -164,8 +164,8 @@ const parseLastUpdated = (lastUpdated?: string) => {
   if (isNaN(parsedDate.getTime())) {
     parsedDate = new Date(lastUpdated);
   }
-  
-  return parsedDate
+
+  return parsedDate;
 };
 
 const hasApiFilter = (dataset: TourismMetaData) =>

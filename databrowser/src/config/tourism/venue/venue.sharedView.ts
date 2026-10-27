@@ -37,7 +37,7 @@ export const venueSharedView = (): DetailViewConfig | EditViewConfig => ({
         {
           name: 'IDs',
           properties: [idReadOnlyCell()],
-        },        
+        },
         dataStatesSubCategory(),
         sourceSubCategoryWithDistinct('venue'),
       ],
@@ -55,9 +55,9 @@ export const venueSharedView = (): DetailViewConfig | EditViewConfig => ({
               arrayMapping: {
                 pathToParent: 'RoomDetails',
                 objectMapping: {
-                  Id: 'Id',                  
+                  Id: 'Id',
                   Shortname: 'Shortname',
-                  Detail: 'Detail',                  
+                  Detail: 'Detail',
                   MaxCapacity: 'MaxCapacity',
                   Placement: 'Placement',
                   Active: 'Active',
@@ -71,7 +71,7 @@ export const venueSharedView = (): DetailViewConfig | EditViewConfig => ({
           ],
         },
       ],
-    },    
+    },
     textInfoCategory(),
     contactCategory(),
     imageGalleryCategory(),

@@ -44,14 +44,14 @@ export const districtSharedView = (): DetailViewConfig | EditViewConfig => ({
               component: CellComponent.StringCell,
               objectMapping: { text: 'MunicipalityId' },
               class: 'break-all',
-            },            
+            },
             {
               title: 'Tourismverein Id',
               component: CellComponent.StringCell,
               objectMapping: { text: 'TourismvereinId' },
               class: 'break-all',
             },
-            regionIdCell('RegionId'),            
+            regionIdCell('RegionId'),
           ],
         },
         {

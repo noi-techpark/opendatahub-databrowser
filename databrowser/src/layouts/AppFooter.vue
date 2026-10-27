@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               >
                 <div class="flex">
                   <div
-                    class="h-full rounded border border-black px-2 py-1 text-base font-semibold leading-5 text-black"
+                    class="h-full rounded-sm border border-black px-2 py-1 text-base leading-5 font-semibold text-black"
                     v-html="t('header.toolBadge')"
                   ></div>
                 </div>

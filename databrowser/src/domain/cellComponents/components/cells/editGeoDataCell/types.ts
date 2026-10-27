@@ -12,5 +12,5 @@ export interface GeoDataEntry {
 }
 
 export interface GeoData {
-  [key: string]: GeoDataEntry
+  [key: string]: GeoDataEntry;
 }

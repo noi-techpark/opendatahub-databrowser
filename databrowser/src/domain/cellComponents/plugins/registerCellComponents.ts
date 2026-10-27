@@ -274,31 +274,15 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     UpdateHistoryCell,
     { supportsTableView: true },
   ],
-  [
-    CellComponent.LastPushCell,
-    LastPushCell,
-    { supportsTableView: true },
-  ],
-  [
-    CellComponent.LastSyncCell,
-    LastSyncCell,
-    { supportsTableView: true },
-  ],
+  [CellComponent.LastPushCell, LastPushCell, { supportsTableView: true }],
+  [CellComponent.LastSyncCell, LastSyncCell, { supportsTableView: true }],
   [
     CellComponent.EditGeoDataCell,
     EditGeoDataCell,
     { supportsTableView: false },
   ],
-  [
-    CellComponent.GeoDataMap,
-    GeoDataMap,
-    { supportsTableView: false },
-  ],
-  [
-    CellComponent.GeoDataCell,
-    GeoDataCell,
-    { supportsTableView: true },
-  ],
+  [CellComponent.GeoDataMap, GeoDataMap, { supportsTableView: false }],
+  [CellComponent.GeoDataCell, GeoDataCell, { supportsTableView: true }],
 ];
 
 export default {

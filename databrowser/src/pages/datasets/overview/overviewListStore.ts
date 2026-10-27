@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { useFuse } from '@vueuse/integrations/useFuse.mjs';
+import { useFuse } from '@vueuse/integrations/useFuse';
 import { useRouteQuery } from '@vueuse/router';
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { computed, ref, Ref, watch } from 'vue';

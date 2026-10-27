@@ -26,8 +26,7 @@ export interface ListViewConfigWithType extends ListViewConfig, WithViewKey {
 }
 
 export interface DetailViewConfigWithType
-  extends DetailViewConfig,
-    WithViewKey {
+  extends DetailViewConfig, WithViewKey {
   type: 'detail';
 }
 
@@ -70,7 +69,6 @@ export const isSingleRecordViewConfig = (
   }
   return view.type === 'detail' || view.type === 'edit' || view.type === 'new';
 };
-
 
 export enum DiffEditMode {
   VERTICAL = 'VERTICAL',

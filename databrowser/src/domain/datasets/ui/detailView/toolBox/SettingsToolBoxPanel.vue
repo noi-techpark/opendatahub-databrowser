@@ -5,7 +5,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="flex flex-col gap-2 bg-white p-3 mx-2 my-3 border rounded border-gray-250">
+  <div
+    class="mx-2 my-3 flex flex-col gap-2 rounded-sm border border-gray-250 bg-white p-3"
+  >
     <ShowEmptyFields
       custom-wrapper-classes="flex justify-between"
       custom-text-classes="font-semibold"
@@ -13,7 +15,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :use-wrapper-classes="false"
     />
   </div>
-  <div class="flex flex-col gap-2 bg-white p-3 mx-2 my-3 border rounded border-gray-250">
+  <div
+    class="mx-2 my-3 flex flex-col gap-2 rounded-sm border border-gray-250 bg-white p-3"
+  >
     <ShowDeprecatedFields
       custom-wrapper-classes="flex justify-between"
       custom-text-classes="font-semibold"
@@ -21,7 +25,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :use-wrapper-classes="false"
     />
   </div>
-  <div class="flex flex-col gap-2 bg-white p-3 mx-2 my-3 border rounded border-gray-250">
+  <div
+    class="mx-2 my-3 flex flex-col gap-2 rounded-sm border border-gray-250 bg-white p-3"
+  >
     <ShowReferencesFields
       custom-wrapper-classes="flex justify-between"
       custom-text-classes="font-semibold"

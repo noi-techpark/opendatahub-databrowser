@@ -36,7 +36,7 @@ export const announcementListView: ListViewConfig = {
       class: 'w-48',
       objectMapping: {
         text: 'Detail.{language}.BaseText',
-      }
+      },
     },
     {
       title: 'Tags',

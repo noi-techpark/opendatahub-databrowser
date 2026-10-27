@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import {ToolBoxSectionKey} from "@/domain/datasets/ui/toolBox/types";
+import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types';
 
 const initialState = {
-  activeSectionKey:ToolBoxSectionKey.NONE,
+  activeSectionKey: ToolBoxSectionKey.NONE,
   settings: {
     showAll: false,
     showDeprecated: false,

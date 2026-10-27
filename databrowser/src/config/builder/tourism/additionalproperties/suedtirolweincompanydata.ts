@@ -47,98 +47,112 @@ export const suedtirolweincompanydataCategory = (
           title: 'Has Visits',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasVisits',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasVisits',
           },
         },
         {
           title: 'Has Overnights',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasOvernights',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasOvernights',
           },
         },
         {
           title: 'Has Biowine',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasBiowine',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasBiowine',
           },
         },
         {
           title: 'Has Accommodation',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasAccommodation',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasAccommodation',
           },
         },
         {
           title: 'Is VinumHotel',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsVinumHotel',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsVinumHotel',
           },
         },
         {
           title: 'Is Anteprima',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsAnteprima',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsAnteprima',
           },
         },
         {
           title: 'Is WineStories',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsWineStories',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsWineStories',
           },
         },
         {
           title: 'Is WineSummit',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsWineSummit',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsWineSummit',
           },
         },
         {
           title: 'Is SparklingWineassociation',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsSparklingWineassociation',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsSparklingWineassociation',
           },
         },
         {
           title: 'Is Winery',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsWinery',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsWinery',
           },
         },
         {
           title: 'Has Onlineshop',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasOnlineshop',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasOnlineshop',
           },
         },
         {
           title: 'Has Deliveryservice',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasDeliveryservice',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasDeliveryservice',
           },
         },
         {
           title: 'Has DirectSales',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasDirectSales',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasDirectSales',
           },
         },
         {
           title: 'Is SkyalpsPartner',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsSkyalpsPartner',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsSkyalpsPartner',
           },
         },
         {
@@ -173,14 +187,14 @@ export const suedtirolweincompanydataCategory = (
             text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H1.{language}',
           },
         },
-         {
+        {
           title: 'H2',
           component: CellComponent.StringCell,
           objectMapping: {
             text: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.H2.{language}',
           },
         },
-         {
+        {
           title: 'Quote',
           component: CellComponent.StringCell,
           objectMapping: {

@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div class="h-full p-2">
           <DialogPanelTransitionChild>
             <DialogPanel
-              class="flex h-full w-full flex-col overflow-auto rounded bg-white align-middle shadow-xl transition-all"
+              class="flex h-full w-full flex-col overflow-auto rounded-sm bg-white align-middle shadow-xl transition-all"
             >
               <slot></slot>
             </DialogPanel>

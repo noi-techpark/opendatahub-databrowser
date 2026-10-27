@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="flex h-full flex-col gap-2 break-words">
+  <div class="flex h-full flex-col gap-2 wrap-break-word">
     <InputSearch v-model="searchTerm" :show-confirm-button="false" />
     <div ref="containterRel" class="relative h-full">
       <div class="absolute h-full w-full">

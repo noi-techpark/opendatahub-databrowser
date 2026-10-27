@@ -24,13 +24,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import {
-  defaultLanguage,
-  FilterLanguage,
-} from '@/domain/datasets/language';
+import { defaultLanguage, FilterLanguage } from '@/domain/datasets/language';
 import { SelectSize } from '../select/types';
-import SelectCustom from "@/components/select/SelectCustom.vue";
-import OdhLanguage from "@/components/svg/odh/OdhLanguage.vue";
+import SelectCustom from '@/components/select/SelectCustom.vue';
+import OdhLanguage from '@/components/svg/odh/OdhLanguage.vue';
 
 const props = withDefaults(
   defineProps<{

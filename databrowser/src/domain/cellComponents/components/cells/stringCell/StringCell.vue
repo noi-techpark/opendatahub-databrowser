@@ -55,6 +55,8 @@ const update = (value: unknown) =>
 </script>
 
 <style scoped>
+@reference '@/index.css';
+
 .has-error input {
   @apply border-error text-error;
 }

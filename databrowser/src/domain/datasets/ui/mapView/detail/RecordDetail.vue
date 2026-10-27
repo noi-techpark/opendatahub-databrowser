@@ -66,7 +66,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div
       class="flex flex-col justify-between p-4"
       :class="{
-        'overflow-y-auto overflow-x-hidden': activeMarker != null,
+        'overflow-x-hidden overflow-y-auto': activeMarker != null,
         'h-full': activeCluster != null,
       }"
     >

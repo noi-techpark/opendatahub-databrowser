@@ -11,12 +11,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <DialogOverlay />
         <DialogOverlayContainer>
           <DialogPanel
-            class="w-full max-w-2xl overflow-hidden rounded bg-white text-left align-middle shadow-xl transition-all"
+            class="w-full max-w-2xl overflow-hidden rounded-sm bg-white text-left align-middle shadow-xl transition-all"
           >
             <div class="bg-gray-50 px-4 py-6">
               <DialogTitle
                 as="h3"
-                class="text-center text-xl font-semibold leading-6 text-dialog"
+                class="text-center text-xl leading-6 font-semibold text-dialog"
               >
                 {{ t('datasets.editView.dialog.multipleFilesLanguage.title') }}
               </DialogTitle>
@@ -31,7 +31,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div class="mt-4 flex flex-col gap-2 px-4 pb-4">
               <EditListDocumentLanguagesTab
                 :items="dialogStore.items"
-                class="max-h-[32rem] overflow-y-auto"
+                class="max-h-128 overflow-y-auto"
               >
                 <template #body="{ item }">
                   <EventDocumentInputDialogTable :items="item" />

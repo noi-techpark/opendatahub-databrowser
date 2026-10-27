@@ -6,21 +6,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <ListboxButton
-      v-slot="{ open }"
-      class="relative flex w-full items-center justify-between truncate border border-lightgray rounded px-2 md:px-3 py-2 text-left leading-tight hover:bg-green-400/10 hover:border-green-400"
+    v-slot="{ open }"
+    class="relative flex w-full items-center justify-between truncate rounded-sm border border-lightgray px-2 py-2 text-left leading-tight hover:border-green-400 hover:bg-green-400/10 md:px-3"
   >
     <!-- Parte sinistra: icona + testi -->
     <div class="flex items-center gap-1 md:gap-2">
       <component
-          v-if="iconComponent"
-          :is="iconComponent"
-          class="size-4 shrink-0 text-green-400"
+        v-if="iconComponent"
+        :is="iconComponent"
+        class="size-4 shrink-0 text-green-400"
       />
       <div class="flex flex-col">
-        <span class="text-sm text-gray-950 hidden md:flex" :title="selectedElementLabel">
+        <span
+          class="hidden text-sm text-gray-950 md:flex"
+          :title="selectedElementLabel"
+        >
           {{ selectedElementLabel }}
         </span>
-        <span class="text-xs text-dialog hidden md:flex" :title="label">
+        <span class="hidden text-xs text-dialog md:flex" :title="label">
           {{ label }}
         </span>
       </div>
@@ -41,8 +44,8 @@ import IconStrokedArrowUp from '../svg/IconStrokedArrowUp.vue';
 import type { Component } from 'vue';
 
 defineProps<{
-  label: string,
-  selectedElementLabel: string,
-  iconComponent?:Component
+  label: string;
+  selectedElementLabel: string;
+  iconComponent?: Component;
 }>();
 </script>

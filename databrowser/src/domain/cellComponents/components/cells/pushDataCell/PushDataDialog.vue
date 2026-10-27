@@ -8,12 +8,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <DialogCustom :is-open="isOpen">
     <template #title>
       <div class="mr-1 text-sm font-bold text-black md:w-auto md:text-xl">
-        {{ t('components.pushData.dialog.title', { title: payload.title ?? '' }) }}
+        {{
+          t('components.pushData.dialog.title', { title: payload.title ?? '' })
+        }}
       </div>
     </template>
     <template #body>
       <div>
-        <div v-if="payload.publishers.length === 0" class="mb-6 flex flex-col gap-2">
+        <div
+          v-if="payload.publishers.length === 0"
+          class="mb-6 flex flex-col gap-2"
+        >
           <div>
             {{ t('components.pushData.dialog.noPublishersAvailable') }}
           </div>
@@ -32,7 +37,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           >
             {{ t('components.pushData.dialog.buttonCancel') }}
           </ButtonCustom>
-
         </div>
 
         <div v-else>
@@ -50,7 +54,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div class="mb-5">
             {{ t('components.pushData.dialog.pushSendImmediately') }}
           </div>
-
 
           <ButtonCustom
             :tone="Tone.primary"
@@ -91,9 +94,9 @@ import { ref } from 'vue';
 import { onKeyStroke } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '@/components/button/ButtonCustom.vue';
-import { Size,Tone,Variant } from '@/components/button/types';
+import { Size, Tone, Variant } from '@/components/button/types';
 import DialogCustom from '@/components/dialog/DialogCustom.vue';
-import PublisherSelection from '@/domain/cellComponents/components/cells/pushDataCell/PublisherSelection.vue'
+import PublisherSelection from '@/domain/cellComponents/components/cells/pushDataCell/PublisherSelection.vue';
 import { PushDialogPayload } from '@/domain/datasets/ui/tableView/types';
 import LastPushInfo from './LastPushInfo.vue';
 import PushResult from './PushResult.vue';
@@ -106,7 +109,7 @@ const { t } = useI18n();
 
 defineProps<{
   isOpen: boolean;
-  payload: PushDialogPayload
+  payload: PushDialogPayload;
 }>();
 
 const close = () => {
@@ -114,7 +117,7 @@ const close = () => {
 };
 const confirm = () => {
   sendPushes();
-  if(publishersWithPushResponse.value.length > 0){
+  if (publishersWithPushResponse.value.length > 0) {
     close();
   }
 };
@@ -129,5 +132,6 @@ onKeyStroke('n', () => {
 const selectedPublishers = ref<Publisher[]>([]);
 
 // Handle push sending
-const { isPushed, publishersWithPushResponse, sendPushes } = useSendPushNotifications(selectedPublishers);
+const { isPushed, publishersWithPushResponse, sendPushes } =
+  useSendPushNotifications(selectedPublishers);
 </script>

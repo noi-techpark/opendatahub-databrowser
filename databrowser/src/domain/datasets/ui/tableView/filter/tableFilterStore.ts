@@ -98,7 +98,7 @@ export const useTableFilterStore = defineStore('tableFilterStore', () => {
 
   // Remove all filters
   const removeAllFilters = () => {
-    datasetFilters.value = []
+    datasetFilters.value = [];
   };
 
   // Remove filter for a given propertyPath

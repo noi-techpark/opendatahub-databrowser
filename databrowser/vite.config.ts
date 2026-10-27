@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: CC0-1.0
 
+import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import dns from 'dns';
 import { defineConfig } from 'vite';
@@ -26,6 +27,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    tailwindcss(),
     // TODO: Check if the setting below is necessary, it seems to work also without it,
     // no warnings are shown in developer console
     // See https://v3.vuejs.org/guide/web-components.html#using-custom-elements-in-vue

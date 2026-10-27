@@ -19,9 +19,7 @@ import {
 import { geoDataCategory } from '../../builder/tourism/geoData';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
-export const tripSharedView = ():
-  | DetailViewConfig
-  | EditViewConfig => ({
+export const tripSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
     {
       name: 'Main data',
@@ -46,9 +44,7 @@ export const tripSharedView = ():
         },
         {
           name: 'IDs',
-          properties: [
-            idReadOnlyCell(),
-          ],
+          properties: [idReadOnlyCell()],
         },
         dataStatesSubCategory(),
         sourceSubCategoryWithDistinct('trip'),
@@ -86,7 +82,8 @@ export const tripSharedView = ():
               component: CellComponent.EditNestedArrayCell,
               arrayMapping: {
                 targetPropertyName: 'operationScheduleTimes',
-                pathToParent: 'Route.Calendar.OperationSchedule.OperationScheduleTime',
+                pathToParent:
+                  'Route.Calendar.OperationSchedule.OperationScheduleTime',
                 properties: [
                   {
                     title: 'Start',
@@ -175,7 +172,9 @@ export const tripSharedView = ():
             {
               title: 'Company Name',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'Agency.ContactInfos.{language}.CompanyName' },
+              objectMapping: {
+                text: 'Agency.ContactInfos.{language}.CompanyName',
+              },
             },
           ],
         },
@@ -195,7 +194,9 @@ export const tripSharedView = ():
             {
               title: 'Phone Number',
               component: CellComponent.StringCell,
-              objectMapping: { text: 'Agency.ContactInfos.{language}.Phonenumber' },
+              objectMapping: {
+                text: 'Agency.ContactInfos.{language}.Phonenumber',
+              },
             },
           ],
         },

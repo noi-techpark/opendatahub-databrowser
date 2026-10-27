@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="rounded border">
+  <div class="rounded-sm border">
     <div
       class="flex items-center justify-between bg-gray-50 px-4 py-2 font-semibold text-dialog"
     >

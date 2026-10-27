@@ -44,5 +44,4 @@ const formattedDistance = computed(() => {
   }
   return '';
 });
-
 </script>

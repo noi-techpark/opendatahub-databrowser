@@ -6,8 +6,8 @@ import { SelectOptionsPlacement, SelectSize } from './types';
 
 export const selectButtonSizeStyles: Record<SelectSize, string> = {
   [SelectSize.xs]: '',
-  [SelectSize.sm]: 'min-h-[1.5rem]',
-  [SelectSize.md]: 'min-h-[2.5rem]',
+  [SelectSize.sm]: 'min-h-6',
+  [SelectSize.md]: 'min-h-10',
 };
 
 export const selectOptionsSizeStyles: Record<

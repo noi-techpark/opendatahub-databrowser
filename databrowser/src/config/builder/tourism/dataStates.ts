@@ -27,7 +27,7 @@ export const dataStatesSubCategory = (
         title: 'Active',
         component: CellComponent.ToggleTriStateCell,
         objectMapping: { enabled: 'Active' },
-      },      
+      },
       publishedOnCell(),
     ],
   };

@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div class="flex items-center">
     <button
       :id="`${id}-previous-page`"
-      class="mr-4 rounded"
+      class="mr-4 rounded-sm"
       :class="[pagination.hasPrevious ? 'text-green-400' : 'text-gray-400']"
       :disabled="!pagination.hasPrevious"
       :data-test="`${id}-previous-page`"
@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <input
         :id="`${id}-page-input`"
         v-model="inputPageValue"
-        class="border-r-none h-6 w-12 rounded rounded-r-none border-y border-l px-2 focus:border-green-500"
+        class="border-r-none h-6 w-12 rounded-sm rounded-r-none border-y border-l px-2 focus:border-green-500"
         :data-test="`${id}-page-input`"
         @keyup.enter="navigation.goToPage(inputPageValue)"
       />
@@ -41,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <button
       :id="`${id}-next-page`"
-      class="mr-2 rounded"
+      class="mr-2 rounded-sm"
       :class="[pagination.hasNext ? 'text-green-400' : 'text-gray-400']"
       :disabled="!pagination.hasNext"
       :data-test="`${id}-next-page`"

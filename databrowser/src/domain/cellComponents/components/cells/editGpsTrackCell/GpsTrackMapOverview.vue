@@ -5,11 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EditGpsPointBase
-    :title="title"
-    :editable="false"
-    @expand="emit('expand')"
-  >
+  <EditGpsPointBase :title="title" :editable="false" @expand="emit('expand')">
     <div :class="{ 'p-4': !contentHasNoPadding }">
       <slot name="content"></slot>
     </div>

@@ -5,7 +5,6 @@
 import { CellComponent } from '@/domain/cellComponents/types';
 import { DetailElements } from '@/domain/datasets/config/types';
 
-
 export const eventeuracnoidataCategory = (
   options = { visible: false }
 ): DetailElements => ({
@@ -27,13 +26,14 @@ export const eventeuracnoidataCategory = (
           title: 'EventLocation',
           component: CellComponent.SelectWithOptionsCell,
           objectMapping: {
-            value: 'AdditionalProperties.EventEuracNoiDataProperties.EventLocation',
+            value:
+              'AdditionalProperties.EventEuracNoiDataProperties.EventLocation',
           },
           params: {
             value_001: 'NOI',
             label_001: 'noi',
             value_002: 'EC',
-            label_002: 'eurac',            
+            label_002: 'eurac',
           },
         },
         {
@@ -56,7 +56,8 @@ export const eventeuracnoidataCategory = (
           title: 'ExternalOrganizer',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.EventEuracNoiDataProperties.ExternalOrganizer',
+            enabled:
+              'AdditionalProperties.EventEuracNoiDataProperties.ExternalOrganizer',
           },
         },
       ],

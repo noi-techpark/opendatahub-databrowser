@@ -7,7 +7,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <LoadingError v-if="isError" :error="error" />
   <template v-else>
-    <div class="flex flex-col bg-white min-h-[calc(100vh-215px)] 2xl:min-h-[calc(100vh-155px)]">
+    <div
+      class="flex min-h-[calc(100vh-215px)] flex-col bg-white 2xl:min-h-[calc(100vh-155px)]"
+    >
       <JsonError v-if="hasCurrentJsonErrors" />
       <LoadingError v-if="isError">{{ error }}</LoadingError>
       <EditSaveError v-if="isMutateError" :response-errors="responseErrors" />
@@ -16,9 +18,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         :is-save-success="isMutateSuccess"
         @save-changes="saveChanges"
       />
-      <div class="flex-1 overflow-y-auto flex">
+      <div class="flex flex-1 overflow-y-auto">
         <ContentAlignmentX
-          class="flex-1 gap-4 overflow-y-hidden py-0 flex px-0 pb-0"
+          class="flex flex-1 gap-4 overflow-y-hidden px-0 py-0 pb-0"
         >
           <div v-if="isLoading" class="w-full">
             <LoadingCell v-for="i in 10" :key="i" class="my-3" />
@@ -53,7 +55,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
 
       <EditFooter
-        class="transition-all static"
+        class="static transition-all"
         :is-saving="isMutateLoading"
         :is-save-disabled="hasCurrentJsonErrors"
         :class="{ hidden: editStore.isEqual }"
@@ -128,7 +130,7 @@ const onEditorChange = (val: string) => {
     hasCurrentJsonErrors.value = false;
   } catch (e) {
     hasCurrentJsonErrors.value = true;
-    console.warn("JSON parse error:", e);
+    console.warn('JSON parse error:', e);
   }
 };
 

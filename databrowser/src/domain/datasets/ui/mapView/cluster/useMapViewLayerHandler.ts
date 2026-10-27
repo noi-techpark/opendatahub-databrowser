@@ -8,7 +8,11 @@ import {
   ClusterMapLayerTracker,
   LayerId,
 } from '../../../../../components/map/clusterMap/types';
-import { MapDataset, MapSourcesByGeometryType, MapSourceSpecification } from '../types';
+import {
+  MapDataset,
+  MapSourcesByGeometryType,
+  MapSourceSpecification,
+} from '../types';
 
 // Legacy source naming (for backward compatibility)
 const buildSourceName = (id: string) => `markers-${id}`;
@@ -22,8 +26,10 @@ const buildPolygonSourceName = (id: string) => `geometry-polygon-${id}`;
 const buildUnclusteredId = (source: string) => `unclustered-${source}`;
 const buildClusteredId = (source: string) => `clustered-${source}`;
 const buildLineLayerId = (source: string) => `geometry-line-${source}`;
-const buildPolygonFillLayerId = (source: string) => `geometry-polygon-fill-${source}`;
-const buildPolygonStrokeLayerId = (source: string) => `geometry-polygon-stroke-${source}`;
+const buildPolygonFillLayerId = (source: string) =>
+  `geometry-polygon-fill-${source}`;
+const buildPolygonStrokeLayerId = (source: string) =>
+  `geometry-polygon-stroke-${source}`;
 
 /**
  * Type guard to check if source is multi-geometry
@@ -201,7 +207,9 @@ const addMultiGeometryLayers = (
   // Add cluster source (contains representative points for ALL geometries)
   if (sources.points) {
     const clusterSourceName = buildClusterSourceName(datasetId);
-    const clusterSourceOnMap = map.getSource(clusterSourceName) as GeoJSONSource;
+    const clusterSourceOnMap = map.getSource(
+      clusterSourceName
+    ) as GeoJSONSource;
 
     if (clusterSourceOnMap == null) {
       map.addSource(clusterSourceName, sources.points);
@@ -266,8 +274,10 @@ const addMultiGeometryLayers = (
           'interpolate',
           ['linear'],
           ['zoom'],
-          10, 2,  // Width at zoom 10
-          16, 4,  // Width at zoom 16
+          10,
+          2, // Width at zoom 10
+          16,
+          4, // Width at zoom 16
         ],
         'line-opacity': 0.8,
       },
@@ -278,7 +288,9 @@ const addMultiGeometryLayers = (
   // Add polygon source and layers (actual Polygon geometries)
   if (sources.polygons) {
     const polygonSourceName = buildPolygonSourceName(datasetId);
-    const polygonSourceOnMap = map.getSource(polygonSourceName) as GeoJSONSource;
+    const polygonSourceOnMap = map.getSource(
+      polygonSourceName
+    ) as GeoJSONSource;
 
     if (polygonSourceOnMap == null) {
       map.addSource(polygonSourceName, sources.polygons);

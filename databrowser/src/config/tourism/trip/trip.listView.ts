@@ -67,7 +67,7 @@ export const tripListView: ListViewConfig = {
     {
       title: 'Stops',
       component: CellComponent.EditNestedArrayCell,
-      class: 'w-[40rem]',
+      class: 'w-160',
       params: {
         hideSettingsColumn: 'true',
       },

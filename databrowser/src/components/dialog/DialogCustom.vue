@@ -10,12 +10,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <DialogOverlay />
       <DialogOverlayContainer>
         <DialogPanel
-          class="w-full overflow-hidden rounded bg-white p-6 text-left align-middle shadow-xl transition-all"
+          class="w-full overflow-hidden rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all"
           :class="widthClass"
         >
           <DialogTitle
             as="h3"
-            class="text-center text-xl font-bold leading-6 text-black"
+            class="text-center text-xl leading-6 font-bold text-black"
           >
             <slot name="title"></slot>
           </DialogTitle>
@@ -59,5 +59,5 @@ const props = withDefaults(
 
 const widthClass = computed(() => {
   return 'max-w-' + props.width;
-})
+});
 </script>

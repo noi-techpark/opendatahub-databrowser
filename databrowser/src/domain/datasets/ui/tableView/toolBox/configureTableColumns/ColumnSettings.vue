@@ -7,7 +7,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="flex h-full flex-col overflow-y-auto">
     <div class="flex items-center justify-between">
-
       <ButtonCustom
         variant="ghost"
         size="xs"
@@ -15,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @click="emit('back')"
       >
         <IconStrokedArrowDown
-          class="-ml-1 mr-1 size-5 rotate-90 stroke-current"
+          class="mr-1 -ml-1 size-5 rotate-90 stroke-current"
         />
         <span class="line-height-1">{{
           t('datasets.listView.toolBox.columnConfiguration.columnSettings.back')
@@ -62,7 +61,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           )
         }}</label>
         <KeyValueEdit
-          class="bg-white border border-1 border-gray-400 rounded-md"
+          class="rounded-md border border-gray-400 bg-white"
           :availableKeys="availableComponentKeys"
           :type="'objectMapping'"
           :data="
@@ -88,7 +87,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           )
         }}</label>
         <KeyValueEdit
-          class="bg-white border border-1 border-gray-400 rounded-md"
+          class="rounded-md border border-gray-400 bg-white"
           :availableKeys="availableComponentKeys"
           :type="'params'"
           :data="col.params"

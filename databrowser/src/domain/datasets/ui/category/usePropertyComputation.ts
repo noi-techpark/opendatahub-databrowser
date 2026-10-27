@@ -5,7 +5,10 @@
 import { CellComponent } from '../../../cellComponents/types';
 import { buildTargetFromMapping } from '../../config/mapping/utils';
 import { PropertyConfig } from '../../config/types';
-import { validatePropertyConfigs, logValidationErrors } from '../../config/validation/arrayMappingValidation';
+import {
+  validatePropertyConfigs,
+  logValidationErrors,
+} from '../../config/validation/arrayMappingValidation';
 import { PropertyConfigWithValue } from './types';
 
 export const usePropertyComputation = () => {
@@ -19,7 +22,10 @@ export const usePropertyComputation = () => {
   ): PropertyConfigWithValue[] => {
     // Validate property configurations in development mode
     if (import.meta.env.DEV) {
-      const validationErrors = validatePropertyConfigs(properties, 'properties');
+      const validationErrors = validatePropertyConfigs(
+        properties,
+        'properties'
+      );
       if (validationErrors.length > 0) {
         logValidationErrors(validationErrors, 'PropertyConfig[]');
       }
