@@ -154,10 +154,7 @@ export const calculateMaxZoom = (
 ): number | null => {
   try {
     // Only apply maxZoom to polygons (not lines or points)
-    if (
-      geometry.type !== 'Polygon' &&
-      geometry.type !== 'MultiPolygon'
-    ) {
+    if (geometry.type !== 'Polygon' && geometry.type !== 'MultiPolygon') {
       return null; // No max zoom restriction
     }
 
@@ -167,8 +164,8 @@ export const calculateMaxZoom = (
 
     // Hide large polygons at high zoom to show features inside them
     // The larger the polygon, the earlier it should disappear
-    if (maxSpan > 10) return 8;   // Very large (countries) - hide at zoom 8+
-    if (maxSpan > 1) return 11;   // Large (regions) - hide at zoom 11+
+    if (maxSpan > 10) return 8; // Very large (countries) - hide at zoom 8+
+    if (maxSpan > 1) return 11; // Large (regions) - hide at zoom 11+
     if (maxSpan > 0.5) return 13; // Medium-large (large cities) - hide at zoom 13+
     if (maxSpan > 0.1) return 15; // Medium (cities) - hide at zoom 15+
     if (maxSpan > 0.01) return 17; // Small (neighborhoods) - hide at zoom 17+
@@ -255,7 +252,9 @@ export const classifyGeometryType = (
 /**
  * Get geometry info for debugging/logging
  */
-export const getGeometryInfo = (geometry: Geometry): {
+export const getGeometryInfo = (
+  geometry: Geometry
+): {
   type: string;
   coordinateCount: number;
   bbox: BBox;

@@ -40,9 +40,7 @@ export const computeApiFullUrl = (
   return computeApiFullUrlForFallbackDomain(domain, path, id, query);
 };
 
-export const computeApiPushResponseUrl = (
-  domain: DatasetDomain,
-) => {
+export const computeApiPushResponseUrl = (domain: DatasetDomain) => {
   if (domain === 'tourism') {
     return computePushResponseApiFullUrlForTourismDomain(domain);
   }
@@ -52,7 +50,7 @@ export const computeApiPushResponseUrl = (
 };
 
 const computePushResponseApiFullUrlForTourismDomain = (
-  domain: DatasetDomain,
+  domain: DatasetDomain
 ) => {
   const baseUrl = computeApiBaseUrl(domain);
   return `${baseUrl}/v1/PushResponseSearch`;

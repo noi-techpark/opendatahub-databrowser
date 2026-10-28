@@ -166,14 +166,13 @@ const { isDiffEditing } = storeToRefs(viewStore);
 
 const diffEditMode = ref(DiffEditMode.VERTICAL);
 const isEditEnabled = ref(false);
-const { diffEditorOptions, onDiffMounted } =
-  useJsonEditorConfigurator({
-    diffEditMode,
-    isEditEnabled,
-    isDiffEditing,
-    onDiffStatsChange: (a, d) => viewStore.setDiffStats(a, d),
-    onDiffStatsReset: () => viewStore.resetDiffStats(),
-  });
+const { diffEditorOptions, onDiffMounted } = useJsonEditorConfigurator({
+  diffEditMode,
+  isEditEnabled,
+  isDiffEditing,
+  onDiffStatsChange: (a, d) => viewStore.setDiffStats(a, d),
+  onDiffStatsReset: () => viewStore.resetDiffStats(),
+});
 
 // Enhance categories and subcategories with any errors
 const {

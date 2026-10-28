@@ -67,10 +67,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
     <template #noItems>No Geo Data has been added yet.</template>
     <template #addItems>
-      <EditListAddButton
-        :text="'Add new Geo Data'"
-        @click="addNewGeoData()"
-      />
+      <EditListAddButton :text="'Add new Geo Data'" @click="addNewGeoData()" />
     </template>
   </EditListTable>
 </template>

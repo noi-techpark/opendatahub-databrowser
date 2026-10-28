@@ -98,12 +98,17 @@ export const useMapViewStore = defineStore('mapViewStore', {
           return;
         }
 
-        this.datasets = Object.fromEntries(
-          datasets.value.map((dataset) => [
-            dataset.metaData.datasetId,
-            markRaw(dataset),
-          ])
-        );
+        // Build the lookup with a plain loop. Referencing MapDataset inside
+        // Object.fromEntries / a tuple type makes TypeScript deeply instantiate
+        // the maplibre-derived shape (TS2589); a shallow Record annotation plus
+        // a shallow markRaw<object> generic avoids that.
+        const datasetsById: Record<DatasetId, MapDataset> = {};
+        for (const dataset of datasets.value) {
+          datasetsById[dataset.metaData.datasetId] = markRaw<object>(
+            dataset
+          ) as MapDataset;
+        }
+        this.datasets = datasetsById;
 
         this.datasetsFetching = false;
         this.datasetsFetched = true;
@@ -138,7 +143,7 @@ export const useMapViewStore = defineStore('mapViewStore', {
         const axiosInstance = await axiosWithMaybeAuth(true, apiType);
 
         // Pass ["Geo"] to additionalFields to make best effort in order to detect "new" standrdized geo fields
-        const fetchUrl = getDatasetUrl(dataset.api, ["Geo"]);
+        const fetchUrl = getDatasetUrl(dataset.api, ['Geo']);
         const responseData = await axiosInstance.get<unknown>(fetchUrl);
 
         const records = unwrapData<unknown[]>(responseData.data);

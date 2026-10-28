@@ -38,14 +38,11 @@ export const announcementSharedView = ():
               objectMapping: { text: 'Detail.{language}.BaseText' },
               class: 'break-all',
             },
-            
           ],
         },
         {
           name: 'IDs',
-          properties: [
-            idReadOnlyCell(),
-          ],
+          properties: [idReadOnlyCell()],
         },
         {
           name: 'Time',
@@ -83,7 +80,8 @@ export const announcementSharedView = ():
               component: CellComponent.EditNestedArrayCell,
               arrayMapping: {
                 targetPropertyName: 'roads',
-                pathToParent: 'AdditionalProperties.RoadIncidentProperties.RoadsInvolved',
+                pathToParent:
+                  'AdditionalProperties.RoadIncidentProperties.RoadsInvolved',
                 // Nested properties for each road
                 properties: [
                   {
@@ -125,9 +123,9 @@ export const announcementSharedView = ():
                 ],
               },
             },
-          ]
-        }
-      ]
+          ],
+        },
+      ],
     },
     licenseInfoCategory(),
     mappingCategory(),

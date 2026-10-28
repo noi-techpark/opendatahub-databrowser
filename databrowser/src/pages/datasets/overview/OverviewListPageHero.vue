@@ -12,7 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <div class="flex w-full flex-col gap-3">
         <div class="flex flex-col gap-1">
           <div class="flex items-center justify-between gap-4">
-            <h1 class="text-2xl font-semibold leading-tight md:text-3xl">
+            <h1 class="text-2xl leading-tight font-semibold md:text-3xl">
               {{ $t('overview.listPage.heroTitle') }}
             </h1>
             <DisclaimerCloseHeroPopup @close="onHide" />
@@ -21,7 +21,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             {{ $t('overview.listPage.heroSubtitle') }}
           </h2>
         </div>
-        <ButtonLink class="w-fit !px-3 uppercase" to="/about">
+        <ButtonLink class="w-fit px-3! uppercase" to="/about">
           {{ $t('overview.listPage.heroMoreInfo') }}
         </ButtonLink>
       </div>

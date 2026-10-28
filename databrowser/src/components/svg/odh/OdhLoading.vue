@@ -5,7 +5,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+  >
     <path
       fill="none"
       stroke="currentColor"
@@ -41,5 +46,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   </svg>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div>
-    <div class="mb-2 mr-1 text-sm font-bold text-black md:w-auto md:text-base">
+    <div class="mr-1 mb-2 text-sm font-bold text-black md:w-auto md:text-base">
       {{ t('components.pushData.popup.title') }}
     </div>
 

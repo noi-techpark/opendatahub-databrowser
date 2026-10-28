@@ -5,16 +5,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div v-if="isAnyPropertySet && defaultEntry" class="flex w-full flex-col gap-3">
+  <div
+    v-if="isAnyPropertySet && defaultEntry"
+    class="flex w-full flex-col gap-3"
+  >
     <div class="flex gap-5">
       <div class="w-36">
-          <GeoDataMap
-            class="h-24"
-            :prevent-interaction="false"
-            :fullscreen-on-click="false"
-            :wkt="defaultEntry.Geometry"
-          />
-        </div>
+        <GeoDataMap
+          class="h-24"
+          :prevent-interaction="false"
+          :fullscreen-on-click="false"
+          :wkt="defaultEntry.Geometry"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -25,9 +28,7 @@ import type { GeoData } from '../editGeoDataCell/types';
 
 // Dynamically import WktMap
 const GeoDataMap = defineAsyncComponent(() =>
-  import('../editGeoDataCell/GeoDataMap.vue').then(
-    (exports) => exports.default
-  )
+  import('../editGeoDataCell/GeoDataMap.vue').then((exports) => exports.default)
 );
 
 const props = defineProps<{

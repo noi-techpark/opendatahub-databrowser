@@ -47,8 +47,8 @@ import EditFooterButton from '../../editView/EditFooterButton.vue';
 const { t } = useI18n();
 
 const props = defineProps<{
-  isSaving: boolean,
-  isSaveDisabled: boolean
+  isSaving: boolean;
+  isSaveDisabled: boolean;
 }>();
 
 const emit = defineEmits(['cancel', 'save']);

@@ -16,7 +16,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
     <div
       :class="{
-        'absolute inset-x-0 top-0 z-[60] bg-white p-2': active,
+        'absolute inset-x-0 top-0 z-60 bg-white p-2': active,
       }"
       @click.stop="null"
     >

@@ -4,8 +4,9 @@
 
 /// <reference types="vite/client" />
 
-interface ImportMetaEnv
-  extends Readonly<Record<string, string | boolean | undefined>> {
+interface ImportMetaEnv extends Readonly<
+  Record<string, string | boolean | undefined>
+> {
   readonly VITE_APP_KEYCLOAK_URL: string;
   readonly VITE_APP_KEYCLOAK_REALM: string;
   readonly VITE_APP_KEYCLOAK_CLIENT_ID: string;
@@ -15,6 +16,7 @@ interface ImportMetaEnv
   readonly VITE_APP_ODH_LOOKUP_BASE_URL: string;
   readonly VITE_APP_ENV_BADGE: string;
   readonly VITE_APP_MAP_STYLE_URL: string;
+  readonly VITE_APP_CANONICAL_ORIGIN?: string;
 }
 
 interface ImportMeta {

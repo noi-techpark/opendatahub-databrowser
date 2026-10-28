@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="flex h-full flex-col m-3">
+  <div class="m-3 flex h-full flex-col">
     <ColumnsList
       v-if="mode === 'tableColumns'"
       v-model:columns="columns"
@@ -26,9 +26,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       @back="mode = 'tableColumns'"
     />
 
-
     <ToolBoxCard innerClass="mx-0">
-      <ToolBoxCardBody class="bg-white py-3 mx-0">
+      <ToolBoxCardBody class="mx-0 bg-white py-3">
         <ShowDeprecatedFields
           custom-wrapper-classes="flex justify-between"
           custom-text-classes="font-semibold"
@@ -37,7 +36,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         />
       </ToolBoxCardBody>
     </ToolBoxCard>
-
 
     <div class="mt-4 flex flex-wrap justify-between gap-1 sm:gap-2">
       <ButtonCustom
@@ -96,7 +94,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
 
     <div class="mt-4 flex flex-wrap gap-1 sm:gap-2">
-
       <ButtonCustom
         class="flex items-center gap-2 px-3 py-1"
         :size="Size.xs"
@@ -119,7 +116,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <IconImport class="size-5" />
         {{ t('datasets.listView.toolBox.columnConfiguration.importConfig') }}
       </ButtonCustom>
-
     </div>
 
     <ColumnConfigurationSaveDialog
@@ -163,7 +159,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
 import ButtonCustom from '@/components/button/ButtonCustom.vue';
-import { Size,Variant,Tone } from '@/components/button/types';
+import { Size, Variant, Tone } from '@/components/button/types';
 import IconEditorRedo from '@/components/html/icons/IconEditorRedo.vue';
 import IconEditorUndo from '@/components/html/icons/IconEditorUndo.vue';
 import IconCheckCircle from '@/components/svg/IconCheckCircle.vue';
@@ -224,7 +220,7 @@ const beginSaveColumnConfiguration = () => {
   }
 };
 
-const {fire} = useHeaderAlert();
+const { fire } = useHeaderAlert();
 
 const commitSaveColumnConfiguration = () => {
   saveChanges();

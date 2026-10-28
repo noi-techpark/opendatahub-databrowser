@@ -211,7 +211,9 @@ describe('buildTargetFromArrayMapping', () => {
       parentDeprecationInfo: [
         {
           propertyPath: 'items',
-          deprecations: [{ description: 'Obsolete', pathToDeprecation: 'items' }],
+          deprecations: [
+            { description: 'Obsolete', pathToDeprecation: 'items' },
+          ],
         },
       ],
     };

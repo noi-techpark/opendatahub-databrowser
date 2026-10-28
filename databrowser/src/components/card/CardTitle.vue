@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   >
     <component
       :is="tagName"
-      class="flex justify-between text-xl font-semibold leading-tight lg:text-2xl"
+      class="flex justify-between text-xl leading-tight font-semibold lg:text-2xl"
     >
       <slot></slot>
     </component>

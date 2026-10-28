@@ -11,9 +11,13 @@ export const handleDataLoading = (
 ) => {
   // While loading show a table with empty rows
   if (isLoading) {
-    return [...Array(defaultPageSize).keys().map(()=>{
-      return {}
-    })];
+    return [
+      ...Array(defaultPageSize)
+        .keys()
+        .map(() => {
+          return {};
+        }),
+    ];
   }
 
   // If the data is null / undefined (e.g. because of an error),

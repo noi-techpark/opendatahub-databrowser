@@ -28,7 +28,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :class="[
             inputClasses,
             deletable ? 'pr-10' : '',
-            open ? 'rounded-t' : 'rounded',
+            open ? 'rounded-t' : 'rounded-sm',
           ]"
           :placeholder="placeholder"
           :disabled="disabled"
@@ -42,11 +42,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         />
 
         <ComboboxOptions
-          class="absolute z-[10] max-h-80 w-full overflow-y-auto rounded-b border border-gray-300 bg-white text-base ring-gray-400 focus-visible:outline-none"
+          class="absolute z-10 max-h-80 w-full overflow-y-auto rounded-b border border-gray-300 bg-white text-base ring-gray-400 focus-visible:outline-hidden"
         >
           <div
             v-if="suggestions.length === 0 && text !== ''"
-            class="relative cursor-default select-none py-1 pl-4 pr-8 text-gray-700"
+            class="relative cursor-default py-1 pr-8 pl-4 text-gray-700 select-none"
           >
             {{ t('components.inputSuggest.notFound') }}
           </div>
@@ -62,7 +62,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               :class="[
                 { 'bg-green-500/10': active || selected },
                 { 'text-green-500': selected },
-                'cursor-pointer select-none break-words px-4 py-1',
+                'cursor-pointer px-4 py-1 wrap-break-word select-none',
               ]"
             >
               <span :class="[{ 'font-semibold': selected }]">
@@ -79,7 +79,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       class="absolute right-0 flex h-full w-10 items-center justify-center"
     >
       <button
-        class="rounded p-1 text-green-500"
+        class="rounded-sm p-1 text-green-500"
         :class="{ hidden: String(text).length === 0 }"
         @click="onDelete"
       >

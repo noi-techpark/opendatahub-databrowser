@@ -12,7 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <ButtonCustom
       v-if="canSync"
       :disabled="disabled"
-      class="flex items-center py-1 px-2 text-green-500 mt-3 text-sm"
+      class="mt-3 flex items-center px-2 py-1 text-sm text-green-500"
       :size="Size.xs"
       :variant="Variant.ghost"
       @click="doAction"
@@ -26,29 +26,29 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { format as formatFn, formatDistanceToNow } from 'date-fns';
-import {Size, Variant} from "@/components/button/types";
-import ButtonCustom from "@/components/button/ButtonCustom.vue";
-import IconReload from "@/components/svg/IconReload.vue";
+import { Size, Variant } from '@/components/button/types';
+import ButtonCustom from '@/components/button/ButtonCustom.vue';
+import IconReload from '@/components/svg/IconReload.vue';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { useAuth } from '@/domain/auth/store/auth';
 import { useSyncSourceStore } from '@/domain/syncData/syncSourceStore';
 
 const props = withDefaults(
-    defineProps<{
-      id: string;
-      text?: string;
-      type: string;
-      source?: string;
-      hasAction?: string;
-      date?: string;
-      format?: string;
-    }>(),
-    {
-      source: undefined,
-      hasAction: "1",
-      date: undefined,
-      format: undefined
-    }
+  defineProps<{
+    id: string;
+    text?: string;
+    type: string;
+    source?: string;
+    hasAction?: string;
+    date?: string;
+    format?: string;
+  }>(),
+  {
+    source: undefined,
+    hasAction: '1',
+    date: undefined,
+    format: undefined,
+  }
 );
 const { date, format } = toRefs(props);
 const { openSyncDialog } = useTableViewStore();
@@ -73,7 +73,6 @@ const formattedDistance = computed(() => {
   return '';
 });
 
-
 const doAction = () => {
   if (!props.source || !props.type) return;
   const syncUrl = syncSourceStore.buildSyncUrl(
@@ -90,15 +89,13 @@ const doAction = () => {
   });
 };
 
-
-
 const canSync = computed(
-  () => !!props.source && !!props.type && syncSourceStore.hasSyncConfig(props.source)
+  () =>
+    !!props.source &&
+    !!props.type &&
+    syncSourceStore.hasSyncConfig(props.source)
 );
 
 const auth = useAuth();
-const disabled = computed(
-  () => !auth.isAuthenticated
-);
-
+const disabled = computed(() => !auth.isAuthenticated);
 </script>

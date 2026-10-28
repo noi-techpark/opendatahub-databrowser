@@ -20,12 +20,17 @@ export const useTableLoad = () => {
     datasetPath,
     datasetQuery,
     fullPath,
-    pushResponseFullPath
+    pushResponseFullPath,
   } = storeToRefs(useDatasetBaseInfoStore());
 
   // Load table data
   const { isDataLoading, isError, error, data, pagination, refetch } =
-    useTableLoadData(datasetDomain, datasetQuery, fullPath, pushResponseFullPath);
+    useTableLoadData(
+      datasetDomain,
+      datasetQuery,
+      fullPath,
+      pushResponseFullPath
+    );
 
   updateDatasetLocationStore(datasetDomain, datasetPath, datasetQuery, data);
 

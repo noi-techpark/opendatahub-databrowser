@@ -9,7 +9,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #trigger>
       <div
         @click="onOpen"
-        class="flex h-10 w-11 flex-col items-center p-1 text-green-400 select-none transition border border-lightgray rounded hover:bg-green-400/10 hover:border-green-400">
+        class="flex h-10 w-11 flex-col items-center rounded-sm border border-lightgray p-1 text-green-400 transition select-none hover:border-green-400 hover:bg-green-400/10"
+      >
         <IconThreeDots class="grow stroke-current" />
         <span class="text-3xs uppercase">
           {{ t('datasets.listView.viewLinks.actions.short') }}
@@ -21,7 +22,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <teleport to="body">
         <div
           v-if="isOpen"
-          class="fixed inset-0 bg-black/10 z-40"
+          class="fixed inset-0 z-40 bg-black/10"
           @click="onClose(close)"
         />
       </teleport>
@@ -34,7 +35,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             @click="emitEvent('edit', close)"
           >
             <IconEdit class="text-green-500" />
-            <div class="hidden md:block">{{ t('datasets.listView.viewLinks.edit.short') }}</div>
+            <div class="hidden md:block">
+              {{ t('datasets.listView.viewLinks.edit.short') }}
+            </div>
           </PopoverContent>
           <PopoverContentDivider class="hidden md:block" />
           <PopoverContent
@@ -43,7 +46,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             @click="emitEvent('refresh', close)"
           >
             <IconReload class="text-green-500" />
-            <div class="hidden md:block">{{ t('datasets.listView.viewLinks.refresh.short') }}</div>
+            <div class="hidden md:block">
+              {{ t('datasets.listView.viewLinks.refresh.short') }}
+            </div>
           </PopoverContent>
           <PopoverContentDivider class="hidden md:block" />
           <template v-if="showForceSync">
@@ -53,7 +58,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @click="emitEvent('sync', close)"
             >
               <OdhLoading class="text-green-500" />
-              <div class="hidden md:block">{{ t('datasets.listView.viewLinks.forceSync.short') }}</div>
+              <div class="hidden md:block">
+                {{ t('datasets.listView.viewLinks.forceSync.short') }}
+              </div>
             </PopoverContent>
             <PopoverContentDivider class="hidden md:block" />
           </template>
@@ -64,7 +71,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @click="emitEvent('push', close)"
             >
               <IconPush class="text-green-500" />
-              <div class="hidden md:block">{{ t('datasets.listView.viewLinks.push.short') }}</div>
+              <div class="hidden md:block">
+                {{ t('datasets.listView.viewLinks.push.short') }}
+              </div>
             </PopoverContent>
             <PopoverContentDivider class="hidden md:block" />
           </template>
@@ -75,7 +84,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @click="emitEvent('duplicate', close)"
             >
               <IconCopy class="text-green-500" />
-              <div class="hidden md:block">{{ t('datasets.listView.viewLinks.duplicate.short') }}</div>
+              <div class="hidden md:block">
+                {{ t('datasets.listView.viewLinks.duplicate.short') }}
+              </div>
             </PopoverContent>
             <PopoverContentDivider class="hidden md:block" />
           </template>
@@ -104,7 +115,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               @click="emitEvent('delete', close)"
             >
               <IconClose class="size-7 text-delete" />
-              <div class="hidden md:block">{{ t('datasets.listView.viewLinks.delete.short') }}</div>
+              <div class="hidden md:block">
+                {{ t('datasets.listView.viewLinks.delete.short') }}
+              </div>
             </PopoverContent>
           </template>
         </div>
@@ -131,7 +144,6 @@ import OdhLoading from '@/components/svg/odh/OdhLoading.vue';
 
 const { t } = useI18n();
 
-
 withDefaults(
   defineProps<{
     id: RecordId;
@@ -146,7 +158,7 @@ withDefaults(
     showEdit: false,
     showDuplicate: false,
     showForceSync: false,
-    showPush: false
+    showPush: false,
   }
 );
 
@@ -187,5 +199,4 @@ const onClose = (closePopup?: () => void) => {
   isOpen.value = false;
   if (closePopup) closePopup();
 };
-
 </script>

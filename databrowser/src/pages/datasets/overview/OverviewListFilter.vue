@@ -16,7 +16,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         {{ t('overview.listPage.filter') }}
         <div
           v-if="appliedFiltersNum > 0"
-          class="rounded bg-gray-200 px-2 text-sm text-gray-900"
+          class="rounded-sm bg-gray-200 px-2 text-sm text-gray-900"
         >
           {{ appliedFiltersNum }}
         </div>

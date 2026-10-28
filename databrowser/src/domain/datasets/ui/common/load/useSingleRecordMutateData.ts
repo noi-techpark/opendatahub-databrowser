@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { MaybeRef, computed, toValue } from 'vue';
-import { useApiMutate } from '../../../../api/useApi';
+import { ApiMutateFunction, useApiMutate } from '../../../../api/useApi';
 
 export const useSingleRecordMutateData = (
   fullPath: MaybeRef<string | undefined>,
@@ -22,6 +22,6 @@ export const useSingleRecordMutateData = (
     isMutateLoading: isPending,
     isMutateError: isError,
     isMutateSuccess: isSuccess,
-    mutate,
+    mutate: mutate as ApiMutateFunction,
   };
 };

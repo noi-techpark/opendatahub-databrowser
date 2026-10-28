@@ -72,7 +72,7 @@ export const municipalitySharedView = ():
               component: CellComponent.StringCell,
               objectMapping: { text: 'TourismvereinId' },
               class: 'break-all',
-            },            
+            },
             regionIdCell('RegionId'),
           ],
         },

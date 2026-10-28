@@ -46,6 +46,8 @@ const content = computed<string>({
 </script>
 
 <style>
+@reference '@/index.css';
+
 .html-content a {
   @apply text-green-500;
 }
@@ -56,7 +58,7 @@ const content = computed<string>({
 .html-content h4,
 .html-content h5,
 .html-content h6 {
-  @apply mb-2 mt-4;
+  @apply mt-4 mb-2;
 }
 
 .html-content h1 {

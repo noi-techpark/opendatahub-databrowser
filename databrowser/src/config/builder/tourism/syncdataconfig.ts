@@ -3,11 +3,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { CellComponent } from '@/domain/cellComponents/types';
-import {
-  DetailElements,
-  PropertyConfig,
-} from '@/domain/datasets/config/types';
-import {DEFAULT_DATE_TIME_FORMAT} from "@/config/utils";
+import { DetailElements, PropertyConfig } from '@/domain/datasets/config/types';
+import { DEFAULT_DATE_TIME_FORMAT } from '@/config/utils';
 
 export const syncdataconfigCell = (): PropertyConfig => ({
   title: '',
@@ -34,7 +31,6 @@ export const syncdataconfigCategory = (): DetailElements => ({
   ],
 });
 
-
 export const lastSyncTableCell = (
   hasAction: boolean = true,
   textPath: string = 'AccoDetail.{language}.Name'
@@ -47,10 +43,10 @@ export const lastSyncTableCell = (
     date: '_Meta.LastUpdate',
     type: '_Meta.Type',
     source: 'Source',
-    text: textPath
+    text: textPath,
   },
   params: {
     format: DEFAULT_DATE_TIME_FORMAT,
-    hasAction: (hasAction) ? "1" : "0"
-  }
-})
+    hasAction: hasAction ? '1' : '0',
+  },
+});

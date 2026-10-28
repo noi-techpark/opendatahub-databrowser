@@ -18,21 +18,12 @@ export const tripOperations: Operations = {
     rolesAllowed: ROLE_READ,
   },
   create: {
-    rolesAllowed: extendCreateRoles([
-      'TripManager',
-      'TripCreate',
-    ]),
+    rolesAllowed: extendCreateRoles(['TripManager', 'TripCreate']),
   },
   update: {
-    rolesAllowed: extendUpdateRoles([
-      'TripManager',
-      'TripUpdate',
-    ]),
+    rolesAllowed: extendUpdateRoles(['TripManager', 'TripUpdate']),
   },
   delete: {
-    rolesAllowed: extendDeleteRoles([
-      'TripManager',
-      'TripDelete',
-    ]),
+    rolesAllowed: extendDeleteRoles(['TripManager', 'TripDelete']),
   },
 };

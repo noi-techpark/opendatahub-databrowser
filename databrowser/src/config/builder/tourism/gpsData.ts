@@ -41,7 +41,6 @@ export const gpsDataCategory = (): DetailElements => ({
   ],
 });
 
-
 export const gpsDataShortTableCell = (): PropertyConfig => ({
   title: 'GPS Data',
   component: CellComponent.GpsPointsCell,

@@ -5,18 +5,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-
   <ToolBoxSectionLabel>
-      <span class="mr-4">
-        <span class="text-black">{{pagination.totalItems ?? '-' }}</span>
-        <span class="text-dialog">&nbsp;{{ t('datasets.listView.recordsOutOf') }}&nbsp;</span>
-        <span class="text-black">{{ metaDataTotalCount ?? '-' }}</span>
-      </span>
+    <span class="mr-4">
+      <span class="text-black">{{ pagination.totalItems ?? '-' }}</span>
+      <span class="text-dialog"
+        >&nbsp;{{ t('datasets.listView.recordsOutOf') }}&nbsp;</span
+      >
+      <span class="text-black">{{ metaDataTotalCount ?? '-' }}</span>
+    </span>
     <ResetAllFilters @reset-all-filters="removeAllFilters" />
   </ToolBoxSectionLabel>
 
   <ToolBoxCard class="bg-white">
-
     <ToolBoxCardBody
       v-for="(filter, index) in tableFilters"
       :key="`${filter.propertyPath}-${index}`"
@@ -44,7 +44,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :z-index="30"
           class="basis-1/2"
           @update:model-value="
-              updateFilter(index, String($event), filter.value, false)
+            updateFilter(index, String($event), filter.value, false)
           "
         />
       </div>
@@ -104,18 +104,19 @@ import { useTableFilterStore } from '../filter/tableFilterStore';
 import { Filter, FilterOperator, FilterValue } from '../filter/types';
 import IconAdd from '../../../../../components/svg/IconAdd.vue';
 import IconFilter from '../../../../../components/svg/IconFilter.vue';
-import {Pagination} from "@/domain/datasets/pagination/types";
-import ToolBoxSectionLabel from "@/domain/datasets/ui/toolBox/ToolBoxSectionLabel.vue";
+import { Pagination } from '@/domain/datasets/pagination/types';
+import ToolBoxSectionLabel from '@/domain/datasets/ui/toolBox/ToolBoxSectionLabel.vue';
 import { useMetaDataForRoute } from '@/domain/metaDataConfig/tourism/useMetaData';
 
 const { t } = useI18n();
 
 const props = defineProps<{
-  pagination: Pagination
+  pagination: Pagination;
 }>();
 
-
-const { datasetDomain, datasetPath, datasetQuery } = storeToRefs(useDatasetBaseInfoStore());
+const { datasetDomain, datasetPath, datasetQuery } = storeToRefs(
+  useDatasetBaseInfoStore()
+);
 
 const { currentMetaData } = useMetaDataForRoute(datasetPath, datasetQuery);
 

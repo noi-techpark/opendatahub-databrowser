@@ -19,13 +19,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableHeaderCell>Document Name</TableHeaderCell>
     </template>
 
-    <template #tableCols="{ item, index }: { item: FileEntry; index: number }">
+    <template
+      #tableCols="{ item, index }: { item: FileEntry; index: string | number }"
+    >
       <TableCell>
         <StringCell
           :text="item.documentName"
           :editable="true"
           @update="
-            update(index, {
+            update(Number(index), {
               documentName: $event.value,
               language: item.language,
             })

@@ -108,9 +108,7 @@ const {
 } = storeToRefs(tableViewStore);
 
 const auth = useAuth();
-const isAuthenticated = computed(
-  () => auth.isAuthenticated
-);
+const isAuthenticated = computed(() => auth.isAuthenticated);
 
 const { deleteDialog, onDelete, isDeleting, closeDeleteConfirmation } =
   useTableDelete(fullPath, refetch);

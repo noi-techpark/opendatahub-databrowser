@@ -6,13 +6,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div>
-
     <ToolBoxSectionLabel>
       {{ t('datasets.toolBox.exportDatasets.sectionRetrieveData') }}
     </ToolBoxSectionLabel>
 
     <ToolBoxCard v-if="url != null">
-      <ToolBoxCardHeader :uppercase="false" class="rounded">
+      <ToolBoxCardHeader :uppercase="false" class="rounded-sm">
         {{ t('datasets.toolBox.exportDatasets.apiDatasets.header') }}
       </ToolBoxCardHeader>
       <ToolBoxCardBody class="break-all">
@@ -27,7 +26,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         >
           <IconCopy v-if="!copiedUrl" class="size-4" />
           <IconCheck v-else class="size-4" />
-          <span>{{ t('datasets.toolBox.exportDatasets.apiDatasets.button') }}</span>
+          <span>{{
+            t('datasets.toolBox.exportDatasets.apiDatasets.button')
+          }}</span>
         </ButtonCustom>
       </ToolBoxCardBody>
     </ToolBoxCard>
@@ -41,16 +42,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <ToolBoxCard
       v-for="referenceUrl in referencesUrls || []"
       :key="getReferenceKey(referenceUrl)"
-      class="rounded"
+      class="rounded-sm"
     >
-      <ToolBoxCardHeader :uppercase="false" class="rounded">
+      <ToolBoxCardHeader :uppercase="false" class="rounded-sm">
         <span class="truncate">
           {{ referenceUrl.from }}
         </span>
 
         <button
-          class="rounded text-green-500 outline-offset-1"
-          @click="referencesUrlsAccordions[getReferenceKey(referenceUrl)] = !referencesUrlsAccordions[getReferenceKey(referenceUrl)]"
+          class="rounded-sm text-green-500 outline-offset-1"
+          @click="
+            referencesUrlsAccordions[getReferenceKey(referenceUrl)] =
+              !referencesUrlsAccordions[getReferenceKey(referenceUrl)]
+          "
         >
           <ArrowLine
             class="size-4 transition"
@@ -62,19 +66,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           />
         </button>
       </ToolBoxCardHeader>
-      <ToolBoxCardBody v-if="referencesUrlsAccordions[getReferenceKey(referenceUrl)]">
+      <ToolBoxCardBody
+        v-if="referencesUrlsAccordions[getReferenceKey(referenceUrl)]"
+      >
         <div class="items-center gap-1">
-          <p class="break-all font-mono text-xs">{{ referenceUrl.url }}</p>
-            <ButtonCustom
-              class="mt-4 flex items-center gap-3 px-2 py-1.5 text-sm"
-              :size="Size.xs"
-              :aria-label="t('datasets.toolBox.exportDatasets.download.iconAlt')"
-              @click="onCopyReference(referenceUrl.url)"
-            >
-              <IconCheck v-if="referenceUrlToCopy === referenceUrl.url && referenceUrlCopied" class="size-4" />
-              <IconCopy v-else class="size-4" />
-              <span>{{ t('datasets.toolBox.exportDatasets.apiDatasets.button') }}</span>
-            </ButtonCustom>
+          <p class="font-mono text-xs break-all">{{ referenceUrl.url }}</p>
+          <ButtonCustom
+            class="mt-4 flex items-center gap-3 px-2 py-1.5 text-sm"
+            :size="Size.xs"
+            :aria-label="t('datasets.toolBox.exportDatasets.download.iconAlt')"
+            @click="onCopyReference(referenceUrl.url)"
+          >
+            <IconCheck
+              v-if="
+                referenceUrlToCopy === referenceUrl.url && referenceUrlCopied
+              "
+              class="size-4"
+            />
+            <IconCopy v-else class="size-4" />
+            <span>{{
+              t('datasets.toolBox.exportDatasets.apiDatasets.button')
+            }}</span>
+          </ButtonCustom>
         </div>
       </ToolBoxCardBody>
     </ToolBoxCard>
@@ -84,7 +97,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     }}</ToolBoxSectionLabel>
 
     <ToolBoxCard>
-      <ToolBoxCardHeader :uppercase="false" class="rounded">
+      <ToolBoxCardHeader :uppercase="false" class="rounded-sm">
         {{ t('datasets.toolBox.exportDatasets.documentation.header') }}
       </ToolBoxCardHeader>
       <ToolBoxCardBody>
@@ -98,7 +111,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           target="_blank"
         >
           <IconInfo class="size-4" />
-          <span>{{ t('datasets.toolBox.exportDatasets.documentation.button') }}</span>
+          <span>{{
+            t('datasets.toolBox.exportDatasets.documentation.button')
+          }}</span>
         </ButtonExternalLink>
       </ToolBoxCardBody>
     </ToolBoxCard>
@@ -118,9 +133,9 @@ import ToolBoxCardHeader from '../ToolBoxCardHeader.vue';
 import ToolBoxSectionLabel from '../ToolBoxSectionLabel.vue';
 import { ReferenceInfoToolBoxFetchUrlInfo } from '../types';
 import DownloadCard from './DownloadCard.vue';
-import ButtonCustom from "@/components/button/ButtonCustom.vue";
-import {Size } from "@/components/button/types";
-import IconInfo from "@/components/svg/IconInfo.vue";
+import ButtonCustom from '@/components/button/ButtonCustom.vue';
+import { Size } from '@/components/button/types';
+import IconInfo from '@/components/svg/IconInfo.vue';
 import ButtonExternalLink from '@/components/button/ButtonExternalLink.vue';
 
 const { t } = useI18n();
@@ -147,7 +162,7 @@ const onCopyReference = (url: string) => {
   copyReferenceUrl(url);
 };
 
-const { copy: copyReferenceUrl, copied:referenceUrlCopied } = useClipboard();
+const { copy: copyReferenceUrl, copied: referenceUrlCopied } = useClipboard();
 
 const getReferenceKey = (referenceUrl: ReferenceInfoToolBoxFetchUrlInfo) => {
   return `${referenceUrl.from}_${referenceUrl.url}`;

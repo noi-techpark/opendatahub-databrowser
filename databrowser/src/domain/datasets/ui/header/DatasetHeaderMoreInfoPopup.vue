@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <PopoverCustom>
     <template #trigger>
       <PopoverCustomButton
-        class="flex size-11 items-center justify-center border border-lightgray rounded"
+        class="flex size-11 items-center justify-center rounded-sm border border-lightgray"
         :class="buttonClasses"
       >
         <IconInfo class="stroke-current text-dialog" />
@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <PopoverContent class="max-w-lg">
           <div v-if="currentMetaData != null">
             <div
-              class="mb-2 mr-1 text-sm font-bold text-black md:w-auto md:text-base"
+              class="mr-1 mb-2 text-sm font-bold text-black md:w-auto md:text-base"
             >
               <DatasetHeaderTitle />
             </div>

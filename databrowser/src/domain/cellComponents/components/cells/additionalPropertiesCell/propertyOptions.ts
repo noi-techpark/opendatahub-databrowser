@@ -19,13 +19,18 @@ const { name: echargingname, slug: echargingslug } = echargingdataCategory();
 const { name: poiagename, slug: poiageslug } = poiagedataCategory();
 
 const { name: poiltsname, slug: poiltsslug } = poiltsdataCategory();
-const { name: activityltsname, slug: activityltsslug } = activityltsdataCategory();
-const { name: gastronomyltsname, slug: gastronomyltsslug } = gastronomyltsdataCategory();
-const { name: suedtirolweincompanyname, slug: suedtirolweincompanyslug } = suedtirolweincompanydataCategory();
+const { name: activityltsname, slug: activityltsslug } =
+  activityltsdataCategory();
+const { name: gastronomyltsname, slug: gastronomyltsslug } =
+  gastronomyltsdataCategory();
+const { name: suedtirolweincompanyname, slug: suedtirolweincompanyslug } =
+  suedtirolweincompanydataCategory();
 const { name: siagmuseumname, slug: siagmuseumslug } = siagmuseumdataCategory();
-const { name: stavendingpointname, slug: stavendingpointslug } = stavendingpointdataCategory();
+const { name: stavendingpointname, slug: stavendingpointslug } =
+  stavendingpointdataCategory();
 
-const { name: eventeuracnoiname, slug: eventeuracnoislug } = eventeuracnoidataCategory();
+const { name: eventeuracnoiname, slug: eventeuracnoislug } =
+  eventeuracnoidataCategory();
 
 export type AdditionalPropertiesOptions = SelectOption<string> &
   AdditionalProperty;

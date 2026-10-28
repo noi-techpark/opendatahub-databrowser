@@ -15,10 +15,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <col class="w-32 md:w-32" />
     </template>
 
-    <template #tableHeader>      
+    <template #tableHeader>
       <TableHeaderCell>Shortname</TableHeaderCell>
-      <TableHeaderCell>Room Title</TableHeaderCell> 
-      <TableHeaderCell>Active</TableHeaderCell>      
+      <TableHeaderCell>Room Title</TableHeaderCell>
+      <TableHeaderCell>Active</TableHeaderCell>
       <TableHeaderCell>SquareMeters</TableHeaderCell>
       <TableHeaderCell>Capacity</TableHeaderCell>
       <TableHeaderCell>Placement</TableHeaderCell>
@@ -66,5 +66,7 @@ defineProps<{ items: RoomVenueEntry[] }>();
 
 const { addItem } = useInjectActionTriggers<RoomVenueEntry>();
 
-const language = computed(() => useDatasetQueryStore().handle('language').value ?? 'en');
+const language = computed(
+  () => useDatasetQueryStore().handle('language').value ?? 'en'
+);
 </script>

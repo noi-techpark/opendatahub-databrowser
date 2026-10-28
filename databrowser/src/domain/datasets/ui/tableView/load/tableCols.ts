@@ -39,7 +39,10 @@ export const computeTableCols = (
       // Remove hidden elements from result
       .filter((element) => !element.hidden)
       .map<Column>((element) => {
-        const firstPropertyPath = firstPropertyName(element.objectMapping, element.params);
+        const firstPropertyPath = firstPropertyName(
+          element.objectMapping,
+          element.params
+        );
 
         return {
           ...element,

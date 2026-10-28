@@ -25,7 +25,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   </PopoverCustom>
 </template>
 
-
 <script setup lang="ts">
 import PopoverCustomButton from './PopoverCustomButton.vue';
 import IconThreeDots from '../svg/IconThreeDots.vue';

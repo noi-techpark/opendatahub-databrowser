@@ -32,21 +32,34 @@ export const useTableLoadData = (
   // add enriched data from push response
   const pushPath = computed(() => unref(pushResponseFullPath));
   const pushEnabled = computed(() => !!pushPath.value);
-  const pushHook = useEnrichWithPushResponse(pushResponseFullPath, unwrappedData, {
-    enabled: pushEnabled,
-    merge: (base, extra) => ({ ...base, _PushResponseData: extra }),
-  });
+  const pushHook = useEnrichWithPushResponse(
+    pushResponseFullPath,
+    unwrappedData,
+    {
+      enabled: pushEnabled,
+      merge: (base, extra) => ({ ...base, _PushResponseData: extra }),
+    }
+  );
 
-  const isLoading = computed(() => (isMainLoading.value || (pushHook && pushHook.isLoading.value)));
-  const isError = computed(() => (isMainError.value || (pushHook && pushHook.isError.value)));
-  const error = computed(() => mainError.value ?? (pushHook && pushHook.error.value));
+  const isLoading = computed(
+    () => isMainLoading.value || (pushHook && pushHook.isLoading.value)
+  );
+  const isError = computed(
+    () => isMainError.value || (pushHook && pushHook.isError.value)
+  );
+  const error = computed(
+    () => mainError.value ?? (pushHook && pushHook.error.value)
+  );
 
-  const dataWithLoadingSupport = useHandleDataLoading(isLoading, (pushHook && pushHook.mergedData) ?? unwrappedData);
+  const dataWithLoadingSupport = useHandleDataLoading(
+    isLoading,
+    (pushHook && pushHook.mergedData) ?? unwrappedData
+  );
   const pagination = usePagination(datasetDomain, datasetQuery, data);
 
   const refetch = async () => {
     await refetchMain();
-    if(pushHook){
+    if (pushHook) {
       await pushHook.refetch();
     }
   };

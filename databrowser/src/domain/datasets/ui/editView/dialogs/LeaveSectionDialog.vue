@@ -5,7 +5,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <DialogCustom :is-open="dialogsStore.leaveSectionDialogVisible" :width="DialogPanelWidth.sm">
+  <DialogCustom
+    :is-open="dialogsStore.leaveSectionDialogVisible"
+    :width="DialogPanelWidth.sm"
+  >
     <template #title>
       {{ t('datasets.editView.dialog.leaveSection.title') }}
     </template>

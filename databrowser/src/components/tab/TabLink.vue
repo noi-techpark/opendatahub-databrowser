@@ -28,5 +28,7 @@ const classes = useTabClasses(active);
 </script>
 
 <style scoped>
+@reference '@/index.css';
+
 @import './styles.css';
 </style>

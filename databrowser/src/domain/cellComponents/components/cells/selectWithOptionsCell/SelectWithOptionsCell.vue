@@ -31,7 +31,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @update="onUpdate($event.value)"
       />
       <button
-        class="rounded p-1 text-delete disabled:opacity-50"
+        class="rounded-sm p-1 text-delete disabled:opacity-50"
         @click="abort"
       >
         <IconDelete />
@@ -44,10 +44,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script setup lang="ts">
 import { computed, ref, toRefs, useAttrs, watch } from 'vue';
 import SelectCustom from '@/components/select/SelectCustom.vue';
-import {
-  SelectOption,
-  SelectValue,
-} from '@/components/select/types';
+import { SelectOption, SelectValue } from '@/components/select/types';
 import { selectAddNewValue } from '@/components/select/utils';
 import IconDelete from '@/components/svg/IconDelete.vue';
 import { useEditStore } from '../../../../datasets/ui/editView/store/editStore';

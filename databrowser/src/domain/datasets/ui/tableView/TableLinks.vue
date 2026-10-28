@@ -6,7 +6,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="grid grid-cols-2 gap-2 text-green-400">
-
     <DetailsLink
       :to="detailLocation"
       :title="t('datasets.listView.viewLinks.detail.title')"
@@ -75,7 +74,7 @@ const props = defineProps<{
   refetch: () => Promise<void>;
 }>();
 
-const { recordId,data } = toRefs(props);
+const { recordId, data } = toRefs(props);
 
 const { addRecordSupported } = storeToRefs(useDatasetPermissionStore());
 
@@ -125,7 +124,9 @@ const precompileNewViewData = (data: RecordActionsData) => {
 const { publishers } = storeToRefs(usePublisherStore());
 const metaId = computed(() => data.value._Meta?.Id);
 const metaType = computed(() => data.value._Meta?.Type);
-const publishedOn = computed(() => data.value.PublishedOn as string[] | null | undefined);
+const publishedOn = computed(
+  () => data.value.PublishedOn as string[] | null | undefined
+);
 const publishersWithUrl = computed(() => {
   const po = publishedOn.value;
   if (!po?.length) return [];
@@ -138,7 +139,6 @@ const publishersWithUrl = computed(() => {
       url: publisher.buildUrl(metaId.value, metaType.value),
     }));
 });
-
 
 const { openPushDialog, openSyncDialog } = useTableViewStore();
 const onPush = () => {

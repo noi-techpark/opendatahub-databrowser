@@ -44,16 +44,22 @@ export const useDatasetBaseInfo = (
   );
 
   // Compute dataset location info
-  const { datasetDomain, datasetPath, datasetQuery, datasetId, fullPath, pushResponseFullPath } =
-    useComputeDatasetLocation({
-      datasetConfig,
-      viewKey,
-      routeDomain,
-      routePath,
-      routeId,
-      routeQuery,
-      preferredLanguage,
-    });
+  const {
+    datasetDomain,
+    datasetPath,
+    datasetQuery,
+    datasetId,
+    fullPath,
+    pushResponseFullPath,
+  } = useComputeDatasetLocation({
+    datasetConfig,
+    viewKey,
+    routeDomain,
+    routePath,
+    routeId,
+    routeQuery,
+    preferredLanguage,
+  });
 
   // Compute dataset config with user settings
   const datasetConfigWithUserSettings = useDatasetConfigWithUserSettings(

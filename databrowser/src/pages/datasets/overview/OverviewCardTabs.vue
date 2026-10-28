@@ -28,7 +28,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <TableCell>
             <ExternalLink
               v-if="dataset.swaggerUrl != null"
-              class="w-fit break-words"
+              class="w-fit wrap-break-word"
               tone="primary"
               :href="dataset.swaggerUrl"
             >

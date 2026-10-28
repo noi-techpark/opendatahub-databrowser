@@ -48,19 +48,19 @@ import { provideColumnConfiguration } from './configureTableColumns/columnConfig
 import ColumnConfigurationNavigationGuardHandler from './configureTableColumns/ColumnConfigurationNavigationGuardHandler.vue';
 import SearchAndFilterToolBoxPanel from './SearchAndFilterToolBoxPanel.vue';
 import { ToolBoxSectionKey } from '@/domain/datasets/ui/toolBox/types';
-import ToolBoxSection from "@/domain/datasets/ui/toolBox/ToolBoxSection.vue";
-import IconFilter from "@/components/svg/IconFilter.vue";
-import InfoFilter from "@/domain/datasets/ui/tableView/toolBox/InfoFilter.vue";
-import {Pagination} from "@/domain/datasets/pagination/types";
-import IconDownload from "@/components/svg/IconDownload.vue";
+import ToolBoxSection from '@/domain/datasets/ui/toolBox/ToolBoxSection.vue';
+import IconFilter from '@/components/svg/IconFilter.vue';
+import InfoFilter from '@/domain/datasets/ui/tableView/toolBox/InfoFilter.vue';
+import { Pagination } from '@/domain/datasets/pagination/types';
+import IconDownload from '@/components/svg/IconDownload.vue';
 import OdhAttributes from '@/components/svg/odh/OdhAttributes.vue';
 import ColumnConfigurator from '@/domain/datasets/ui/tableView/toolBox/configureTableColumns/ColumnConfigurator.vue';
 
 const { t } = useI18n();
 
 defineProps<{
-  url?: string,
-  pagination: Pagination
+  url?: string;
+  pagination: Pagination;
 }>();
 
 const { isColumnConfigChanged, isSaveSuccess, discardChanges, saveChanges } =

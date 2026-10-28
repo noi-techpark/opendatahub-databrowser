@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :id="id"
       ref="inputRef"
       v-model="text"
-      class="rounded border border-gray-400 p-2 text-black focus:border-green-500 focus:ring-transparent"
+      class="rounded-sm border border-gray-400 p-2 text-black focus:border-green-500 focus:ring-transparent"
       :class="[inputClasses, deletable ? 'pr-10' : '']"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -40,7 +40,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       class="absolute right-0 flex h-full w-10 items-center justify-center"
     >
       <button
-        class="rounded p-1 text-green-500"
+        class="rounded-sm p-1 text-green-500"
         :class="{ hidden: String(text).length === 0 }"
         @click="onDelete"
       >
@@ -96,6 +96,8 @@ const onDelete = () => {
 </script>
 
 <style scoped>
+@reference '@/index.css';
+
 .has-error input {
   @apply border-error text-error;
 }

@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <PopoverCustom :z-index="mapViewBaseZIndex + 1">
     <template #trigger>
-      <PopoverCustomButton class="flex items-center rounded">
+      <PopoverCustomButton class="flex items-center rounded-sm">
         <IconWarning class="text-red-500" />
       </PopoverCustomButton>
     </template>

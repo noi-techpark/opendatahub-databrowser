@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <span
       v-if="triggerOnHover"
       ref="triggerHoverRef"
-      class="absolute left-0 top-0 h-full w-full"
+      class="absolute top-0 left-0 h-full w-full"
       @click.stop="onTriggerHoverClick()"
       @mouseover="onTriggerMouseHover(open)"
       @mouseleave="onTriggerMouseLeave(close)"

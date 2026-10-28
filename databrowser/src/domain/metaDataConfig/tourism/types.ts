@@ -17,7 +17,12 @@ export interface TourismMetaData {
   sources: string[];
   lastUpdated?: Date;
   apiFilter: Record<string, string>;
-  recordCount: { open?: number; closed?: number; reduced?: number; Total?: number };
+  recordCount: {
+    open?: number;
+    closed?: number;
+    reduced?: number;
+    Total?: number;
+  };
   deprecated?: boolean;
   parent?: TourismMetaData;
   tags: string[];
@@ -28,5 +33,10 @@ export interface TourismMetaData {
   dataProviders: string[];
   singleDataset?: boolean;
   datasetConfigurations: string[];
-  licenseInfo?: { author?: string; license?: string; closedData?: boolean; licenseHolder?: string   }
+  licenseInfo?: {
+    author?: string;
+    license?: string;
+    closedData?: boolean;
+    licenseHolder?: string;
+  };
 }

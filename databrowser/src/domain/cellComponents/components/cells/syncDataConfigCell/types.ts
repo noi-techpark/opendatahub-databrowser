@@ -8,7 +8,6 @@ export interface SyncDataConfigEntry {
   syncdataapiurl?: string;
 }
 
-
 export interface SyncPayload {
   UpdatedBy: string;
   UpdateSource: string;
@@ -19,10 +18,8 @@ export interface SyncResponsePayload {
   error?: string;
 }
 export interface SyncResponse {
- response: SyncResponsePayload;
+  response: SyncResponsePayload;
 }
-
-
 
 export interface OdhSyncResponse {
   operation: string;

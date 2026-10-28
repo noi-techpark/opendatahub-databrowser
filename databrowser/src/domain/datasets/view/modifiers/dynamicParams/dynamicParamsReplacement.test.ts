@@ -8,7 +8,9 @@ import { DetailViewConfigWithType } from '../../types';
 
 describe('dynamicParamsReplacement', () => {
   const stringReplacer = (str: string) => str.replace('{language}', 'en');
-  const objectValueReplacer = (obj?: Record<string, string>): Record<string, string> => {
+  const objectValueReplacer = (
+    obj?: Record<string, string>
+  ): Record<string, string> => {
     if (!obj) return {};
     const result: Record<string, string> = {};
     for (const [key, value] of Object.entries(obj)) {
@@ -92,7 +94,9 @@ describe('dynamicParamsReplacement', () => {
       objectValueReplacer
     ) as DetailViewConfigWithType;
 
-    expect(result.elements[0].subcategories[0].properties[0].objectMapping).toEqual({
+    expect(
+      result.elements[0].subcategories[0].properties[0].objectMapping
+    ).toEqual({
       text: 'Detail.en.Title',
     });
   });
@@ -131,7 +135,8 @@ describe('dynamicParamsReplacement', () => {
     ) as DetailViewConfigWithType;
 
     expect(
-      result.elements[0].subcategories[0].properties[0].arrayMapping?.pathToParent
+      result.elements[0].subcategories[0].properties[0].arrayMapping
+        ?.pathToParent
     ).toBe('Detail.en.Tags');
   });
 
@@ -173,7 +178,8 @@ describe('dynamicParamsReplacement', () => {
     ) as DetailViewConfigWithType;
 
     expect(
-      result.elements[0].subcategories[0].properties[0].arrayMapping?.objectMapping
+      result.elements[0].subcategories[0].properties[0].arrayMapping
+        ?.objectMapping
     ).toEqual({
       title: 'Detail.en.Title',
       description: 'Detail.en.Description',

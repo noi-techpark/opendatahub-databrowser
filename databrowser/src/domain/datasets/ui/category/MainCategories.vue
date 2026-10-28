@@ -48,7 +48,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <PillLink
           v-for="subEl in visibleCategorySubElements(category.subElements)"
           :key="subEl.slug"
-          class="py-1 pl-8 pr-4"
+          class="py-1 pr-4 pl-8"
           :to="categoryRouteLocation(subEl)"
           :active="slug === subEl.slug"
           :data-test="`desktop-main-category-sub-el-${subEl.slug}`"

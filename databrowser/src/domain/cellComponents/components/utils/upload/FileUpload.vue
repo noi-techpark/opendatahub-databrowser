@@ -17,7 +17,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </AlertError>
     <div
       ref="dropZoneRef"
-      class="hidden h-24 w-full items-center justify-center rounded border-2 border-dashed md:flex"
+      class="hidden h-24 w-full items-center justify-center rounded-sm border-2 border-dashed md:flex"
       :class="{ 'border-green-400': isOverDropZone, hidden: uploading }"
     >
       {{ uploadText }} or &nbsp;
@@ -28,7 +28,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div class="flex w-full justify-center md:hidden">
       <button
         type="button"
-        class="inline-flex h-9 items-center gap-2 rounded border border-transparent bg-green-500 px-3 py-1 text-base leading-tight text-white no-underline hover:bg-green-700 focus-visible:bg-green-700 focus-visible:outline-none md:flex"
+        class="inline-flex h-9 items-center gap-2 rounded-sm border border-transparent bg-green-500 px-3 py-1 text-base leading-tight text-white no-underline hover:bg-green-700 focus-visible:bg-green-700 focus-visible:outline-hidden md:flex"
         @click="open()"
       >
         Add files
@@ -36,7 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </div>
     <div
       v-if="uploading"
-      class="flex h-24 w-full flex-col justify-between rounded border-2 p-3"
+      class="flex h-24 w-full flex-col justify-between rounded-sm border-2 p-3"
     >
       <div class="flex w-full items-center justify-between">
         <span class="font-semibold">{{ files?.length }} Files Uploading</span>

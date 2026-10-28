@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <ToolBoxCard>
-    <ToolBoxCardHeader :uppercase="false" class="rounded">
+    <ToolBoxCardHeader :uppercase="false" class="rounded-sm">
       <div class="flex items-center gap-2">
         {{ t('datasets.toolBox.exportDatasets.download.header') }}
         <InfoDownload />
@@ -40,7 +40,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <ToggleCustom v-model="isDownloadMedia" :disabled="true"></ToggleCustom>
+          <ToggleCustom
+            v-model="isDownloadMedia"
+            :disabled="true"
+          ></ToggleCustom>
           <div class="flex flex-col text-xs opacity-50">
             <span class="font-bold">
               {{ t('datasets.toolBox.exportDatasets.download.media.header') }}
@@ -52,7 +55,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </div>
       </div>
 
-      <div class="flex items-center mt-4">
+      <div class="mt-4 flex items-center">
         <ButtonCustom
           class="mt-4 flex items-center gap-3 px-2 py-1.5 text-sm"
           :size="Size.xs"
@@ -60,11 +63,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :disabled="isDownloadButtonDisabled"
           @click="download"
         >
-
           <IconDownload class="size-4" />
           {{ t('datasets.toolBox.exportDatasets.download.button') }}
         </ButtonCustom>
-        <span v-if="isDownloadInProgress" class="text-xs font-semibold text-dialog ml-6 mt-4">
+        <span
+          v-if="isDownloadInProgress"
+          class="mt-4 ml-6 text-xs font-semibold text-dialog"
+        >
           {{ t('datasets.toolBox.exportDatasets.download.inProgress') }}
         </span>
       </div>
@@ -74,7 +79,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import {computed, ref, toRefs} from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '@/components/button/ButtonCustom.vue';
 import { Size } from '@/components/button/types';
@@ -86,7 +91,7 @@ import { useDatasetBaseInfoStore } from '../../../config/store/datasetBaseInfoSt
 import ToolBoxCard from '../ToolBoxCard.vue';
 import ToolBoxCardBody from '../ToolBoxCardBody.vue';
 import ToolBoxCardHeader from '../ToolBoxCardHeader.vue';
-import InfoDownload from "@/domain/datasets/ui/toolBox/export/InfoDownload.vue";
+import InfoDownload from '@/domain/datasets/ui/toolBox/export/InfoDownload.vue';
 
 const { t } = useI18n();
 const downloadStore = useDownloadStore();
@@ -101,13 +106,13 @@ const isDownloadMedia = ref(false);
 const isDownloadJson = ref(false);
 const isDownloadCSV = ref(true);
 
-
-const isDownloadInProgress = computed(()=>{
+const isDownloadInProgress = computed(() => {
   return downloadStore.activeDownloads.length > 0;
-})
+});
 
 const isDownloadButtonDisabled = computed(() => {
-  const canDownloadCsv = isDownloadCSV.value && datasetDomain.value === 'tourism';
+  const canDownloadCsv =
+    isDownloadCSV.value && datasetDomain.value === 'tourism';
   const canDownloadJson = isDownloadJson.value;
   return (!canDownloadCsv && !canDownloadJson) || isDownloadInProgress.value;
 });
@@ -125,7 +130,6 @@ const download = () => {
     console.error('Invalid URL:', url.value);
     return;
   }
-
 
   if (datasetId.value != null) {
     downloadUrl.pathname = downloadUrl.pathname.replace(

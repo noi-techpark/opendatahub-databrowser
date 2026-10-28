@@ -90,9 +90,13 @@ const applyReplacementsToTableView = (
   elements: view.elements.map<ListElements>((element) => {
     if (element.objectMapping != null) {
       const objectMapping = objectValueReplacer(element.objectMapping);
-      const params = element.params?.filterPath != null
-        ? { ...element.params, filterPath: stringReplacer(element.params.filterPath) }
-        : element.params;
+      const params =
+        element.params?.filterPath != null
+          ? {
+              ...element.params,
+              filterPath: stringReplacer(element.params.filterPath),
+            }
+          : element.params;
       return {
         ...element,
         objectMapping,

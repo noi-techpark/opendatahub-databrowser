@@ -12,7 +12,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           v-if="iconComponent"
           :id="id"
           :class="[
-            !open ? 'rounded' : isBottomPlacement ? 'rounded-t' : 'rounded-b',
+            !open
+              ? 'rounded-sm'
+              : isBottomPlacement
+                ? 'rounded-t'
+                : 'rounded-b',
             buttonClassNames,
           ]"
           :label="label"
@@ -24,7 +28,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           v-else
           :id="id"
           :class="[
-            !open ? 'rounded' : isBottomPlacement ? 'rounded-t' : 'rounded-b',
+            !open
+              ? 'rounded-sm'
+              : isBottomPlacement
+                ? 'rounded-t'
+                : 'rounded-b',
             buttonClassNames,
           ]"
           :inputButtonClasses="inputButtonClasses"
@@ -119,7 +127,7 @@ const props = withDefaults(
     size: SelectSize.md,
     id: randomId(),
     inputButtonClasses: '',
-    label:'',
+    label: '',
     showSearchWhenAtLeastCountOptions: 7,
     showEmptyValue: false,
     showAddNewValue: false,

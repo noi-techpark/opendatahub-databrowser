@@ -51,7 +51,7 @@ Inside the components follow this naming conventions:
 
 The table view gives a list-like overview over the records of a dataset. The user can paginate through the data and jump to detail, edit and raw view for a given record using the links on the right of the table view.
 
-Let's take a look at table view configuration of the `Article` dataset as an example, that can be found here: [article.listView.ts](../../databrowser/src/config/tourism/article/article.listView.ts) (the result can be found at this URL [https://databrowser.opendatahub.testingmachine.eu/dataset/table/tourism/v1/Article](https://databrowser.opendatahub.testingmachine.eu/dataset/table/tourism/v1/Article)):
+Let's take a look at table view configuration of the `Article` dataset as an example, that can be found here: [article.listView.ts](../../databrowser/src/config/tourism/article/article.listView.ts) (the result can be found at this URL [https://databrowser.opendatahub.com/dataset/table/tourism/v1/Article](https://databrowser.opendatahub.com/dataset/table/tourism/v1/Article)):
 
 ```javascript
 {
@@ -96,7 +96,7 @@ The detail view shows categorized details for a given record of a dataset. The u
 
 The edit view can be used to modify a given record of a dataset.
 
-Let's take a look at shared view configuration of the `Article` dataset as an example, that can be found here: [article.sharedView.ts](../../databrowser/src/config/tourism/article/article.sharedView.ts) (the result of the detail view can be found at this URL [https://databrowser.opendatahub.testingmachine.eu/dataset/detail/tourism/v1/Article/D77A65F8-E1A2-7105-43F3-ECEA6F206B9A](https://databrowser.opendatahub.testingmachine.eu/dataset/detail/tourism/v1/Article/D77A65F8-E1A2-7105-43F3-ECEA6F206B9A). Note that you can visualize the edit view only if you are an authorized user):
+Let's take a look at shared view configuration of the `Article` dataset as an example, that can be found here: [article.sharedView.ts](../../databrowser/src/config/tourism/article/article.sharedView.ts) (the result of the detail view can be found at this URL [https://databrowser.opendatahub.com/dataset/detail/tourism/v1/Article/D77A65F8-E1A2-7105-43F3-ECEA6F206B9A](https://databrowser.opendatahub.com/dataset/detail/tourism/v1/Article/D77A65F8-E1A2-7105-43F3-ECEA6F206B9A). Note that you can visualize the edit view only if you are an authorized user):
 
 ```javascript
 export const articleSharedView = (): DetailViewConfig | EditViewConfig => ({

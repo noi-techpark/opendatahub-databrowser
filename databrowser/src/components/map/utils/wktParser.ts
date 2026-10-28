@@ -101,7 +101,9 @@ const parseMultiPoint = (wkt: string): Geometry => {
   const coords = coordMatch[1];
   // Handle both "((10 40), (40 30))" and "(10 40, 40 30)" formats
   const points = coords.includes('(')
-    ? coords.match(/\(([^)]+)\)/g)?.map((p) => parseCoordinate(p.slice(1, -1))) || []
+    ? coords
+        .match(/\(([^)]+)\)/g)
+        ?.map((p) => parseCoordinate(p.slice(1, -1))) || []
     : parseCoordinates(coords);
 
   return {
@@ -171,7 +173,8 @@ const parseGeometryCollection = (wkt: string): Geometry => {
   const content = coordMatch[1];
 
   // Extract individual geometries
-  const geometryRegex = /(POINT|LINESTRING|POLYGON|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON)\s*\([^)]*(?:\([^)]*\))*[^)]*\)/gi;
+  const geometryRegex =
+    /(POINT|LINESTRING|POLYGON|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON)\s*\([^)]*(?:\([^)]*\))*[^)]*\)/gi;
   const matches = content.match(geometryRegex);
 
   if (matches) {
@@ -218,7 +221,10 @@ export const parseWKT = (wkt: string): Geometry => {
 /**
  * Convert WKT to GeoJSON Feature
  */
-export const wktToGeoJSON = (wkt: string, properties: Record<string, unknown> = {}): Feature => {
+export const wktToGeoJSON = (
+  wkt: string,
+  properties: Record<string, unknown> = {}
+): Feature => {
   return {
     type: 'Feature',
     geometry: parseWKT(wkt),
@@ -253,6 +259,8 @@ export const geoJSONToWKT = (geometry: Geometry): string => {
       return `GEOMETRYCOLLECTION (${geometry.geometries.map(geoJSONToWKT).join(', ')})`;
 
     default:
-      throw new Error(`Unsupported geometry type: ${(geometry as Geometry).type}`);
+      throw new Error(
+        `Unsupported geometry type: ${(geometry as Geometry).type}`
+      );
   }
 };

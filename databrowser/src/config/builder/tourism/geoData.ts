@@ -35,4 +35,3 @@ export const geoDataTableCell = (): PropertyConfig => ({
     geoData: 'Geo',
   },
 });
-

@@ -20,9 +20,7 @@ import { geoDataCategory } from '../../builder/tourism/geoData';
 import { additionalPropertiesCategory } from '../../builder/tourism/additionalProperties';
 import { DEFAULT_DATE_TIME_FORMAT } from '../../utils';
 
-export const spatialDataSharedView = ():
-  | DetailViewConfig
-  | EditViewConfig => ({
+export const spatialDataSharedView = (): DetailViewConfig | EditViewConfig => ({
   elements: [
     {
       name: 'Main data',

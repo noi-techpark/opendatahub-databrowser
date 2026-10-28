@@ -27,7 +27,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           />
         </div>
         <div v-if="editable" class="basis-full lg:basis-1/4">
-          <div class="rounded border">
+          <div class="rounded-sm border">
             <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
               <span class="font-semibold">Info &amp; action</span>
             </div>

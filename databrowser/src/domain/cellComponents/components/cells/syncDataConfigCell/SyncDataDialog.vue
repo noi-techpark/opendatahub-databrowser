@@ -8,12 +8,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <DialogCustom :is-open="isOpen" @close="close">
     <template #title>
       <div class="mr-1 text-sm font-bold text-black md:w-auto md:text-xl">
-        {{ t('components.syncData.dialog.title', { title: payload.title ?? '' }) }}
+        {{
+          t('components.syncData.dialog.title', { title: payload.title ?? '' })
+        }}
       </div>
     </template>
     <template #body>
       <div class="mb-5">
-        {{ t('components.syncData.dialog.description', { title: payload.title ?? '' }) }}
+        {{
+          t('components.syncData.dialog.description', {
+            title: payload.title ?? '',
+          })
+        }}
       </div>
       <ButtonCustom
         :tone="Tone.primary"
@@ -62,7 +68,7 @@ const { t } = useI18n();
 
 const props = defineProps<{
   isOpen: boolean;
-  payload: SyncDialogPayload
+  payload: SyncDialogPayload;
 }>();
 
 const close = () => {
