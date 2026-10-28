@@ -227,7 +227,7 @@ describe('computeDeprecationAndRequiredAndReference', () => {
                       value: 'Source',
                     },
                     params: {
-                      url: 'https://api.tourism.testingmachine.eu/v1/Source?pagesize=-1',
+                      url: 'https://tourism.api.opendatahub.com/v1/Source?pagesize=-1',
                       keySelector: 'Key',
                       labelSelector: 'Name.{language}',
                     },

@@ -5,6 +5,7 @@
 import { useHead } from '@unhead/vue';
 import { computed } from 'vue';
 import { stringifyQuery, useRouter } from 'vue-router';
+import { canonicalOrigin } from './canonicalOrigin';
 
 const ignoredCanonicalQueryParams = [
   // Common params
@@ -32,7 +33,6 @@ export const useCanonicalHead = () => {
 
   useHead({
     link: computed(() => {
-      const origin = window.location.origin;
       const { path, query, hash } = router.currentRoute.value;
       const canonicalQuery = { ...query };
       for (const param of ignoredCanonicalQueryParams) {
@@ -45,7 +45,7 @@ export const useCanonicalHead = () => {
       return [
         {
           rel: 'canonical',
-          href: origin + canonicalPath,
+          href: canonicalOrigin + canonicalPath,
         },
       ];
     }),

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { Ref, computed, ref, watch } from 'vue';
+import { withOdhBaseUrl } from '../../../config/utils';
 import { providerForGeneratedDatasetConfig } from '../../../domain/datasets/config/load/loadGeneratedConfig';
 import { DatasetConfig } from '../../../domain/datasets/config/types';
 import { TourismMetaData } from '../../../domain/metaDataConfig/tourism/types';
@@ -173,7 +174,7 @@ const buildMetaData = (config: DatasetConfig): TourismMetaData => ({
   description: config.description.description ?? 'No description available',
   shortname: config.description.title ?? '',
   output: 'json',
-  swaggerUrl: 'https://api.tourism.testingmachine.eu/swagger/index.htm',
+  swaggerUrl: withOdhBaseUrl('/swagger/index.html'),
   externalLink: `${config.baseUrl}/${config.route.pathSegments.join('/')}`,
   pathSegments: config.route.pathSegments,
   sources: ['No information available'],
