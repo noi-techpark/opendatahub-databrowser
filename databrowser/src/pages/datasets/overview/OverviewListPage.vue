@@ -664,21 +664,37 @@ const dynamicFilters = computed(
     ] as DynamicFilter[]
 );
 
+// Relevance of a dataset for a search term, 0 means no match.
+// Matches in the shortname rank higher than matches in the description.
+const getSearchScore = (dataset: TourismMetaData, searchTerm: string) => {
+  const shortname = dataset.shortname.toLowerCase();
+
+  if (shortname === searchTerm) return 5;
+  if (shortname.startsWith(searchTerm)) return 4;
+  if (shortname.split(/[^a-z0-9]+/).some((word) => word.startsWith(searchTerm)))
+    return 3;
+  if (shortname.includes(searchTerm)) return 2;
+  if (dataset.description?.toLowerCase().includes(searchTerm)) return 1;
+  return 0;
+};
+
 const { metaData, isMetaDataLoading } = useMetaDataForAllDatasets();
 
 const visibleDatasets = computed(() => {
   let datasets = [...metaData.value];
 
   if (filters.value.searchVal) {
-    const searchTerm = filters.value.searchVal.toLowerCase(); // Pre-calculate lowercase search term
-    datasets = datasets.filter(
-      (dataset) =>
-        // Check if shortname includes the search term
-        dataset.shortname.toLowerCase().includes(searchTerm) ||
-        // Check if description exists AND includes the search term
-        (dataset.description &&
-          dataset.description.toLowerCase().includes(searchTerm))
-    );
+    const searchTerm = filters.value.searchVal.trim().toLowerCase(); // Pre-calculate lowercase search term
+    // Keep only matching datasets and sort them by relevance (stable sort,
+    // so datasets with the same score keep their original order)
+    datasets = datasets
+      .map((dataset) => ({
+        dataset,
+        score: getSearchScore(dataset, searchTerm),
+      }))
+      .filter(({ score }) => score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(({ dataset }) => dataset);
   }
 
   // Group filters by key
