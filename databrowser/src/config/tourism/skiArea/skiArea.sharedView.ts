@@ -10,7 +10,6 @@ import {
 import {
   contactCategory,
   dataStatesSubCategory,
-  gpsDataCategory,
   idAndCustomIdCells,
   imageGalleryCategory,
   logoWithMainImageCells,
@@ -24,6 +23,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { geoDataCategory } from '../../builder/tourism/geoData';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const skiAreaSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -127,7 +127,7 @@ export const skiAreaSharedView = (): DetailViewConfig | EditViewConfig => ({
     imageGalleryCategory(),
     seasonCategory(),
     locationCategory(),
-    gpsDataCategory(),
+    geoDataCategory(),
     webcamCategory(),
     odhTagCategory(),
     licenseInfoCategory(),

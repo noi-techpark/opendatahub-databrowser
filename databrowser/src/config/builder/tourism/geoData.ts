@@ -7,7 +7,6 @@ import {
   DetailElements,
   PropertyConfig,
 } from '../../../domain/datasets/config/types';
-import { withOdhBaseUrl } from '../../utils';
 
 export const geoDataCategory = (): DetailElements => ({
   name: 'Geo Data',
@@ -21,11 +20,6 @@ export const geoDataCategory = (): DetailElements => ({
           component: CellComponent.EditGeoDataCell,
           objectMapping: {
             geoData: 'Geo',
-          },
-          params: {
-            positionValuesUrl: withOdhBaseUrl(
-              '/v1/Distinct?odhtype=odhactivitypoi&fields=GpsPoints.[*].*.Gpstype&getasarray=true'
-            ),
           },
         },
       ],

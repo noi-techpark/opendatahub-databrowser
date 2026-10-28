@@ -10,7 +10,6 @@ import {
 import {
   contactCategory,
   dataStatesSubCategory,
-  gpsDataCategory,
   idReadOnlyCell,
   customIdCell,
   imageGalleryCategory,
@@ -22,6 +21,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { geoDataCategory } from '../../builder/tourism/geoData';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const regionSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -42,7 +42,7 @@ export const regionSharedView = (): DetailViewConfig | EditViewConfig => ({
     textInfoCategory(),
     contactCategory(),
     imageGalleryCategory(),
-    gpsDataCategory(),
+    geoDataCategory(),
     webcamCategory(),
     odhTagCategory(),
     licenseInfoCategory(),

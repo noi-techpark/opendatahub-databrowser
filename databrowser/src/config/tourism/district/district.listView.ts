@@ -12,10 +12,12 @@ import {
   titleTableCell,
   pushDataTableCell,
 } from '../../builder/tourism';
+import { geoDataTableCell } from '../../builder/tourism/geoData';
 
 export const districtListView: ListViewConfig = {
   elements: [
     titleTableCell(),
+    geoDataTableCell(),
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableHeaderCell>ALTITUDE</TableHeaderCell>
     </template>
 
-    <template #tableCols="{ item }">
+    <template #tableCols="{ item, index }">
       <TableCell>
         <GeoDataMap
           v-if="item.Geometry"
@@ -39,7 +39,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div v-else>Missing coordinates</div>
       </TableCell>
       <TableCell>{{ item.Type }}</TableCell>
-      <TableCell class="break-all">{{ item.Geometry }}</TableCell>
+      <TableCell class="break-all">
+        <template v-if="(item.Geometry?.length ?? 0) > maxWktLength">
+          <span v-if="expandedWkt.has(index)">{{ item.Geometry }}</span>
+          <span v-else>{{ item.Geometry?.slice(0, maxWktLength) }}...</span>
+          <button
+            class="block"
+            :class="[
+              expandedWkt.has(index) ? 'text-red-500' : 'text-green-500',
+            ]"
+            @click="toggleWkt(index)"
+          >
+            {{ expandedWkt.has(index) ? '- less' : '+ more' }}
+          </button>
+        </template>
+        <template v-else>{{ item.Geometry }}</template>
+      </TableCell>
       <TableCell
         ><ToggleButtonCell
           :enabled="item.Default"
@@ -66,6 +81,7 @@ import EditListTable from '../../utils/editList/table/EditListTable.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
+import { defaultGeoDataType } from './geoDataTypes';
 import { GeoDataEntry } from './types';
 import ToggleButtonCell from '../toggleCell/ToggleButtonCell.vue';
 
@@ -76,9 +92,19 @@ const { navigateToTab } = useInjectNavigation();
 const { addItems } = useInjectActionTriggers<GeoDataEntry>();
 
 const addNewGeoData = () => {
-  addItems([{ Type: '', Default: false }]);
+  addItems([{ Type: defaultGeoDataType, Default: false }]);
   navigateToTab(props.items.length);
 };
 
 const geoDataMap = ref();
+
+// Long geometries (e.g. polygons) are truncated and can be expanded per row
+const maxWktLength = 100;
+const expandedWkt = ref(new Set<number>());
+
+const toggleWkt = (index: number) => {
+  if (!expandedWkt.value.delete(index)) {
+    expandedWkt.value.add(index);
+  }
+};
 </script>

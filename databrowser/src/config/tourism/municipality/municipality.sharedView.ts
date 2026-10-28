@@ -10,7 +10,6 @@ import {
 import {
   contactCategory,
   dataStatesSubCategory,
-  gpsDataCategory,
   idReadOnlyCell,
   customIdCell,
   imageGalleryCategory,
@@ -24,6 +23,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { geoDataCategory } from '../../builder/tourism/geoData';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const municipalitySharedView = ():
@@ -83,7 +83,7 @@ export const municipalitySharedView = ():
     textInfoCategory(),
     imageGalleryCategory(),
     contactCategory(),
-    gpsDataCategory(),
+    geoDataCategory(),
     webcamCategory(),
     odhTagCategory(),
     licenseInfoCategory(),
