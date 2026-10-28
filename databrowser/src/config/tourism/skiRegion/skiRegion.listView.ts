@@ -13,12 +13,14 @@ import {
   sourceTableCell,
   titleTableCell,
 } from '../../builder/tourism';
+import { geoDataTableCell } from '../../builder/tourism/geoData';
 
 export const skiRegionListView: ListViewConfig = {
   elements: [
     titleTableCell(),
     imageTableCell(),
     logoTableCell(),
+    geoDataTableCell(),
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

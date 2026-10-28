@@ -9,7 +9,6 @@ import {
 } from '../../../domain/datasets/config/types';
 import {
   dataStatesWithInsertsSubCategory,
-  gpsDataCategory,
   idReadOnlyCell,
   customIdCell,
   imageGalleryCategory,
@@ -23,6 +22,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { geoDataCategory } from '../../builder/tourism/geoData';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const districtSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -79,7 +79,7 @@ export const districtSharedView = (): DetailViewConfig | EditViewConfig => ({
     textInfoCategory(),
     imageGalleryCategory(),
     locationCategoryDistrict(),
-    gpsDataCategory(),
+    geoDataCategory(),
     webcamCategory(),
     odhTagCategory(),
     licenseInfoCategory(),

@@ -13,12 +13,14 @@ import {
   pushDataTableCell,
   titleTableCell,
 } from '../../builder/tourism';
+import { geoDataTableCell } from '../../builder/tourism/geoData';
 
 export const regionListView: ListViewConfig = {
   elements: [
     titleTableCell(),
     imageTableCell(),
     logoTableCell(),
+    geoDataTableCell(),
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

@@ -9,7 +9,6 @@ import {
 } from '../../../domain/datasets/config/types';
 import {
   dataStatesSubCategory,
-  gpsDataCategory,
   idAndCustomIdCells,
   imageGalleryCategory,
   mainImageCell,
@@ -20,6 +19,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { geoDataCategory } from '../../builder/tourism/geoData';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const metaRegionSharedView = (): DetailViewConfig | EditViewConfig => ({
@@ -75,7 +75,7 @@ export const metaRegionSharedView = (): DetailViewConfig | EditViewConfig => ({
     },
     textInfoCategory(),
     imageGalleryCategory(),
-    gpsDataCategory(),
+    geoDataCategory(),
     odhTagCategory(),
     licenseInfoCategory(),
     mappingCategory(),

@@ -10,7 +10,6 @@ import {
 import {
   contactCategory,
   dataStatesSubCategory,
-  gpsDataCategory,
   idAndCustomIdCells,
   imageGalleryCategory,
   odhTagCategory,
@@ -21,6 +20,7 @@ import {
   licenseInfoCategory,
   mappingCategory,
 } from '../../builder/tourism';
+import { geoDataCategory } from '../../builder/tourism/geoData';
 import { updatehistoryCategory } from '../../builder/tourism/updatehistory';
 
 export const tourismAssociationSharedView = ():
@@ -56,7 +56,7 @@ export const tourismAssociationSharedView = ():
     textInfoCategory(),
     contactCategory(),
     imageGalleryCategory(),
-    gpsDataCategory(),
+    geoDataCategory(),
     odhTagCategory(),
     licenseInfoCategory(),
     mappingCategory(),

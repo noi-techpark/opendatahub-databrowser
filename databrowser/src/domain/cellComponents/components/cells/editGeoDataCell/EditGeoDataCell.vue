@@ -16,49 +16,29 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { toRefs, watch } from 'vue';
 import { SelectOption } from '../../../../../components/select/types';
-import { useApiRead } from '../../../../api/useApi';
 import EditObjectAsListCell from '../../utils/editList/EditObjectAsListCell.vue';
 import EditGeoDataTab from './EditGeoDataTab.vue';
 import EditGeoDataTable from './EditGeoDataTable.vue';
 import { useEditGeoDataCellStore } from './editGeoDataCellStore';
+import { geoDataTypes } from './geoDataTypes';
 import { GeoData } from './types';
 
 const editGeoDataCellStore = useEditGeoDataCellStore();
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     geoData?: GeoData | null;
-    positionValuesUrl: string;
   }>(),
   {
     geoData: () => ({}),
   }
 );
 
-const { positionValuesUrl } = toRefs(props);
-
-const { data: positionValues } = useApiRead<string[]>(positionValuesUrl);
-
-watch(
-  () => positionValues.value,
-  (newVal) => {
-    setPositionValuesInStore(newVal);
-  }
+editGeoDataCellStore.setPositionOptions(
+  geoDataTypes.map<SelectOption>((item) => ({
+    value: item,
+    label: item,
+  }))
 );
-
-const setPositionValuesInStore = (data?: string[]) => {
-  if (!data) {
-    editGeoDataCellStore.setPositionOptions([]);
-    return;
-  }
-
-  editGeoDataCellStore.setPositionOptions(
-    data.map<SelectOption>((item) => ({
-      value: item,
-      label: item,
-    }))
-  );
-};
 </script>

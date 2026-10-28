@@ -13,7 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template #addItems>
       <EditListAddButton
         :text="'Add new GPS Point'"
-        @click="addItems([{ Type: '', Default: false }])"
+        @click="addItems([{ Type: defaultGeoDataType, Default: false }])"
       />
     </template>
 
@@ -67,6 +67,7 @@ import { useInjectActionTriggers } from '../../utils/editList/actions/useActions
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';
 import { useInjectEditMode } from '../../utils/editList/actions/useEditMode';
 
+import { defaultGeoDataType } from './geoDataTypes';
 import { GeoDataEntry } from './types';
 import EditGeoDataMap from './EditGeoDataMap.vue';
 

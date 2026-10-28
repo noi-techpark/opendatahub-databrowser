@@ -12,11 +12,13 @@ import {
   sourceTableCell,
   titleTableCell,
 } from '../../builder/tourism';
+import { geoDataTableCell } from '../../builder/tourism/geoData';
 
 export const metaRegionListView: ListViewConfig = {
   elements: [
     titleTableCell(),
     imageTableCell(),
+    geoDataTableCell(),
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),
