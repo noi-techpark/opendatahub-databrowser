@@ -2,20 +2,19 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref } from 'vue';
-import { PushDialogPayload, SyncDialogPayload } from "./types"
+import { PushDialogPayload, SyncDialogPayload } from './types';
 
-export const useTableViewStore = defineStore('tableViewStore',() => {
+export const useTableViewStore = defineStore('tableViewStore', () => {
   const isPushDialogOpen = ref<boolean>(false);
-  const pushDialogPayload = ref<PushDialogPayload>()
-  
-  const isSyncDialogOpen = ref<boolean>(false);
-  const syncDialogPayload = ref<SyncDialogPayload>()
+  const pushDialogPayload = ref<PushDialogPayload>();
 
-  const openPushDialog = (payload:PushDialogPayload) => {
-    if (!payload || !payload.id) return
+  const isSyncDialogOpen = ref<boolean>(false);
+  const syncDialogPayload = ref<SyncDialogPayload>();
+
+  const openPushDialog = (payload: PushDialogPayload) => {
+    if (!payload || !payload.id) return;
     pushDialogPayload.value = payload;
     isPushDialogOpen.value = true;
   };
@@ -24,7 +23,7 @@ export const useTableViewStore = defineStore('tableViewStore',() => {
     isPushDialogOpen.value = false;
   };
 
-  const openSyncDialog = (payload:SyncDialogPayload) => {
+  const openSyncDialog = (payload: SyncDialogPayload) => {
     syncDialogPayload.value = payload;
     isSyncDialogOpen.value = true;
   };
@@ -41,13 +40,11 @@ export const useTableViewStore = defineStore('tableViewStore',() => {
     openPushDialog,
     closePushDialog,
     openSyncDialog,
-    closeSyncDialog
+    closeSyncDialog,
   };
 });
 
 // Add support for hot-module-reload
 if (import.meta.hot) {
-  import.meta.hot.accept(
-    acceptHMRUpdate(useTableViewStore, import.meta.hot)
-  );
+  import.meta.hot.accept(acceptHMRUpdate(useTableViewStore, import.meta.hot));
 }

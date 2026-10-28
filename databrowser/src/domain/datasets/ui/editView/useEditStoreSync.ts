@@ -18,7 +18,7 @@ export const useEditStoreSync = (
   watch(
     () => data.value as EditData,
     (dataValue) => {
-      if(editStore.isDuplicateAction){
+      if (editStore.isDuplicateAction) {
         editStore.setAction(null);
         return;
       }

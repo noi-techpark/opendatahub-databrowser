@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <PopoverTransition>
     <PopoverPanel v-slot="{ open, close }" class="z-20">
-      <div class="rounded bg-white shadow-md ring-1 ring-gray-400">
+      <div class="rounded-sm bg-white shadow-md ring-1 ring-gray-400">
         <ButtonCustom
           v-if="hasCloseButton"
           :size="Size.xs"

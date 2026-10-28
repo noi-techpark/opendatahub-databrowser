@@ -19,14 +19,16 @@ export const poiltsdataCategory = (
           title: 'Is Open',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsOpen',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.IsOpen',
           },
         },
         {
           title: 'Has FreeEntrance',
           component: CellComponent.ToggleTriStateCell,
           objectMapping: {
-            enabled: 'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasFreeEntrance',
+            enabled:
+              'AdditionalProperties.SuedtirolWeinCompanyDataProperties.HasFreeEntrance',
           },
         },
       ],

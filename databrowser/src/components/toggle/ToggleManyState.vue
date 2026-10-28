@@ -20,7 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           'text-green-500': !disabled && !valueMatchesModel(option.value),
           'bg-gray-500 text-white': disabled && valueMatchesModel(option.value),
           'text-gray-500': disabled && !valueMatchesModel(option.value),
-          'focus:outline-none': valueMatchesModel(option.value),
+          'focus:outline-hidden': valueMatchesModel(option.value),
         },
       ]"
       @click="model = option.value"

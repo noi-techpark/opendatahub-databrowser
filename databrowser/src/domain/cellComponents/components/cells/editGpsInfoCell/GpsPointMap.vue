@@ -20,7 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       />
       <div
         v-if="isFullscreen"
-        class="absolute right-4 top-4 z-[999] flex items-center gap-3"
+        class="absolute top-4 right-4 z-999 flex items-center gap-3"
       >
         <ButtonCustom
           v-if="!preventInteraction && editable"
@@ -47,7 +47,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </ButtonCustom>
       </div>
       <div
-        class="pointer-events-none absolute bottom-6 right-2 z-[999] rounded-md bg-black px-2 py-1 text-sm text-white opacity-0 transition-all"
+        class="pointer-events-none absolute right-2 bottom-6 z-999 rounded-md bg-black px-2 py-1 text-sm text-white opacity-0 transition-all"
         :class="{
           'opacity-100': isTooltipVisible,
         }"

@@ -156,7 +156,7 @@ describe('validateArrayMapping', () => {
                 arrayMapping: {
                   pathToParent: 'level3',
                   targetPropertyName: 'level3',
-                  properties: [] // Empty properties (warning)
+                  properties: [], // Empty properties (warning)
                 },
               },
             ],

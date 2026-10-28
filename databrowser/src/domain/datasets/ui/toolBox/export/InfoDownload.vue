@@ -8,34 +8,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <InfoPopover>
     <PopoverCustomPanel>
       <PopoverContentHeader class="pb-0">
-        {{
-          t(
-            'datasets.toolBox.exportDatasets.download.infoPopup.header'
-          )
-        }}
+        {{ t('datasets.toolBox.exportDatasets.download.infoPopup.header') }}
       </PopoverContentHeader>
       <PopoverContent class="flex max-w-sm flex-col gap-3 pt-2">
-        {{
-          t(
-            'datasets.toolBox.exportDatasets.download.infoPopup.body'
-          )
-        }}
+        {{ t('datasets.toolBox.exportDatasets.download.infoPopup.body') }}
         <ButtonExternalLink
           class="flex items-center justify-center p-2"
           target="_blank"
           :href="
-            t(
-              'datasets.toolBox.exportDatasets.download.infoPopup.linkHref'
-            )
+            t('datasets.toolBox.exportDatasets.download.infoPopup.linkHref')
           "
           :size="Size.xs"
           :variant="Variant.ghost"
         >
-          {{
-            t(
-              'datasets.toolBox.exportDatasets.download.infoPopup.linkText'
-            )
-          }}
+          {{ t('datasets.toolBox.exportDatasets.download.infoPopup.linkText') }}
         </ButtonExternalLink>
       </PopoverContent>
     </PopoverCustomPanel>

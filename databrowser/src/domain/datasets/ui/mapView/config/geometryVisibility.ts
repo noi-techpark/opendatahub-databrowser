@@ -66,12 +66,12 @@ export interface GeometryVisibilityConfig {
  */
 export const defaultGeometryVisibilityConfig: GeometryVisibilityConfig = {
   zoomThresholds: [
-    { maxSpan: 10, minZoom: 6 },    // Very large (countries, major regions) - visible at continental zoom
-    { maxSpan: 1, minZoom: 8 },     // Large (regions, states) - visible at country zoom
-    { maxSpan: 0.5, minZoom: 10 },  // Medium-large (cities, large areas) - visible at regional zoom
-    { maxSpan: 0.1, minZoom: 12 },  // Medium (districts, neighborhoods) - visible at city zoom
+    { maxSpan: 10, minZoom: 6 }, // Very large (countries, major regions) - visible at continental zoom
+    { maxSpan: 1, minZoom: 8 }, // Large (regions, states) - visible at country zoom
+    { maxSpan: 0.5, minZoom: 10 }, // Medium-large (cities, large areas) - visible at regional zoom
+    { maxSpan: 0.1, minZoom: 12 }, // Medium (districts, neighborhoods) - visible at city zoom
     { maxSpan: 0.01, minZoom: 14 }, // Small (streets, blocks) - visible at neighborhood zoom
-    { maxSpan: 0, minZoom: 16 },    // Very small (buildings, points) - visible at street zoom
+    { maxSpan: 0, minZoom: 16 }, // Very small (buildings, points) - visible at street zoom
   ],
   alwaysClusterBelowZoom: 8,
   neverClusterAboveZoom: 18,

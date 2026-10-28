@@ -4,7 +4,11 @@
 
 import { Feature, Geometry, Point } from 'geojson';
 import { KnownApiType } from '../../../../metaDataConfig/types';
-import { MapRecord, MapSourceSpecification, MapSourcesByGeometryType } from '../types';
+import {
+  MapRecord,
+  MapSourceSpecification,
+  MapSourcesByGeometryType,
+} from '../types';
 import { mapClusterMaxZoom, mapClusterRadius } from '../consts';
 import { parseWKT } from '../../../../../components/map/utils/wktParser';
 import {
@@ -34,8 +38,14 @@ interface GeoDataRecord {
   [key: string]: unknown; // Fields accessed dynamically
 }
 
-type MapFeature = Feature<Point, MapRecord & { geometryType: string; minZoom: number }>;
-type GeometryFeature = Feature<Geometry, MapRecord & { minZoom: number; maxZoom?: number }>;
+type MapFeature = Feature<
+  Point,
+  MapRecord & { geometryType: string; minZoom: number }
+>;
+type GeometryFeature = Feature<
+  Geometry,
+  MapRecord & { minZoom: number; maxZoom?: number }
+>;
 
 interface FeatureParams {
   x: number;
@@ -136,41 +146,44 @@ const computeMapSourceFromGeoData = (
   geoDataField: string
 ): MapSourcesByGeometryType => {
   // Extract geometries from records, decomposing GeometryCollections
-  const geometryRecords = records
-    .flatMap((record): GeometryRecord[] => {
-      const recordId = record.Id;
-      const recordName = record.Shortname;
+  const geometryRecords = records.flatMap((record): GeometryRecord[] => {
+    const recordId = record.Id;
+    const recordName = record.Shortname;
 
-      if (!recordId || !recordName) return [];
+    if (!recordId || !recordName) return [];
 
-      // Access GeoData field dynamically
-      const geoData = record[geoDataField] as Record<string, GeoDataEntry> | undefined;
-      if (!geoData) return [];
+    // Access GeoData field dynamically
+    const geoData = record[geoDataField] as
+      | Record<string, GeoDataEntry>
+      | undefined;
+    if (!geoData) return [];
 
-      // Find the appropriate entry
-      const geoEntry = Object.values(geoData).find((entry) => entry.Default === true);
+    // Find the appropriate entry
+    const geoEntry = Object.values(geoData).find(
+      (entry) => entry.Default === true
+    );
 
-      if (!geoEntry?.Geometry) return [];
+    if (!geoEntry?.Geometry) return [];
 
-      // Parse WKT to GeoJSON
-      try {
-        const geometry = parseWKT(geoEntry.Geometry);
+    // Parse WKT to GeoJSON
+    try {
+      const geometry = parseWKT(geoEntry.Geometry);
 
-        // Decompose GeometryCollections so each sub-geometry renders in its own layer
-        if (geometry.type === 'GeometryCollection') {
-          return geometry.geometries.map((subGeometry) => ({
-            geometry: subGeometry,
-            recordId,
-            recordName,
-          }));
-        }
-
-        return [{ geometry, recordId, recordName }];
-      } catch (error) {
-        console.warn(`Failed to parse WKT for record ${recordId}:`, error);
-        return [];
+      // Decompose GeometryCollections so each sub-geometry renders in its own layer
+      if (geometry.type === 'GeometryCollection') {
+        return geometry.geometries.map((subGeometry) => ({
+          geometry: subGeometry,
+          recordId,
+          recordName,
+        }));
       }
-    });
+
+      return [{ geometry, recordId, recordName }];
+    } catch (error) {
+      console.warn(`Failed to parse WKT for record ${recordId}:`, error);
+      return [];
+    }
+  });
 
   // Use shared logic to create sources
   return createMultiGeometrySources(geometryRecords);
@@ -206,25 +219,27 @@ const createMultiGeometrySources = (
   }
 
   // Create cluster source with representative points for ALL geometries
-  const clusterFeatures: MapFeature[] = geometryRecords.map(({ geometry, recordId, recordName }) => {
-    const representativePoint = getRepresentativePoint(geometry);
-    const minZoom = calculateMinZoom(geometry, config);
-    const geometryType = classifyGeometryType(geometry);
+  const clusterFeatures: MapFeature[] = geometryRecords.map(
+    ({ geometry, recordId, recordName }) => {
+      const representativePoint = getRepresentativePoint(geometry);
+      const minZoom = calculateMinZoom(geometry, config);
+      const geometryType = classifyGeometryType(geometry);
 
-    return {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: representativePoint,
-      },
-      properties: {
-        recordId,
-        recordName,
-        geometryType,
-        minZoom,
-      },
-    };
-  });
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: representativePoint,
+        },
+        properties: {
+          recordId,
+          recordName,
+          geometryType,
+          minZoom,
+        },
+      };
+    }
+  );
 
   // Create sources by geometry type
   const sources: MapSourcesByGeometryType = {};
@@ -245,15 +260,17 @@ const createMultiGeometrySources = (
 
   // Create line source (actual LineString geometries)
   if (lines.length > 0) {
-    const lineFeatures: GeometryFeature[] = lines.map(({ geometry, recordId, recordName }) => ({
-      type: 'Feature',
-      geometry,
-      properties: {
-        recordId,
-        recordName,
-        minZoom: calculateMinZoom(geometry, config),
-      },
-    }));
+    const lineFeatures: GeometryFeature[] = lines.map(
+      ({ geometry, recordId, recordName }) => ({
+        type: 'Feature',
+        geometry,
+        properties: {
+          recordId,
+          recordName,
+          minZoom: calculateMinZoom(geometry, config),
+        },
+      })
+    );
 
     sources.lines = {
       type: 'geojson',
@@ -267,21 +284,23 @@ const createMultiGeometrySources = (
 
   // Create polygon source (actual Polygon geometries)
   if (polygons.length > 0) {
-    const polygonFeatures: GeometryFeature[] = polygons.map(({ geometry, recordId, recordName }) => {
-      const minZoom = calculateMinZoom(geometry, config);
-      const maxZoom = calculateMaxZoom(geometry, config);
+    const polygonFeatures: GeometryFeature[] = polygons.map(
+      ({ geometry, recordId, recordName }) => {
+        const minZoom = calculateMinZoom(geometry, config);
+        const maxZoom = calculateMaxZoom(geometry, config);
 
-      return {
-        type: 'Feature',
-        geometry,
-        properties: {
-          recordId,
-          recordName,
-          minZoom,
-          maxZoom: maxZoom ?? 22, // Use 22 (max MapLibre zoom) if no maxZoom restriction
-        },
-      };
-    });
+        return {
+          type: 'Feature',
+          geometry,
+          properties: {
+            recordId,
+            recordName,
+            minZoom,
+            maxZoom: maxZoom ?? 22, // Use 22 (max MapLibre zoom) if no maxZoom restriction
+          },
+        };
+      }
+    );
 
     sources.polygons = {
       type: 'geojson',

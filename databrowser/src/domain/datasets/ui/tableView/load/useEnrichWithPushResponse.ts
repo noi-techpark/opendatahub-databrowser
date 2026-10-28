@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { computed, ref, watch, toValue,MaybeRefOrGetter } from 'vue';
+import { computed, ref, watch, toValue, MaybeRefOrGetter } from 'vue';
 import { axiosWithMaybeAuth } from '@/domain/api/apiAuth';
-
 
 type AnyRow = Record<string, unknown>;
 
@@ -16,14 +15,17 @@ export const useEnrichWithPushResponse = (
     enabled?: MaybeRefOrGetter<boolean | null | undefined>;
   }
 ) => {
-  const mergeFn = options?.merge ?? ((base: AnyRow, extra: AnyRow) => ({ ...base, ...extra }));
+  const mergeFn =
+    options?.merge ??
+    ((base: AnyRow, extra: AnyRow) => ({ ...base, ...extra }));
 
   const pushData = ref<AnyRow[] | undefined>(undefined);
   const isLoading = ref(false);
   const isError = ref(false);
   const error = ref<unknown>(null);
 
-  const asArray = (v: unknown): AnyRow[] => (Array.isArray(v) ? (v as AnyRow[]) : []);
+  const asArray = (v: unknown): AnyRow[] =>
+    Array.isArray(v) ? (v as AnyRow[]) : [];
 
   const objectIds = computed(() => {
     const rows = asArray(toValue(baseRows));
@@ -61,7 +63,6 @@ export const useEnrichWithPushResponse = (
     { immediate: false, flush: 'post' }
   );
 
-
   const doFetch = async () => {
     if (!canFetch.value) {
       pushData.value = undefined;
@@ -78,19 +79,17 @@ export const useEnrichWithPushResponse = (
         pushData.value = undefined;
         return;
       }
-      const axiosInstance = await axiosWithMaybeAuth(
-        true,
-        undefined
-      );
+      const axiosInstance = await axiosWithMaybeAuth(true, undefined);
       const responseData = await axiosInstance
         .post(url, body.value, {
           params: {
             latest: true,
-            pagesize: objectIds.value.length
-          }
+            pagesize: objectIds.value.length,
+          },
         })
         .then((r) => r.data);
-      pushData.value = responseData?.Items ?? responseData?.data ?? responseData;
+      pushData.value =
+        responseData?.Items ?? responseData?.data ?? responseData;
     } catch (e) {
       isError.value = true;
       error.value = e;
@@ -118,13 +117,12 @@ export const useEnrichWithPushResponse = (
     return dataMap;
   });
 
-
   const mergedData = computed(() => {
     const base = asArray(toValue(baseRows));
     const map = pushMap.value;
 
     return base.map((row) => {
-      if (!row?.Id){
+      if (!row?.Id) {
         return row;
       }
       const id: string = String(row.Id);

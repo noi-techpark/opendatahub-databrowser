@@ -37,7 +37,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <StringCell
               :text="item.Detail?.[language]?.Title"
               :editable="editable"
-              @input="updateItem(index, { Detail: { ...(item.Detail ?? {}), [language]: { ...(item.Detail?.[language] ?? {}), Title: $event.target.value } } })"
+              @input="
+                updateItem(index, {
+                  Detail: {
+                    ...(item.Detail ?? {}),
+                    [language]: {
+                      ...(item.Detail?.[language] ?? {}),
+                      Title: $event.target.value,
+                    },
+                  },
+                })
+              "
             />
           </SubCategoryItem>
           <SubCategoryItem title="Active" :required="true">
@@ -51,7 +61,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <StringCell
               :text="item.VenueRoomProperties?.SquareMeters"
               :editable="editable"
-              @input="updateItem(index, { VenueRoomProperties: { ...(item.VenueRoomProperties ?? {}), SquareMeters: $event.target.value } })"
+              @input="
+                updateItem(index, {
+                  VenueRoomProperties: {
+                    ...(item.VenueRoomProperties ?? {}),
+                    SquareMeters: $event.target.value,
+                  },
+                })
+              "
             />
           </SubCategoryItem>
           <SubCategoryItem title="Capacity">
@@ -59,7 +76,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               :text="item.MaxCapacity ?? undefined"
               :editable="editable"
               type="number"
-              @input="updateItem(index, { MaxCapacity: toCapacity($event.target.value) })"
+              @input="
+                updateItem(index, {
+                  MaxCapacity: toCapacity($event.target.value),
+                })
+              "
             />
           </SubCategoryItem>
           <SubCategoryItem title="Placement">
@@ -78,7 +99,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </SubCategoryItem>
         </div>
         <div class="basis-full md:order-3 md:basis-1/3">
-          <div v-if="editable" class="rounded border">
+          <div v-if="editable" class="rounded-sm border">
             <div class="flex items-center justify-between bg-gray-50 px-4 py-3">
               <span class="font-semibold">Info &amp; action</span>
             </div>
@@ -137,5 +158,7 @@ const { editable } = useInjectEditMode();
 const toCapacity = (value: string): number | null =>
   value === '' ? null : Number(value);
 
-const language = computed(() => useDatasetQueryStore().handle('language').value ?? 'en');
+const language = computed(
+  () => useDatasetQueryStore().handle('language').value ?? 'en'
+);
 </script>

@@ -74,7 +74,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <template #trigger>
           <PopoverCustomButton
             v-slot="{ open }"
-            class="flex items-center rounded"
+            class="flex items-center rounded-sm"
           >
             <IconStrokedArrowDown
               class="size-5 stroke-current"

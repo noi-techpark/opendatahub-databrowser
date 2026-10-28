@@ -14,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         v-model="checked"
         :indeterminate="indeterminate"
         type="checkbox"
-        class="size-5 cursor-pointer rounded border-gray-400 text-green-700"
+        class="size-5 cursor-pointer rounded-sm border-gray-400 text-green-700"
         :disabled="disabled"
         :tabindex="tabbable ? undefined : -1"
       />

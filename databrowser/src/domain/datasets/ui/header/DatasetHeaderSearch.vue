@@ -23,12 +23,11 @@ import IconSearch from '../../../../components/svg/IconSearch.vue';
 
 const emit = defineEmits(['open']);
 const props = withDefaults(
-    defineProps<{
-      disabled?: boolean;
-    }>(),
-    {
-      disabled: false,
-    }
+  defineProps<{
+    disabled?: boolean;
+  }>(),
+  {
+    disabled: false,
+  }
 );
-
 </script>

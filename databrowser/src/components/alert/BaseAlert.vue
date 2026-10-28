@@ -16,10 +16,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :class="classNames.iconBackground"
     >
       <slot name="icon">
-        <IconCheck v-if="type === 'info'" :class="classNames.icon" /><IconWarning v-else />
+        <IconCheck
+          v-if="type === 'info'"
+          :class="classNames.icon"
+        /><IconWarning v-else />
       </slot>
     </div>
-    <div :class="classNames.text" class="mt-2 min-w-0 break-words">
+    <div :class="classNames.text" class="mt-2 min-w-0 wrap-break-word">
       <div v-if="title != null" class="font-semibold">{{ title }}</div>
       <div v-if="hasContent" class="text-sm">
         <slot></slot>
@@ -27,12 +30,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </div>
     <button
       v-if="hasCloseButton"
-      class="mt-5 absolute right-2 top-2 rounded flex items-center"
+      class="absolute top-2 right-2 mt-5 flex items-center rounded-sm"
       :class="classNames.text"
       @click="emit('close')"
     >
       <IconClose class="size-6" />
-      <span class="font-semibold">{{t('datasets.header.alert.cancel')}}</span>
+      <span class="font-semibold">{{ t('datasets.header.alert.cancel') }}</span>
     </button>
   </div>
 </template>
@@ -76,7 +79,7 @@ const types: Record<string, Color> = {
     text: 'text-hint-error',
     iconBackground: 'bg-hint-error',
     icon: 'text-white',
-  }
+  },
 };
 
 const emit = defineEmits<{ (e: 'close'): void }>();

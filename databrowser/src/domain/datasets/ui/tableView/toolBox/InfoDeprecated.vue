@@ -8,18 +8,34 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <InfoPopover>
     <PopoverCustomPanel>
       <PopoverContentHeader class="pb-0">
-        {{ t('datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.header') }}
+        {{
+          t(
+            'datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.header'
+          )
+        }}
       </PopoverContentHeader>
       <PopoverContent class="flex max-w-sm flex-col gap-3 pt-2">
-        {{ t('datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.body') }}
+        {{
+          t(
+            'datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.body'
+          )
+        }}
         <ButtonExternalLink
           class="flex items-center justify-center p-2"
           target="_blank"
-          :href="t('datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.linkHref')"
+          :href="
+            t(
+              'datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.linkHref'
+            )
+          "
           :size="Size.xs"
           :variant="Variant.ghost"
         >
-          {{ t('datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.linkText') }}
+          {{
+            t(
+              'datasets.listView.toolBox.searchAndFilter.deprecated.infoPopup.linkText'
+            )
+          }}
         </ButtonExternalLink>
       </PopoverContent>
     </PopoverCustomPanel>

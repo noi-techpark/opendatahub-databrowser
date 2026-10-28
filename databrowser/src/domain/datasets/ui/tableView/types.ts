@@ -20,7 +20,6 @@ export interface SyncDialogPayload {
   syncUrl: string;
 }
 
-
 export interface RecordActionsData {
   _Meta?: {
     Id?: string;

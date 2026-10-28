@@ -6,7 +6,12 @@ import { Map } from 'maplibre-gl';
 import { computed, Ref, watch } from 'vue';
 import { ClusterMapInitializer } from '../../../../../components/map/clusterMap/types';
 import { useClusterMapLayerTracker } from '../../../../../components/map/clusterMap/useClusterMapLayerTracker';
-import { ClusterFeature, MapDataset, MapDatasetMetaData, MarkerFeature } from '../types';
+import {
+  ClusterFeature,
+  MapDataset,
+  MapDatasetMetaData,
+  MarkerFeature,
+} from '../types';
 import { useMapViewLayerHandler } from './useMapViewLayerHandler';
 import { useMapViewMarkerPainting } from './useMapViewMarkerPainting';
 import { storeToRefs } from 'pinia';
@@ -149,10 +154,7 @@ const useClusterMap = (
 /**
  * Update paint properties for line and polygon layers to highlight the active geometry
  */
-const updateGeometryLayerHighlighting = (
-  map: Map,
-  activeRecordId?: string
-) => {
+const updateGeometryLayerHighlighting = (map: Map, activeRecordId?: string) => {
   const allLayers = map.getStyle().layers;
   const activeId = activeRecordId ?? '';
 

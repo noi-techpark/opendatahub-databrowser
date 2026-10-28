@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="flex flex-col gap-2">
     <div
-      class="flex flex-col rounded p-2 text-white"
+      class="flex flex-col rounded-sm p-2 text-white"
       :class="[
         syncResponse.response.success ? 'bg-hint-info' : 'bg-hint-error',
       ]"

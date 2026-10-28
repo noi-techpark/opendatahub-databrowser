@@ -88,8 +88,15 @@ const props = withDefaults(
   }
 );
 
-const { url, keySelector, labelSelector, unique, sortByLabel, editable, showAdditionalData } =
-  toRefs(props);
+const {
+  url,
+  keySelector,
+  labelSelector,
+  unique,
+  sortByLabel,
+  editable,
+  showAdditionalData,
+} = toRefs(props);
 
 const editStore = useEditStore();
 
@@ -98,7 +105,7 @@ const computedTagsData = computed(() => {
   if (currentData?.Tags && Array.isArray(currentData.Tags)) {
     return currentData.Tags;
   }
-  
+
   return [];
 });
 

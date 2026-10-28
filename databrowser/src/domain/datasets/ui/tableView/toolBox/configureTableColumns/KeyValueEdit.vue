@@ -15,7 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         class="flex flex-col gap-2 bg-white px-3 pt-3"
       >
         <button
-          class="self-end rounded p-1 text-delete"
+          class="self-end rounded-sm p-1 text-delete"
           @click="emit('delete:key', key)"
         >
           <IconDelete />
@@ -80,7 +80,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       v-else
       :variant="Variant.solid"
       :tone="Tone.white"
-      class="px-3 py-1 mx-3 my-5 flex items-center gap-2"
+      class="mx-3 my-5 flex items-center gap-2 px-3 py-1"
       :size="Size.xs"
       @click="emit('add:key', '')"
     >

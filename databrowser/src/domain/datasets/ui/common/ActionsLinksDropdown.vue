@@ -14,7 +14,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       />
     </template>
 
-    <PopoverCustomPanel :hasCloseButton="false" v-slot="{ close }" class="w-48 mt-2">
+    <PopoverCustomPanel
+      :hasCloseButton="false"
+      v-slot="{ close }"
+      class="mt-2 w-48"
+    >
       <PopoverContent
         v-if="showEdit"
         with-hover
@@ -115,14 +119,20 @@ withDefaults(
   }
 );
 
-const emit = defineEmits(['edit', 'refresh', 'sync', 'push', 'duplicate', 'delete']);
+const emit = defineEmits([
+  'edit',
+  'refresh',
+  'sync',
+  'push',
+  'duplicate',
+  'delete',
+]);
 
 const emitEvent = (
-    event: 'edit' | 'refresh' | 'sync' | 'push' | 'duplicate' | 'delete',
-    closePopup: () => void
+  event: 'edit' | 'refresh' | 'sync' | 'push' | 'duplicate' | 'delete',
+  closePopup: () => void
 ) => {
   emit(event);
   closePopup();
 };
-
 </script>

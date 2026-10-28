@@ -19,7 +19,8 @@ const REPLACEMENTS: Record<string, { url: string; label: string }> = {
 };
 
 // Names can contain double spaces, so whitespace is normalized before lookup.
-const normalize = (name: string) => name.replace(/\s+/g, ' ').trim().toLowerCase();
+const normalize = (name: string) =>
+  name.replace(/\s+/g, ' ').trim().toLowerCase();
 
 export const getReplacement = (dataset: {
   shortname: string;

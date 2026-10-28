@@ -16,7 +16,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           data-test="table-view-link"
         >
           <IconStrokedArrowDown
-            class="-ml-1 mr-1 size-5 rotate-90 stroke-current"
+            class="mr-1 -ml-1 size-5 rotate-90 stroke-current"
           />
           <span class="line-height-1">
             {{ t('datasets.navigation.tableView') }}
@@ -46,9 +46,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         />
 
         <div class="ml-auto flex items-center space-x-2">
-          <template class="hidden md:flex space-x-2">
-
-            <DiffChanges v-if="isDiffEditing && (isEditView || (isRawView && isRawEditing))"></DiffChanges>
+          <template class="hidden space-x-2 md:flex">
+            <DiffChanges
+              v-if="
+                isDiffEditing && (isEditView || (isRawView && isRawEditing))
+              "
+            ></DiffChanges>
             <ButtonsGroup v-if="isDiffEditing && isRawView && isRawEditing">
               <ButtonCustom
                 :variant="diffEditModeHorizontalVariant"
@@ -109,7 +112,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { computed,watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { Tone, Variant } from '@/components/button/types';
@@ -148,7 +151,6 @@ const {
   diffEditMode,
 } = storeToRefs(datasetViewStore);
 
-
 const isRawView = computed(() => {
   return !isDetailView.value && !isEditView.value && !isNewView.value;
 });
@@ -157,7 +159,7 @@ const toggleDiffEditingMode = () => {
   datasetViewStore.toggleDiffEditing();
 };
 const handleEditToggle = () => {
-  if(isNewView.value){
+  if (isNewView.value) {
     return;
   }
 
@@ -172,13 +174,14 @@ const handleEditToggle = () => {
   }
 };
 
-
 const breakpoints = useBreakpoints(breakpointsTailwind);
 const mdAndSmaller = breakpoints.smaller('lg');
 watch(
   [isRawEditing, mdAndSmaller],
   ([edit, isSmall], [wasEdit]) => {
-    if (!isSmall) { return;}
+    if (!isSmall) {
+      return;
+    }
     if (edit && wasEdit !== true) {
       datasetViewStore.setDiffEditMode(DiffEditMode.VERTICAL);
 
@@ -189,7 +192,6 @@ watch(
   },
   { immediate: true }
 );
-
 
 const goToEditView = () => {
   if (hasEditView.value && editRecordSupported.value) {
@@ -214,7 +216,11 @@ const {
 
 const hash = computed(() => currentRoute.value.hash);
 const isEditing = computed(() => {
-  return isEditView.value || (isRawView.value && isRawEditing.value) || isNewView.value;
+  return (
+    isEditView.value ||
+    (isRawView.value && isRawEditing.value) ||
+    isNewView.value
+  );
 });
 const editingVariant = computed(() => {
   return isEditing.value ? Variant.solid : Variant.ghost;
@@ -223,10 +229,14 @@ const diffEditingVariant = computed(() => {
   return isDiffEditing.value ? Variant.soft : Variant.ghost;
 });
 const diffEditModeHorizontalVariant = computed(() => {
-  return diffEditMode.value === DiffEditMode.HORIZONTAL ? Variant.soft : Variant.ghost;
+  return diffEditMode.value === DiffEditMode.HORIZONTAL
+    ? Variant.soft
+    : Variant.ghost;
 });
 const diffEditModeVerticalVariant = computed(() => {
-  return diffEditMode.value === DiffEditMode.VERTICAL ? Variant.soft : Variant.ghost;
+  return diffEditMode.value === DiffEditMode.VERTICAL
+    ? Variant.soft
+    : Variant.ghost;
 });
 const setDiffEditMode = (mode: DiffEditMode) => {
   datasetViewStore.setDiffEditMode(mode);

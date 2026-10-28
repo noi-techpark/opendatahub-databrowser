@@ -57,7 +57,8 @@ const props = withDefaults(
     showUrl: true,
     noOptionsAvailableLabel: 'No items are available for assignment',
     enabled: true,
-    disabledLabel: 'No items are available for assignment, choose a source first',
+    disabledLabel:
+      'No items are available for assignment, choose a source first',
   }
 );
 

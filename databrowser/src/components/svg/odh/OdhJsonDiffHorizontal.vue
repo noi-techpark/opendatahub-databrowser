@@ -28,5 +28,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
   </svg>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

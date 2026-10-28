@@ -70,8 +70,8 @@ export const additionalPropertiesCategory = (): EditElements => ({
       elements: roadIncidentdataCategory(),
     },
     {
-     objectPath: 'AdditionalProperties.EventEuracNoiDataProperties',
-     elements: eventeuracnoidataCategory(),
+      objectPath: 'AdditionalProperties.EventEuracNoiDataProperties',
+      elements: eventeuracnoidataCategory(),
     },
   ],
 });

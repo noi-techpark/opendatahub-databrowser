@@ -45,7 +45,12 @@ export const odhActivityPoiListView: ListViewConfig = {
     //     separator: ', ',
     //   },
     // },
-    ...locationTableCellsAll({showRegion: false, showTourismAssociation: false, showMunicipality: true, showDistrict: true}),
+    ...locationTableCellsAll({
+      showRegion: false,
+      showTourismAssociation: false,
+      showMunicipality: true,
+      showDistrict: true,
+    }),
     lastSyncTableCell(true, 'Detail.{language}.Title'),
     gpsDataShortTableCell(),
     {

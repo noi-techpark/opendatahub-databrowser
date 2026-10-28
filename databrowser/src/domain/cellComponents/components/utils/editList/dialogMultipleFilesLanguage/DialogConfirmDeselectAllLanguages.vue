@@ -10,12 +10,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <DialogOverlay />
       <DialogOverlayContainer>
         <DialogPanel
-          class="w-full max-w-md overflow-hidden rounded bg-white text-left align-middle shadow-xl transition-all"
+          class="w-full max-w-md overflow-hidden rounded-sm bg-white text-left align-middle shadow-xl transition-all"
         >
           <div class="bg-gray-50 px-4 py-6">
             <DialogTitle
               as="h3"
-              class="text-center text-xl font-semibold leading-6 text-dialog"
+              class="text-center text-xl leading-6 font-semibold text-dialog"
             >
               {{
                 t('datasets.editView.dialog.confirmDeselectAllLanguages.title')

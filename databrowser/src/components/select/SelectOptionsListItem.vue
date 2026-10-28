@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :class="[
         { 'bg-green-500/10': active || selected },
         { 'text-green-500': selected || isAction },
-        'relative cursor-pointer select-none py-1 pl-4 pr-8',
+        'relative cursor-pointer py-1 pr-8 pl-4 select-none',
       ]"
     >
       <span :class="[{ 'font-semibold': selected || isAction }, 'block']">

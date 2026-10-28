@@ -20,7 +20,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <!-- Tooltip -->
   <div
     ref="container"
-    class="pointer-events-auto absolute max-w-xs break-words rounded bg-gray-700 px-2 py-1 text-sm text-white shadow-lg transition-opacity duration-150"
+    class="pointer-events-auto absolute max-w-xs rounded-sm bg-gray-700 px-2 py-1 text-sm wrap-break-word text-white shadow-lg transition-opacity duration-150"
     :class="[
       { 'z-50': zIndex == null },
       isOpen ? 'visible opacity-100' : 'invisible opacity-0',
@@ -33,14 +33,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     {{ text }}
     <div
       ref="arrow"
-      class="absolute h-2 w-2 rotate-45 bg-gray-700 right-0 -translate-x-1/2"
+      class="absolute right-0 h-2 w-2 -translate-x-1/2 rotate-45 bg-gray-700"
       data-placement="arrow"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, withDefaults, defineProps, Ref } from 'vue';
+import { ref, onBeforeUnmount, Ref } from 'vue';
 import { useFloatingUi } from '@/components/utils/useFloatingUi';
 import { Placement } from '@floating-ui/dom';
 

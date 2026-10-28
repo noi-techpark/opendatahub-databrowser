@@ -22,13 +22,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <!-- Geometry type selector (visible when drawing, in or out of fullscreen) -->
       <div
         v-if="enableSetMarker"
-        class="absolute left-4 top-4 z-[999] flex items-center gap-2 rounded bg-white px-3 py-2 shadow-lg"
+        class="absolute top-4 left-4 z-999 flex items-center gap-2 rounded-sm bg-white px-3 py-2 shadow-lg"
       >
         <span class="text-sm font-semibold">Shape:</span>
         <button
           v-for="type in geometryTypes"
           :key="type.value"
-          class="rounded px-3 py-1 text-sm transition-colors"
+          class="rounded-sm px-3 py-1 text-sm transition-colors"
           :class="
             selectedGeometryType === type.value
               ? 'bg-green-500 text-white'
@@ -42,7 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
       <div
         v-if="isFullscreen"
-        class="absolute right-4 top-4 z-[999] flex items-center gap-3"
+        class="absolute top-4 right-4 z-999 flex items-center gap-3"
       >
         <ButtonCustom
           v-if="!preventInteraction && editable"
@@ -69,7 +69,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </ButtonCustom>
       </div>
       <div
-        class="pointer-events-none absolute bottom-6 right-2 z-[999] rounded-md bg-black px-2 py-1 text-sm text-white opacity-0 transition-all"
+        class="pointer-events-none absolute right-2 bottom-6 z-999 rounded-md bg-black px-2 py-1 text-sm text-white opacity-0 transition-all"
         :class="{
           'opacity-100': isTooltipVisible,
         }"
@@ -85,7 +85,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :drawing-geometry-type="selectedGeometryType"
           :editable="editable"
           :class="{
-            'pointer-events-none opacity-50': !isFullscreen && preventInteraction,
+            'pointer-events-none opacity-50':
+              !isFullscreen && preventInteraction,
           }"
           :hide-attribution="!isFullscreen"
           @update:wkt="onWktUpdate"
@@ -97,7 +98,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import {
+  computed,
+  defineAsyncComponent,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
 import UseFullscreen from '../../../../../components/fullscreen/UseFullscreen.vue';
@@ -157,7 +166,11 @@ const props = withDefaults(
 );
 
 // Calculate appropriate zoom level based on bounds and container size
-const calculateZoomFromBounds = (bounds: LngLatBounds, width: number, height: number): number => {
+const calculateZoomFromBounds = (
+  bounds: LngLatBounds,
+  width: number,
+  height: number
+): number => {
   // Guard against invalid dimensions
   if (!width || !height || width < 0 || height < 0) {
     // Fallback to span-based calculation if container not properly sized
@@ -193,10 +206,15 @@ const calculateZoomFromBounds = (bounds: LngLatBounds, width: number, height: nu
 
   const latFraction = (latRad(ne.lat) - latRad(sw.lat)) / Math.PI;
   const lngDiff = ne.lng - sw.lng;
-  const lngFraction = ((lngDiff < 0 ? lngDiff + 360 : lngDiff) / 360);
+  const lngFraction = (lngDiff < 0 ? lngDiff + 360 : lngDiff) / 360;
 
-  const latZoom = Math.floor(Math.log((height - paddingHeight) / WORLD_DIM.height / latFraction) / Math.LN2);
-  const lngZoom = Math.floor(Math.log((width - paddingWidth) / WORLD_DIM.width / lngFraction) / Math.LN2);
+  const latZoom = Math.floor(
+    Math.log((height - paddingHeight) / WORLD_DIM.height / latFraction) /
+      Math.LN2
+  );
+  const lngZoom = Math.floor(
+    Math.log((width - paddingWidth) / WORLD_DIM.width / lngFraction) / Math.LN2
+  );
   return Math.min(latZoom, lngZoom, ZOOM_MAX);
 };
 
@@ -218,7 +236,11 @@ const mapConfig = computed<{
 
     const addCoordsToBounds = (coords: unknown): void => {
       if (Array.isArray(coords)) {
-        if (coords.length === 2 && typeof coords[0] === 'number' && typeof coords[1] === 'number') {
+        if (
+          coords.length === 2 &&
+          typeof coords[0] === 'number' &&
+          typeof coords[1] === 'number'
+        ) {
           bounds.extend(coords as [number, number]);
         } else {
           coords.forEach((coord) => addCoordsToBounds(coord));
@@ -228,7 +250,10 @@ const mapConfig = computed<{
 
     if ('coordinates' in geometry) {
       addCoordsToBounds(geometry.coordinates);
-    } else if (geometry.type === 'GeometryCollection' && 'geometries' in geometry) {
+    } else if (
+      geometry.type === 'GeometryCollection' &&
+      'geometries' in geometry
+    ) {
       for (const subGeometry of geometry.geometries) {
         if ('coordinates' in subGeometry) {
           addCoordsToBounds(subGeometry.coordinates);
@@ -238,9 +263,14 @@ const mapConfig = computed<{
 
     if (!bounds.isEmpty()) {
       const center = bounds.getCenter();
-      const zoom = geometry.type === 'Point'
-        ? 12
-        : calculateZoomFromBounds(bounds, containerSize.value.width, containerSize.value.height);
+      const zoom =
+        geometry.type === 'Point'
+          ? 12
+          : calculateZoomFromBounds(
+              bounds,
+              containerSize.value.width,
+              containerSize.value.height
+            );
 
       return {
         center: { lat: center.lat, lng: center.lng },
@@ -269,14 +299,20 @@ watch(
       const trimmed = newWkt.trim().toUpperCase();
       if (trimmed.startsWith('POINT')) {
         selectedGeometryType.value = 'Point';
-      } else if (trimmed.startsWith('LINESTRING') || trimmed.startsWith('MULTILINESTRING')) {
+      } else if (
+        trimmed.startsWith('LINESTRING') ||
+        trimmed.startsWith('MULTILINESTRING')
+      ) {
         selectedGeometryType.value = 'LineString';
-      } else if (trimmed.startsWith('POLYGON') || trimmed.startsWith('MULTIPOLYGON')) {
+      } else if (
+        trimmed.startsWith('POLYGON') ||
+        trimmed.startsWith('MULTIPOLYGON')
+      ) {
         selectedGeometryType.value = 'Polygon';
       }
     } catch (error) {
       // Ignore parsing errors
-      console.log("failed to parse wkt", newWkt.trim().toUpperCase(), error)
+      console.log('failed to parse wkt', newWkt.trim().toUpperCase(), error);
     }
   },
   { immediate: true }

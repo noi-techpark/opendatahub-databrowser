@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div v-for="d in days" :key="d.day" class="flex flex-col rounded border">
+  <div v-for="d in days" :key="d.day" class="flex flex-col rounded-sm border">
     <div
       class="p-2 text-center text-2xl font-bold"
       :class="[

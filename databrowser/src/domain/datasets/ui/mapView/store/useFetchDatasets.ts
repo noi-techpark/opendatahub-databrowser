@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Ref, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useMetaDataForAllDatasets } from '../../../../../pages/datasets/overview/useDatasets';
 import { TourismMetaData } from '../../../../metaDataConfig/tourism/types';
 import { KnownApiType } from '../../../../metaDataConfig/types';
@@ -14,11 +14,11 @@ type RestrictedMetaData = TourismMetaData & {
   externalLink: string;
 };
 
-export const useFetchDatasets = (): {
-  datasets: Ref<MapDataset[]>;
-  isLoading: Ref<boolean>;
-  error: Ref<Error | null>;
-} => {
+// NOTE: the return type is intentionally inferred rather than annotated.
+// An explicit annotation makes TypeScript deeply compare MapDataset (which
+// extends maplibre-gl's GeoJSONSourceSpecification) and hit TS2589
+// ("excessively deep") under the @vue/tsconfig v0.9 settings.
+export const useFetchDatasets = () => {
   const datasets = ref<MapDataset[]>([]);
 
   const { metaData, isMetaDataLoading, metaDataError } =
@@ -63,7 +63,7 @@ const buildMapDataset = (dataset: RestrictedMetaData): MapDataset => ({
     datasetName: dataset.shortname,
     datasetAbbreviation: dataset.shortname.substring(0, 1).toUpperCase(),
     datasetColor: stringToColor(dataset.id),
-    datasetParentId: dataset.parent?.id
+    datasetParentId: dataset.parent?.id,
   },
   selected: false,
   records: {

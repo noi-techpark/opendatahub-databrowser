@@ -6,7 +6,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <!-- Nested array table container with visual border for clarity -->
-  <EditListTable :items="items" :editable="editable" :hide-settings-column="hideSettingsColumn">
+  <EditListTable
+    :items="items"
+    :editable="editable"
+    :hide-settings-column="hideSettingsColumn"
+  >
     <!-- Define column widths to distribute space evenly -->
     <template #colGroup>
       <col
@@ -17,14 +21,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <template #tableHeader>
-      <TableHeaderCell v-for="(property, index) in filteredProperties" :key="index">
+      <TableHeaderCell
+        v-for="(property, index) in filteredProperties"
+        :key="index"
+      >
         {{ property.title }}
         <!-- Show deprecation indicator in header if property is deprecated -->
         <span
           v-if="hasDeprecation(property)"
           class="ml-1 text-xs text-deprecated"
           title="Deprecated"
-        >⚠</span>
+          >⚠</span
+        >
       </TableHeaderCell>
     </template>
 
@@ -34,7 +42,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         {{ logTableRow(item, index) }}
       </template>
 
-      <TableCell v-for="(property, propIndex) in getComputedPropertiesForItem(item)" :key="propIndex">
+      <TableCell
+        v-for="(property, propIndex) in getComputedPropertiesForItem(item)"
+        :key="propIndex"
+      >
         <ComponentRenderer
           :tag-name="property.component"
           :attributes="property.value"
@@ -56,10 +67,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <template v-if="editable" #addItems>
       <slot name="addItems">
         <!-- Default add button if no custom slot provided -->
-        <EditListAddButton
-          :text="'Add new item'"
-          @click="addNewItem"
-        />
+        <EditListAddButton :text="'Add new item'" @click="addNewItem" />
       </slot>
     </template>
   </EditListTable>
@@ -73,7 +81,10 @@ import TableCell from '../../../../../components/table/TableCell.vue';
 import ComponentRenderer from '../../../../../components/componentRenderer/ComponentRenderer.vue';
 import EditListTable from '../../utils/editList/table/EditListTable.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
-import { DeprecationInfo, PropertyConfig } from '../../../../datasets/config/types';
+import {
+  DeprecationInfo,
+  PropertyConfig,
+} from '../../../../datasets/config/types';
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import { useToolBoxStore } from '../../../../datasets/ui/toolBox/toolBoxStore';
@@ -131,7 +142,9 @@ const filteredProperties = computed(() => {
  * Compute property values for a specific item.
  * Returns the computed properties with values for rendering.
  */
-const getComputedPropertiesForItem = (item: unknown): PropertyConfigWithValue[] => {
+const getComputedPropertiesForItem = (
+  item: unknown
+): PropertyConfigWithValue[] => {
   return computeProperties(
     item,
     props.properties,
@@ -145,7 +158,9 @@ const getComputedPropertiesForItem = (item: unknown): PropertyConfigWithValue[] 
 /**
  * Check if a property has deprecation (own or inherited from parent)
  */
-const hasDeprecation = (property: PropertyConfig | PropertyConfigWithValue): boolean => {
+const hasDeprecation = (
+  property: PropertyConfig | PropertyConfigWithValue
+): boolean => {
   const parentInfo = props.parentDeprecationInfo ?? [];
   const propertyInfo = property.deprecationInfo ?? [];
   return parentInfo.length > 0 || propertyInfo.length > 0;
@@ -160,7 +175,7 @@ const getColumnWidthClass = (): string => {
   if (count <= 2) return 'min-w-48 md:min-w-64';
   if (count <= 3) return 'min-w-40 md:min-w-52';
   if (count <= 4) return 'min-w-36 md:min-w-44';
-  return 'min-w-32 md:min-w-40';  // 5+ properties: smaller minimum
+  return 'min-w-32 md:min-w-40'; // 5+ properties: smaller minimum
 };
 
 // Get navigation and action triggers from EditListCell context
@@ -181,7 +196,7 @@ const logTableRow = (item: unknown, index: number) => {
   console.log('[EditNestedArrayTable] Rendering row:', {
     index,
     item,
-    properties: filteredProperties.value.map(p => p.title),
+    properties: filteredProperties.value.map((p) => p.title),
   });
   return null; // Don't render anything
 };

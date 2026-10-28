@@ -25,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </template>
       </CardTitle>
       <CardText class="mb-4">
-         {{ getDisplayDescription(dataset) }}
+        {{ getDisplayDescription(dataset) }}
       </CardText>
       <OverviewInfoSources :dataset="dataset" />
       <CardDivider no-bottom />

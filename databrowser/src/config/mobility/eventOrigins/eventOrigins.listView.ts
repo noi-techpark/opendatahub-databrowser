@@ -25,14 +25,14 @@ export const eventOriginsListView: ListViewConfig = {
       component: CellComponent.StringCell,
       class: 'w-60',
       objectMapping: { text: 'evmetadata.placeDe' },
-      params: { textClasses: 'break-words' },
+      params: { textClasses: 'wrap-break-word' },
     },
     {
       title: 'Description (IT)',
       component: CellComponent.StringCell,
       class: 'w-60',
       objectMapping: { text: 'evmetadata.placeIt' },
-      params: { textClasses: 'break-words' },
+      params: { textClasses: 'wrap-break-word' },
     },
     {
       title: 'Coordinate',

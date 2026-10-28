@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="flex items-center justify-between gap-2 rounded border bg-gray-50 py-px pl-4 pr-3"
+    class="flex items-center justify-between gap-2 rounded-sm border bg-gray-50 py-px pr-3 pl-4"
     :class="widthClasses"
   >
     <PopoverCustom
@@ -18,19 +18,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     >
       <template #trigger>
         <PopoverCustomButton
-          class="flex flex-1 items-center focus-visible:outline-none md:justify-between"
+          class="flex flex-1 items-center focus-visible:outline-hidden md:justify-between"
           v-slot="{ open }"
         >
           <div
             class="flex w-[min(calc(100vw-245px),140px)] flex-col items-start"
           >
             <span
-              class="max-w-full overflow-hidden text-ellipsis text-nowrap font-semibold"
+              class="max-w-full overflow-hidden font-semibold text-nowrap text-ellipsis"
             >
               {{ t('components.downloadMenu.title', { countActive }) }}
             </span>
             <span
-              class="max-w-full overflow-hidden text-ellipsis text-nowrap text-xs text-dialog"
+              class="max-w-full overflow-hidden text-xs text-nowrap text-ellipsis text-dialog"
             >
               {{
                 t('components.downloadMenu.subtitle', {
@@ -82,7 +82,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   <!-- Download name -->
                   <SimpleTooltip
                     :key="`${download.id}-filename`"
-                    :text="(download.name  ?? '')"
+                    :text="download.name ?? ''"
                   >
                     <template #trigger>
                       <span
@@ -97,15 +97,23 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   <SimpleTooltip
                     v-if="download.error"
                     :key="`${download.id}-error-message`"
-                    :text="(download.error ?? '')"
+                    :text="download.error ?? ''"
                   >
                     <template #trigger>
                       <span
-                        class="ml-2 w-1/2 shrink-0 truncate cursor-copy"
-                        :class="copiedErrorId === download.id ? 'text-green-400' : 'text-hint-error'"
+                        class="ml-2 w-1/2 shrink-0 cursor-copy truncate"
+                        :class="
+                          copiedErrorId === download.id
+                            ? 'text-green-400'
+                            : 'text-hint-error'
+                        "
                         @click="copyError(download.id, download.error)"
                       >
-                        {{ copiedErrorId === download.id ? t('components.downloadMenu.copied') : download.error }}
+                        {{
+                          copiedErrorId === download.id
+                            ? t('components.downloadMenu.copied')
+                            : download.error
+                        }}
                       </span>
                     </template>
                   </SimpleTooltip>
@@ -163,8 +171,8 @@ import IconErrorWarning from '../svg/IconExclamationMark.vue';
 import IconReload from '../svg/IconReload.vue';
 import DiscardDownloadsDialog from './DiscardDownloadsDialog.vue';
 import { saveDownload } from './utils';
-import {useClipboard} from "@vueuse/core";
-import SimpleTooltip from "@/components/tooltip/SimpleTooltip.vue";
+import { useClipboard } from '@vueuse/core';
+import SimpleTooltip from '@/components/tooltip/SimpleTooltip.vue';
 
 const { t } = useI18n();
 
@@ -176,7 +184,7 @@ withDefaults(
     widthClasses: () => [],
   }
 );
-const clipboard = useClipboard()
+const clipboard = useClipboard();
 const downloadStore = useDownloadStore();
 
 const countActive = computed(() => downloadStore.activeDownloads.length);
@@ -186,7 +194,7 @@ const countFailed = computed(() => downloadStore.failedDownloads.length);
 const isDiscardDialogOpen = ref(false);
 const copiedErrorId = ref<string | null>(null);
 
-const copyError = (downloadId: string, error:string) => {
+const copyError = (downloadId: string, error: string) => {
   clipboard.copy(error);
   copiedErrorId.value = downloadId;
 
@@ -195,7 +203,7 @@ const copyError = (downloadId: string, error:string) => {
       copiedErrorId.value = null;
     }
   }, 3000);
-}
+};
 
 const openDiscardDialog = (event: Event) => {
   isDiscardDialogOpen.value = true;

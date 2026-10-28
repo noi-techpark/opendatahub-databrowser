@@ -31,32 +31,32 @@ export const useDatasetViewStore = defineStore('datasetViewStore', () => {
   } = toRefs(useDatasetBaseInfoStore());
 
   //json editor
-  const diffAdds = ref(0)
-  const diffDels = ref(0)
+  const diffAdds = ref(0);
+  const diffDels = ref(0);
   const setDiffStats = (adds: number, dels: number) => {
-    diffAdds.value = adds
-    diffDels.value = dels
-  }
-  const resetDiffStats = () => setDiffStats(0, 0)
+    diffAdds.value = adds;
+    diffDels.value = dels;
+  };
+  const resetDiffStats = () => setDiffStats(0, 0);
 
   const isRawEditing = ref(false);
   const toggleRawEditing = () => {
     isRawEditing.value = !isRawEditing.value;
-    if(!isRawEditing.value) {
+    if (!isRawEditing.value) {
       isDiffEditing.value = false;
       resetDiffStats();
     }
-  }
+  };
 
   const isDiffEditing = ref(false);
   const toggleDiffEditing = () => {
     isDiffEditing.value = !isDiffEditing.value;
-  }
+  };
 
   const diffEditMode = ref(DiffEditMode.VERTICAL);
   const setDiffEditMode = (mode: DiffEditMode) => {
     diffEditMode.value = mode;
-  }
+  };
 
   return {
     ...useDatasetView(

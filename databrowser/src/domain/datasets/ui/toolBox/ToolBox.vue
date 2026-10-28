@@ -5,7 +5,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-
   <!-- ToolBox content -->
   <div
     class="absolute top-0 z-10 flex h-full flex-col overflow-x-auto bg-gray-50 transition-all md:relative"
@@ -26,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         @before-leave="(el: Element) => (el.classList.value = 'hidden')"
       >
         <div v-if="activeSection" :class="{ hidden: !mdAndLarger }">
-          <div class="mx-auto w-full h-full">
+          <div class="mx-auto h-full w-full">
             <div class="flex flex-col justify-between">
               <div
                 class="sticky top-0 z-10 flex flex-col justify-end bg-gray-50"
@@ -43,10 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               </div>
 
               <div class="flex-1 overflow-y-auto p-2">
-                <component
-                    v-if="activeSection"
-                    :is="activeSection.vnode"
-                />
+                <component v-if="activeSection" :is="activeSection.vnode" />
               </div>
             </div>
           </div>
@@ -57,14 +53,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <script setup lang="ts">
-import {computed, watch, useSlots, VNode} from 'vue';
+import { computed, watch, useSlots, VNode } from 'vue';
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 import { useToolBoxStore } from './toolBoxStore';
 import {
   ToolBoxSection,
   ToolBoxSectionKey,
 } from '@/domain/datasets/ui/toolBox/types';
-import ToolBoxHeader from "@/domain/datasets/ui/toolBox/ToolBoxHeader.vue";
+import ToolBoxHeader from '@/domain/datasets/ui/toolBox/ToolBoxHeader.vue';
 
 withDefaults(
   defineProps<{
@@ -89,18 +85,17 @@ const mdAndLarger = breakpoints.greater('md');
 const sections = computed(() => {
   const vnodes = (slots.default?.() ?? []) as VNode[];
   return vnodes
-    .filter(vnode => vnode.props != null)
+    .filter((vnode) => vnode.props != null)
     .map((vnode) => {
       return {
         ...(vnode.props as ToolBoxSection),
-        vnode
+        vnode,
       };
-    })
+    });
 });
 
-
 const activeSection = computed(() =>
-    sections.value.find((s) => s.sectionKey === toolBoxStore.activeSectionKey)
+  sections.value.find((s) => s.sectionKey === toolBoxStore.activeSectionKey)
 );
 
 watch(mdAndLarger, (newVal) => {

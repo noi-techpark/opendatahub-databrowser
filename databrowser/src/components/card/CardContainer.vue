@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <component
     :is="tagName"
-    class="flex flex-col rounded border border-gray-300"
+    class="flex flex-col rounded-sm border border-gray-300"
     :class="paddingClasses"
   >
     <slot></slot>

@@ -14,7 +14,6 @@ export const toError = (err: unknown): Error => {
   }
 };
 
-
 export const getAxiosErrorMessage = (error: unknown): string => {
   if (error instanceof AxiosError) {
     return `(${error.response?.status}) ${error.response?.statusText}`;

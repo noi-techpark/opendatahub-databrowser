@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div
     v-if="editor"
-    class="rounded border border-gray-400 text-black focus-within:border-green-500"
+    class="rounded-sm border border-gray-400 text-black focus-within:border-green-500"
   >
     <div class="control-group border-b border-gray-400 p-2">
       <div class="button-group flex flex-wrap gap-2">
@@ -244,7 +244,10 @@ const isHtmlMode = ref(false);
 const editor = useEditor({
   content: props.modelValue ?? '',
   extensions: [
-    StarterKit,
+    // StarterKit v3 bundles Link and Underline; disable them here so the
+    // explicit Underline and configured Link below remain the single source
+    // (avoids duplicate-extension registration).
+    StarterKit.configure({ link: false, underline: false }),
     Underline,
     Subscript,
     Superscript,
@@ -273,7 +276,7 @@ watch(
       newValue != null &&
       newValue !== editor.value.getHTML()
     ) {
-      editor.value.commands.setContent(newValue, false);
+      editor.value.commands.setContent(newValue, { emitUpdate: false });
     }
   },
   { immediate: true }
@@ -281,8 +284,10 @@ watch(
 </script>
 
 <style>
+@reference '@/index.css';
+
 .tiptap:focus-visible {
-  @apply outline-none;
+  @apply outline-hidden;
 }
 
 .button-group button {

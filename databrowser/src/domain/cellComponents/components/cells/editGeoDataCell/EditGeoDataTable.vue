@@ -40,17 +40,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </TableCell>
       <TableCell>{{ item.Type }}</TableCell>
       <TableCell class="break-all">{{ item.Geometry }}</TableCell>
-      <TableCell><ToggleButtonCell :enabled="item.Default" :readonly="false" :text="(item.Default || false).toString()"/></TableCell>
+      <TableCell
+        ><ToggleButtonCell
+          :enabled="item.Default"
+          :readonly="false"
+          :text="(item.Default || false).toString()"
+      /></TableCell>
       <TableCell>{{ item.Latitude }}</TableCell>
       <TableCell>{{ item.Longitude }}</TableCell>
       <TableCell>{{ item.Altitude }}</TableCell>
     </template>
     <template #noItems>No Geo Data has been added yet.</template>
     <template #addItems>
-      <EditListAddButton
-        :text="'Add new Geo Data'"
-        @click="addNewGeoData()"
-      />
+      <EditListAddButton :text="'Add new Geo Data'" @click="addNewGeoData()" />
     </template>
   </EditListTable>
 </template>
@@ -74,7 +76,7 @@ const { navigateToTab } = useInjectNavigation();
 const { addItems } = useInjectActionTriggers<GeoDataEntry>();
 
 const addNewGeoData = () => {
-  addItems([{Type: "", Default: false}]);
+  addItems([{ Type: '', Default: false }]);
   navigateToTab(props.items.length);
 };
 

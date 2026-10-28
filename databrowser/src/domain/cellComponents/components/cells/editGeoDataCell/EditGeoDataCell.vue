@@ -5,7 +5,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <EditObjectAsListCell :items="geoData" :key-target-property="'Type'" :parent-key="'geoData'">
+  <EditObjectAsListCell
+    :items="geoData"
+    :key-target-property="'Type'"
+    :parent-key="'geoData'"
+  >
     <template #table="{ items }">
       <EditGeoDataTable :items="items" />
     </template>

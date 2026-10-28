@@ -11,11 +11,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 </template>
 
 <style scoped>
+@reference '@/index.css';
+
 .sub-title {
   font-size: 1.375rem;
 }
 
-@screen lg {
+@media (width >= theme(--breakpoint-lg)) {
   .sub-title {
     font-size: 1.625rem;
   }

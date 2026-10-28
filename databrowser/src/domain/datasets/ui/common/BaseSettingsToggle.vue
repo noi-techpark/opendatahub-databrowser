@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div
     :class="{
       [containerClasses]: useContainerClasses && !description,
-      'rounded border': description,
+      'rounded-sm border': description,
       [`border-${activeColorClass} overflow-hidden`]: active,
     }"
   >

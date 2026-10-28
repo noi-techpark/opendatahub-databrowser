@@ -4,57 +4,141 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-body {
-  @apply text-gray-900;
-  height: 100vh;
-  font-family: 'SourceSansPro', ui-sans-serif, system-ui, -apple-system;
+@plugin '@tailwindcss/forms';
+
+@theme {
+  --shadow-table-static-col: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+
+  --text-2xs: 0.625rem;
+  --text-3xs: 0.5rem;
+  --text-2xl: 1.625rem;
+  --text-2xl--line-height: initial;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: initial;
+
+  --color-hint-calm: #2264e5;
+  --color-hint-calm-secondary: #ebf0fa;
+  --color-hint-info: #50742f;
+  --color-hint-info-secondary: rgba(80, 116, 47, 0.1);
+  --color-hint-warning: #aa5b00;
+  --color-hint-warning-secondary: #fdf2e6;
+  --color-hint-error: #d12953;
+  --color-hint-error-secondary: #faf0f3;
+  --color-error: #ff0000;
+  --color-deprecated: #d26d29;
+  --color-reference: #2264e5;
+  --color-disabled: #dcdde1;
+  --color-delete: #dc2626;
+  --color-dialog: #687182;
+  --color-lightgray: #eaebed;
+
+  --color-green-400: #50742f;
+  --color-green-500: #476929;
+  --color-green-700: #234009;
+
+  --color-gray-50: #f4f8f9;
+  --color-gray-100: #f1f3f4;
+  --color-gray-200: #efefef;
+  --color-gray-250: #e3e4e7;
+  --color-gray-300: #dcdde1;
+  --color-gray-400: #e0e1e5;
+  --color-gray-600: #707c7e;
+  --color-gray-700: #494d50;
+  --color-gray-900: #3c4043;
+
+  --color-pink-400: #fa00ff;
+
+  --spacing-default: 80rem;
 }
 
-#app {
-  height: 100vh;
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-a {
-  @apply underline;
+/*
+  Buttons use `cursor: default` in Tailwind CSS v4; restore the v3 behavior.
+*/
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
-a:focus-visible:not([button-link]) {
-  @apply outline outline-1 outline-offset-2 outline-green-500;
-}
+/*
+  These element-level styles live in `@layer base` so that utility classes
+  (e.g. `no-underline`) can override them, as they did in Tailwind CSS v3
+  where everything was unlayered and utilities won on specificity.
+*/
+@layer base {
+  body {
+    @apply text-gray-900;
+    height: 100vh;
+    font-family:
+      'SourceSansPro',
+      ui-sans-serif,
+      system-ui,
+      -apple-system;
+  }
 
-button:focus-visible,
-input:focus-visible,
-ul:focus-visible {
-  @apply outline outline-1 outline-green-500;
-}
+  #app {
+    height: 100vh;
+  }
 
-input:focus-visible {
-  @apply outline-0;
-}
+  a {
+    @apply underline;
+  }
 
-[type='checkbox']:focus {
-  @apply outline-green-500;
-}
+  a:focus-visible:not([button-link]) {
+    @apply outline-1 outline-offset-2 outline-green-500 outline-solid;
+  }
 
-[type='text']:focus,
-[type='email']:focus,
-[type='url']:focus,
-[type='password']:focus,
-[type='number']:focus,
-[type='date']:focus,
-[type='datetime-local']:focus,
-[type='month']:focus,
-[type='search']:focus,
-[type='tel']:focus,
-[type='time']:focus,
-[type='week']:focus,
-[type='radio']:focus [multiple]:focus,
-textarea:focus,
-select:focus {
-  box-shadow: none;
-  border-color: transparent;
+  button:focus-visible,
+  input:focus-visible,
+  ul:focus-visible {
+    @apply outline-1 outline-green-500 outline-solid;
+  }
+
+  input:focus-visible {
+    @apply outline-0;
+  }
+
+  [type='checkbox']:focus {
+    @apply outline-green-500;
+  }
+
+  [type='text']:focus,
+  [type='email']:focus,
+  [type='url']:focus,
+  [type='password']:focus,
+  [type='number']:focus,
+  [type='date']:focus,
+  [type='datetime-local']:focus,
+  [type='month']:focus,
+  [type='search']:focus,
+  [type='tel']:focus,
+  [type='time']:focus,
+  [type='week']:focus,
+  [type='radio']:focus [multiple]:focus,
+  textarea:focus,
+  select:focus {
+    box-shadow: none;
+    border-color: transparent;
+  }
 }

@@ -4,7 +4,6 @@ SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.6 10.6">
     <path
@@ -33,5 +32,4 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     />
   </svg>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

@@ -67,7 +67,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :record-id="recordId"
             :show-edit="showEdit"
             :show-delete="showDelete"
-            :show-force-sync="showForceSync && hasSyncConfig((data as RecordActionsData).Source)"
+            :show-force-sync="
+              showForceSync && hasSyncConfig((data as RecordActionsData).Source)
+            "
             :show-push="showPush"
             :refetch="refetch"
           />

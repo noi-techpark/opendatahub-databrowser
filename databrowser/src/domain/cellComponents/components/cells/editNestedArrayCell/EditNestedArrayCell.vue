@@ -44,7 +44,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { DeprecationInfo, PropertyConfig } from '../../../../datasets/config/types';
+import {
+  DeprecationInfo,
+  PropertyConfig,
+} from '../../../../datasets/config/types';
 import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 import EditListCell from '../../utils/editList/EditListCell.vue';
 import EditNestedArrayTable from './EditNestedArrayTable.vue';
@@ -71,7 +74,9 @@ const props = withDefaults(
   }
 );
 
-const hideSettings = computed(() => booleanOrStringToBoolean(props.hideSettingsColumn));
+const hideSettings = computed(() =>
+  booleanOrStringToBoolean(props.hideSettingsColumn)
+);
 
 const emit = defineEmits<{
   update: [value: { prop: string; value: unknown[] }];

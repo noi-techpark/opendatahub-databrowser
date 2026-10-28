@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <!-- Desktop view -->
     <PopoverCustom class="hidden md:flex">
       <template #trigger>
-        <PopoverCustomButton class="rounded focus-visible:outline-offset-2">
+        <PopoverCustomButton class="rounded-sm focus-visible:outline-offset-2">
           <ProfileButton :username="auth.user?.name" />
         </PopoverCustomButton>
       </template>
@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </ExternalLink>
           <PopoverContentDivider />
           <button
-            class="flex w-full rounded p-4 hover:bg-gray-50 focus-visible:outline-offset-2"
+            class="flex w-full rounded-sm p-4 hover:bg-gray-50 focus-visible:outline-offset-2"
             data-test="user-profile-logout"
             @click="onLogout"
           >
@@ -57,21 +57,21 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     }}</HeaderButton>
     <PopoverCustom class="hidden h-8 md:flex">
       <template #trigger>
-        <PopoverCustomButton class="rounded focus-visible:outline-offset-2">
+        <PopoverCustomButton class="rounded-sm focus-visible:outline-offset-2">
           <ProfileButton />
         </PopoverCustomButton>
       </template>
       <template #container>
         <PopoverCustomPanel class="mt-1 w-56" :has-close-button="false">
           <button
-            class="flex w-full rounded p-4 hover:bg-gray-50 focus-visible:outline-offset-2"
+            class="flex w-full rounded-sm p-4 hover:bg-gray-50 focus-visible:outline-offset-2"
             @click="onLogin"
           >
             {{ t('auth.login') }}
           </button>
           <PopoverContentDivider />
           <button
-            class="flex w-full rounded p-4 hover:bg-gray-50 focus-visible:outline-offset-2"
+            class="flex w-full rounded-sm p-4 hover:bg-gray-50 focus-visible:outline-offset-2"
             @click="onRegister"
           >
             {{ t('auth.register') }}

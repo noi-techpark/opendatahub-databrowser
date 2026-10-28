@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="flex flex-col gap-2 overflow-auto md:flex">
-    <div class="flex flex-1 flex-col overflow-y-hidden rounded border">
+    <div class="flex flex-1 flex-col overflow-y-hidden rounded-sm border">
       <div class="flex items-center justify-center gap-2 p-2">
         <InputSearch
           id="search-dataset"
@@ -15,7 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           :show-confirm-button="false"
         />
       </div>
-      <div class="relative h-full overflow-y-auto overflow-x-hidden">
+      <div class="relative h-full overflow-x-hidden overflow-y-auto">
         <div
           v-if="mapViewStore.datasetsFetching"
           class="absolute inset-0 flex items-center justify-center transition-all"
@@ -41,7 +41,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         </template>
       </div>
     </div>
-    <MapViewHint class="rounded" />
+    <MapViewHint class="rounded-sm" />
   </div>
 </template>
 

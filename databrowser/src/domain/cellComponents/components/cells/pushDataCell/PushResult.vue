@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div class="flex flex-col gap-2">
     <template v-for="pushResult in pushResults" :key="pushResult.id">
       <div
-        class="flex flex-col rounded p-2 text-white"
+        class="flex flex-col rounded-sm p-2 text-white"
         :class="[
           pushResult.pushResponse.success ? 'bg-hint-info' : 'bg-hint-error',
         ]"

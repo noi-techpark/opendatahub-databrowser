@@ -4,7 +4,6 @@ SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
- 
 <!--
   Notice shown for datasets that are deprecated and have a known replacement.
  
@@ -17,7 +16,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div
     v-if="replacement"
     role="note"
-    class="rounded border-l-4 border-[#ffc107] bg-[#fff3cd] px-3 py-2.5 text-sm text-[#664d03]"
+    class="rounded-sm border-l-4 border-[#ffc107] bg-[#fff3cd] px-3 py-2.5 text-sm text-[#664d03]"
   >
     {{ DEPRECATION_SENTENCE }} Use the new dataset:
     <a

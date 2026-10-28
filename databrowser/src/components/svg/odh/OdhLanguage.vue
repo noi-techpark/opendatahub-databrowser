@@ -4,14 +4,14 @@ SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-
 <template>
   <svg
-      width="11.6"
-      height="10.94"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
-      viewBox="0 0 11.6 10.94">
+    width="11.6"
+    height="10.94"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 11.6 10.94"
+  >
     <path
       fill="none"
       stroke="currentColor"
@@ -37,7 +37,5 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       d="M5.8,.59c1.22,1.33,1.91,3.07,1.95,4.88-.04,1.81-.73,3.54-1.95,4.88-1.22-1.33-1.91-3.07-1.95-4.88,.04-1.81,.73-3.54,1.95-4.88Z"
     />
   </svg>
-
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

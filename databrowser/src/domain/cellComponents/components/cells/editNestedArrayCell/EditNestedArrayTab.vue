@@ -8,9 +8,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <EditListTab :items="items">
     <template #body="{ item, index }">
       <!-- Nested array container with visual border for clarity -->
-      <div class="rounded-lg border-l-4 border-green-500 pl-4 py-2">
+      <div class="rounded-lg border-l-4 border-green-500 py-2 pl-4">
         <!-- Debug: Show what we have -->
-        <div v-if="debugMode" class="rounded border border-yellow-300 bg-yellow-50 p-4">
+        <div
+          v-if="debugMode"
+          class="rounded-sm border border-yellow-300 bg-yellow-50 p-4"
+        >
           <div class="font-bold">Debug Info:</div>
           <div>Item index: {{ index }}</div>
           <div>Properties count: {{ properties.length }}</div>
@@ -35,7 +38,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :array-mapping="property.arrayMapping"
             :editable="editable"
             :emit-only="true"
-            @update="(update: any) => handleNestedUpdate(index, update, property)"
+            @update="
+              (update: any) => handleNestedUpdate(index, update, property)
+            "
           />
         </SubCategoryItem>
       </div>
@@ -46,10 +51,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </template>
 
     <template v-if="editable" #addItems>
-      <EditListAddButton
-        :text="'Add new item'"
-        @click="addNewItem"
-      />
+      <EditListAddButton :text="'Add new item'" @click="addNewItem" />
     </template>
   </EditListTab>
 </template>
@@ -61,7 +63,10 @@ import ComponentRenderer from '../../../../../components/componentRenderer/Compo
 import SubCategoryItem from '../../../../datasets/ui/category/SubCategoryItem.vue';
 import EditListTab from '../../utils/editList/tab/EditListTab.vue';
 import EditListAddButton from '../../utils/editList/EditListAddButton.vue';
-import { DeprecationInfo, PropertyConfig } from '../../../../datasets/config/types';
+import {
+  DeprecationInfo,
+  PropertyConfig,
+} from '../../../../datasets/config/types';
 import { useInjectNavigation } from '../../utils/editList/actions/useNavigation';
 import { useInjectActionTriggers } from '../../utils/editList/actions/useActions';
 import { useToolBoxStore } from '../../../../datasets/ui/toolBox/toolBoxStore';
@@ -90,7 +95,9 @@ const props = withDefaults(
  * Merge parent deprecation info with property's own deprecation info.
  * If the parent is deprecated, all nested properties should also show as deprecated.
  */
-const getMergedDeprecationInfo = (property: PropertyConfig | PropertyConfigWithValue): DeprecationInfo[] => {
+const getMergedDeprecationInfo = (
+  property: PropertyConfig | PropertyConfigWithValue
+): DeprecationInfo[] => {
   const parentInfo = props.parentDeprecationInfo ?? [];
   const propertyInfo = property.deprecationInfo ?? [];
   return [...parentInfo, ...propertyInfo];
@@ -109,7 +116,9 @@ const { computeProperties } = usePropertyComputation();
  * Compute properties with values for a specific array item.
  * Uses the same logic as SubCategories.vue via usePropertyComputation.
  */
-const getComputedPropertiesForItem = (item: unknown): PropertyConfigWithValue[] => {
+const getComputedPropertiesForItem = (
+  item: unknown
+): PropertyConfigWithValue[] => {
   return computeProperties(
     item,
     props.properties,

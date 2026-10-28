@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <tr v-for="rindex in rows" :key="rindex" class="w-full">
     <TableCell v-for="cindex in cells" :key="cindex">
-      <div class="h-5 w-2/3 animate-pulse rounded bg-gray-200"></div>
+      <div class="h-5 w-2/3 animate-pulse rounded-sm bg-gray-200"></div>
     </TableCell>
   </tr>
 </template>
