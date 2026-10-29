@@ -126,7 +126,9 @@ export const useMetaDataFromOpenApi = (
         // Filter out configs with not pathSegments
         .filter((config) => config.route.pathSegments.length > 1)
         // Filter out configs without table view
-        .filter((config) => config.views?.table != null);
+        .filter((config) => config.views?.table != null)
+        // Filter out configs that are explicitly ignored
+        .filter((config) => !isIgnoredOpenApiPath(config.route.pathSegments));
 
       // Must set loading to false here and cannot use "finish" of this promise, because
       // the "datasetConfigs" watch function is executed before the promise the "finish"
@@ -166,6 +168,28 @@ export const useMetaDataFromOpenApi = (
 
   return { metaData, isLoading, error };
 };
+
+// OpenAPI endpoints that should not be shown as datasets (e.g. utility
+// endpoints). Only applies to endpoints without MetaData entry, endpoints with
+// MetaData entry are always shown. Given as path, compared case-insensitive.
+const ignoredOpenApiPaths = [
+  '/v1/Area',
+  '/v1/Filter',
+  '/v1/Distinct',
+  '/v1/GeoConverter/KmlToGeoJson',
+  '/v1/GeoConverter/GpxToGeoJson',
+  '/v1/Location/Skiarea',
+  '/v1/FileUpload',
+  '/v1/FileUpload/Image',
+  '/v1/JsonLD/DetailInLD',
+];
+
+const ignoredOpenApiPathSet = new Set(
+  ignoredOpenApiPaths.map((path) => path.toLowerCase())
+);
+
+const isIgnoredOpenApiPath = (pathSegments: string[]) =>
+  ignoredOpenApiPathSet.has(`/${pathSegments.join('/')}`.toLowerCase());
 
 const buildMetaData = (config: DatasetConfig): TourismMetaData => ({
   id: config.route.pathSegments.join('/'),
