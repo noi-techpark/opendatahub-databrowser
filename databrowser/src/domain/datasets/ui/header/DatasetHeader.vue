@@ -146,7 +146,7 @@ import OdhFilter from '@/components/svg/odh/OdhFilter.vue';
 import OdhAttributes from '@/components/svg/odh/OdhAttributes.vue';
 import OdhExport from '@/components/svg/odh/OdhExport.vue';
 import ActionsLinksDropdown from '@/domain/datasets/ui/common/ActionsLinksDropdown.vue';
-import { useTableLoad } from '@/domain/datasets/ui/tableView/load/useTableLoad';
+import { useEventRefreshTable } from '@/domain/datasets/ui/tableView/useTableRefresh';
 import { useAuth } from '@/domain/auth/store/auth';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { usePublisherStore } from '@/domain/publisher/publisherStore';
@@ -216,9 +216,12 @@ const changeSource = async (value: DatasetConfigSource) => {
   }
 };
 
-const { refetch } = useTableLoad();
 const onRefresh = () => {
-  refetch();
+  if (isTableView.value) {
+    useEventRefreshTable.emit();
+  } else if (isDetailView.value) {
+    refetchRecord();
+  }
 };
 const onSync = () => {
   //TODO: implement sync all dataset
@@ -229,10 +232,15 @@ const isRecordView = computed(() => isDetailView.value || isEditView.value);
 const auth = useAuth();
 const isAuthenticated = computed(() => auth.isAuthenticated);
 
-const { data: rawRecordData } = useSingleRecordLoadData(
+// The record data is only needed for the record actions in the detail and
+// edit view. In all other views (e.g. table view) it must not be loaded,
+// otherwise the table data would be requested a second time
+const skipRecordLoad = computed(() => isNewView.value || !isRecordView.value);
+
+const { data: rawRecordData, refetch: refetchRecord } = useSingleRecordLoadData(
   datasetDomain,
   fullPath,
-  isNewView
+  skipRecordLoad
 );
 const recordData = computed(
   () => rawRecordData.value as RecordActionsData | undefined
