@@ -664,16 +664,34 @@ const dynamicFilters = computed(
     ] as DynamicFilter[]
 );
 
+// Remove spaces and punctuation, so that e.g. "skiarea" matches "Ski Area"
+const compact = (value: string) => value.replace(/[^\p{L}\p{N}]/gu, '');
+
 // Relevance of a dataset for a search term, 0 means no match.
 // Matches in the shortname rank higher than matches in the description.
 const getSearchScore = (dataset: TourismMetaData, searchTerm: string) => {
   const shortname = dataset.shortname.toLowerCase();
+  const compactShortname = compact(shortname);
+  const compactSearchTerm = compact(searchTerm);
+  const hasCompactSearchTerm = compactSearchTerm.length > 0;
 
-  if (shortname === searchTerm) return 5;
-  if (shortname.startsWith(searchTerm)) return 4;
+  if (
+    shortname === searchTerm ||
+    (hasCompactSearchTerm && compactShortname === compactSearchTerm)
+  )
+    return 5;
+  if (
+    shortname.startsWith(searchTerm) ||
+    (hasCompactSearchTerm && compactShortname.startsWith(compactSearchTerm))
+  )
+    return 4;
   if (shortname.split(/[^a-z0-9]+/).some((word) => word.startsWith(searchTerm)))
     return 3;
-  if (shortname.includes(searchTerm)) return 2;
+  if (
+    shortname.includes(searchTerm) ||
+    (hasCompactSearchTerm && compactShortname.includes(compactSearchTerm))
+  )
+    return 2;
   if (dataset.description?.toLowerCase().includes(searchTerm)) return 1;
   return 0;
 };

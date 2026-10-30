@@ -82,6 +82,7 @@ import PushDataDialog from '@/domain/cellComponents/components/cells/pushDataCel
 import SyncDataDialog from '@/domain/cellComponents/components/cells/syncDataConfigCell/SyncDataDialog.vue';
 import { useTableViewStore } from '@/domain/datasets/ui/tableView/tableViewStore';
 import { useAuth } from '@/domain/auth/store/auth.ts';
+import { useEventRefreshTable } from './useTableRefresh';
 
 const { t } = useI18n();
 
@@ -98,6 +99,9 @@ const {
   datasetDomain,
   refetch,
 } = useTableLoad();
+
+// Reload table data when requested, e.g. by the refresh action in the header
+useEventRefreshTable.on(() => refetch());
 
 const tableViewStore = useTableViewStore();
 const {
