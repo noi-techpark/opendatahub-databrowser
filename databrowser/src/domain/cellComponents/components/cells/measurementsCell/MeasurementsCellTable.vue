@@ -43,7 +43,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <TableCell>{{ item.mperiod }}</TableCell>
       <TableCell>{{ item.tmetadata }}</TableCell>
     </template>
-    <template #noItems>No webcams have been defined yet</template>
+    <template #noItems>No measurements available</template>
   </EditListTable>
 </template>
 
