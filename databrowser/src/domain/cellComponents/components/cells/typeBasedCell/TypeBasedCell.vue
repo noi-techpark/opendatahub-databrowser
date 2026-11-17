@@ -35,11 +35,9 @@ const props = withDefaults(
 
 const dataInfo = computed<{ type: string; data: unknown }>(() => {
   if (typeof props.data === 'string' || props.data instanceof String) {
-    // Check if string is a date
-    const parsedDate = parseISO(props.data as string);
-    const isValidDate = isValid(parsedDate);
+    const parsedDate = parseDateString(props.data as string);
 
-    return isValidDate
+    return parsedDate != null
       ? { type: 'date', data: format(parsedDate, DEFAULT_DATE_TIME_FORMAT) }
       : { type: 'string', data: props.data };
   }
@@ -54,4 +52,17 @@ const dataInfo = computed<{ type: string; data: unknown }>(() => {
   }
   return { type: 'object', data: JSON.stringify(props.data, null, 2) };
 });
+
+// Require at least a full calendar date (YYYY-MM-DD). parseISO alone also
+// accepts e.g. "2131" or "24" as years, which turns numeric station codes
+// into dates.
+const isoDatePrefix = /^\d{4}-\d{2}-\d{2}(?:$|[T ])/;
+
+const parseDateString = (value: string): Date | undefined => {
+  if (!isoDatePrefix.test(value)) {
+    return undefined;
+  }
+  const parsedDate = parseISO(value);
+  return isValid(parsedDate) ? parsedDate : undefined;
+};
 </script>
