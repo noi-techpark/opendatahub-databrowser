@@ -21,9 +21,13 @@ export const stationTypesListView: ListViewConfig = {
     },
     {
       title: 'Station coordinate',
-      component: CellComponent.TypeBasedCell,
+      component: CellComponent.GpsPointMap,
       class: 'w-60',
-      objectMapping: { data: 'scoordinate' },
+      objectMapping: {
+        latitude: 'scoordinate.y',
+        longitude: 'scoordinate.x',
+      },
+      params: { lazy: 'true' },
     },
     {
       title: 'Station metadata',

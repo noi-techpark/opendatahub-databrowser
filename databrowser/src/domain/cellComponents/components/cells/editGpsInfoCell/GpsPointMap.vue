@@ -10,12 +10,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       class="relative size-full"
       :class="{
         'flex cursor-pointer items-center justify-center bg-black':
-          !isFullscreen && preventInteraction,
+          !isFullscreen && preventInteraction && !lazy,
       }"
       @click="onContainerClick(isFullscreen)"
     >
       <IconExpanded
-        v-if="preventInteraction"
+        v-if="preventInteraction && !lazy"
         class="absolute text-white transition-all group-hover:scale-125"
       />
       <div
@@ -54,7 +54,26 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       >
         {{ t('datasets.editView.map.clickOnTheMapToSetGPSPoint') }}
       </div>
+      <button
+        v-if="lazy && !isFullscreen"
+        type="button"
+        class="flex w-full cursor-pointer items-center gap-2 rounded-sm border border-gray-300 px-2 py-1 text-left hover:border-green-400 disabled:cursor-default disabled:hover:border-gray-300"
+        :disabled="map.markers.length === 0"
+        :title="t('datasets.listView.showOnMap')"
+      >
+        <IconLocationOn class="size-4 shrink-0 text-green-400" />
+        <span v-if="map.center != null" class="grow text-sm">
+          {{ formatCoordinate(map.center.lat) }},
+          {{ formatCoordinate(map.center.lng) }}
+        </span>
+        <span v-else class="grow text-sm text-gray-500">-</span>
+        <IconExpand
+          v-if="map.markers.length > 0"
+          class="size-3 shrink-0 text-green-400"
+        />
+      </button>
       <SimpleMap
+        v-else
         :key="`map_${isFullscreen}`"
         :center="map.center"
         :markers="map.markers"
@@ -77,8 +96,11 @@ import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
 import UseFullscreen from '../../../../../components/fullscreen/UseFullscreen.vue';
 import { LatLngPosition } from '../../../../../components/map/types';
 import IconClose from '../../../../../components/svg/IconClose.vue';
+import IconExpand from '../../../../../components/svg/IconExpand.vue';
 import IconExpanded from '../../../../../components/svg/IconExpanded.vue';
+import IconLocationOn from '../../../../../components/svg/IconLocationOn.vue';
 import IconPencil from '../../../../../components/svg/IconPencil.vue';
+import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 
 // Dynamically import SimpleMap to improve code chunking
 const SimpleMap = defineAsyncComponent(() =>
@@ -106,8 +128,12 @@ const props = withDefaults(
     longitude?: string | number;
     fallbackCenter?: LatLngPosition;
     editable?: boolean;
-    preventInteraction?: boolean;
-    fullscreenOnClick?: boolean;
+    preventInteraction?: boolean | string;
+    fullscreenOnClick?: boolean | string;
+    // Only create the map once it is opened in fullscreen. Use this where many
+    // instances are rendered at once (e.g. table rows), because browsers limit
+    // the number of simultaneous WebGL contexts.
+    lazy?: boolean | string;
   }>(),
   {
     latitude: undefined,
@@ -116,10 +142,23 @@ const props = withDefaults(
     editable: false,
     preventInteraction: false,
     fullscreenOnClick: false,
+    lazy: false,
   }
 );
 
 const { latitude, longitude, fallbackCenter } = toRefs(props);
+
+// Table configs pass params as strings (e.g. 'true'), so normalize them
+const preventInteraction = computed(() =>
+  booleanOrStringToBoolean(props.preventInteraction, false)
+);
+const fullscreenOnClick = computed(() =>
+  booleanOrStringToBoolean(props.fullscreenOnClick, false)
+);
+const lazy = computed(() => booleanOrStringToBoolean(props.lazy, false));
+
+const formatCoordinate = (value: number) =>
+  Number.isFinite(value) ? value.toFixed(5) : '-';
 
 const map = computed<{
   center?: LatLngPosition;
@@ -176,7 +215,19 @@ const hideTooltip = () => {
 };
 
 const onContainerClick = (isFullscreen: boolean) => {
-  if (isFullscreen || !props.fullscreenOnClick) {
+  if (isFullscreen) {
+    return;
+  }
+
+  // In lazy mode the preview is the only way to reach the map
+  if (lazy.value) {
+    if (map.value.markers.length > 0) {
+      toggleFullscreen();
+    }
+    return;
+  }
+
+  if (!fullscreenOnClick.value) {
     return;
   }
 
