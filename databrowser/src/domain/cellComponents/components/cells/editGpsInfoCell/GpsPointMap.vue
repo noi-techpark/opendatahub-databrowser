@@ -54,24 +54,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       >
         {{ t('datasets.editView.map.clickOnTheMapToSetGPSPoint') }}
       </div>
-      <button
-        v-if="lazy && !isFullscreen"
-        type="button"
-        class="flex w-full cursor-pointer items-center gap-2 rounded-sm border border-gray-300 px-2 py-1 text-left hover:border-green-400 disabled:cursor-default disabled:hover:border-gray-300"
-        :disabled="map.markers.length === 0"
-        :title="t('datasets.listView.showOnMap')"
-      >
-        <IconLocationOn class="size-4 shrink-0 text-green-400" />
-        <span v-if="map.center != null" class="grow text-sm">
-          {{ formatCoordinate(map.center.lat) }},
-          {{ formatCoordinate(map.center.lng) }}
-        </span>
-        <span v-else class="grow text-sm text-gray-500">-</span>
-        <IconExpand
+      <template v-if="lazy && !isFullscreen">
+        <button
           v-if="map.markers.length > 0"
-          class="size-3 shrink-0 text-green-400"
-        />
-      </button>
+          type="button"
+          class="group/preview relative block w-full cursor-pointer overflow-hidden rounded-sm border border-gray-300 hover:border-green-400"
+          :title="t('datasets.listView.showOnMap')"
+        >
+          <MapSnapshotPreview :position="map.markers[0]" :zoom="12" />
+          <span
+            class="absolute top-1 right-1 rounded-sm bg-white p-1 shadow-sm transition-transform group-hover/preview:scale-110"
+          >
+            <IconExpand class="size-3 text-green-400" />
+          </span>
+        </button>
+        <span v-else class="text-sm text-gray-500">-</span>
+      </template>
       <SimpleMap
         v-else
         :key="`map_${isFullscreen}`"
@@ -94,11 +92,11 @@ import { computed, defineAsyncComponent, ref, toRefs, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
 import UseFullscreen from '../../../../../components/fullscreen/UseFullscreen.vue';
+import MapSnapshotPreview from '../../../../../components/map/snapshot/MapSnapshotPreview.vue';
 import { LatLngPosition } from '../../../../../components/map/types';
 import IconClose from '../../../../../components/svg/IconClose.vue';
 import IconExpand from '../../../../../components/svg/IconExpand.vue';
 import IconExpanded from '../../../../../components/svg/IconExpanded.vue';
-import IconLocationOn from '../../../../../components/svg/IconLocationOn.vue';
 import IconPencil from '../../../../../components/svg/IconPencil.vue';
 import { booleanOrStringToBoolean } from '../../../../utils/convertType';
 
@@ -156,9 +154,6 @@ const fullscreenOnClick = computed(() =>
   booleanOrStringToBoolean(props.fullscreenOnClick, false)
 );
 const lazy = computed(() => booleanOrStringToBoolean(props.lazy, false));
-
-const formatCoordinate = (value: number) =>
-  Number.isFinite(value) ? value.toFixed(5) : '-';
 
 const map = computed<{
   center?: LatLngPosition;

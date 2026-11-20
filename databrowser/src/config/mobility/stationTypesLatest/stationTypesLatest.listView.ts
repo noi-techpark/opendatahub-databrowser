@@ -60,12 +60,6 @@ export const stationTypesLatestListView: ListViewConfig = {
       params: { lazy: 'true' },
     },
     {
-      title: 'Station Metadata',
-      component: CellComponent.TypeBasedCell,
-      class: 'w-80',
-      objectMapping: { data: 'smetadata' },
-    },
-    {
       title: 'Station Type',
       component: CellComponent.StringCell,
       class: 'w-40',
