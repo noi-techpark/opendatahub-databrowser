@@ -98,9 +98,21 @@ export const metaDataSharedView = (): DetailViewConfig | EditViewConfig => ({
           properties: [
             {
               title: 'Count',
-              component: CellComponent.JsonCell,
-              objectMapping: { data: 'RecordCount' },
-              params: { usePreformatted: 'true' },
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'RecordCount.Total' },
+              params: { readonly: 'true' },
+            },
+            {
+              title: 'Reduced',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'RecordCount.reduced' },
+              params: { readonly: 'true' },
+            },
+            {
+              title: 'Closed',
+              component: CellComponent.StringCell,
+              objectMapping: { text: 'RecordCount.closed' },
+              params: { readonly: 'true' },
             },
           ],
         },
