@@ -16,11 +16,11 @@ const REPLACEMENTS: Record<string, { url: string; label: string }> = {
   'e-charging plugs by neogy': {
     url: 'https://databrowser.opendatahub.com/dataset-overview/db24af5e-1bd0-498e-952d-24d5153b90da',
     label: 'New E-charging plugs by Neogy-AMPECO',
-  },
-  'e-charging stations by driwe': {
-    url: 'https://databrowser.opendatahub.com/dataset-overview/db24af5e-1bd0-498e-952d-24d5153b90da',
-    label: 'New E-charging stations by DRIWE-OCPI',
-  },
+  }
+  // 'e-charging stations by driwe': {
+  //   url: 'https://databrowser.opendatahub.com/dataset-overview/db24af5e-1bd0-498e-952d-24d5153b90da',
+  //   label: 'New E-charging stations by DRIWE-OCPI',
+  // },
 };
 
 // Names can contain double spaces, so whitespace is normalized before lookup.
