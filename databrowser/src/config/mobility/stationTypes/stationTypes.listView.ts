@@ -29,12 +29,6 @@ export const stationTypesListView: ListViewConfig = {
       },
     },
     {
-      title: 'Station metadata',
-      component: CellComponent.TypeBasedCell,
-      class: 'w-80',
-      objectMapping: { data: 'smetadata' },
-    },
-    {
       title: 'Station type',
       component: CellComponent.StringCell,
       class: 'w-40',
