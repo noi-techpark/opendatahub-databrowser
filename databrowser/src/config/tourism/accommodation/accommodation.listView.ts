@@ -36,11 +36,16 @@ export const accommodationListView: ListViewConfig = {
       },
     },
     {
-      title: 'Category',
-      component: CellComponent.StringCell,
+      title: 'Tags',
+      component: CellComponent.ArrayTagsCell,
       class: 'w-48',
       objectMapping: {
-        text: 'AccoCategoryId',
+        items: 'Tags',
+      },
+      params: {
+        propertyName: 'Name',
+        separator: ', ',
+        max: '5',
       },
     },
     ...locationTableCellsAll({
@@ -48,18 +53,7 @@ export const accommodationListView: ListViewConfig = {
       showTourismAssociation: false,
       showMunicipality: true,
       showDistrict: false,
-    }),
-    {
-      title: 'Badges',
-      component: CellComponent.ArrayCell,
-      class: 'w-48',
-      objectMapping: {
-        items: 'BadgeIds',
-      },
-      params: {
-        separator: ', ',
-      },
-    },
+    }),    
     lastPushTableCell(true),
     lastSyncTableCell(true),
     {
@@ -72,18 +66,7 @@ export const accommodationListView: ListViewConfig = {
       params: {
         separator: ', ',
       },
-    },
-    {
-      title: 'Tags',
-      component: CellComponent.ArrayCell,
-      class: 'w-48',
-      objectMapping: {
-        items: 'SmgTags',
-      },
-      params: {
-        separator: ', ',
-      },
-    },
+    },    
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

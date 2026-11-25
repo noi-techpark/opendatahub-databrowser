@@ -34,17 +34,6 @@ export const odhActivityPoiListView: ListViewConfig = {
         max: '5',
       },
     },
-    // {
-    //   title: 'Categories',
-    //   component: CellComponent.ArrayCell,
-    //   class: 'w-52',
-    //   objectMapping: {
-    //     items: 'AdditionalPoiInfos.{language}.Categories',
-    //   },
-    //   params: {
-    //     separator: ', ',
-    //   },
-    // },
     ...locationTableCellsAll({
       showRegion: false,
       showTourismAssociation: false,
@@ -52,18 +41,7 @@ export const odhActivityPoiListView: ListViewConfig = {
       showDistrict: true,
     }),
     lastSyncTableCell(true, 'Detail.{language}.Title'),
-    gpsDataShortTableCell(),
-    {
-      title: 'ODH Tags',
-      component: CellComponent.ArrayCell,
-      class: 'w-48',
-      objectMapping: {
-        items: 'SmgTags',
-      },
-      params: {
-        separator: ', ',
-      },
-    },
+    gpsDataShortTableCell(),    
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),
