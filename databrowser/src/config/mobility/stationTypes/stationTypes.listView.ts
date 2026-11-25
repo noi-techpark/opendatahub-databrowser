@@ -21,9 +21,12 @@ export const stationTypesListView: ListViewConfig = {
     },
     {
       title: 'Station coordinate',
-      component: CellComponent.TypeBasedCell,
-      class: 'w-60',
-      objectMapping: { data: 'scoordinate' },
+      component: CellComponent.GeoDataCell,
+      class: 'w-48',
+      objectMapping: {
+        latitude: 'scoordinate.y',
+        longitude: 'scoordinate.x',
+      },
     },
     {
       title: 'Station metadata',
