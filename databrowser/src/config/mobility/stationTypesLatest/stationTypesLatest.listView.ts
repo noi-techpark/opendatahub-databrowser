@@ -57,7 +57,7 @@ export const stationTypesLatestListView: ListViewConfig = {
     },
     {
       title: 'Station Metadata',
-      component: CellComponent.TypeBasedCell,
+      component: CellComponent.JsonPreviewCell,
       class: 'w-80',
       objectMapping: { data: 'smetadata' },
     },
@@ -123,7 +123,7 @@ export const stationTypesLatestListView: ListViewConfig = {
     },
     {
       title: 'Measurement Metadata',
-      component: CellComponent.TypeBasedCell,
+      component: CellComponent.JsonPreviewCell,
       class: 'w-80',
       objectMapping: { data: 'tmetadata' },
     },
@@ -159,7 +159,7 @@ export const stationTypesLatestListView: ListViewConfig = {
     },
     {
       title: 'Parent Metadata',
-      component: CellComponent.TypeBasedCell,
+      component: CellComponent.JsonPreviewCell,
       class: 'w-80',
       objectMapping: { data: 'pmetadata' },
     },

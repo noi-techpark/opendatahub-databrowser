@@ -27,7 +27,7 @@ export const stationTypesListView: ListViewConfig = {
     },
     {
       title: 'Station metadata',
-      component: CellComponent.TypeBasedCell,
+      component: CellComponent.JsonPreviewCell,
       class: 'w-80',
       objectMapping: { data: 'smetadata' },
     },

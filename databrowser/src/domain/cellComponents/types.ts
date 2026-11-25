@@ -44,6 +44,8 @@ export enum CellComponent {
   ImageEditCell = 'ImageEditCell',
   ImageGalleryCell = 'ImageGalleryCell',
   JsonCell = 'JsonCell',
+  JsonPreviewCell = 'JsonPreviewCell',
+  JsonViewerCell = 'JsonViewerCell',
   LoadingCell = 'LoadingCell',
   MappingCell = 'MappingCell',
   MeasurementsCell = 'MeasurementsCell',

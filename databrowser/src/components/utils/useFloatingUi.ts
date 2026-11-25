@@ -19,6 +19,9 @@ export interface UseFloatingUi {
   offset?: number;
   leftOffset?: number;
   arrow?: Ref<HTMLElement>;
+  // Limit the tooltip width to this value and to the space available in the
+  // viewport, so wide tooltips never overflow the screen
+  maxWidth?: number;
 }
 
 export const useFloatingUi = (
@@ -120,6 +123,21 @@ const buildMiddleware = (
         apply({ rects }) {
           Object.assign(options.tooltipEl.style, {
             width: `${rects.reference.width}px`,
+          });
+        },
+      })
+    );
+  }
+
+  // Add max width middleware if settings exist
+  if (options.maxWidth != null) {
+    const maxWidth = options.maxWidth;
+    middleware.push(
+      size({
+        padding: 5,
+        apply({ availableWidth }) {
+          Object.assign(options.tooltipEl.style, {
+            maxWidth: `${Math.min(availableWidth, maxWidth)}px`,
           });
         },
       })

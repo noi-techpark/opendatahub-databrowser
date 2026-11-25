@@ -626,6 +626,14 @@
         "title": "Update property.",
         "description": "When changing the type of this property, all data linked to it be lost. Do you want to continue?"
       }
+    },
+    "jsonViewer": {
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all",
+      "copyJson": "Copy JSON",
+      "copied": "Copied!",
+      "openFullscreen": "Show JSON in fullscreen",
+      "close": "Close"
     }
   },
   "overview": {

@@ -21,9 +21,8 @@ export const representationSharedView = ():
           properties: [
             {
               title: 'JSON',
-              component: CellComponent.JsonCell,
+              component: CellComponent.JsonViewerCell,
               objectMapping: { data: 'data' },
-              params: { usePreformatted: 'true' },
             },
             {
               title: 'Details',
