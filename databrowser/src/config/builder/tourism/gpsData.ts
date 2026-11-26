@@ -50,3 +50,14 @@ export const gpsDataShortTableCell = (): PropertyConfig => ({
     longitude: 'GpsPoints.position.Longitude',
   },
 });
+
+// Map preview of the first GpsInfo entry
+export const gpsMapTableCell = (): PropertyConfig => ({
+  title: 'Map',
+  component: CellComponent.GeoDataCell,
+  class: 'w-48',
+  objectMapping: {
+    latitude: 'GpsInfo.0.Latitude',
+    longitude: 'GpsInfo.0.Longitude',
+  },
+});

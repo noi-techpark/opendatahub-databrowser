@@ -220,6 +220,7 @@
     },
     "listView": {
       "colDetail": "Detail",
+      "showOnMap": "Show on map",
       "go": "GO",
       "perPage": "per page",
       "pp": "p.p.",

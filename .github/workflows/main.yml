@@ -23,13 +23,19 @@ jobs:
           working-directory: databrowser
           node-version: ${{ env.NODE_VERSION }}
 
+  # Deploy test (https://databrowser.opendatahub.testingmachine.eu) on Kubernetes
+  # (Scaleway Kapsule, namespace core), from main. Chart: infrastructure/helm/databrowser,
+  # values: infrastructure/helm/test.yaml (ingress host, resources). Keycloak
+  # (auth.opendatahub.testingmachine.eu, hosted on Scaleway): the client
+  # it.bz.opendatahub.databrowser needs the redirect URI below.
+  # The VITE_APP_* values are baked into the image at build time.
   deploy-test:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/main'
     needs: test
+    environment: test
     concurrency: deploy-test
     env:
-      SERVER_PORT: 1005
       DOCKER_TAG: ${{ github.sha }}-test
       VITE_APP_KEYCLOAK_URL: "https://auth.opendatahub.testingmachine.eu/auth"
       VITE_APP_KEYCLOAK_REALM: "noi"
@@ -48,30 +54,26 @@ jobs:
         with:
           working-directory: databrowser
           node-version: ${{ env.NODE_VERSION }}
-      - name: Create .env file
-        uses: noi-techpark/github-actions/env-file@v2
-        with:
-          working-directory: ${{ env.WORKING_DIRECTORY }}
-        env:
-          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
-          X_SERVER_PORT: ${{ env.SERVER_PORT }}
-          X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
-          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
       - name: Build and push images
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
           working-directory: infrastructure
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploy application
-        uses: noi-techpark/github-actions/docker-deploy@v2
+      - name: Customize test.yaml
+        run: |
+          yq -i '.image.repository="${{ env.DOCKER_IMAGE }}"' infrastructure/helm/test.yaml
+          yq -i '.image.tag="${{ env.DOCKER_TAG }}"' infrastructure/helm/test.yaml
+          yq -i '.image.pullPolicy="IfNotPresent"' infrastructure/helm/test.yaml
+      - name: Deploy on cluster
+        uses: noi-techpark/github-actions/helm-deploy-scw@v3
         with:
-          working-directory: infrastructure/ansible
-          hosts: "test"
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          docker-username: "noi-techpark-bot"
-          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          project-name: ${{ env.PROJECT_NAME }}
+          k8s-name: databrowser
+          k8s-namespace: core
+          chart-path: infrastructure/helm/databrowser
+          values-file: infrastructure/helm/test.yaml
+          scw-access-key: ${{ secrets.SCW_DEV_ACCESS_KEY_ID }}
+          scw-secret-key: ${{ secrets.SCW_DEV_ACCESS_KEY_SECRET }}
 
   # deploy-beta:
   #   runs-on: ubuntu-22.04

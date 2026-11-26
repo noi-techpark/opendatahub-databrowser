@@ -13,6 +13,7 @@ import {
   sourceTableCell,
   lastPushTableCell,
   lastSyncTableCell,
+  gpsMapTableCell,
   locationTableCellsAll,
 } from '../../builder/tourism';
 
@@ -49,6 +50,7 @@ export const accommodationListView: ListViewConfig = {
       showMunicipality: true,
       showDistrict: false,
     }),
+    gpsMapTableCell(),
     {
       title: 'Badges',
       component: CellComponent.ArrayCell,
@@ -59,9 +61,8 @@ export const accommodationListView: ListViewConfig = {
       params: {
         separator: ', ',
       },
+      hidden: true,
     },
-    lastPushTableCell(true),
-    lastSyncTableCell(true),
     {
       title: 'Themes',
       component: CellComponent.ArrayCell,
@@ -72,6 +73,7 @@ export const accommodationListView: ListViewConfig = {
       params: {
         separator: ', ',
       },
+      hidden: true,
     },
     {
       title: 'Tags',
@@ -96,6 +98,8 @@ export const accommodationListView: ListViewConfig = {
       },
     },
     publishedOnTableCell(),
+    lastPushTableCell(true),
+    lastSyncTableCell(true),
     pushDataTableCell(),
   ],
 };
