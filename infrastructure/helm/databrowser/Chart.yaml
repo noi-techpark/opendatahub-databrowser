@@ -1,0 +1,10 @@
+apiVersion: v2
+name: databrowser
+description: Helm chart for the Open Data Hub Databrowser (static SPA served by nginx)
+type: application
+
+# Chart version, increment on changes to the chart/templates (SemVer).
+version: 1.0.0
+
+# The deployed image tag is set by the CI workflow (image.tag), this is only the fallback.
+appVersion: "1.0.0"

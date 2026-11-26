@@ -1,0 +1,43 @@
+# Test environment values for the databrowser chart (Scaleway Kapsule, namespace core).
+#
+# image.repository / image.tag / image.pullPolicy are overwritten by the GitHub
+# Actions workflow (yq) at deploy time.
+
+image:
+  repository: ghcr.io/noi-techpark/opendatahub-databrowser/opendatahub-databrowser
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+# The GHCR package is pulled with credentials (as on the Docker servers), so treat it
+# as private. This secret already exists in the `core` namespace (see infra-v2 docs/secrets.md).
+imagePullSecrets:
+  - name: container-registry-r
+
+replicaCount: 1
+
+# Measured on the Scaleway Docker server (docker01-test, Nov 2026): nginx master + 4
+# workers use ~16 MB RSS in total and ~0% CPU. 128Mi leaves ample headroom.
+# Memory request == limit so the pod is protected from node-pressure eviction.
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    memory: 128Mi
+
+service:
+  type: ClusterIP
+  port: 80
+  targetport: http
+  containerport: 80
+
+# TLS is terminated in front of the cluster (Caddy proxy), as for the other test services.
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: databrowser.opendatahub.testingmachine.eu
+      paths:
+        - path: "/"
+          pathType: Prefix

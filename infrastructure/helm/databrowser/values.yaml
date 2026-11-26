@@ -1,0 +1,51 @@
+# Default values for databrowser.
+# Environment specific values live in infrastructure/helm/<env>.yaml.
+#
+# The databrowser is a static SPA served by nginx. All runtime configuration
+# (Keycloak, API URLs, ...) is baked into the image at build time through the
+# VITE_APP_* variables, so there is no env/secret configuration here.
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/noi-techpark/opendatahub-databrowser/opendatahub-databrowser
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetport: http
+  containerport: 80
+
+# Liveness/readiness probe tuning (HTTP GET on /).
+health:
+  path: /
+  delay: 2
+  failureThreshold: 3
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
