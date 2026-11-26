@@ -41,16 +41,6 @@ export const gpsDataCategory = (): DetailElements => ({
   ],
 });
 
-export const gpsDataShortTableCell = (): PropertyConfig => ({
-  title: 'GPS Data',
-  component: CellComponent.GpsPointsCell,
-  class: 'w-48',
-  objectMapping: {
-    latitude: 'GpsPoints.position.Latitude',
-    longitude: 'GpsPoints.position.Longitude',
-  },
-});
-
 // Map preview of the first GpsInfo entry
 export const gpsMapTableCell = (): PropertyConfig => ({
   title: 'Map',

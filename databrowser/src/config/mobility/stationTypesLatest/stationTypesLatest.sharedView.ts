@@ -136,30 +136,11 @@ export const stationTypesLatestSharedView = ():
           properties: [
             {
               title: '',
-              component: CellComponent.GpsPointsCell,
+              component: CellComponent.GpsPointWithMapCell,
               objectMapping: {
                 latitude: 'data.0.scoordinate.y',
                 longitude: 'data.0.scoordinate.x',
-              },
-            },
-            {
-              title: 'srid',
-              component: CellComponent.StringCell,
-              objectMapping: {
-                text: 'data.0.scoordinate.srid',
-              },
-            },
-          ],
-        },
-        {
-          name: 'Map',
-          properties: [
-            {
-              title: '',
-              component: CellComponent.GpsPointMap,
-              objectMapping: {
-                latitude: 'data.0.scoordinate.y',
-                longitude: 'data.0.scoordinate.x',
+                srid: 'data.0.scoordinate.srid',
               },
             },
           ],
@@ -274,30 +255,11 @@ export const stationTypesLatestSharedView = ():
           properties: [
             {
               title: '',
-              component: CellComponent.GpsPointsCell,
+              component: CellComponent.GpsPointWithMapCell,
               objectMapping: {
                 latitude: 'data.0.pcoordinate.y',
                 longitude: 'data.0.pcoordinate.x',
-              },
-            },
-            {
-              title: 'srid',
-              component: CellComponent.StringCell,
-              objectMapping: {
-                text: 'data.0.pcoordinate.srid',
-              },
-            },
-          ],
-        },
-        {
-          name: 'Map',
-          properties: [
-            {
-              title: '',
-              component: CellComponent.GpsPointMap,
-              objectMapping: {
-                latitude: 'data.0.pcoordinate.y',
-                longitude: 'data.0.pcoordinate.x',
+                srid: 'data.0.pcoordinate.srid',
               },
             },
           ],

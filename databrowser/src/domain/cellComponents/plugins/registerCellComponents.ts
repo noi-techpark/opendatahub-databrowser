@@ -37,6 +37,7 @@ import EditVideoItemsCell from '../components/cells/editVideoItemsCell/EditVideo
 import EventDocumentCell from '../components/cells/eventDocumentCell/EventDocumentCell.vue';
 import GeoDataMap from '../components/cells/editGeoDataCell/GeoDataMap.vue';
 import GpsPointsCell from '../components/cells/gpsPointsCell/GpsPointsCell.vue';
+import GpsPointWithMapCell from '../components/cells/gpsPointsCell/GpsPointWithMapCell.vue';
 import GeoDataCell from '../components/cells/geoDataCell/GeoDataCell.vue';
 import HtmlCell from '../components/cells/htmlCell/HtmlCell.vue';
 import ImageCell from '../components/cells/imageCell/ImageCell.vue';
@@ -188,6 +189,11 @@ export const registeredComponents: readonly RegisteredComponent[] = [
   ],
   [CellComponent.GpsPointMap, GpsPointMap, { supportsTableView: true }],
   [CellComponent.GpsPointsCell, GpsPointsCell, { supportsTableView: true }],
+  [
+    CellComponent.GpsPointWithMapCell,
+    GpsPointWithMapCell,
+    { supportsTableView: false },
+  ],
   [CellComponent.HtmlCell, HtmlCell, { supportsTableView: true }],
   [
     CellComponent.InputReferenceCell,

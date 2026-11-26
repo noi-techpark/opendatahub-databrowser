@@ -5,7 +5,7 @@
 import { CellComponent } from '../../../domain/cellComponents/types';
 import { ListViewConfig } from '../../../domain/datasets/config/types';
 import {
-  gpsDataShortTableCell,
+  gpsMapTableCell,
   imageTableCell,
   languageTableCell,
   lastChangesTableCell,
@@ -52,7 +52,7 @@ export const odhActivityPoiListView: ListViewConfig = {
       showDistrict: true,
     }),
     lastSyncTableCell(true, 'Detail.{language}.Title'),
-    gpsDataShortTableCell(),
+    gpsMapTableCell(),
     // {
     //   title: 'ODH Tags',
     //   component: CellComponent.ArrayCell,

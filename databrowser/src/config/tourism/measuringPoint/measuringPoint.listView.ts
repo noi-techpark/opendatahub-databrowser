@@ -5,7 +5,7 @@
 import { CellComponent } from '../../../domain/cellComponents/types';
 import { ListViewConfig } from '../../../domain/datasets/config/types';
 import {
-  gpsDataShortTableCell,
+  gpsMapTableCell,
   lastChangesTableCell,
   odhActiveTableCell,
   sourceTableCell,
@@ -56,7 +56,7 @@ export const measuringPointListView: ListViewConfig = {
         text: 'Temperature',
       },
     },
-    gpsDataShortTableCell(),
+    gpsMapTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),
     odhActiveTableCell(),
