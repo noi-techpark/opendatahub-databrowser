@@ -53,17 +53,17 @@ export const odhActivityPoiListView: ListViewConfig = {
     }),
     lastSyncTableCell(true, 'Detail.{language}.Title'),
     gpsDataShortTableCell(),
-    {
-      title: 'ODH Tags',
-      component: CellComponent.ArrayCell,
-      class: 'w-48',
-      objectMapping: {
-        items: 'SmgTags',
-      },
-      params: {
-        separator: ', ',
-      },
-    },
+    // {
+    //   title: 'ODH Tags',
+    //   component: CellComponent.ArrayCell,
+    //   class: 'w-48',
+    //   objectMapping: {
+    //     items: 'SmgTags',
+    //   },
+    //   params: {
+    //     separator: ', ',
+    //   },
+    // },
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

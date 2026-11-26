@@ -51,15 +51,12 @@ export const stationTypesLatestListView: ListViewConfig = {
     },
     {
       title: 'Station Coordinate',
-      component: CellComponent.TypeBasedCell,
-      class: 'w-80',
-      objectMapping: { data: 'scoordinate' },
-    },
-    {
-      title: 'Station Metadata',
-      component: CellComponent.TypeBasedCell,
-      class: 'w-80',
-      objectMapping: { data: 'smetadata' },
+      component: CellComponent.GeoDataCell,
+      class: 'w-48',
+      objectMapping: {
+        latitude: 'scoordinate.y',
+        longitude: 'scoordinate.x',
+      },
     },
     {
       title: 'Station Type',
@@ -153,9 +150,12 @@ export const stationTypesLatestListView: ListViewConfig = {
     },
     {
       title: 'Parent Coordinate',
-      component: CellComponent.TypeBasedCell,
-      class: 'w-80',
-      objectMapping: { data: 'pcoordinate' },
+      component: CellComponent.GeoDataCell,
+      class: 'w-48',
+      objectMapping: {
+        latitude: 'pcoordinate.y',
+        longitude: 'pcoordinate.x',
+      },
     },
     {
       title: 'Parent Metadata',

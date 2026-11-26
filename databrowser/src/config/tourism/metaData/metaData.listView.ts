@@ -43,10 +43,9 @@ export const metaDataListView: ListViewConfig = {
     },
     {
       title: 'Count',
-      component: CellComponent.JsonCell,
-      class: 'w-60',
-      objectMapping: { data: 'RecordCount' },
-      params: { usePreformatted: 'true' },
+      component: CellComponent.StringCell,
+      class: 'w-32',
+      objectMapping: { text: 'RecordCount.Total' },
     },
     {
       title: 'Deprecated',

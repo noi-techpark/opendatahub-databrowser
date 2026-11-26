@@ -108,11 +108,17 @@ export const stationTypesLatestSharedView = ():
             },
           ],
         },
+      ],
+    },
+    {
+      name: 'Metadata',
+      slug: 'metadata',
+      subcategories: [
         {
-          name: 'Metadata',
+          name: 'Station metadata',
           properties: [
             {
-              title: 'JSON',
+              title: '',
               component: CellComponent.JsonCell,
               objectMapping: { data: 'data.0.smetadata' },
               params: { usePreformatted: 'true' },
