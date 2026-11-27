@@ -6,11 +6,25 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div
-    class="pointer-events-none relative overflow-hidden rounded-md border border-gray-300 bg-white shadow-lg"
+    class="relative overflow-hidden rounded-md border border-gray-300 bg-white shadow-lg"
   >
+    <ButtonCustom
+      variant="ghost"
+      size="xs"
+      class="absolute top-2 right-2 flex size-6 items-center justify-center bg-white"
+      :title="
+        copied
+          ? t('components.jsonViewer.copied')
+          : t('components.jsonViewer.copyJson')
+      "
+      @click="copy(JSON.stringify(data, null, 2))"
+    >
+      <IconCopy v-if="!copied" class="size-3.5" />
+      <IconCheck v-else class="size-3.5" />
+    </ButtonCustom>
     <pre
       ref="pre"
-      class="max-h-[60vh] overflow-hidden p-3 font-mono text-xs leading-snug break-all whitespace-pre-wrap"
+      class="max-h-[60vh] overflow-hidden p-3 pr-10 font-mono text-xs leading-snug break-all whitespace-pre-wrap"
     ><span
         v-for="(token, index) in tokens"
         :key="index"
@@ -28,6 +42,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import { useClipboard } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
+import ButtonCustom from '../../../../../components/button/ButtonCustom.vue';
+import IconCheck from '../../../../../components/svg/IconCheck.vue';
+import IconCopy from '../../../../../components/svg/IconCopy.vue';
+import { tokenClasses, tokenize } from './jsonTokens';
 
 // Read-only preview of JSON data with simple syntax highlighting, shown on
 // hover in table views. Very long JSON is cut off after MAX_LINES lines.
@@ -35,16 +55,8 @@ const props = defineProps<{ data: unknown }>();
 
 const MAX_LINES = 60;
 
-type TokenType = 'key' | 'string' | 'number' | 'literal' | 'other';
-
-// Colors similar to Monaco's "vs" theme
-const tokenClasses: Record<TokenType, string> = {
-  key: 'text-[#a31515]',
-  string: 'text-[#0451a5]',
-  number: 'text-[#098658]',
-  literal: 'text-[#0000ff]',
-  other: 'text-gray-700',
-};
+const { t } = useI18n();
+const { copy, copied } = useClipboard();
 
 const pre = ref<HTMLElement>();
 const isCutOff = ref(false);
@@ -62,34 +74,4 @@ const tokens = computed(() => {
       : lines.join('\n');
   return tokenize(text);
 });
-
-// Strings followed by a colon are keys
-const tokenPattern =
-  /("(?:\\.|[^"\\])*")(\s*:)?|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|\b(true|false|null)\b/g;
-
-const tokenize = (text: string): { text: string; type: TokenType }[] => {
-  const result: { text: string; type: TokenType }[] = [];
-  let lastIndex = 0;
-  for (const match of text.matchAll(tokenPattern)) {
-    if (match.index > lastIndex) {
-      result.push({ text: text.slice(lastIndex, match.index), type: 'other' });
-    }
-    const [, str, colon, num, literal] = match;
-    if (str != null) {
-      result.push({ text: str, type: colon != null ? 'key' : 'string' });
-      if (colon != null) {
-        result.push({ text: colon, type: 'other' });
-      }
-    } else if (num != null) {
-      result.push({ text: num, type: 'number' });
-    } else if (literal != null) {
-      result.push({ text: literal, type: 'literal' });
-    }
-    lastIndex = match.index + match[0].length;
-  }
-  if (lastIndex < text.length) {
-    result.push({ text: text.slice(lastIndex), type: 'other' });
-  }
-  return result;
-};
 </script>

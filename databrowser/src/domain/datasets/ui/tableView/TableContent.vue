@@ -51,7 +51,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <TableCell
           v-for="(col, colIndex) in cols"
           :key="col.title"
-          class="mix-blend-multiply"
+          class="relative mix-blend-multiply"
         >
           <ComponentRenderer
             :tag-name="col.component"
