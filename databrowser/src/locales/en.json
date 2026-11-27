@@ -221,6 +221,8 @@
     "listView": {
       "colDetail": "Detail",
       "showOnMap": "Show on map",
+      "map": "Map",
+      "closeMap": "Close map",
       "go": "GO",
       "perPage": "per page",
       "pp": "p.p.",

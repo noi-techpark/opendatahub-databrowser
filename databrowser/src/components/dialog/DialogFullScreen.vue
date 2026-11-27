@@ -14,7 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     >
       <DialogOverlay />
       <div class="fixed inset-0 overflow-y-auto">
-        <div class="h-full p-2">
+        <div class="h-full p-2" :class="{ 'md:px-[15%] md:py-12': inset }">
           <DialogPanelTransitionChild>
             <DialogPanel
               class="flex h-full w-full flex-col overflow-auto rounded-sm bg-white align-middle shadow-xl transition-all"
@@ -36,7 +36,12 @@ import DialogPanelTransitionChild from './DialogPanelTransitionChild.vue';
 
 const emit = defineEmits<{ (e: 'close'): void }>();
 
-withDefaults(defineProps<{ isOpen: boolean; zIndex?: number }>(), {
-  zIndex: 1000,
-});
+// inset: leaves a margin around the panel on desktop instead of filling the screen
+withDefaults(
+  defineProps<{ isOpen: boolean; zIndex?: number; inset?: boolean }>(),
+  {
+    zIndex: 1000,
+    inset: false,
+  }
+);
 </script>
