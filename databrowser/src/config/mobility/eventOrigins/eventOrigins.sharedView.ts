@@ -93,20 +93,7 @@ export const eventOriginsSharedView = ():
           properties: [
             {
               title: '',
-              component: CellComponent.GpsPointsCell,
-              objectMapping: {
-                latitude: 'data.0.evlgeometry.coordinates.1',
-                longitude: 'data.0.evlgeometry.coordinates.0',
-              },
-            },
-          ],
-        },
-        {
-          name: 'Map',
-          properties: [
-            {
-              title: '',
-              component: CellComponent.GpsPointMap,
+              component: CellComponent.GpsPointWithMapCell,
               objectMapping: {
                 latitude: 'data.0.evlgeometry.coordinates.1',
                 longitude: 'data.0.evlgeometry.coordinates.0',

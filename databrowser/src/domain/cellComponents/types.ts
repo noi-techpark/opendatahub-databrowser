@@ -35,6 +35,7 @@ export enum CellComponent {
   EventDocumentCell = 'EventDocumentCell',
   GpsPointMap = 'GpsPointMap',
   GpsPointsCell = 'GpsPointsCell',
+  GpsPointWithMapCell = 'GpsPointWithMapCell',
   GeoDataCell = 'GeoDataCell',
   GeoDataMap = 'GeoDataMap',
   GeoDatasCell = 'GeoDatasCell',

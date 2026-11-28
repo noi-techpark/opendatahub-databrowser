@@ -48,8 +48,7 @@ export const weatherRealTimeSharedView = ():
           properties: [
             {
               title: '',
-              component: CellComponent.GpsPointsCell,
-              class: 'w-48',
+              component: CellComponent.GpsPointWithMapCell,
               objectMapping: {
                 altitude: 'altitude',
                 latitude: 'latitude',

@@ -5,6 +5,7 @@
 import { CellComponent } from '../../../domain/cellComponents/types';
 import { ListViewConfig } from '../../../domain/datasets/config/types';
 import {
+  gpsMapTableCell,
   imageTableCell,
   languageTableCell,
   lastChangesTableCell,
@@ -37,6 +38,7 @@ export const articleListView: ListViewConfig = {
         separator: ', ',
       },
     },
+    gpsMapTableCell(),
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),

@@ -5,6 +5,7 @@
 import { CellComponent } from '../../../domain/cellComponents/types';
 import { ListViewConfig } from '../../../domain/datasets/config/types';
 import {
+  gpsMapTableCell,
   imageTableCell,
   languageTableCell,
   lastChangesTableCell,
@@ -36,6 +37,7 @@ export const eventListView: ListViewConfig = {
       objectMapping: { date: 'DateEnd' },
     },
     ...locationTableCellsMerged(),
+    gpsMapTableCell(),
     {
       title: 'Tags',
       component: CellComponent.ArrayTagsCell,

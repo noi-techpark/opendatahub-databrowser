@@ -36,8 +36,8 @@ export const eventOriginsListView: ListViewConfig = {
     },
     {
       title: 'Coordinate',
-      component: CellComponent.GpsPointsCell,
-      class: 'w-60',
+      component: CellComponent.GeoDataCell,
+      class: 'w-48',
       objectMapping: {
         longitude: 'evlgeometry.coordinates.0',
         latitude: 'evlgeometry.coordinates.1',

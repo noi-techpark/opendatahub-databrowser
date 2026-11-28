@@ -5,6 +5,7 @@
 import { CellComponent } from '../../../domain/cellComponents/types';
 import { ListViewConfig } from '../../../domain/datasets/config/types';
 import {
+  gpsMapTableCell,
   imageTableCell,
   titleTableCell,
   sourceTableCell,
@@ -26,6 +27,7 @@ export const venueListView: ListViewConfig = {
       showMunicipality: true,
       showDistrict: true,
     }),
+    gpsMapTableCell(),
     languageTableCell(),
     lastChangesTableCell(),
     sourceTableCell(),
