@@ -45,6 +45,8 @@ import ImageEditCell from '../components/cells/imageCell/ImageEditCell.vue';
 import ImageGalleryCell from '../components/cells/imageGalleryCell/ImageGalleryCell.vue';
 import InputReferenceCell from '../components/cells/inputReferenceCell/InputReferenceCell.vue';
 import JsonCell from '../components/cells/jsonCell/JsonCell.vue';
+import JsonPreviewCell from '../components/cells/jsonPreviewCell/JsonPreviewCell.vue';
+import JsonViewerCell from '../components/cells/jsonViewerCell/JsonViewerCell.vue';
 import LoadingCell from '../components/cells/loadingCell/LoadingCell.vue';
 import MappingCell from '../components/cells/mappingCell/MappingCell.vue';
 import MeasurementsCell from '../components/cells/measurementsCell/MeasurementsCell.vue';
@@ -208,6 +210,8 @@ export const registeredComponents: readonly RegisteredComponent[] = [
     { supportsTableView: false },
   ],
   [CellComponent.JsonCell, JsonCell, { supportsTableView: true }],
+  [CellComponent.JsonPreviewCell, JsonPreviewCell, { supportsTableView: true }],
+  [CellComponent.JsonViewerCell, JsonViewerCell, { supportsTableView: false }],
   [CellComponent.LoadingCell, LoadingCell, { supportsTableView: false }],
   [CellComponent.MappingCell, MappingCell, { supportsTableView: true }],
   [

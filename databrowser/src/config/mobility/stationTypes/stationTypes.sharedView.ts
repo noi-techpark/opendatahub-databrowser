@@ -112,9 +112,8 @@ export const stationTypesSharedView = ():
           properties: [
             {
               title: '',
-              component: CellComponent.JsonCell,
+              component: CellComponent.JsonViewerCell,
               objectMapping: { data: 'data.0.smetadata' },
-              params: { usePreformatted: 'true' },
             },
           ],
         },
@@ -235,11 +234,10 @@ export const stationTypesSharedView = ():
           properties: [
             {
               title: 'pmetadata',
-              component: CellComponent.JsonCell,
+              component: CellComponent.JsonViewerCell,
               objectMapping: {
                 data: 'data.0.pmetadata',
               },
-              params: { usePreformatted: 'true' },
             },
           ],
         },

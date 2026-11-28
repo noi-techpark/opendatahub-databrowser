@@ -77,9 +77,8 @@ export const eventOriginsSharedView = ():
           properties: [
             {
               title: 'JSON',
-              component: CellComponent.JsonCell,
+              component: CellComponent.JsonViewerCell,
               objectMapping: { data: 'data.0.evmetadata' },
-              params: { usePreformatted: 'true' },
             },
           ],
         },

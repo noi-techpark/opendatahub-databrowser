@@ -45,8 +45,8 @@ export const eventOriginsListView: ListViewConfig = {
     },
     {
       title: 'Event metadata',
-      component: CellComponent.TypeBasedCell,
-      class: 'w-80',
+      component: CellComponent.JsonPreviewCell,
+      class: 'w-52',
       objectMapping: { data: 'evmetadata' },
     },
     {
